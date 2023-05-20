@@ -23,6 +23,6 @@ if (! function_exists('isArrayAssoc')) {
 if (! function_exists('containerInstanceName')) {
     function containerInstanceName(string $name, string $type): string
     {
-        return ThingsboardLaravelServiceProvider::CONTAINER_INSTANCE_PREFIX . ".{$type}.{$name}";
+        return ThingsboardLaravelServiceProvider::CONTAINER_INSTANCE_PREFIX.".{$type}.{$name}";
     }
 }

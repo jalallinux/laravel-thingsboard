@@ -25,18 +25,18 @@ class ThingsboardLaravelServiceProvider extends PackageServiceProvider
 //            ->sharesDataWithAllViews('downloads', 3)
 //            ->hasTranslations()
             ->hasAssets();
-//            ->publishesServiceProvider('MyProviderName')
-//            ->hasRoute('web')
-//            ->hasMigration('create_package_tables')
-//            ->hasCommand(YourCoolPackageCommand::class)
-//            ->hasInstallCommand(function(InstallCommand $command) {
-//                $command
-//                    ->publishConfigFile()
-//                    ->publishAssets()
-//                    ->publishMigrations()
-//                    ->copyAndRegisterServiceProviderInApp()
-//                    ->askToStarRepoOnGitHub();
-//            });
+        //            ->publishesServiceProvider('MyProviderName')
+        //            ->hasRoute('web')
+        //            ->hasMigration('create_package_tables')
+        //            ->hasCommand(YourCoolPackageCommand::class)
+        //            ->hasInstallCommand(function(InstallCommand $command) {
+        //                $command
+        //                    ->publishConfigFile()
+        //                    ->publishAssets()
+        //                    ->publishMigrations()
+        //                    ->copyAndRegisterServiceProviderInApp()
+        //                    ->askToStarRepoOnGitHub();
+        //            });
     }
 
     public function packageRegistered(): void
