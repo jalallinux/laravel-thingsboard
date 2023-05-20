@@ -42,7 +42,7 @@ class ThingsboardLaravelServiceProvider extends PackageServiceProvider
     {
         /* Register Facades */
         foreach (self::FACADES as $abstract => $concrete) {
-            $this->app->bind(config('thingsboard.container.prefix') . "." . config('thingsboard.container.prefix.entity') . ".{$abstract}", $concrete);
+            $this->app->bind(config('thingsboard.container.prefix').'.'.config('thingsboard.container.prefix.entity').".{$abstract}", $concrete);
         }
     }
 }

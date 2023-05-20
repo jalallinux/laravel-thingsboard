@@ -7,4 +7,6 @@ namespace JalalLinuX\Tntity\Facade;
  *
  * @method bool postTelemetry(array $payload)
  */
-class DeviceApi extends EntityFacade {}
+class DeviceApi extends EntityFacade
+{
+}
