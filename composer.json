@@ -17,7 +17,7 @@
     "require": {
         "php": "^8.0|^8.1|^8.2",
         "jenssegers/model": "^1.5",
-        "laravel/framework": "^7.0|^8.0|^9.0|^10.0",
+        "laravel/framework": "^7.0|^8.0|^9.0|^10.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.21",
