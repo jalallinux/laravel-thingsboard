@@ -2,6 +2,13 @@
 
 return [
 
+    'container' => [
+        'namespace' => 'thingsboard',
+        'prefix' => [
+            'entity' => 'entity',
+        ],
+    ],
+
     'api' => [
         'default' => [
             'base_uri' => env('THINGSBOARD_BASE_URI', 'localhost:8080'),

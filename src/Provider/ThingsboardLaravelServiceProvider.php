@@ -8,9 +8,8 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class ThingsboardLaravelServiceProvider extends PackageServiceProvider
 {
-    const CONTAINER_INSTANCE_PREFIX = 'thingsboard';
-
     const FACADES = [
+        /* abstract => concrete */
         'DeviceApi' => DeviceApi::class,
     ];
 
@@ -43,7 +42,7 @@ class ThingsboardLaravelServiceProvider extends PackageServiceProvider
     {
         /* Register Facades */
         foreach (self::FACADES as $abstract => $concrete) {
-            $this->app->bind(containerInstanceName($abstract, 'entity'), $concrete);
+            $this->app->bind(config('thingsboard.container.prefix') . "." . config('thingsboard.container.prefix.entity') . ".{$abstract}", $concrete);
         }
     }
 }
