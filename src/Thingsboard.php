@@ -4,10 +4,14 @@ namespace JalalLinuX\Tntity;
 
 use JalalLinuX\Tntity\Facade\DeviceApi;
 
+/**
+ * @method DeviceApi deviceApi(array $attributes = [])
+ */
 class Thingsboard
 {
-    public function deviceApi(array $attributes = []): DeviceApi
+    public function __call(string $name, array $arguments)
     {
-        return DeviceApi::make($attributes);
+        $class = "\\JalalLinuX\\Tntity\\Facade\\" . ucfirst($name);
+        return $class::make(...$arguments);
     }
 }

@@ -6,8 +6,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static static make(array $attributes = [])
+ * @method static $this make(array $attributes = [])
  * @method JsonResource toResource(string $class)
+ * @method $this setAttribute($key, $value)
  * @method array getAttributes()
  * @method mixed get($key = null, $default = null)
  */
