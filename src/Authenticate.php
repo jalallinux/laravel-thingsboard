@@ -15,6 +15,7 @@ class Authenticate
         }
         $token = Auth::login($mail, $user->getThingsboardPasswordAttribute())['token'];
         Thingsboard::cache("users.{$mail}.token", $token, now()->addMinutes(10));
+
         return $token;
     }
 }
