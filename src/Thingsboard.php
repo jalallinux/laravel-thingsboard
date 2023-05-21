@@ -19,7 +19,7 @@ class Thingsboard
 
     public static function cache(string $key, $value = null, DateTimeInterface $ttl = null)
     {
-        $key = config('thingsboard.cache.prefix') . $key;
+        $key = config('thingsboard.cache.prefix').$key;
         $cache = cache()->driver(config('thingsboard.cache.driver'));
 
         if (is_null($value)) {

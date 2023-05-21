@@ -11,5 +11,4 @@ use JalalLinuX\Tntity\Facades\EntityFacade;
  */
 class Auth extends EntityFacade
 {
-
 }
