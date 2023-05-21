@@ -17,8 +17,8 @@ abstract class EntityFacade extends Facade
     {
         $entityInstanceName = last(explode('\\', static::class));
 
-        return config('thingsboard.container.namespace') . '.'
-            . config('thingsboard.container.prefix.entity') . '.'
-            . $entityInstanceName;
+        return config('thingsboard.container.namespace').'.'
+            .config('thingsboard.container.prefix.entity').'.'
+            .$entityInstanceName;
     }
 }
