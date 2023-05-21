@@ -4,7 +4,6 @@ namespace JalalLinuX\Tntity\Entities\Device;
 
 use DateTime;
 use JalalLinuX\Tntity\Entities\Tntity;
-use JalalLinuX\Tntity\Traits\WithAuthentication;
 
 /**
  * @property array $id
@@ -24,8 +23,6 @@ use JalalLinuX\Tntity\Traits\WithAuthentication;
  */
 class Device extends Tntity
 {
-    use WithAuthentication;
-
     protected $fillable = [
         'id',
         'createdTime',

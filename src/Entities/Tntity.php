@@ -8,7 +8,9 @@ use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Http;
+use JalalLinuX\Tntity\Authenticate;
 use JalalLinuX\Tntity\Exceptions\TntityExceptionHandler;
+use JalalLinuX\Tntity\Interfaces\ThingsboardUser;
 use Jenssegers\Model\Model;
 
 abstract class Tntity extends Model
@@ -22,9 +24,18 @@ abstract class Tntity extends Model
 
         $request = Http::baseUrl("{$baseUri}/api")->acceptJson();
 
+        if (isset($this->_token)) {
+            $request = $request->withToken($this->_token);
+        }
+
         return ! $handleException ? $request : $request->throw(
             fn (Response $response, RequestException $e) => TntityExceptionHandler::make($response, $e)->handle()
         );
+    }
+
+    public function authWith(ThingsboardUser $user): static
+    {
+        return tap($this, fn() => $this->_token = Authenticate::fromUser($user));
     }
 
     public function get($key = null, $default = null)
