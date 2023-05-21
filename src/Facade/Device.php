@@ -24,5 +24,4 @@ namespace JalalLinuX\Tntity\Facade;
  */
 class Device extends EntityFacade
 {
-
 }
