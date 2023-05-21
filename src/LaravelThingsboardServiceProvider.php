@@ -8,6 +8,7 @@ class LaravelThingsboardServiceProvider extends ServiceProvider
 {
     const FACADES = [
         /* abstract => concrete */
+        'Auth' => \JalalLinuX\Tntity\Entities\Auth::class,
         'Device' => \JalalLinuX\Tntity\Entities\Device\Device::class,
         'DeviceApi' => \JalalLinuX\Tntity\Entities\Device\DeviceApi::class,
     ];

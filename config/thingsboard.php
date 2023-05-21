@@ -9,7 +9,7 @@ return [
         ],
     ],
 
-    'connection' => [
+    'rest' => [
         'base_uri' => env('THINGSBOARD_BASE_URI', 'localhost:8080'),
         'admin' => [
             'mail' => env('THINGSBOARD_ADMIN_MAIL', 'sysadmin@thingsboard.org'),
@@ -18,5 +18,10 @@ return [
             //            'tenant_id' => env('THINGSBOARD_ADMIN_TENANT_ID', '13814000-1dd2-11b2-8080-808080808080'),
             //            'customer_id' => env('THINGSBOARD_ADMIN_CUSTOMER_ID', '13814000-1dd2-11b2-8080-808080808080'),
         ],
+    ],
+
+    'cache' => [
+        'prefix' => '_thingsboard_',
+        'driver' => 'redis',
     ],
 ];

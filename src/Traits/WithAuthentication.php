@@ -3,13 +3,15 @@
 namespace JalalLinuX\Tntity\Traits;
 
 use Illuminate\Http\Client\PendingRequest;
+use JalalLinuX\Tntity\Authenticate;
+use JalalLinuX\Tntity\Interfaces\ThingsboardUser;
 
 trait WithAuthentication
 {
     public function __construct(...$args)
     {
         parent::__construct(...$args);
-        $this->auth($this->defaultThingsboardToken());
+        $this->auth('');
     }
 
     private function defaultThingsboardToken(): string
@@ -32,27 +34,8 @@ trait WithAuthentication
         return tap($this, fn () => $this->_token = last(explode(' ', $token)));
     }
 
-    public function auth($args): static
+    public function auth(ThingsboardUser $user): static
     {
-        $token = null;
-        switch (count($args)) {
-            case 0: /** Fetch credential from user attributes */
-                dd(
-                    request()->user()->getThingsboardEmailAttribute(),
-                    request()->user()->getThingsboardPasswordAttribute(),
-                );
-            case 1: /** Token */
-                $token = last(explode(' ', ...$args));
-                break;
-            case 2: /** User, Password */
-                dd(...$args);
-        }
-
-        throw_if(
-            is_null($token),
-            $this->exception('method argument must be valid string token or "defaultThingsboardToken" must be return valid string token.')
-        );
-
-        return tap($this, fn () => $this->_token = $token);
+        return tap($this, fn () => $this->_token = Authenticate::fromUser($user));
     }
 }

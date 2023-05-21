@@ -17,7 +17,7 @@ abstract class Tntity extends Model
 
     protected function api(bool $handleException = true): PendingRequest
     {
-        $baseUri = config('thingsboard.connection.base_uri');
+        $baseUri = config('thingsboard.rest.base_uri');
         $baseUri = str_ends_with($baseUri, '/') ? substr($baseUri, 0, -1) : $baseUri;
 
         $request = Http::baseUrl("{$baseUri}/api")->acceptJson();
