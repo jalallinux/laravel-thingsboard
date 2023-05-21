@@ -46,7 +46,7 @@ class LaravelThingsboardServiceProvider extends ServiceProvider
     {
         /* Register Facades */
         foreach (self::FACADES as $abstract => $concrete) {
-            $this->app->bind(config('thingsboard.container.prefix').'.'.config('thingsboard.container.prefix.entity').".{$abstract}", $concrete);
+            $this->app->bind(config('thingsboard.container.namespace').'.'.config('thingsboard.container.prefix.entity').".{$abstract}", $concrete);
         }
     }
 }
