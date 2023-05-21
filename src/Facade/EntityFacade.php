@@ -2,10 +2,14 @@
 
 namespace JalalLinuX\Tntity\Facade;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static static make(array $attributes = [])
+ * @method JsonResource toResource(string $class)
+ * @method array getAttributes()
+ * @method mixed get($key = null, $default = null)
  */
 abstract class EntityFacade extends Facade
 {
@@ -13,8 +17,8 @@ abstract class EntityFacade extends Facade
     {
         $entityInstanceName = last(explode('\\', static::class));
 
-        return config('thingsboard.container.namespace')
-            .'.'.config('thingsboard.container.prefix.entity')
-            .'.'.$entityInstanceName;
+        return config('thingsboard.container.namespace') . '.'
+            . config('thingsboard.container.prefix.entity') . '.'
+            . $entityInstanceName;
     }
 }

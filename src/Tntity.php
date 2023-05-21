@@ -15,7 +15,7 @@ abstract class Tntity extends Model
 {
     protected string $_token;
 
-    public function api(bool $handleException = true): PendingRequest
+    protected function api(bool $handleException = true): PendingRequest
     {
         $baseUri = config('thingsboard.api.default.base_uri');
         $baseUri = str_ends_with($baseUri, '/') ? substr($baseUri, 0, -1) : $baseUri;
