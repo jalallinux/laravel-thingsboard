@@ -11,6 +11,7 @@ class Thingsboard
     public function __call(string $name, array $arguments)
     {
         $class = '\\JalalLinuX\\Tntity\\Facades\\Entities\\'.ucfirst($name);
+
         return $class::make(...$arguments);
     }
 }
