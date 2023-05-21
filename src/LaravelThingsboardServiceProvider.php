@@ -5,7 +5,7 @@ namespace JalalLinuX\Tntity;
 use Illuminate\Support\ServiceProvider;
 use JalalLinuX\Tntity\Entities\Device\DeviceApi;
 
-class ThingsboardLaravelServiceProvider extends ServiceProvider
+class LaravelThingsboardServiceProvider extends ServiceProvider
 {
     const FACADES = [
         /* abstract => concrete */
