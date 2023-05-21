@@ -65,6 +65,8 @@ class Device extends Tntity
             $this->exception('method argument must be a valid uuid.'),
         );
 
-        return tap($this, fn () => $this->fill($this->api()->get("/device/{$id}")->json()));
+        $device = $this->api(true)->get("/device/{$id}")->json();
+
+        return tap($this, fn () => $this->fill($device));
     }
 }

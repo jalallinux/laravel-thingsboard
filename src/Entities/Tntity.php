@@ -17,14 +17,14 @@ abstract class Tntity extends Model
 {
     protected string $_token;
 
-    protected function api(bool $handleException = true): PendingRequest
+    protected function api(bool $auth = false, bool $handleException = true): PendingRequest
     {
         $baseUri = config('thingsboard.rest.base_uri');
         $baseUri = str_ends_with($baseUri, '/') ? substr($baseUri, 0, -1) : $baseUri;
-
         $request = Http::baseUrl("{$baseUri}/api")->acceptJson();
 
-        if (isset($this->_token)) {
+        if ($auth) {
+            throw_if(!isset($this->_token), $this->exception("method need authentication token."));
             $request = $request->withToken($this->_token);
         }
 
@@ -33,7 +33,7 @@ abstract class Tntity extends Model
         );
     }
 
-    public function authWith(ThingsboardUser $user): static
+    public function withUser(ThingsboardUser $user): static
     {
         return tap($this, fn () => $this->_token = Authenticate::fromUser($user));
     }
