@@ -4,9 +4,6 @@ namespace JalalLinuX\Tntity\Entities\Device;
 
 use JalalLinuX\Tntity\Tntity;
 
-/**
- * @property string $deviceToken
- */
 class DeviceApi extends Tntity
 {
     protected $fillable = [
