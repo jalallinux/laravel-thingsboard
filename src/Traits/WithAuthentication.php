@@ -20,6 +20,6 @@ trait WithAuthentication
 
     public function authWith(ThingsboardUser $user): static
     {
-        $this->_token = Authenticate::fromUser($user);
+        return tap($this, fn() => $this->_token = Authenticate::fromUser($user));
     }
 }
