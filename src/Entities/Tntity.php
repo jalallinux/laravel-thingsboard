@@ -35,7 +35,7 @@ abstract class Tntity extends Model
 
     public function authWith(ThingsboardUser $user): static
     {
-        return tap($this, fn() => $this->_token = Authenticate::fromUser($user));
+        return tap($this, fn () => $this->_token = Authenticate::fromUser($user));
     }
 
     public function get($key = null, $default = null)
