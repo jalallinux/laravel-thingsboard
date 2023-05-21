@@ -8,7 +8,7 @@ use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Http;
-use JalalLinuX\Tntity\Exception\TntityExceptionHandler;
+use JalalLinuX\Tntity\Exceptions\TntityExceptionHandler;
 use Jenssegers\Model\Model;
 
 abstract class Tntity extends Model

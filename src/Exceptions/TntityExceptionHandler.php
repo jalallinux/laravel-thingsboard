@@ -1,6 +1,6 @@
 <?php
 
-namespace JalalLinuX\Tntity\Exception;
+namespace JalalLinuX\Tntity\Exceptions;
 
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;

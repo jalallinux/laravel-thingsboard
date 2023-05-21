@@ -4,7 +4,7 @@ namespace JalalLinuX\Tntity\Entities\Device;
 
 use DateTime;
 use JalalLinuX\Tntity\Entities\Tntity;
-use JalalLinuX\Tntity\Trait\WithThingsboardAuthentication;
+use JalalLinuX\Tntity\Traits\WithThingsboardAuthentication;
 
 /**
  * @property array $id

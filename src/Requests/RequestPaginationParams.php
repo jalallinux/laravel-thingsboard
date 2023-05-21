@@ -1,6 +1,6 @@
 <?php
 
-namespace JalalLinuX\Tntity\Request;
+namespace JalalLinuX\Tntity\Requests;
 
 class RequestPaginationParams
 {

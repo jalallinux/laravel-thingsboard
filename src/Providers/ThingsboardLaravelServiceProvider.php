@@ -1,8 +1,8 @@
 <?php
 
-namespace JalalLinuX\Tntity\Provider;
+namespace JalalLinuX\Tntity\Providers;
 
-use JalalLinuX\Tntity\Facade\Device\DeviceApi;
+use JalalLinuX\Tntity\Facades\Entities\DeviceApi;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 

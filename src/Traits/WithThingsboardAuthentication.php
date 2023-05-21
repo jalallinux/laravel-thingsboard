@@ -1,6 +1,6 @@
 <?php
 
-namespace JalalLinuX\Tntity\Trait;
+namespace JalalLinuX\Tntity\Traits;
 
 use Illuminate\Http\Client\PendingRequest;
 

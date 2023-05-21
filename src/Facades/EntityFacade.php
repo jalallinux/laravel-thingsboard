@@ -1,6 +1,6 @@
 <?php
 
-namespace JalalLinuX\Tntity\Facade;
+namespace JalalLinuX\Tntity\Facades;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Facade;

@@ -1,8 +1,8 @@
 <?php
 
-namespace JalalLinuX\Tntity\Facade\Device;
+namespace JalalLinuX\Tntity\Facades\Entities;
 
-use JalalLinuX\Tntity\Facade\EntityFacade;
+use JalalLinuX\Tntity\Facades\EntityFacade;
 
 /**
  * @see \JalalLinuX\Tntity\Entities\Device\Device
