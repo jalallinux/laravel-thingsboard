@@ -5,7 +5,7 @@ namespace JalalLinuX\Tntity\Facade;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static static make(array $payload)
+ * @method static static make(array $attributes = [])
  */
 abstract class EntityFacade extends Facade
 {
