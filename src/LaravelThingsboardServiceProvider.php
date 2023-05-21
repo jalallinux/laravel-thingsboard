@@ -3,13 +3,13 @@
 namespace JalalLinuX\Tntity;
 
 use Illuminate\Support\ServiceProvider;
-use JalalLinuX\Tntity\Entities\Device\DeviceApi;
 
 class LaravelThingsboardServiceProvider extends ServiceProvider
 {
     const FACADES = [
         /* abstract => concrete */
-        'DeviceApi' => DeviceApi::class,
+        'Device' => \JalalLinuX\Tntity\Entities\Device\Device::class,
+        'DeviceApi' => \JalalLinuX\Tntity\Entities\Device\DeviceApi::class,
     ];
 
     public function register(): void
