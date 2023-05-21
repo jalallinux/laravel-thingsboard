@@ -4,7 +4,7 @@ namespace JalalLinuX\Tntity\Entities\Device;
 
 use DateTime;
 use JalalLinuX\Tntity\Entities\Tntity;
-use JalalLinuX\Tntity\Traits\WithThingsboardAuthentication;
+use JalalLinuX\Tntity\Traits\WithAuthentication;
 
 /**
  * @property array $id
@@ -24,7 +24,7 @@ use JalalLinuX\Tntity\Traits\WithThingsboardAuthentication;
  */
 class Device extends Tntity
 {
-    use WithThingsboardAuthentication;
+    use WithAuthentication;
 
     protected $fillable = [
         'id',
