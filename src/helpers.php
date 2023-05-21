@@ -1,7 +1,5 @@
 <?php
 
-use JalalLinuX\Tntity\Provider\ThingsboardLaravelServiceProvider;
-
 if (! function_exists('isJsonString')) {
     function isJsonString(string $string): bool
     {
@@ -17,12 +15,5 @@ if (! function_exists('isArrayAssoc')) {
         }
 
         return array_keys($arr) !== range(0, count($arr) - 1);
-    }
-}
-
-if (! function_exists('containerInstanceName')) {
-    function containerInstanceName(string $name, string $type): string
-    {
-        return ThingsboardLaravelServiceProvider::CONTAINER_INSTANCE_PREFIX.".{$type}.{$name}";
     }
 }

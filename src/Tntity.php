@@ -62,4 +62,9 @@ abstract class Tntity extends Model
     {
         return new $class($this);
     }
+
+    public static function make(array $attributes = []): static
+    {
+        return new static($attributes);
+    }
 }
