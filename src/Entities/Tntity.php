@@ -1,6 +1,6 @@
 <?php
 
-namespace JalalLinuX\Tntity;
+namespace JalalLinuX\Tntity\Entities;
 
 use Exception;
 use Illuminate\Http\Client\PendingRequest;

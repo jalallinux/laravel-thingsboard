@@ -1,6 +1,8 @@
 <?php
 
-namespace JalalLinuX\Tntity\Facade;
+namespace JalalLinuX\Tntity\Facade\Device;
+
+use JalalLinuX\Tntity\Facade\EntityFacade;
 
 /**
  * @see \JalalLinuX\Tntity\Entities\Device\DeviceApi

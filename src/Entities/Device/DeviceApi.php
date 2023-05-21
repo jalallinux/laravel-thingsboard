@@ -2,7 +2,7 @@
 
 namespace JalalLinuX\Tntity\Entities\Device;
 
-use JalalLinuX\Tntity\Tntity;
+use JalalLinuX\Tntity\Entities\Tntity;
 
 class DeviceApi extends Tntity
 {

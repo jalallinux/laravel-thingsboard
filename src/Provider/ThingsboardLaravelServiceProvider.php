@@ -2,7 +2,7 @@
 
 namespace JalalLinuX\Tntity\Provider;
 
-use JalalLinuX\Tntity\Facade\DeviceApi;
+use JalalLinuX\Tntity\Facade\Device\DeviceApi;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 

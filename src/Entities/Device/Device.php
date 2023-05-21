@@ -3,7 +3,7 @@
 namespace JalalLinuX\Tntity\Entities\Device;
 
 use DateTime;
-use JalalLinuX\Tntity\Tntity;
+use JalalLinuX\Tntity\Entities\Tntity;
 use JalalLinuX\Tntity\Trait\WithThingsboardAuthentication;
 
 /**

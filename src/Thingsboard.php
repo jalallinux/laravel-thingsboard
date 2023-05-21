@@ -3,8 +3,8 @@
 namespace JalalLinuX\Tntity;
 
 /**
- * @method \JalalLinuX\Tntity\Facade\Device device(array $attributes = [])
- * @method \JalalLinuX\Tntity\Facade\DeviceApi deviceApi(array $attributes = [])
+ * @method Facade\Device\Device device(array $attributes = [])
+ * @method Facade\Device\DeviceApi deviceApi(array $attributes = [])
  */
 class Thingsboard
 {
