@@ -48,5 +48,8 @@ class LaravelThingsboardServiceProvider extends ServiceProvider
         foreach (self::FACADES as $abstract => $concrete) {
             $this->app->bind(config('thingsboard.container.namespace').'.'.config('thingsboard.container.prefix.entity').".{$abstract}", $concrete);
         }
+
+        /* Register Helper function class */
+        $this->app->singleton(Thingsboard::class, Thingsboard::class);
     }
 }
