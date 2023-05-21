@@ -24,7 +24,7 @@ abstract class Tntity extends Model
         $request = Http::baseUrl("{$baseUri}/api")->acceptJson();
 
         if ($auth) {
-            throw_if(!isset($this->_token), $this->exception("method need authentication token."));
+            throw_if(! isset($this->_token), $this->exception('method need authentication token.'));
             $request = $request->withToken($this->_token);
         }
 
