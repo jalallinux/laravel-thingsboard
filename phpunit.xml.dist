@@ -23,6 +23,15 @@
             <directory>tests</directory>
         </testsuite>
     </testsuites>
+    <php>
+        <env name="APP_KEY" value="base64:2fl+Ktvkfl+Fuz4Qp/A75G2RTiWVA/ZoKZvp6fiiM10="/>
+        <env name="DB_CONNECTION" value="testing"/>
+
+        <env name="THINGSBOARD_BASE_URI" value="localhost:8080"/>
+        <env name="THINGSBOARD_ADMIN_MAIL" value="sysadmin@thingsboard.org"/>
+        <env name="THINGSBOARD_ADMIN_PASS" value="sysadmin"/>
+        <env name="THINGSBOARD_CACHE_DRIVER" value="file"/>
+    </php>
     <coverage>
         <include>
             <directory suffix=".php">./src</directory>
