@@ -7,10 +7,8 @@ use JalalLinuX\Thingsboard\Tntity;
 class Auth extends Tntity
 {
     /**
-     * @param string $mail
-     * @param string $password
-     * @return array
      * @author JalalLinuX
+     *
      * @group *
      */
     public function login(string $mail, string $password): array
@@ -21,8 +19,8 @@ class Auth extends Tntity
     }
 
     /**
-     * @return User
      * @author JalalLinuX
+     *
      * @group *
      */
     public function me(): User
@@ -33,10 +31,8 @@ class Auth extends Tntity
     }
 
     /**
-     * @param string $current
-     * @param $new
-     * @return bool
      * @author JalalLinuX
+     *
      * @group *
      */
     public function changePassword(string $current, $new): bool

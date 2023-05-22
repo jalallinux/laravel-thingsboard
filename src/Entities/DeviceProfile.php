@@ -45,10 +45,10 @@ class DeviceProfile extends Tntity
     ];
 
     /**
-     * @param string|null $id
-     * @return self
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN
      */
     public function getById(string $id = null): self

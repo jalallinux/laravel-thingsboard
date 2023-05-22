@@ -40,6 +40,4 @@ class User extends Tntity
         'customerId' => 'array',
         'additionalInfo' => 'array',
     ];
-
-
 }

@@ -15,10 +15,10 @@ class DeviceApi extends Tntity
     ];
 
     /**
-     * @param array $payload
-     * @return bool
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group GUEST
      */
     public function postTelemetry(array $payload): bool
@@ -38,10 +38,10 @@ class DeviceApi extends Tntity
     }
 
     /**
-     * @param array $payload
-     * @return bool
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group GUEST
      */
     public function postAttributes(array $payload): bool

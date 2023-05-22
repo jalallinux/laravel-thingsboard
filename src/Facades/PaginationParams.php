@@ -14,6 +14,6 @@ class PaginationParams extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return config('thingsboard.container.namespace') . ".PaginationParams";
+        return config('thingsboard.container.namespace').'.PaginationParams';
     }
 }
