@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Facade;
 use JalalLinuX\Tntity\Interfaces\ThingsboardUser;
 
 /**
- * @method static $this make(array $attributes = [])
+ * @method $this fill(array $attributes = [])
  * @method $this withUser(ThingsboardUser $user)
  * @method $this setAttribute($key, $value)
  * @method JsonResource toResource(string $class)
