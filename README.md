@@ -12,7 +12,6 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/jalallinux/laravel-thingsboard.svg?style=flat-square)](https://packagist.org/packages/jalallinux/laravel-thingsboard)
 <!--delete-->
 ---
-## [ThingsBoard](https://thingsboard.io/) laravel client
 ThingsBoard is an open-source IoT platform for data collection, processing, visualization, and device management.
 This project is a Laravel Package that provides convenient client SDK for both Device and Gateway APIs.
 
