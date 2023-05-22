@@ -57,10 +57,10 @@ class Device extends Tntity
     ];
 
     /**
-     * @param string|null $id
-     * @return self
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN, CUSTOMER_USER
      */
     public function getById(string $id = null): self
