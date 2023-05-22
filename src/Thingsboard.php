@@ -3,6 +3,9 @@
 namespace JalalLinuX\Thingsboard;
 
 use DateTimeInterface;
+use Illuminate\Support\Carbon;
+use JalalLinuX\Thingsboard\Entities\Auth;
+use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 
 /**
  * @method Entities\Auth auth(array $attributes = [])
@@ -28,5 +31,18 @@ class Thingsboard
         }
 
         return $cache->put($key, $value, $ttl);
+    }
+
+    public static function fetchUserToken(ThingsboardUser $user)
+    {
+        $mail = $user->getThingsboardEmailAttribute();
+        if ($token = Thingsboard::cache("users_{$mail}_token")) {
+            return $token;
+        }
+        $token = Auth::instance()->login($mail, $user->getThingsboardPasswordAttribute())['token'];
+        $expire = Carbon::createFromTimestamp(decodeJWTToken($token, 'exp'))->subMinutes(5);
+        Thingsboard::cache("users_{$mail}_token", $token, $expire);
+
+        return last(explode(' ', $token));
     }
 }
