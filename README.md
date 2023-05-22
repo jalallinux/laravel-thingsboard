@@ -3,7 +3,12 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/jalallinux/laravel-thingsboard.svg?style=flat-square)](https://packagist.org/packages/jalallinux/laravel-thingsboard)
 <!--delete-->
 ---
-ThingsBoard laravel client
+## [ThingsBoard](https://thingsboard.io/) laravel client
+ThingsBoard is an open-source IoT platform for data collection, processing, visualization, and device management.
+This project is a Laravel Package that provides convenient client SDK for both Device and Gateway APIs.
+
+
+
 
 ## Installation
 
@@ -13,31 +18,58 @@ You can install the package via composer:
 composer require jalallinux/laravel-thingsboard
 ```
 
-## Usage
 
+
+
+## Usage with Facade
+You can use facades classes to integrate with thingsboard.
+
+#### Facade Examples
 ```php
-$skeleton = new JalalLinuX\Tntity();
-echo $skeleton->echoPhrase('Hello, JalalLinuX!');
+use JalalLinuX\Tntity\Facades\Entities\DeviceApi;
+
+/** Without Authentication */
+DeviceApi::setAttribute('deviceToken', 'A1_TEST_TOKEN')->postTelemetry([...])
+
+/** With Authentication */
+Device::withUser($tenantUser)->getById('ca3b8fc0-dcf6-11ed-a299-0f591673a2d6')
+Device::withUser($tenantUser)->setAttribute('id', 'ca3b8fc0-dcf6-11ed-a299-0f591673a2d6')->getById()
+Device::withUser($tenantUser)->fill(['id' => 'ca3b8fc0-dcf6-11ed-a299-0f591673a2d6'])->getById()
 ```
 
-## Testing
 
-```bash
-composer test
+
+
+## Usage with Helper function
+
+#### Facade Examples
+```php
+/** Without Authentication */
+thingsboard()->deviceApi()->setAttribute('deviceToken', 'A1_TEST_TOKEN')->postTelemetry([...])
+
+/** With Authentication */
+thingsboard()->device()->withUser($tenantUser)->getById('ca3b8fc0-dcf6-11ed-a299-0f591673a2d6')
+thingsboard()->device()->withUser($tenantUser)->setAttribute('id', 'ca3b8fc0-dcf6-11ed-a299-0f591673a2d6')->getById()
+thingsboard()->device()->withUser($tenantUser)->fill(['id' => 'ca3b8fc0-dcf6-11ed-a299-0f591673a2d6'])->getById()
 ```
+
+
+
 
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
-## Security Vulnerabilities
 
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+
 
 ## Credits
 
 - [JalalLinuX](https://github.com/jalallinux)
 - [All Contributors](../../contributors)
+
+
+
 
 ## License
 
