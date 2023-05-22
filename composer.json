@@ -21,7 +21,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.21",
-        "orchestra/testbench": "^7.24",
+        "orchestra/testbench": "*",
         "phpunit/phpunit": "^9.6"
     },
     "autoload": {
