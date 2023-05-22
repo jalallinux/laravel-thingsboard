@@ -1,3 +1,12 @@
+# Laravel [ThingsBoard.io](https://thingsboard.io/) Client
+
+<a href="https://github.com/jalallinux/laravel-thingsboard">  
+    <p align="center"><img src="resources/asset/thingsboard-laravel.png" width="100%"></p>    
+</a>
+
+
+
+
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/jalallinux/laravel-thingsboard.svg?style=flat-square)](https://packagist.org/packages/jalallinux/laravel-thingsboard)
 [![Tests](https://github.com/jalallinux/laravel-thingsboard/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/jalallinux/laravel-thingsboard/actions/workflows/run-tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/jalallinux/laravel-thingsboard.svg?style=flat-square)](https://packagist.org/packages/jalallinux/laravel-thingsboard)
