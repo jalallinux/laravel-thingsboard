@@ -14,6 +14,13 @@ class DeviceApi extends Tntity
         'deviceToken' => 'string',
     ];
 
+    /**
+     * @param array $payload
+     * @return bool
+     * @throws \Throwable
+     * @author JalalLinuX
+     * @group GUEST
+     */
     public function postTelemetry(array $payload): bool
     {
         if (empty($payload)) {
@@ -30,6 +37,13 @@ class DeviceApi extends Tntity
         return $this->api()->post("/v1/{$this->forceAttribute('deviceToken')}/telemetry", $payload)->successful();
     }
 
+    /**
+     * @param array $payload
+     * @return bool
+     * @throws \Throwable
+     * @author JalalLinuX
+     * @group GUEST
+     */
     public function postAttributes(array $payload): bool
     {
         throw_if(

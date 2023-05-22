@@ -56,6 +56,13 @@ class Device extends Tntity
         'externalId' => 'array',
     ];
 
+    /**
+     * @param string|null $id
+     * @return self
+     * @throws \Throwable
+     * @author JalalLinuX
+     * @group TENANT_ADMIN, CUSTOMER_USER
+     */
     public function getById(string $id = null): self
     {
         $id = $id ?? $this->forceAttribute('id');
