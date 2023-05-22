@@ -18,7 +18,6 @@
         "php": "^8.0|^8.1|^8.2",
         "jenssegers/model": "^1.5",
         "laravel/framework": "^8.0|^9.0|^10.0",
-        "spatie/laravel-package-tools": "^1.15"
     },
     "require-dev": {
         "fakerphp/faker": "^1.21",
