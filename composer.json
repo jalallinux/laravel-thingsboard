@@ -38,11 +38,9 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/pest",
-        "test-coverage": "vendor/bin/pest --coverage",
-        "post-autoload-dump": [
-            "@php vendor/bin/testbench package:discover --ansi"
-        ]
+        "test": "phpunit",
+        "format": "php-cs-fixer fix --allow-risky=yes",
+        "analyse": "phpstan analyse"
     },
     "config": {
         "sort-packages": true,
