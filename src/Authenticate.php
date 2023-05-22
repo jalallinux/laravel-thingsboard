@@ -18,6 +18,6 @@ class Authenticate
         $expire = Carbon::createFromTimestamp(decodeJWTToken($token, 'exp'))->subMinutes(5);
         Thingsboard::cache("users_{$mail}_token", $token, $expire);
 
-        return $token;
+        return last(explode(' ', $token));
     }
 }
