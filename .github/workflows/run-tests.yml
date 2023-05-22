@@ -27,7 +27,7 @@ jobs:
           - laravel: 9.*
             php: 7.4
 
-    name: Php ${{ matrix.php }} | Laravel ${{ matrix.laravel }} | ${{ matrix.dependency-version }}
+    name: P ${{ matrix.php }} | L ${{ matrix.laravel }} | ${{ matrix.dependency-version }}
 
     steps:
       - name: Checkout code
