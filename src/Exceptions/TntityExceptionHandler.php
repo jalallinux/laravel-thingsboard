@@ -57,7 +57,7 @@ class TntityExceptionHandler
             }
         }
 
-        return $message ?? "Can't resolve exception message";
+        return $message ?? self::$exception->getMessage();
     }
 
     public function getStatus(): int
