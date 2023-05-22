@@ -5,6 +5,7 @@ namespace JalalLinuX\Tntity;
 use DateTimeInterface;
 
 /**
+ * @method Facades\Entities\Auth auth(array $attributes = [])
  * @method Facades\Entities\Device device(array $attributes = [])
  * @method Facades\Entities\DeviceApi deviceApi(array $attributes = [])
  */

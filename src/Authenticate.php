@@ -2,6 +2,7 @@
 
 namespace JalalLinuX\Tntity;
 
+use Illuminate\Support\Carbon;
 use JalalLinuX\Tntity\Facades\Entities\Auth;
 use JalalLinuX\Tntity\Interfaces\ThingsboardUser;
 
@@ -14,7 +15,8 @@ class Authenticate
             return $token;
         }
         $token = Auth::login($mail, $user->getThingsboardPasswordAttribute())['token'];
-        Thingsboard::cache("users.{$mail}.token", $token, (new \DateTime)->setTimestamp(decodeJWTToken($token, 'exp')));
+        $expire = Carbon::createFromTimestamp(decodeJWTToken($token, 'exp'))->subMinutes(5);
+        Thingsboard::cache("users.{$mail}.token", $token, $expire);
 
         return $token;
     }

@@ -5,7 +5,7 @@ namespace JalalLinuX\Tntity\Facades\Entities;
 use JalalLinuX\Tntity\Facades\EntityFacade;
 
 /**
- * @see \JalalLinuX\Tntity\Entities\Device\Device
+ * @see \JalalLinuX\Tntity\Entities\Auth
  *
  * @method array login(string $mail, string $password)
  */

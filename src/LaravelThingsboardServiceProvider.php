@@ -11,6 +11,7 @@ class LaravelThingsboardServiceProvider extends ServiceProvider
         'Auth' => \JalalLinuX\Tntity\Entities\Auth::class,
         'Device' => \JalalLinuX\Tntity\Entities\Device\Device::class,
         'DeviceApi' => \JalalLinuX\Tntity\Entities\Device\DeviceApi::class,
+        'DeviceProfile' => \JalalLinuX\Tntity\Entities\Device\DeviceProfile::class,
     ];
 
     public function register(): void
