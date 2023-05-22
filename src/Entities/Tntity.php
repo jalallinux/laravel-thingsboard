@@ -76,12 +76,17 @@ abstract class Tntity extends Model
         return new $class($this);
     }
 
-    public function fill(array $attributes = [])
+    public function fill(array $attributes = []): self
     {
         if (empty($attributes)) {
             return $this;
         }
 
         return parent::fill($attributes);
+    }
+
+    public function make(array $attributes = []): self
+    {
+        return new static($attributes);
     }
 }

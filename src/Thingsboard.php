@@ -15,7 +15,7 @@ class Thingsboard
     {
         $class = '\\JalalLinuX\\Tntity\\Facades\\Entities\\'.ucfirst($name);
 
-        return $class::fill(...$arguments);
+        return $class::make(...$arguments);
     }
 
     public static function cache(string $key, $value = null, DateTimeInterface $ttl = null)

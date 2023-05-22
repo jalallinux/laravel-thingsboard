@@ -10,4 +10,11 @@ class Auth extends Tntity
             'username' => $mail, 'password' => $password,
         ])->json();
     }
+
+    public function me(): User
+    {
+        return new User(
+            $this->api(true)->get('auth/user')->json()
+        );
+    }
 }
