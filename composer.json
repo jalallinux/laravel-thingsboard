@@ -52,7 +52,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "JalalLinuX\\Tntity\\ShinobiServiceProvider"
+                "JalalLinuX\\Tntity\\LaravelThingsboardServiceProvider"
             ]
         }
     },
