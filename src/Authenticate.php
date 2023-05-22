@@ -11,12 +11,12 @@ class Authenticate
     public static function fromUser(ThingsboardUser $user): string
     {
         $mail = $user->getThingsboardEmailAttribute();
-        if ($token = Thingsboard::cache("users.{$mail}.token")) {
+        if ($token = Thingsboard::cache("users_{$mail}_token")) {
             return $token;
         }
         $token = Auth::login($mail, $user->getThingsboardPasswordAttribute())['token'];
         $expire = Carbon::createFromTimestamp(decodeJWTToken($token, 'exp'))->subMinutes(5);
-        Thingsboard::cache("users.{$mail}.token", $token, $expire);
+        Thingsboard::cache("users_{$mail}_token", $token, $expire);
 
         return $token;
     }
