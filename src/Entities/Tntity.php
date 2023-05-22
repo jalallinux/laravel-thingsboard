@@ -79,6 +79,7 @@ abstract class Tntity extends Model
         if (empty($attributes)) {
             return $this;
         }
+
         return parent::fill($attributes);
     }
 }
