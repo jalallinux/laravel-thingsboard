@@ -5,15 +5,15 @@ namespace JalalLinuX\Thingsboard\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method PaginationParams page(int $page)
- * @method PaginationParams perPage(int $perPage)
- * @method PaginationParams setSortProperty(string $sortProperty)
- * @method PaginationParams setSortOrder(string $sortOrder)
+ * @method static page(int $page)
+ * @method static perPage(int $perPage)
+ * @method static setSortProperty(string $sortProperty)
+ * @method static setSortOrder(string $sortOrder)
  */
 class PaginationParams extends Facade
 {
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
-        return 'thingsboard.PaginationParams';
+        return config('thingsboard.container.namespace') . ".PaginationParams";
     }
 }

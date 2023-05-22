@@ -38,7 +38,10 @@ class LaravelThingsboardServiceProvider extends ServiceProvider
 
     public function registerFacades(): void
     {
-        /* Register Helper function class */
+        /** Register Helper function class */
         $this->app->singleton(Thingsboard::class, Thingsboard::class);
+
+        /** Register RequestPaginationParams */
+        $this->app->bind(config('thingsboard.container.namespace') . ".PaginationParams");
     }
 }
