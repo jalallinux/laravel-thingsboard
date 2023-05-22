@@ -1,6 +1,6 @@
 <?php
 
-namespace JalalLinuX\Tntity\Requests;
+namespace JalalLinuX\Thingsboard\Requests;
 
 class RequestPaginationParams
 {
@@ -12,28 +12,28 @@ class RequestPaginationParams
 
     public string $sortOrder = 'DESC';
 
-    public function page($page): static
+    public function page($page): self
     {
         $this->page = $page;
 
         return $this;
     }
 
-    public function perPage($perPage): static
+    public function perPage($perPage): self
     {
         $this->perPage = $perPage;
 
         return $this;
     }
 
-    public function setSortProperty($sortProperty): static
+    public function setSortProperty($sortProperty): self
     {
         $this->sortProperty = $sortProperty;
 
         return $this;
     }
 
-    public function setSortOrder($sortOrder): static
+    public function setSortOrder($sortOrder): self
     {
         $this->sortOrder = $sortOrder;
 

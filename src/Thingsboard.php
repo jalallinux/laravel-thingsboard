@@ -1,21 +1,21 @@
 <?php
 
-namespace JalalLinuX\Tntity;
+namespace JalalLinuX\Thingsboard;
 
 use DateTimeInterface;
 
 /**
- * @method Facades\Entities\Auth auth(array $attributes = [])
- * @method Facades\Entities\Device device(array $attributes = [])
- * @method Facades\Entities\DeviceApi deviceApi(array $attributes = [])
+ * @method Entities\Auth auth(array $attributes = [])
+ * @method Entities\Device device(array $attributes = [])
+ * @method Entities\DeviceApi deviceApi(array $attributes = [])
  */
 class Thingsboard
 {
     public function __call(string $name, array $arguments)
     {
-        $class = '\\JalalLinuX\\Tntity\\Facades\\Entities\\'.ucfirst($name);
+        $class = '\\JalalLinuX\\Thingsboard\\Entities\\'.ucfirst($name);
 
-        return $class::make(...$arguments);
+        return $class::instance(...$arguments);
     }
 
     public static function cache(string $key, $value = null, DateTimeInterface $ttl = null)

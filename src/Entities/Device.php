@@ -1,9 +1,9 @@
 <?php
 
-namespace JalalLinuX\Tntity\Entities\Device;
+namespace JalalLinuX\Thingsboard\Entities;
 
 use DateTime;
-use JalalLinuX\Tntity\Entities\Tntity;
+use JalalLinuX\Thingsboard\Tntity;
 
 /**
  * @property array $id
@@ -56,7 +56,7 @@ class Device extends Tntity
         'externalId' => 'array',
     ];
 
-    public function getById(string $id = null): static
+    public function getById(string $id = null): self
     {
         $id = $id ?? $this->forceAttribute('id');
 

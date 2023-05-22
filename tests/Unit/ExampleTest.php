@@ -1,8 +1,8 @@
 <?php
 
-namespace JalalLinuX\Tntity\Tests\Unit;
+namespace JalalLinuX\Thingsboard\Tests\Unit;
 
-use JalalLinuX\Tntity\Tests\TestCase;
+use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class ExampleTest extends TestCase
 {

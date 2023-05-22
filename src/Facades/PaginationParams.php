@@ -1,6 +1,6 @@
 <?php
 
-namespace JalalLinuX\Tntity\Facades;
+namespace JalalLinuX\Thingsboard\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

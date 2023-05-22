@@ -1,19 +1,11 @@
 <?php
 
-namespace JalalLinuX\Tntity;
+namespace JalalLinuX\Thingsboard;
 
 use Illuminate\Support\ServiceProvider;
 
 class LaravelThingsboardServiceProvider extends ServiceProvider
 {
-    const FACADES = [
-        /* abstract => concrete */
-        'Auth' => \JalalLinuX\Tntity\Entities\Auth::class,
-        'Device' => \JalalLinuX\Tntity\Entities\Device\Device::class,
-        'DeviceApi' => \JalalLinuX\Tntity\Entities\Device\DeviceApi::class,
-        'DeviceProfile' => \JalalLinuX\Tntity\Entities\Device\DeviceProfile::class,
-    ];
-
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/thingsboard.php', 'thingsboard');
@@ -46,11 +38,6 @@ class LaravelThingsboardServiceProvider extends ServiceProvider
 
     public function registerFacades(): void
     {
-        /* Register Facades */
-        foreach (self::FACADES as $abstract => $concrete) {
-            $this->app->bind(config('thingsboard.container.namespace').'.'.config('thingsboard.container.prefix.entity').".{$abstract}", $concrete);
-        }
-
         /* Register Helper function class */
         $this->app->singleton(Thingsboard::class, Thingsboard::class);
     }

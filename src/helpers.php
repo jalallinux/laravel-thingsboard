@@ -1,6 +1,6 @@
 <?php
 
-use JalalLinuX\Tntity\Thingsboard;
+use JalalLinuX\Thingsboard\Thingsboard;
 
 if (! function_exists('isJsonString')) {
     function isJsonString(string $string): bool

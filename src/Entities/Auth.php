@@ -1,6 +1,8 @@
 <?php
 
-namespace JalalLinuX\Tntity\Entities;
+namespace JalalLinuX\Thingsboard\Entities;
+
+use JalalLinuX\Thingsboard\Tntity;
 
 class Auth extends Tntity
 {

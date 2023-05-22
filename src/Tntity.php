@@ -1,6 +1,6 @@
 <?php
 
-namespace JalalLinuX\Tntity\Entities;
+namespace JalalLinuX\Thingsboard;
 
 use Exception;
 use Illuminate\Http\Client\PendingRequest;
@@ -8,9 +8,8 @@ use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Http;
-use JalalLinuX\Tntity\Authenticate;
-use JalalLinuX\Tntity\Exceptions\TntityExceptionHandler;
-use JalalLinuX\Tntity\Interfaces\ThingsboardUser;
+use JalalLinuX\Thingsboard\Exceptions\TntityExceptionHandler;
+use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use Jenssegers\Model\Model;
 
 abstract class Tntity extends Model
@@ -35,7 +34,7 @@ abstract class Tntity extends Model
         );
     }
 
-    public function withUser(ThingsboardUser $user): static
+    public function withUser(ThingsboardUser $user): self
     {
         return tap($this, fn () => $this->_token = Authenticate::fromUser($user));
     }
@@ -85,7 +84,7 @@ abstract class Tntity extends Model
         return parent::fill($attributes);
     }
 
-    public function make(array $attributes = []): self
+    public static function instance(array $attributes = []): self
     {
         return new static($attributes);
     }

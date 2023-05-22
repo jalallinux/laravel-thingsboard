@@ -1,6 +1,6 @@
 <?php
 
-namespace JalalLinuX\Tntity\Interfaces;
+namespace JalalLinuX\Thingsboard\Interfaces;
 
 interface ThingsboardUser
 {

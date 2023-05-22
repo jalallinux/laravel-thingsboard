@@ -1,6 +1,6 @@
 <?php
 
-namespace JalalLinuX\Tntity\Exceptions;
+namespace JalalLinuX\Thingsboard\Exceptions;
 
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
@@ -16,7 +16,7 @@ class TntityExceptionHandler
         'error',
     ];
 
-    public static function make(Response $response, RequestException $exception): static
+    public static function make(Response $response, RequestException $exception): self
     {
         self::$response = $response;
         self::$exception = $exception;

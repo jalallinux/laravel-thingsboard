@@ -34,7 +34,7 @@ You can use facades classes to integrate with thingsboard.
 
 #### Facade Examples
 ```php
-use JalalLinuX\Tntity\Facades\Entities\DeviceApi;
+use JalalLinuX\Thingsboard\Facades\Entities\DeviceApi;
 
 /** Without Authentication */
 DeviceApi::setAttribute('deviceToken', 'A1_TEST_TOKEN')->postTelemetry([...])

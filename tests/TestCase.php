@@ -1,8 +1,8 @@
 <?php
 
-namespace JalalLinuX\Tntity\Tests;
+namespace JalalLinuX\Thingsboard\Tests;
 
-use JalalLinuX\Tntity\LaravelThingsboardServiceProvider;
+use JalalLinuX\Thingsboard\LaravelThingsboardServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {

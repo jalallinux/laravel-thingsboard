@@ -1,8 +1,8 @@
 <?php
 
-namespace JalalLinuX\Tntity\Entities\Device;
+namespace JalalLinuX\Thingsboard\Entities;
 
-use JalalLinuX\Tntity\Entities\Tntity;
+use JalalLinuX\Thingsboard\Tntity;
 
 class DeviceProfile extends Tntity
 {
