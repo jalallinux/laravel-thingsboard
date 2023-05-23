@@ -41,7 +41,7 @@ class Thingsboard
             return Auth::instance()->login($mail, $user->getThingsboardPasswordAttribute())['token'];
         }
 
-        if ($token = CacheHandler::get(CacheHandler::tokenCacheKey($mail))) {
+        if ($token = ThingsboardCacheHandler::get(ThingsboardCacheHandler::tokenCacheKey($mail))) {
             return $token;
         }
 

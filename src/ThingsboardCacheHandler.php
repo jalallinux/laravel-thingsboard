@@ -6,7 +6,7 @@ use DateTimeInterface;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Support\Carbon;
 
-class CacheHandler
+class ThingsboardCacheHandler
 {
     public static function driver(): Repository
     {
