@@ -63,8 +63,8 @@ class PaginationArguments
         return tap($this, fn () => $this->textSearch = (! is_null($textSearch) ? $textSearch : $this->textSearch));
     }
 
-    public function queryParams(): array
+    public function queryParams(array $extra = []): array
     {
-        return array_filter(get_class_vars($this::class), fn ($v) => $v !== null);
+        return array_filter(array_merge(get_class_vars($this::class), $extra), fn ($v) => $v !== null);
     }
 }
