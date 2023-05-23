@@ -28,9 +28,16 @@
         <env name="DB_CONNECTION" value="testing"/>
 
         <env name="THINGSBOARD_BASE_URI" value="localhost:8080"/>
+        <env name="THINGSBOARD_CACHE_DRIVER" value="redis"/>
+
         <env name="THINGSBOARD_ADMIN_MAIL" value="sysadmin@thingsboard.org"/>
         <env name="THINGSBOARD_ADMIN_PASS" value="sysadmin"/>
-        <env name="THINGSBOARD_CACHE_DRIVER" value="file"/>
+
+        <env name="THINGSBOARD_TENANT_MAIL" value="tenant@thingsboard.org"/>
+        <env name="THINGSBOARD_TENANT_PASS" value="tenant"/>
+
+        <env name="THINGSBOARD_CUSTOMER_MAIL" value="customer@thingsboard.org"/>
+        <env name="THINGSBOARD_CUSTOMER_PASS" value="customer"/>
     </php>
     <coverage>
         <include>

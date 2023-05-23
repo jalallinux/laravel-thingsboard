@@ -3,6 +3,8 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use DateTime;
+use JalalLinuX\Thingsboard\PaginatedResponse;
+use JalalLinuX\Thingsboard\PaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -69,11 +71,27 @@ class Device extends Tntity
 
         throw_if(
             ! uuid_is_valid($id),
-            $this->exception('method argument must be a valid uuid.'),
+            $this->exception('method "id" argument must be a valid uuid.'),
         );
 
         $device = $this->api(true)->get("/device/{$id}")->json();
 
         return tap($this, fn () => $this->fill($device));
+    }
+
+    public function list(PaginationArguments $paginationArguments, string $customerId = null, string $deviceProfileId = null, bool $active = null): PaginatedResponse
+    {
+        $customerId = $customerId ?? @$this->forceAttribute('customerId')['id'];
+
+        throw_if(
+            ! uuid_is_valid($customerId),
+            $this->exception('method "customerId" argument must be a valid uuid.'),
+        );
+
+        $response = $this->api(true)->get("customer/{$customerId}/deviceInfos", $paginationArguments->queryParams([
+            'active' => $active, 'deviceProfileId' => $deviceProfileId,
+        ]));
+
+        return $this->paginatedResponse($response, $paginationArguments);
     }
 }

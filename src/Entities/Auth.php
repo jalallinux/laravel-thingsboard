@@ -2,6 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use JalalLinuX\Thingsboard\ThingsboardCacheHandler;
 use JalalLinuX\Thingsboard\Tntity;
 
 class Auth extends Tntity
@@ -13,9 +14,13 @@ class Auth extends Tntity
      */
     public function login(string $mail, string $password): array
     {
-        return $this->api()->post('auth/login', [
+        $tokens = $this->api()->post('auth/login', [
             'username' => $mail, 'password' => $password,
         ])->json();
+
+        ThingsboardCacheHandler::updateToken($mail, $tokens['token']);
+
+        return $tokens;
     }
 
     /**
@@ -37,8 +42,14 @@ class Auth extends Tntity
      */
     public function changePassword(string $current, $new): bool
     {
-        return $this->api(true)->post('auth/changePassword', [
+        $changed = $this->api(true)->post('auth/changePassword', [
             'currentPassword' => $current, 'newPassword' => $new,
         ])->successful();
+
+        if ($changed) {
+            ThingsboardCacheHandler::forgetToken($this->_thingsboardUser->getThingsboardEmailAttribute());
+        }
+
+        return $changed;
     }
 }

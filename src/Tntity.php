@@ -8,13 +8,13 @@ use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Http;
-use JalalLinuX\Thingsboard\Exceptions\TntityExceptionHandler;
+use JalalLinuX\Thingsboard\Exceptions\ThingsboardExceptionHandler;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use Jenssegers\Model\Model;
 
 abstract class Tntity extends Model
 {
-    protected string $_token;
+    protected ThingsboardUser $_thingsboardUser;
 
     protected function api(bool $auth = false, bool $handleException = true): PendingRequest
     {
@@ -23,20 +23,20 @@ abstract class Tntity extends Model
         $request = Http::baseUrl("{$baseUri}/api")->acceptJson();
 
         if ($auth) {
-            throw_if(! isset($this->_token), $this->exception('method need authentication token.'));
+            throw_if(! isset($this->_thingsboardUser), $this->exception('method need authentication token.', 401));
             $request = $request->withHeaders([
-                config('thingsboard.rest.authorization.header_key') => config('thingsboard.rest.authorization.token_type')." {$this->_token}",
+                config('thingsboard.rest.authorization.header_key') => config('thingsboard.rest.authorization.token_type').' '.Thingsboard::fetchUserToken($this->_thingsboardUser),
             ]);
         }
 
         return ! $handleException ? $request : $request->throw(
-            fn (Response $response, RequestException $e) => TntityExceptionHandler::make($response, $e)->handle()
+            fn (Response $response, RequestException $e) => ThingsboardExceptionHandler::make($response, $e)->handle()
         );
     }
 
     public function withUser(ThingsboardUser $user): static
     {
-        return tap($this, fn () => $this->_token = Thingsboard::fetchUserToken($user));
+        return tap($this, fn () => $this->_thingsboardUser = $user);
     }
 
     public function get($key = null, $default = null)
