@@ -34,7 +34,7 @@ abstract class Tntity extends Model
         );
     }
 
-    public function withUser(ThingsboardUser $user): self
+    public function withUser(ThingsboardUser $user): static
     {
         return tap($this, fn () => $this->_token = Thingsboard::fetchUserToken($user));
     }
@@ -75,7 +75,7 @@ abstract class Tntity extends Model
         return new $class($this);
     }
 
-    public function fill(array $attributes = []): self
+    public function fill(array $attributes = []): static
     {
         if (empty($attributes)) {
             return $this;
@@ -84,8 +84,13 @@ abstract class Tntity extends Model
         return parent::fill($attributes);
     }
 
-    public static function instance(array $attributes = []): self
+    public static function instance(array $attributes = []): static
     {
         return new static($attributes);
+    }
+
+    public function paginatedResponse(Response $response, PaginationArguments $arguments): PaginatedResponse
+    {
+        return new PaginatedResponse($this, $response, $arguments);
     }
 }

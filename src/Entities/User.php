@@ -2,6 +2,8 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use JalalLinuX\Thingsboard\PaginatedResponse;
+use JalalLinuX\Thingsboard\PaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -40,4 +42,11 @@ class User extends Tntity
         'customerId' => 'array',
         'additionalInfo' => 'array',
     ];
+
+    public function list(PaginationArguments $paginationArguments): PaginatedResponse
+    {
+        $response = $this->api(true)->get('users', $paginationArguments->queryParams());
+
+        return $this->paginatedResponse($response, $paginationArguments);
+    }
 }
