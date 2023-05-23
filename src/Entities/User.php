@@ -2,6 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use JalalLinuX\Thingsboard\PaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -40,4 +41,9 @@ class User extends Tntity
         'customerId' => 'array',
         'additionalInfo' => 'array',
     ];
+
+    public function list(PaginationArguments $pagination): array
+    {
+        return $this->api(true)->get("users", $pagination->queryParams())->json();
+    }
 }

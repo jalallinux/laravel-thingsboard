@@ -40,8 +40,5 @@ class LaravelThingsboardServiceProvider extends ServiceProvider
     {
         /** Register Helper function class */
         $this->app->singleton(Thingsboard::class, Thingsboard::class);
-
-        /** Register RequestPaginationParams */
-        $this->app->bind(config('thingsboard.container.namespace').'.PaginationParams');
     }
 }
