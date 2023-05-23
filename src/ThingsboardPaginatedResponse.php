@@ -6,15 +6,15 @@ use Illuminate\Http\Client\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-class PaginatedResponse
+class ThingsboardPaginatedResponse
 {
     private Tntity $tntity;
 
     private Response $response;
 
-    private PaginationArguments $arguments;
+    private ThingsboardPaginationArguments $arguments;
 
-    public function __construct(Tntity $tntity, Response $response, PaginationArguments $arguments)
+    public function __construct(Tntity $tntity, Response $response, ThingsboardPaginationArguments $arguments)
     {
         $this->tntity = $tntity;
         $this->response = $response;

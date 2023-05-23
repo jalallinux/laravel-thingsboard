@@ -2,7 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Interfaces;
 
-use JalalLinuX\Thingsboard\Enums\UserRole;
+use JalalLinuX\Thingsboard\Enums\ThingsboardUserRole;
 
 interface ThingsboardUser
 {
@@ -10,5 +10,5 @@ interface ThingsboardUser
 
     public function getThingsboardPasswordAttribute(): string;
 
-    public function getThingsboardRoleAttribute(): UserRole;
+    public function getThingsboardRoleAttribute(): ThingsboardUserRole;
 }

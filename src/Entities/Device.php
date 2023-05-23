@@ -3,8 +3,8 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use DateTime;
-use JalalLinuX\Thingsboard\PaginatedResponse;
-use JalalLinuX\Thingsboard\PaginationArguments;
+use JalalLinuX\Thingsboard\ThingsboardPaginatedResponse;
+use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -79,7 +79,7 @@ class Device extends Tntity
         return tap($this, fn () => $this->fill($device));
     }
 
-    public function list(PaginationArguments $paginationArguments, string $customerId = null, string $deviceProfileId = null, bool $active = null): PaginatedResponse
+    public function list(ThingsboardPaginationArguments $paginationArguments, string $customerId = null, string $deviceProfileId = null, bool $active = null): ThingsboardPaginatedResponse
     {
         $customerId = $customerId ?? @$this->forceAttribute('customerId')['id'];
 

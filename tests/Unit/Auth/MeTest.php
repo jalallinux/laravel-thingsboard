@@ -3,7 +3,7 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\Auth;
 
 use JalalLinuX\Thingsboard\Entities\User;
-use JalalLinuX\Thingsboard\Enums\UserRole;
+use JalalLinuX\Thingsboard\Enums\ThingsboardUserRole;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class MeTest extends TestCase
@@ -16,7 +16,7 @@ class MeTest extends TestCase
 
     public function testCorrectUser()
     {
-        $user = thingsboard()->auth()->withUser($this->thingsboardUser(fake()->randomElement(UserRole::cases())))->me();
+        $user = thingsboard()->auth()->withUser($this->thingsboardUser(fake()->randomElement(ThingsboardUserRole::cases())))->me();
 
         $this->assertInstanceOf(User::class, $user);
         $this->assertNotEmpty($user->id);
