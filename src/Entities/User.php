@@ -44,6 +44,6 @@ class User extends Tntity
 
     public function list(PaginationArguments $pagination): array
     {
-        return $this->api(true)->get("users", $pagination->queryParams())->json();
+        return $this->api(true)->get('users', $pagination->queryParams())->json();
     }
 }

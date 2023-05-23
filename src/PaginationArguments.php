@@ -8,9 +8,13 @@ use Spatie\Enum\Laravel\Enum;
 class PaginationArguments
 {
     public int $page = 0;
+
     public int $pageSize = 20;
+
     public string $sortProperty = 'createdTime';
+
     public string $sortOrder = 'DESC';
+
     public ?string $textSearch = null;
 
     public function __construct(int $page = null, int $pageSize = null, Enum $sortProperty = null, SortOrder $sortOrder = null, string $textSearch = null)
@@ -29,27 +33,27 @@ class PaginationArguments
 
     protected function setPage(int $page): self
     {
-        return tap($this, fn() => $this->page = $page >= 0 ? $page : $this->page);
+        return tap($this, fn () => $this->page = $page >= 0 ? $page : $this->page);
     }
 
     protected function setPageSize(int $pageSize): self
     {
-        return tap($this, fn() => $this->pageSize = ($pageSize >= -1 ? $pageSize : $this->pageSize));
+        return tap($this, fn () => $this->pageSize = ($pageSize >= -1 ? $pageSize : $this->pageSize));
     }
 
     protected function setSortProperty(Enum $sortProperty): self
     {
-        return tap($this, fn() => $this->sortProperty = (str_ends_with($sortProperty::class, 'SortProperty') ? $sortProperty->value : $this->sortProperty));
+        return tap($this, fn () => $this->sortProperty = (str_ends_with($sortProperty::class, 'SortProperty') ? $sortProperty->value : $this->sortProperty));
     }
 
     protected function setSortOrder(SortOrder $sortOrder): self
     {
-        return tap($this, fn() => $this->sortOrder = $sortOrder->value);
+        return tap($this, fn () => $this->sortOrder = $sortOrder->value);
     }
 
     protected function setTextSearch(string $textSearch): self
     {
-        return tap($this, fn() => $this->textSearch = $textSearch);
+        return tap($this, fn () => $this->textSearch = $textSearch);
     }
 
     public function queryParams(): array
