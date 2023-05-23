@@ -88,4 +88,9 @@ abstract class Tntity extends Model
     {
         return new static($attributes);
     }
+
+    public function paginatedResponse(Response $response, PaginationArguments $arguments): PaginatedResponse
+    {
+        return new PaginatedResponse($this, $response, $arguments);
+    }
 }
