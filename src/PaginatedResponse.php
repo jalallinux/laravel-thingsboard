@@ -9,7 +9,9 @@ use Illuminate\Support\Collection;
 class PaginatedResponse
 {
     private Tntity $tntity;
+
     private Response $response;
+
     private PaginationArguments $arguments;
 
     public function __construct(Tntity $tntity, Response $response, PaginationArguments $arguments)
@@ -28,6 +30,6 @@ class PaginatedResponse
 
     public function data(): Collection
     {
-        return collect($this->response->json('data'))->map(fn($row) => new $this->tntity($row));
+        return collect($this->response->json('data'))->map(fn ($row) => new $this->tntity($row));
     }
 }
