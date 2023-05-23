@@ -31,7 +31,7 @@ return [
                 'mail' => env('THINGSBOARD_CUSTOMER_MAIL', 'customer@thingsboard.org'),
                 'pass' => env('THINGSBOARD_CUSTOMER_PASS', 'customer'),
             ],
-        ]
+        ],
     ],
 
     'cache' => [

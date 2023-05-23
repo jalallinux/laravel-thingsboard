@@ -26,15 +26,17 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
     public function thingsboardUser(UserRole $role, string $mail = null, string $pass = null): ThingsboardUser
     {
-        return new class($role, $mail, $pass) implements ThingsboardUser {
-
+        return new class($role, $mail, $pass) implements ThingsboardUser
+        {
             private array $user;
+
             private ?string $mail;
+
             private ?string $pass;
 
             public function __construct(UserRole $role, string $mail = null, string $pass = null)
             {
-                $this->user = collect(config('thingsboard.rest.users'))->filter(fn($user) => $role->equals($user['role']))->random();
+                $this->user = collect(config('thingsboard.rest.users'))->filter(fn ($user) => $role->equals($user['role']))->random();
                 $this->mail = $mail;
                 $this->pass = $pass;
             }

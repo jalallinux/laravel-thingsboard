@@ -25,7 +25,7 @@ abstract class Tntity extends Model
         if ($auth) {
             throw_if(! isset($this->_thingsboardUser), $this->exception('method need authentication token.', 401));
             $request = $request->withHeaders([
-                config('thingsboard.rest.authorization.header_key') => config('thingsboard.rest.authorization.token_type')." " . Thingsboard::fetchUserToken($this->_thingsboardUser),
+                config('thingsboard.rest.authorization.header_key') => config('thingsboard.rest.authorization.token_type').' '.Thingsboard::fetchUserToken($this->_thingsboardUser),
             ]);
         }
 

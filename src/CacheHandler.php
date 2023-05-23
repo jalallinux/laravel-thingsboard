@@ -20,17 +20,17 @@ class CacheHandler
 
     public static function set(string $key, $value, DateTimeInterface $ttl = null): bool
     {
-        return self::driver()->put(self::prefix() . $key, $value, $ttl);
+        return self::driver()->put(self::prefix().$key, $value, $ttl);
     }
 
     public static function get(string $key)
     {
-        return self::driver()->get(self::prefix() . $key);
+        return self::driver()->get(self::prefix().$key);
     }
 
     public static function forget(string $key): bool
     {
-        return self::driver()->forget(self::prefix() . $key);
+        return self::driver()->forget(self::prefix().$key);
     }
 
     public static function tokenCacheKey(string $mail): string
@@ -41,6 +41,7 @@ class CacheHandler
     public static function updateToken(string $mail, string $token): bool
     {
         $expire = Carbon::createFromTimestamp(decodeJWTToken($token, 'exp'))->subMinutes(5);
+
         return self::set(self::tokenCacheKey($mail), $token, $expire);
     }
 
