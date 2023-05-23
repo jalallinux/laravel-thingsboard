@@ -2,6 +2,8 @@
 
 namespace JalalLinuX\Thingsboard\Tests;
 
+use JalalLinuX\Thingsboard\Enums\UserRole;
+use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use JalalLinuX\Thingsboard\LaravelThingsboardServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
@@ -15,15 +17,42 @@ class TestCase extends \Orchestra\Testbench\TestCase
         ];
     }
 
-    protected function getApplicationTimezone($app): string
-    {
-        return 'Asia/Tehran';
-    }
-
     protected function setUp(): void
     {
         // Code before application created.
         parent::setUp();
         // Code after application created.
+    }
+
+    public function thingsboardUser(UserRole $role, string $mail = null, string $pass = null): ThingsboardUser
+    {
+        return new class($role, $mail, $pass) implements ThingsboardUser {
+
+            private array $user;
+            private ?string $mail;
+            private ?string $pass;
+
+            public function __construct(UserRole $role, string $mail = null, string $pass = null)
+            {
+                $this->user = collect(config('thingsboard.rest.users'))->filter(fn($user) => $role->equals($user['role']))->random();
+                $this->mail = $mail;
+                $this->pass = $pass;
+            }
+
+            public function getThingsboardEmailAttribute(): string
+            {
+                return $this->mail ?? $this->user['mail'];
+            }
+
+            public function getThingsboardPasswordAttribute(): string
+            {
+                return $this->pass ?? $this->user['pass'];
+            }
+
+            public function getThingsboardRoleAttribute(): UserRole
+            {
+                return $this->user['role'];
+            }
+        };
     }
 }
