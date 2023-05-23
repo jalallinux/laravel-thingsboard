@@ -8,7 +8,7 @@ use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Http;
-use JalalLinuX\Thingsboard\Exceptions\TntityExceptionHandler;
+use JalalLinuX\Thingsboard\Exceptions\ThingsboardExceptionHandler;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use Jenssegers\Model\Model;
 
@@ -30,7 +30,7 @@ abstract class Tntity extends Model
         }
 
         return ! $handleException ? $request : $request->throw(
-            fn (Response $response, RequestException $e) => TntityExceptionHandler::make($response, $e)->handle()
+            fn (Response $response, RequestException $e) => ThingsboardExceptionHandler::make($response, $e)->handle()
         );
     }
 

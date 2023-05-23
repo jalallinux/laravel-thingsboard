@@ -5,7 +5,7 @@ namespace JalalLinuX\Thingsboard\Exceptions;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 
-class TntityExceptionHandler
+class ThingsboardExceptionHandler
 {
     private static Response $response;
 

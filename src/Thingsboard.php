@@ -9,6 +9,7 @@ use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 
 /**
  * @method Entities\Auth auth(array $attributes = [])
+ * @method Entities\User user(array $attributes = [])
  * @method Entities\Device device(array $attributes = [])
  * @method Entities\DeviceApi deviceApi(array $attributes = [])
  */
