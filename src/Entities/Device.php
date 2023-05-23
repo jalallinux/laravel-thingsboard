@@ -89,7 +89,7 @@ class Device extends Tntity
         );
 
         $response = $this->api(true)->get("customer/{$customerId}/deviceInfos", $paginationArguments->queryParams([
-            'active' => $active, 'deviceProfileId' => $deviceProfileId
+            'active' => $active, 'deviceProfileId' => $deviceProfileId,
         ]));
 
         return $this->paginatedResponse($response, $paginationArguments);
