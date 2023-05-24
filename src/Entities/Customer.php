@@ -51,16 +51,16 @@ class Customer extends Tntity
 
     /**
      * Get Tenant Customers
-     * @param ThingsboardPaginationArguments $paginationArguments
-     * @return ThingsboardPaginatedResponse
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN
      */
     public function getCustomers(ThingsboardPaginationArguments $paginationArguments): ThingsboardPaginatedResponse
     {
         $paginationArguments->validateSortProperty(CustomerSortProperty::class);
 
-        $response = $this->api(true)->get("customers", $paginationArguments->queryParams());
+        $response = $this->api(true)->get('customers', $paginationArguments->queryParams());
 
         return $this->paginatedResponse($response, $paginationArguments);
     }
