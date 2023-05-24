@@ -14,8 +14,7 @@ class GetCustomerUsersTest extends TestCase
         $user = $this->thingsboardUser(ThingsboardUserRole::TENANT_ADMIN());
 
         $customerUsers = thingsboard()->user()->withUser($user)->getCustomerUsers(
-            ThingsboardPaginationArguments::make(textSearch: 'A'),
-            'a504e040-f7a8-11ed-bccf-f7083aaa7dff'
+            ThingsboardPaginationArguments::make(textSearch: 'A'), 'a504e040-f7a8-11ed-bccf-f7083aaa7dff'
         );
 
         $customerUsers->data()->each(fn($device) => $this->assertInstanceOf(User::class, $device));
