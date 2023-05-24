@@ -29,6 +29,7 @@ class Thingsboard
         if (isset($this->withUser)) {
             return $class::instance(...$arguments)->withUser($this->withUser);
         }
+
         return $class::instance(...$arguments);
     }
 
