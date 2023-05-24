@@ -11,13 +11,17 @@ class GetCustomerUsersTest extends TestCase
 {
     public function testTextSearch()
     {
+        $customerLetter = fake()->randomElement(['A', 'B', 'C']);
         $user = $this->thingsboardUser(ThingsboardUserRole::TENANT_ADMIN());
 
+        $customerId = thingsboard()->customer()->withUser($user)->getCustomers(
+            ThingsboardPaginationArguments::make(textSearch: $customerLetter)
+        )->data()->first()->id->id;
         $customerUsers = thingsboard()->user()->withUser($user)->getCustomerUsers(
-            ThingsboardPaginationArguments::make(textSearch: 'A'), 'a504e040-f7a8-11ed-bccf-f7083aaa7dff'
+            ThingsboardPaginationArguments::make(textSearch: $customerLetter), $customerId
         );
 
         $customerUsers->data()->each(fn ($device) => $this->assertInstanceOf(User::class, $device));
-        self::assertStringContainsString('A', $customerUsers->data()->first()->name);
+        self::assertStringContainsString($customerLetter, $customerUsers->data()->first()->name);
     }
 }

@@ -56,13 +56,15 @@ class DeviceApi extends Tntity
      *
      * @group GUEST
      */
-    public function postDeviceAttributes(array $payload): bool
+    public function postDeviceAttributes(array $payload, string $deviceToken = null): bool
     {
         throw_if(
             ! isArrayAssoc($payload),
             $this->exception('method argument must be associative array.')
         );
 
-        return $this->api()->post("/v1/{$this->forceAttribute('deviceToken')}/attributes", $payload)->successful();
+        $deviceToken = $deviceToken ?? $this->forceAttribute('deviceToken');
+
+        return $this->api()->post("/v1/$deviceToken}/attributes", $payload)->successful();
     }
 }
