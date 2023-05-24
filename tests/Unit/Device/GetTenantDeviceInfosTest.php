@@ -14,7 +14,7 @@ class GetTenantDeviceInfosTest extends TestCase
     {
         $user = $this->thingsboardUser(ThingsboardUserRole::TENANT_ADMIN());
 
-        $devices = thingsboard()->device()->withUser($user)->getTenantDeviceInfos(
+        $devices = thingsboard($user)->device()->getTenantDeviceInfos(
             ThingsboardPaginationArguments::make(textSearch: 'Raspberry')
         );
 

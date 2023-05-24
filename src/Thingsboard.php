@@ -15,10 +15,20 @@ use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
  */
 class Thingsboard
 {
+    private ?ThingsboardUser $withUser;
+
+    public function __construct(ThingsboardUser $withUser = null)
+    {
+        $this->withUser = $withUser;
+    }
+
     public function __call(string $name, array $arguments)
     {
         $class = '\\JalalLinuX\\Thingsboard\\Entities\\'.ucfirst($name);
 
+        if (isset($this->withUser)) {
+            return $class::instance(...$arguments)->withUser($this->withUser);
+        }
         return $class::instance(...$arguments);
     }
 

@@ -14,7 +14,7 @@ class GetCustomersTest extends TestCase
     {
         $textSearch = fake()->randomElement(['A', 'B', 'C']);
         $user = $this->thingsboardUser(ThingsboardUserRole::TENANT_ADMIN());
-        $customers = thingsboard()->customer()->withUser($user)->getCustomers(
+        $customers = thingsboard($user)->customer()->getCustomers(
             ThingsboardPaginationArguments::make(textSearch: $textSearch)
         );
 
@@ -28,7 +28,7 @@ class GetCustomersTest extends TestCase
         $pagination = $this->randomPagination(CustomerSortProperty::class);
         $user = $this->thingsboardUser(ThingsboardUserRole::TENANT_ADMIN());
 
-        $customers = thingsboard()->customer()->withUser($user)->getCustomers(
+        $customers = thingsboard($user)->customer()->getCustomers(
             ThingsboardPaginationArguments::make(
                 page: $pagination['page'], pageSize: $pagination['pageSize'],
                 sortProperty: $pagination['sortProperty'], sortOrder: $pagination['sortOrder']

@@ -1,5 +1,6 @@
 <?php
 
+use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use JalalLinuX\Thingsboard\Thingsboard;
 
 if (! function_exists('isJsonString')) {
@@ -21,9 +22,9 @@ if (! function_exists('isArrayAssoc')) {
 }
 
 if (! function_exists('thingsboard')) {
-    function thingsboard(): Thingsboard
+    function thingsboard(ThingsboardUser $withUser = null): Thingsboard
     {
-        return new Thingsboard;
+        return new Thingsboard($withUser);
     }
 }
 

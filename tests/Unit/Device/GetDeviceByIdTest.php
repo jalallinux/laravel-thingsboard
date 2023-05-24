@@ -11,14 +11,14 @@ class GetDeviceByIdTest extends TestCase
     public function testExistUuid()
     {
         $user = $this->thingsboardUser(ThingsboardUserRole::TENANT_ADMIN());
-        $deviceId = thingsboard()->device()->withUser($user)->getTenantDeviceInfos(
+        $deviceId = thingsboard($user)->device()->getTenantDeviceInfos(
             ThingsboardPaginationArguments::make()
         )->data()->first()->id->id;
 
-        $device = thingsboard()->device()->withUser($user)->getDeviceById($deviceId);
+        $device = thingsboard($user)->device()->getDeviceById($deviceId);
         $this->assertEquals($deviceId, $device->id->id);
 
-        $device = thingsboard()->device(['id' => $deviceId])->withUser($user)->getDeviceById();
+        $device = thingsboard($user)->device(['id' => $deviceId])->getDeviceById();
         $this->assertEquals($deviceId, $device->id->id);
     }
 
@@ -28,7 +28,7 @@ class GetDeviceByIdTest extends TestCase
 
         $this->expectException(\Exception::class);
         $this->expectExceptionCode(500);
-        thingsboard()->device()->withUser($user)->getDeviceById(substr_replace(fake()->uuid, "z", -1));
+        thingsboard($user)->device()->getDeviceById(substr_replace(fake()->uuid, "z", -1));
     }
 
     public function testNonExistUuid()
@@ -36,6 +36,6 @@ class GetDeviceByIdTest extends TestCase
         $user = $this->thingsboardUser(ThingsboardUserRole::TENANT_ADMIN());
 
         $this->expectExceptionCode(404);
-        thingsboard()->device()->withUser($user)->getDeviceById(fake()->uuid);
+        thingsboard($user)->device()->getDeviceById(fake()->uuid);
     }
 }
