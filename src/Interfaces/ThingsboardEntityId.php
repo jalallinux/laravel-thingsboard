@@ -7,6 +7,7 @@ use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 class ThingsboardEntityId
 {
     public string $id;
+
     public ThingsboardEntityType $entityType;
 
     public function __construct(string $id, ThingsboardEntityType $entityType)
