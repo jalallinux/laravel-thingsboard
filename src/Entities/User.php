@@ -45,9 +45,9 @@ class User extends Tntity
 
     /**
      * Get Users
-     * @param ThingsboardPaginationArguments $paginationArguments
-     * @return ThingsboardPaginatedResponse
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function getUsers(ThingsboardPaginationArguments $paginationArguments): ThingsboardPaginatedResponse
