@@ -60,11 +60,11 @@ class User extends Tntity
 
     /**
      * Get Customer Users
-     * @param ThingsboardPaginationArguments $paginationArguments
-     * @param string|null $customerId
-     * @return ThingsboardPaginatedResponse
+     *
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN
      */
     public function getCustomerUsers(ThingsboardPaginationArguments $paginationArguments, string $customerId = null): ThingsboardPaginatedResponse

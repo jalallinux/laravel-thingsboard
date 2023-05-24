@@ -3,7 +3,6 @@
 namespace JalalLinuX\Thingsboard;
 
 use JalalLinuX\Thingsboard\Enums\ThingsboardSortOrder;
-use JalalLinuX\Thingsboard\Enums\UserSortProperty;
 use Spatie\Enum\Laravel\Enum;
 
 class ThingsboardPaginationArguments
@@ -39,33 +38,34 @@ class ThingsboardPaginationArguments
 
     protected function setPage(?int $page): self
     {
-        return tap($this, fn() => $this->page = (is_numeric($page) && $page >= 0 ? $page : $this->page));
+        return tap($this, fn () => $this->page = (is_numeric($page) && $page >= 0 ? $page : $this->page));
     }
 
     protected function setPageSize(?int $pageSize): self
     {
-        return tap($this, fn() => $this->pageSize = (is_numeric($pageSize) && $pageSize >= -1 ? $pageSize : $this->pageSize));
+        return tap($this, fn () => $this->pageSize = (is_numeric($pageSize) && $pageSize >= -1 ? $pageSize : $this->pageSize));
     }
 
     protected function setSortProperty(?Enum $sortProperty): self
     {
-        return tap($this, fn() => $this->sortProperty = (!is_null($sortProperty) && str_ends_with($sortProperty::class, 'SortProperty') ? $sortProperty->value : $this->sortProperty));
+        return tap($this, fn () => $this->sortProperty = (! is_null($sortProperty) && str_ends_with($sortProperty::class, 'SortProperty') ? $sortProperty->value : $this->sortProperty));
     }
 
     protected function setSortOrder(?ThingsboardSortOrder $sortOrder): self
     {
-        return tap($this, fn() => $this->sortOrder = !is_null($sortOrder) ? $sortOrder->value : $this->sortOrder);
+        return tap($this, fn () => $this->sortOrder = ! is_null($sortOrder) ? $sortOrder->value : $this->sortOrder);
     }
 
     protected function setTextSearch(?string $textSearch): self
     {
-        return tap($this, fn() => $this->textSearch = (!is_null($textSearch) ? $textSearch : $this->textSearch));
+        return tap($this, fn () => $this->textSearch = (! is_null($textSearch) ? $textSearch : $this->textSearch));
     }
 
     public function validateSortProperty(string $sortPropertyEnum, bool $throw = true): bool
     {
         $validated = in_array($this->sortProperty, $sortPropertyEnum::toValues());
-        throw_if($throw && !$validated, new \Exception("Sort property must be a instance of {$sortPropertyEnum}."));
+        throw_if($throw && ! $validated, new \Exception("Sort property must be a instance of {$sortPropertyEnum}."));
+
         return $validated;
     }
 
@@ -77,6 +77,6 @@ class ThingsboardPaginationArguments
             'sortProperty' => $this->sortProperty,
             'sortOrder' => $this->sortOrder,
             'textSearch' => $this->textSearch,
-        ], $extra), fn($v) => $v !== null);
+        ], $extra), fn ($v) => $v !== null);
     }
 }

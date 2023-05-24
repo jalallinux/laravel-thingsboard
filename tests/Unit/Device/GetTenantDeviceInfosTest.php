@@ -18,7 +18,7 @@ class GetTenantDeviceInfosTest extends TestCase
             ThingsboardPaginationArguments::make(textSearch: 'Raspberry')
         );
 
-        $devices->data()->each(fn($device) => $this->assertInstanceOf(Device::class, $device));
+        $devices->data()->each(fn ($device) => $this->assertInstanceOf(Device::class, $device));
         self::assertStringContainsString('Raspberry', $devices->data()->first()->name);
     }
 

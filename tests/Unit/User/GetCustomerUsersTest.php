@@ -17,7 +17,7 @@ class GetCustomerUsersTest extends TestCase
             ThingsboardPaginationArguments::make(textSearch: 'A'), 'a504e040-f7a8-11ed-bccf-f7083aaa7dff'
         );
 
-        $customerUsers->data()->each(fn($device) => $this->assertInstanceOf(User::class, $device));
+        $customerUsers->data()->each(fn ($device) => $this->assertInstanceOf(User::class, $device));
         self::assertStringContainsString('A', $customerUsers->data()->first()->name);
     }
 }

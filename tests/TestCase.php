@@ -31,7 +31,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
             'page' => $page ?? fake()->numberBetween(1, 10),
             'pageSize' => $pageSize ?? fake()->numberBetween(1, 10),
             'sortOrder' => $sortOrder ?? fake()->randomElement(ThingsboardSortOrder::cases()),
-            'sortProperty' => fake()->randomElement($sortPropertyEnum::cases())
+            'sortProperty' => fake()->randomElement($sortPropertyEnum::cases()),
         ];
     }
 
