@@ -89,4 +89,29 @@ class User extends Tntity
 
         return $this->paginatedResponse($response, $paginationArguments);
     }
+
+    /**
+     * Get Tenant Users
+     *
+     * @throws \Throwable
+     *
+     * @author JalalLinuX
+     *
+     * @group SYS_ADMIN
+     */
+    public function getTenantAdmins(ThingsboardPaginationArguments $paginationArguments, string $tenantId = null): ThingsboardPaginatedResponse
+    {
+        $tenantId = $tenantId ?? $this->forceAttribute('tenantId')->id;
+
+        throw_if(
+            ! uuid_is_valid($tenantId),
+            $this->exception('method "tenantId" argument must be a valid uuid.'),
+        );
+
+        $paginationArguments->validateSortProperty(UserSortProperty::class);
+
+        $response = $this->api(true)->get("tenant/{$tenantId}/users", $paginationArguments->queryParams());
+
+        return $this->paginatedResponse($response, $paginationArguments);
+    }
 }
