@@ -2,47 +2,70 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
+use JalalLinuX\Thingsboard\Interfaces\ThingsboardEntityId;
 use JalalLinuX\Thingsboard\Tntity;
 
+/**
+ * @property ThingsboardEntityId $id;
+ * @property \DateTime $createdTime;
+ * @property bool $default;
+ * @property string $name;
+ * @property string $type;
+ * @property string $description;
+ * @property string $image;
+ * @property string $defaultQueueName;
+ * @property string $provisionDeviceKey;
+ * @property string $transportType;
+ * @property string $provisionType;
+ * @property array $profileData;
+ * @property ThingsboardEntityId $tenantId;
+ * @property ThingsboardEntityId $defaultDashboardId;
+ * @property ThingsboardEntityId $defaultRuleChainId;
+ * @property ThingsboardEntityId $firmwareId;
+ * @property ThingsboardEntityId $softwareId;
+ * @property ThingsboardEntityId $defaultEdgeRuleChainId;
+ */
 class DeviceProfile extends Tntity
 {
     protected $fillable = [
         'id',
         'createdTime',
+        'default',
         'name',
         'type',
+        'description',
         'image',
+        'defaultQueueName',
+        'provisionDeviceKey',
         'transportType',
         'provisionType',
         'profileData',
-        'description',
-        'searchText',
-        'isDefault',
         'tenantId',
+        'defaultDashboardId',
+        'defaultRuleChainId',
         'firmwareId',
         'softwareId',
-        'defaultRuleChainId',
-        'defaultDashboardId',
-        'defaultQueueName',
-        'provisionDeviceKey',
-        'externalId',
+        'defaultEdgeRuleChainId',
     ];
 
     protected $casts = [
-        'id' => 'array',
+        'id' => 'id',
         'createdTime' => 'timestamp',
-        'type' => 'string',
-        'name' => 'string',
-        'label' => 'string',
         'additionalInfo' => 'array',
-        'customerId' => 'array',
-        'deviceProfileId' => 'array',
+        'customerId' => 'id',
+        'deviceProfileId' => 'id',
         'deviceData' => 'array',
-        'tenantId' => 'array',
-        'firmwareId' => 'array',
-        'softwareId' => 'array',
-        'externalId' => 'array',
+        'tenantId' => 'id',
+        'firmwareId' => 'id',
+        'softwareId' => 'id',
+        'externalId' => 'id',
     ];
+
+    public function entityType(): ?ThingsboardEntityType
+    {
+        return ThingsboardEntityType::DEVICE_PROFILE();
+    }
 
     /**
      * Get Device Profile
@@ -55,7 +78,7 @@ class DeviceProfile extends Tntity
      */
     public function getDeviceProfileById(string $id = null): self
     {
-        $id = $id ?? $this->forceAttribute('id');
+        $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
             ! uuid_is_valid($id),

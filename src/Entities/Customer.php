@@ -3,14 +3,16 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use JalalLinuX\Thingsboard\Enums\CustomerSortProperty;
+use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
+use JalalLinuX\Thingsboard\Interfaces\ThingsboardEntityId;
 use JalalLinuX\Thingsboard\ThingsboardPaginatedResponse;
 use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
- * @property array $id;
+ * @property ThingsboardEntityId $id;
  * @property \DateTime $createdTime;
- * @property array $tenantId;
+ * @property ThingsboardEntityId $tenantId;
  * @property string $title;
  * @property string $name;
  * @property string $country;
@@ -43,11 +45,16 @@ class Customer extends Tntity
     ];
 
     protected $casts = [
-        'id' => 'array',
+        'id' => 'id',
         'createdTime' => 'timestamp',
-        'tenantId' => 'array',
+        'tenantId' => 'id',
         'additionalInfo' => 'array',
     ];
+
+    public function entityType(): ?ThingsboardEntityType
+    {
+        return ThingsboardEntityType::CUSTOMER();
+    }
 
     /**
      * Get Tenant Customers

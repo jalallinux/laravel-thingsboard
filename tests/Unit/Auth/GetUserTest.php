@@ -3,6 +3,7 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\Auth;
 
 use JalalLinuX\Thingsboard\Entities\User;
+use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\Enums\ThingsboardUserRole;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
@@ -19,7 +20,7 @@ class GetUserTest extends TestCase
         $user = thingsboard()->auth()->withUser($this->thingsboardUser(fake()->randomElement(ThingsboardUserRole::cases())))->getUser();
 
         $this->assertInstanceOf(User::class, $user);
-        $this->assertNotEmpty($user->id);
+        $this->assertTrue(ThingsboardEntityType::USER()->equals($user->id->entityType));
         $this->assertNotEmpty($user->name);
         $this->assertNotEmpty($user->createdTime);
     }

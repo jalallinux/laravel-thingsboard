@@ -2,16 +2,18 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\Enums\UserSortProperty;
+use JalalLinuX\Thingsboard\Interfaces\ThingsboardEntityId;
 use JalalLinuX\Thingsboard\ThingsboardPaginatedResponse;
 use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
- * @property array $id
+ * @property ThingsboardEntityId $id
  * @property \DateTime $createdTime
- * @property array $tenantId
- * @property array $customerId
+ * @property ThingsboardEntityId $tenantId
+ * @property ThingsboardEntityId $customerId
  * @property string $email
  * @property string $name
  * @property string $authority
@@ -37,12 +39,17 @@ class User extends Tntity
     ];
 
     protected $casts = [
-        'id' => 'array',
+        'id' => 'id',
         'createdTime' => 'timestamp',
-        'tenantId' => 'array',
-        'customerId' => 'array',
+        'tenantId' => 'id',
+        'customerId' => 'id',
         'additionalInfo' => 'array',
     ];
+
+    public function entityType(): ?ThingsboardEntityType
+    {
+        return ThingsboardEntityType::USER();
+    }
 
     /**
      * Get Users

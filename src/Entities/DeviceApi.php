@@ -2,6 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\Tntity;
 
 class DeviceApi extends Tntity
@@ -13,6 +14,11 @@ class DeviceApi extends Tntity
     protected $casts = [
         'deviceToken' => 'string',
     ];
+
+    public function entityType(): ?ThingsboardEntityType
+    {
+        return null;
+    }
 
     /**
      * Post time-series data

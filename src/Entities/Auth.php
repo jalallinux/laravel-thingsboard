@@ -2,12 +2,18 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\Interfaces\PasswordPolicy;
 use JalalLinuX\Thingsboard\ThingsboardCacheHandler;
 use JalalLinuX\Thingsboard\Tntity;
 
 class Auth extends Tntity
 {
+    public function entityType(): ?ThingsboardEntityType
+    {
+        return null;
+    }
+
     /**
      * Login method to get user JWT token data
      *

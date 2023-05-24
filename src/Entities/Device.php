@@ -4,26 +4,28 @@ namespace JalalLinuX\Thingsboard\Entities;
 
 use DateTime;
 use JalalLinuX\Thingsboard\Enums\DeviceSortProperty;
+use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
+use JalalLinuX\Thingsboard\Interfaces\ThingsboardEntityId;
 use JalalLinuX\Thingsboard\ThingsboardPaginatedResponse;
 use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
- * @property array $id
+ * @property ThingsboardEntityId $id
  * @property DateTime $createdTime
  * @property string $type
  * @property string $name
  * @property string $label
  * @property bool $active
  * @property array $additionalInfo
- * @property array $customerId
- * @property array $deviceProfileId
  * @property array $deviceData
  * @property string $searchText
- * @property array $tenantId
- * @property array $firmwareId
- * @property array $softwareId
- * @property array $externalId
+ * @property ThingsboardEntityId $customerId
+ * @property ThingsboardEntityId $deviceProfileId
+ * @property ThingsboardEntityId $tenantId
+ * @property ThingsboardEntityId $firmwareId
+ * @property ThingsboardEntityId $softwareId
+ * @property ThingsboardEntityId $externalId
  */
 class Device extends Tntity
 {
@@ -46,21 +48,26 @@ class Device extends Tntity
     ];
 
     protected $casts = [
-        'id' => 'array',
+        'id' => 'id',
         'createdTime' => 'timestamp',
         'type' => 'string',
         'name' => 'string',
         'label' => 'string',
         'active' => 'bool',
         'additionalInfo' => 'array',
-        'customerId' => 'array',
-        'deviceProfileId' => 'array',
+        'customerId' => 'id',
+        'deviceProfileId' => 'id',
         'deviceData' => 'array',
-        'tenantId' => 'array',
-        'firmwareId' => 'array',
-        'softwareId' => 'array',
-        'externalId' => 'array',
+        'tenantId' => 'id',
+        'firmwareId' => 'id',
+        'softwareId' => 'id',
+        'externalId' => 'id',
     ];
+
+    public function entityType(): ?ThingsboardEntityType
+    {
+        return ThingsboardEntityType::DEVICE();
+    }
 
     /**
      * Get Device
@@ -73,7 +80,7 @@ class Device extends Tntity
      */
     public function getDeviceById(string $id = null): self
     {
-        $id = $id ?? $this->forceAttribute('id');
+        $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
             ! uuid_is_valid($id),
