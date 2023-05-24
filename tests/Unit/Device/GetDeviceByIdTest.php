@@ -21,4 +21,21 @@ class GetDeviceByIdTest extends TestCase
         $device = thingsboard()->device(['id' => $deviceId])->withUser($user)->getDeviceById();
         $this->assertEquals($deviceId, $device->id->id);
     }
+
+    public function testInvalidUuid()
+    {
+        $user = $this->thingsboardUser(ThingsboardUserRole::TENANT_ADMIN());
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionCode(500);
+        thingsboard()->device()->withUser($user)->getDeviceById(substr_replace(fake()->uuid, "z", -1));
+    }
+
+    public function testNonExistUuid()
+    {
+        $user = $this->thingsboardUser(ThingsboardUserRole::TENANT_ADMIN());
+
+        $this->expectExceptionCode(404);
+        thingsboard()->device()->withUser($user)->getDeviceById(fake()->uuid);
+    }
 }
