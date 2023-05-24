@@ -62,9 +62,9 @@ class Tenant extends Tntity
 
     /**
      * Get Tenants Info
-     * @param ThingsboardPaginationArguments $paginationArguments
-     * @return ThingsboardPaginatedResponse
+     *
      * @author JalalLinuX
+     *
      * @group SYS_ADMIN
      */
     public function getTenants(ThingsboardPaginationArguments $paginationArguments): ThingsboardPaginatedResponse
