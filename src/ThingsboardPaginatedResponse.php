@@ -24,7 +24,10 @@ class ThingsboardPaginatedResponse
     public function paginator(): LengthAwarePaginator
     {
         return new LengthAwarePaginator(
-            $this->response->json('data'), $this->response->json('totalElements'), $this->arguments->pageSize, $this->arguments->page
+            $this->response->json('data'), $this->response->json('totalElements'), $this->arguments->pageSize, $this->arguments->page, [
+                'sortOrder' => $this->arguments->sortOrder,
+                'sortProperty' => $this->arguments->sortProperty,
+            ]
         );
     }
 

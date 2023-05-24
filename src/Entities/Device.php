@@ -3,6 +3,7 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use DateTime;
+use JalalLinuX\Thingsboard\Enums\DeviceSortProperty;
 use JalalLinuX\Thingsboard\ThingsboardPaginatedResponse;
 use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
@@ -95,8 +96,10 @@ class Device extends Tntity
      */
     public function getTenantDeviceInfos(ThingsboardPaginationArguments $paginationArguments, string $deviceProfileId = null, bool $active = null): ThingsboardPaginatedResponse
     {
-        $response = $this->api(true)->get('tenant/device/deviceInfos', $paginationArguments->queryParams([
-            'active' => $active ?? $this->active, 'deviceProfileId' => $deviceProfileId ?? $this->deviceProfileId,
+        $paginationArguments->validateSortProperty(DeviceSortProperty::class);
+
+        $response = $this->api(true)->get('tenant/deviceInfos', $paginationArguments->queryParams([
+            'active' => $active ?? $this->active, 'deviceProfileId' => $deviceProfileId ?? @$this->deviceProfileId['id'],
         ]));
 
         return $this->paginatedResponse($response, $paginationArguments);

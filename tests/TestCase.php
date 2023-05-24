@@ -2,6 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Tests;
 
+use JalalLinuX\Thingsboard\Enums\ThingsboardSortOrder;
 use JalalLinuX\Thingsboard\Enums\ThingsboardUserRole;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use JalalLinuX\Thingsboard\LaravelThingsboardServiceProvider;
@@ -22,6 +23,16 @@ class TestCase extends \Orchestra\Testbench\TestCase
         // Code before application created.
         parent::setUp();
         // Code after application created.
+    }
+
+    public function randomPagination(string $sortPropertyEnum, int $page = null, int $pageSize = null, ThingsboardSortOrder $sortOrder = null): array
+    {
+        return [
+            'page' => $page ?? fake()->numberBetween(1, 10),
+            'pageSize' => $pageSize ?? fake()->numberBetween(1, 10),
+            'sortOrder' => $sortOrder ?? fake()->randomElement(ThingsboardSortOrder::cases()),
+            'sortProperty' => fake()->randomElement($sortPropertyEnum::cases())
+        ];
     }
 
     public function thingsboardUser(ThingsboardUserRole $role, string $mail = null, string $pass = null): ThingsboardUser

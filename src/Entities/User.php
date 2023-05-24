@@ -2,6 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use JalalLinuX\Thingsboard\Enums\UserSortProperty;
 use JalalLinuX\Thingsboard\ThingsboardPaginatedResponse;
 use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
@@ -53,6 +54,31 @@ class User extends Tntity
     public function getUsers(ThingsboardPaginationArguments $paginationArguments): ThingsboardPaginatedResponse
     {
         $response = $this->api(true)->get('users', $paginationArguments->queryParams());
+
+        return $this->paginatedResponse($response, $paginationArguments);
+    }
+
+    /**
+     * Get Customer Users
+     * @param ThingsboardPaginationArguments $paginationArguments
+     * @param string|null $customerId
+     * @return ThingsboardPaginatedResponse
+     * @throws \Throwable
+     * @author JalalLinuX
+     * @group TENANT_ADMIN
+     */
+    public function getCustomerUsers(ThingsboardPaginationArguments $paginationArguments, string $customerId = null): ThingsboardPaginatedResponse
+    {
+        $customerId = $customerId ?? $this->forceAttribute('customerId')['id'];
+
+        throw_if(
+            ! uuid_is_valid($customerId),
+            $this->exception('method "customerId" argument must be a valid uuid.'),
+        );
+
+        $paginationArguments->validateSortProperty(UserSortProperty::class);
+
+        $response = $this->api(true)->get("customer/{$customerId}/users", $paginationArguments->queryParams());
 
         return $this->paginatedResponse($response, $paginationArguments);
     }
