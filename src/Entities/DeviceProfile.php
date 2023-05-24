@@ -2,8 +2,11 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use JalalLinuX\Thingsboard\Enums\DeviceProfileSortProperty;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardEntityId;
+use JalalLinuX\Thingsboard\ThingsboardPaginatedResponse;
+use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -65,6 +68,15 @@ class DeviceProfile extends Tntity
     public function entityType(): ?ThingsboardEntityType
     {
         return ThingsboardEntityType::DEVICE_PROFILE();
+    }
+
+    public function getDeviceProfiles(ThingsboardPaginationArguments $paginationArguments): ThingsboardPaginatedResponse
+    {
+        $paginationArguments->validateSortProperty(DeviceProfileSortProperty::class);
+
+        $response = $this->api(true)->get('deviceProfiles', $paginationArguments->queryParams());
+
+        return $this->paginatedResponse($response, $paginationArguments);
     }
 
     /**
