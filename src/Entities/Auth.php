@@ -61,12 +61,13 @@ class Auth extends Tntity
 
     /**
      * Get the current User password policy
-     * @return array
+     *
      * @author JalallinuX
+     *
      * @group GUEST
      */
     public function getUserPasswordPolicy(): array
     {
-        return $this->api()->get("noauth/userPasswordPolicy")->json();
+        return $this->api()->get('noauth/userPasswordPolicy')->json();
     }
 }
