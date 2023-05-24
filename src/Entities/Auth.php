@@ -2,6 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use JalalLinuX\Thingsboard\Interfaces\PasswordPolicy;
 use JalalLinuX\Thingsboard\ThingsboardCacheHandler;
 use JalalLinuX\Thingsboard\Tntity;
 
@@ -61,12 +62,12 @@ class Auth extends Tntity
 
     /**
      * Get the current User password policy
-     * @return array
+     * @return PasswordPolicy
      * @author JalallinuX
      * @group GUEST
      */
-    public function getUserPasswordPolicy(): array
+    public function getUserPasswordPolicy(): PasswordPolicy
     {
-        return $this->api()->get("noauth/userPasswordPolicy")->json();
+        return PasswordPolicy::fromArray($this->api()->get("noauth/userPasswordPolicy")->json());
     }
 }
