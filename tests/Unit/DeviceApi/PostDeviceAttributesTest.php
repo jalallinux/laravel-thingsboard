@@ -13,7 +13,7 @@ class PostDeviceAttributesTest extends TestCase
         ]);
         $result = thingsboard()->deviceApi()->postDeviceAttributes([
             'test-temperature' => fake()->numerify('##'),
-            'test-humidity' => fake()->numerify('##')
+            'test-humidity' => fake()->numerify('##'),
         ], $deviceToken);
         $this->assertTrue($result);
     }
@@ -23,7 +23,7 @@ class PostDeviceAttributesTest extends TestCase
         $this->expectExceptionCode(401);
         thingsboard()->deviceApi()->postDeviceAttributes([
             'test-temperature' => fake()->numerify('##'),
-            'test-humidity' => fake()->numerify('##')
+            'test-humidity' => fake()->numerify('##'),
         ], fake()->slug);
     }
 
