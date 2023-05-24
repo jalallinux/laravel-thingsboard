@@ -43,7 +43,14 @@ class User extends Tntity
         'additionalInfo' => 'array',
     ];
 
-    public function list(ThingsboardPaginationArguments $paginationArguments): ThingsboardPaginatedResponse
+    /**
+     * Get Users
+     * @param ThingsboardPaginationArguments $paginationArguments
+     * @return ThingsboardPaginatedResponse
+     * @author JalalLinuX
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function getUsers(ThingsboardPaginationArguments $paginationArguments): ThingsboardPaginatedResponse
     {
         $response = $this->api(true)->get('users', $paginationArguments->queryParams());
 

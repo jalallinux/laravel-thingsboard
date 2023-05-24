@@ -29,20 +29,20 @@ composer require jalallinux/laravel-thingsboard
 
 
 
-## Usage with Facade
-You can use facades classes to integrate with thingsboard.
+## Usage with Tntity classes
+You can use Tntity classes to integrate with thingsboard.
 
-#### Facade Examples
+#### Tntity Examples
 ```php
-use JalalLinuX\Thingsboard\Facades\Entities\DeviceApi;
+use JalalLinuX\Thingsboard\Entities\DeviceApi;
 
 /** Without Authentication */
-DeviceApi::setAttribute('deviceToken', 'A1_TEST_TOKEN')->postTelemetry([...])
+DeviceApi::instance()->setAttribute('deviceToken', 'A1_TEST_TOKEN')->postTelemetry([...])
 
 /** With Authentication */
-Device::withUser($tenantUser)->getById('ca3b8fc0-dcf6-11ed-a299-0f591673a2d6')
-Device::withUser($tenantUser)->setAttribute('id', 'ca3b8fc0-dcf6-11ed-a299-0f591673a2d6')->getById()
-Device::withUser($tenantUser)->fill(['id' => 'ca3b8fc0-dcf6-11ed-a299-0f591673a2d6'])->getById()
+Device::instance()->withUser($tenantUser)->getDeviceById('ca3b8fc0-dcf6-11ed-a299-0f591673a2d6')
+Device::instance()->withUser($tenantUser)->setAttribute('id', 'ca3b8fc0-dcf6-11ed-a299-0f591673a2d6')->getDeviceById()
+Device::instance(['id' => 'ca3b8fc0-dcf6-11ed-a299-0f591673a2d6'])->withUser($tenantUser)->getDeviceById()
 ```
 
 
@@ -51,14 +51,15 @@ Device::withUser($tenantUser)->fill(['id' => 'ca3b8fc0-dcf6-11ed-a299-0f591673a2
 ## Usage with Helper function
 
 #### Facade Examples
+
 ```php
 /** Without Authentication */
-thingsboard()->deviceApi()->setAttribute('deviceToken', 'A1_TEST_TOKEN')->postTelemetry([...])
+thingsboard()->deviceApi()->setAttribute('deviceToken', 'A1_TEST_TOKEN')->postDeviceAttributes([...])
 
 /** With Authentication */
-thingsboard()->device()->withUser($tenantUser)->getById('ca3b8fc0-dcf6-11ed-a299-0f591673a2d6')
-thingsboard()->device()->withUser($tenantUser)->setAttribute('id', 'ca3b8fc0-dcf6-11ed-a299-0f591673a2d6')->getById()
-thingsboard()->device()->withUser($tenantUser)->fill(['id' => 'ca3b8fc0-dcf6-11ed-a299-0f591673a2d6'])->getById()
+thingsboard()->device()->withUser($tenantUser)->getDeviceById('ca3b8fc0-dcf6-11ed-a299-0f591673a2d6')
+thingsboard()->device()->withUser($tenantUser)->setAttribute('id', 'ca3b8fc0-dcf6-11ed-a299-0f591673a2d6')->getDeviceById()
+thingsboard()->device(['id' => 'ca3b8fc0-dcf6-11ed-a299-0f591673a2d6'])->withUser($tenantUser)->getDeviceById()
 ```
 
 

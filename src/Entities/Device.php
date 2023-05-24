@@ -13,6 +13,7 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property string $type
  * @property string $name
  * @property string $label
+ * @property bool $active
  * @property array $additionalInfo
  * @property array $customerId
  * @property array $deviceProfileId
@@ -31,6 +32,7 @@ class Device extends Tntity
         'type',
         'name',
         'label',
+        'active',
         'additionalInfo',
         'customerId',
         'deviceProfileId',
@@ -48,6 +50,7 @@ class Device extends Tntity
         'type' => 'string',
         'name' => 'string',
         'label' => 'string',
+        'active' => 'bool',
         'additionalInfo' => 'array',
         'customerId' => 'array',
         'deviceProfileId' => 'array',
@@ -59,13 +62,14 @@ class Device extends Tntity
     ];
 
     /**
+     * Get Device
+     * @param string|null $id
+     * @return self
      * @throws \Throwable
-     *
      * @author JalalLinuX
-     *
      * @group TENANT_ADMIN, CUSTOMER_USER
      */
-    public function getById(string $id = null): self
+    public function getDeviceById(string $id = null): self
     {
         $id = $id ?? $this->forceAttribute('id');
 
@@ -79,17 +83,20 @@ class Device extends Tntity
         return tap($this, fn () => $this->fill($device));
     }
 
-    public function list(ThingsboardPaginationArguments $paginationArguments, string $customerId = null, string $deviceProfileId = null, bool $active = null): ThingsboardPaginatedResponse
+    /**
+     * Get Tenant Device Infos
+     * @param ThingsboardPaginationArguments $paginationArguments
+     * @param string|null $deviceProfileId
+     * @param bool|null $active
+     * @return ThingsboardPaginatedResponse
+     * @throws \Throwable
+     * @author JalalLinuX
+     * @group TENANT_ADMIN
+     */
+    public function getTenantDeviceInfos(ThingsboardPaginationArguments $paginationArguments, string $deviceProfileId = null, bool $active = null): ThingsboardPaginatedResponse
     {
-        $customerId = $customerId ?? @$this->forceAttribute('customerId')['id'];
-
-        throw_if(
-            ! uuid_is_valid($customerId),
-            $this->exception('method "customerId" argument must be a valid uuid.'),
-        );
-
-        $response = $this->api(true)->get("customer/{$customerId}/deviceInfos", $paginationArguments->queryParams([
-            'active' => $active, 'deviceProfileId' => $deviceProfileId,
+        $response = $this->api(true)->get("tenant/device/deviceInfos", $paginationArguments->queryParams([
+            'active' => $active ?? $this->active, 'deviceProfileId' => $deviceProfileId ?? $this->deviceProfileId,
         ]));
 
         return $this->paginatedResponse($response, $paginationArguments);

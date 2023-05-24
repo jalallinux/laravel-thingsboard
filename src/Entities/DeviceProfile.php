@@ -45,13 +45,14 @@ class DeviceProfile extends Tntity
     ];
 
     /**
+     * Get Device Profile
+     * @param string|null $id
+     * @return self
      * @throws \Throwable
-     *
      * @author JalalLinuX
-     *
      * @group TENANT_ADMIN
      */
-    public function getById(string $id = null): self
+    public function getDeviceProfileById(string $id = null): self
     {
         $id = $id ?? $this->forceAttribute('id');
 
