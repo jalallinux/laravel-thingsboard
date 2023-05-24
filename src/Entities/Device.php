@@ -106,7 +106,7 @@ class Device extends Tntity
         $paginationArguments->validateSortProperty(DeviceSortProperty::class);
 
         $response = $this->api(true)->get('tenant/deviceInfos', $paginationArguments->queryParams([
-            'active' => $active ?? $this->active, 'deviceProfileId' => $deviceProfileId ?? @$this->deviceProfileId['id'],
+            'active' => $active ?? $this->active, 'deviceProfileId' => $deviceProfileId ?? @$this->deviceProfileId->id,
         ]));
 
         return $this->paginatedResponse($response, $paginationArguments);

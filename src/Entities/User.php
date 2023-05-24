@@ -76,7 +76,7 @@ class User extends Tntity
      */
     public function getCustomerUsers(ThingsboardPaginationArguments $paginationArguments, string $customerId = null): ThingsboardPaginatedResponse
     {
-        $customerId = $customerId ?? $this->forceAttribute('customerId')['id'];
+        $customerId = $customerId ?? $this->forceAttribute('customerId')->id;
 
         throw_if(
             ! uuid_is_valid($customerId),
