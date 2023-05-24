@@ -5,12 +5,19 @@ namespace JalalLinuX\Thingsboard\Interfaces;
 class PasswordPolicy
 {
     public bool $allowWhitespaces;
+
     public ?int $minimumDigits;
+
     public ?int $minimumLength;
+
     public ?int $minimumLowercaseLetters;
+
     public ?int $minimumSpecialCharacters;
+
     public ?int $minimumUppercaseLetters;
+
     public ?int $passwordExpirationPeriodDays;
+
     public ?int $passwordReuseFrequencyDays;
 
     public function __construct(bool $allowWhitespaces = false, int $minimumDigits = null, int $minimumLength = null, int $minimumLowercaseLetters = null, int $minimumSpecialCharacters = null, int $minimumUppercaseLetters = null, int $passwordExpirationPeriodDays = null, int $passwordReuseFrequencyDays = null)
