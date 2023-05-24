@@ -65,6 +65,6 @@ class DeviceApi extends Tntity
 
         $deviceToken = $deviceToken ?? $this->forceAttribute('deviceToken');
 
-        return $this->api()->post("/v1/$deviceToken}/attributes", $payload)->successful();
+        return $this->api()->post("/v1/{$deviceToken}/attributes", $payload)->successful();
     }
 }
