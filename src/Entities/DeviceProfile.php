@@ -46,10 +46,11 @@ class DeviceProfile extends Tntity
 
     /**
      * Get Device Profile
-     * @param string|null $id
-     * @return self
+     *
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN
      */
     public function getDeviceProfileById(string $id = null): self

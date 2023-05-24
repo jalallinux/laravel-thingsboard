@@ -63,10 +63,11 @@ class Device extends Tntity
 
     /**
      * Get Device
-     * @param string|null $id
-     * @return self
+     *
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN, CUSTOMER_USER
      */
     public function getDeviceById(string $id = null): self
@@ -85,17 +86,16 @@ class Device extends Tntity
 
     /**
      * Get Tenant Device Infos
-     * @param ThingsboardPaginationArguments $paginationArguments
-     * @param string|null $deviceProfileId
-     * @param bool|null $active
-     * @return ThingsboardPaginatedResponse
+     *
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN
      */
     public function getTenantDeviceInfos(ThingsboardPaginationArguments $paginationArguments, string $deviceProfileId = null, bool $active = null): ThingsboardPaginatedResponse
     {
-        $response = $this->api(true)->get("tenant/device/deviceInfos", $paginationArguments->queryParams([
+        $response = $this->api(true)->get('tenant/device/deviceInfos', $paginationArguments->queryParams([
             'active' => $active ?? $this->active, 'deviceProfileId' => $deviceProfileId ?? $this->deviceProfileId,
         ]));
 
