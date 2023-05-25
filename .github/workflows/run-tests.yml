@@ -54,5 +54,5 @@ jobs:
 
       - name: Execute tests
         run: vendor/bin/phpunit
-        env:
-          THINGSBOARD_BASE_URI: localhost
+#        env:
+#          THINGSBOARD_BASE_URI: localhost:9090
