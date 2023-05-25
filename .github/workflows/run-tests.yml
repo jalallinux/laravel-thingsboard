@@ -51,4 +51,4 @@ jobs:
       - name: Execute tests
         run: vendor/bin/phpunit
         env:
-          - THINGSBOARD_BASE_URI: thingsboard
+          THINGSBOARD_BASE_URI: thingsboard
