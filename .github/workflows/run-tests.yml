@@ -28,7 +28,6 @@ jobs:
 
     services:
       thingsboard:
-        options: --net=host
         image: thingsboard/tb-postgres:3.5.0
         ports:
           - 9090:9090
@@ -51,3 +50,5 @@ jobs:
 
       - name: Execute tests
         run: vendor/bin/phpunit
+        env:
+          - THINGSBOARD_BASE_URI: thingsboard
