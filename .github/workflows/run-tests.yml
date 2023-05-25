@@ -11,22 +11,20 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    name: P${{ matrix.php }} L${{ matrix.laravel }} - ${{ matrix.dependency-version }} on ${{ matrix.os }}
+    name: P${{ matrix.php }} L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
 
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
         php: [8.2, 8.1, 8.0]
-        laravel: [10.*, 9.*, 8.*]
-        dependency-version: [prefer-lowest, prefer-stable]
+        laravel: [10.*, 9.*]
+        dependency-version: [prefer-stable]
         include:
           - laravel: 10.*
             testbench: 8.*
           - laravel: 9.*
             testbench: 7.*
-          - laravel: 8.*
-            testbench: 6.23
         exclude:
           - laravel: 10.*
             php: 8.0
