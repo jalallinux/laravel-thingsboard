@@ -32,7 +32,12 @@ jobs:
         ports:
           - 9090:9090
         # Health check
-        options: log-health-checks
+        options: >-
+          --health-cmd "curl -f http://thingsboard:9090"
+          --health-interval 30s
+          --health-timeout 10s
+          --health-retries 5
+          --health-start-period 30s
 
     steps:
       - name: Checkout code
