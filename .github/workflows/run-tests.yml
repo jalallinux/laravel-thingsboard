@@ -23,13 +23,9 @@ jobs:
           - laravel: 10.*
             php: 8.0
 
-  container-job:
-    runs-on: ubuntu-latest
     services:
       thingsboard:
         image: thingsboard/tb-postgres:3.5.0
-        ports:
-          - 9090:9090
 
     name: P${{ matrix.php }} L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
 
