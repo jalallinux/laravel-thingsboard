@@ -18,7 +18,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         php: [8.2, 8.1, 8.0]
-        laravel: [10.*, 9.*, 8.*]
+        laravel: [10.*, 9.*]
         dependency-version: [prefer-lowest, prefer-stable]
         include:
           - laravel: 10.*
@@ -30,7 +30,6 @@ jobs:
         exclude:
           - laravel: 10.*
             php: 8.0
-
 
     services:
       thingsboard:
@@ -55,7 +54,7 @@ jobs:
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
 
       - name: Wait for Thingsboard container
-        run: sleep 200s
+        run: sleep 90s
         shell: bash
 
       - name: Execute tests
