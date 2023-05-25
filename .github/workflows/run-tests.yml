@@ -31,12 +31,11 @@ jobs:
         image: thingsboard/tb-postgres:3.5.0
         ports:
           - 9090:9090
-        # Health check
         options: >-
-          --health-cmd "curl -f http://thingsboard:9090"
+          --health-cmd "curl -f -X 'GET' 'http://localhost:9090/api/noauth/userPasswordPolicy'"
           --health-interval 30s
           --health-timeout 10s
-          --health-retries 5
+          --health-retries 6
           --health-start-period 30s
 
     steps:
