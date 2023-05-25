@@ -17,10 +17,10 @@
     "require": {
         "php": "^8.0|^8.1|^8.2",
         "ext-json": "*",
-        "illuminate/container": "^8.0|^9.0|^10.0",
-        "illuminate/contracts": "^8.0|^9.0|^10.0",
-        "illuminate/support": "^8.0|^9.0|^10.0",
-        "illuminate/http": "^8.0|^9.0|^10.0",
+        "illuminate/container": "^9.0|^10.0",
+        "illuminate/contracts": "^9.0|^10.0",
+        "illuminate/support": "^9.0|^10.0",
+        "illuminate/http": "^9.0|^10.0",
         "guzzlehttp/guzzle": "^7.0",
         "jenssegers/model": "^1.5",
         "spatie/laravel-enum": "^3.0"

@@ -30,6 +30,8 @@ jobs:
         exclude:
           - laravel: 10.*
             php: 8.0
+          - laravel: 9.*
+            dependency-version: prefer-lowest
 
     services:
       thingsboard:
