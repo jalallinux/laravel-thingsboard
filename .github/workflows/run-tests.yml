@@ -31,12 +31,6 @@ jobs:
         image: thingsboard/tb-postgres:3.5.0
         ports:
           - 9090:9090
-        options: >-
-          --health-cmd "curl -f -X 'GET' 'http://localhost:9090/api/noauth/userPasswordPolicy'"
-          --health-interval 30s
-          --health-timeout 10s
-          --health-retries 30
-          --health-start-period 30s
 
     steps:
       - name: Checkout code
@@ -53,6 +47,10 @@ jobs:
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "symfony/console:>=4.3.4" "mockery/mockery:^1.3.2" "nesbot/carbon:>=2.62.1" --no-interaction --no-update
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
+
+      - name: Wait fr Thingsboard container
+        run: sleep 300s
+        shell: bash
 
       - name: Execute tests
         run: vendor/bin/phpunit
