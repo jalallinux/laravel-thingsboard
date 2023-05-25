@@ -39,7 +39,7 @@ class ThingsboardExceptionHandler
         if (self::$response->serverError()) {
             logger()->critical("({$this->getStatus()}) {$this->getMessage()}", self::$response->json() ?? []);
             if (! is_null($this->getMessage())) {
-                throw new \Exception($this->getMessage(), $this->getStatus() ?? 500);
+                throw new \Exception($this->getMessage(), $this->getStatus());
             }
         }
 
@@ -62,6 +62,6 @@ class ThingsboardExceptionHandler
 
     public function getStatus(): int
     {
-        return self::$response->status();
+        return self::$response->status() == 0 ? 500 : self::$response->status();
     }
 }
