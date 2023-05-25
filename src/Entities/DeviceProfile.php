@@ -2,6 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Enums\DeviceProfileSortProperty;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardEntityId;
@@ -93,7 +94,7 @@ class DeviceProfile extends Tntity
         $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            ! uuid_is_valid($id),
+            ! Str::isUuid($id),
             $this->exception('method argument must be a valid uuid.'),
         );
 

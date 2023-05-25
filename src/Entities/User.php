@@ -2,6 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\Enums\UserSortProperty;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardEntityId;
@@ -79,7 +80,7 @@ class User extends Tntity
         $customerId = $customerId ?? $this->forceAttribute('customerId')->id;
 
         throw_if(
-            ! uuid_is_valid($customerId),
+            ! Str::isUuid($customerId),
             $this->exception('method "customerId" argument must be a valid uuid.'),
         );
 
@@ -104,7 +105,7 @@ class User extends Tntity
         $tenantId = $tenantId ?? $this->forceAttribute('tenantId')->id;
 
         throw_if(
-            ! uuid_is_valid($tenantId),
+            ! Str::isUuid($tenantId),
             $this->exception('method "tenantId" argument must be a valid uuid.'),
         );
 

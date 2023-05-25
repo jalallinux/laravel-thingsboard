@@ -3,6 +3,7 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use DateTime;
+use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Enums\DeviceSortProperty;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardEntityId;
@@ -83,7 +84,7 @@ class Device extends Tntity
         $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            ! uuid_is_valid($id),
+            ! Str::isUuid($id),
             $this->exception('method "id" argument must be a valid uuid.'),
         );
 
