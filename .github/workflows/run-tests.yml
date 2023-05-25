@@ -31,6 +31,8 @@ jobs:
         image: thingsboard/tb-postgres:3.5.0
         ports:
           - 9090:9090
+        # Health check
+        options: log-health-checks
 
     steps:
       - name: Checkout code
