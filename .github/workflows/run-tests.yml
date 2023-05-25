@@ -28,6 +28,7 @@ jobs:
 
     services:
       thingsboard:
+        options: --net=host
         image: thingsboard/tb-postgres:3.5.0
         ports:
           - 9090:9090
