@@ -35,7 +35,7 @@ jobs:
           --health-cmd "curl -f -X 'GET' 'http://localhost:9090/api/noauth/userPasswordPolicy'"
           --health-interval 30s
           --health-timeout 10s
-          --health-retries 6
+          --health-retries 30
           --health-start-period 30s
 
     steps:
