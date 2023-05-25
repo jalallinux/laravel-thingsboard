@@ -1,6 +1,11 @@
 name: "Run Tests - Current"
 
 on: [push, pull_request]
+#on:
+#  pull_request:
+#    branches:
+#      - main
+#      - 'releases/**'
 
 jobs:
   test:
@@ -13,7 +18,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         php: [8.2, 8.1, 8.0]
-        laravel: [10.*, 9.*, 8.*]
+        laravel: [10.*, 9.*]
         dependency-version: [prefer-lowest, prefer-stable]
         include:
           - laravel: 10.*

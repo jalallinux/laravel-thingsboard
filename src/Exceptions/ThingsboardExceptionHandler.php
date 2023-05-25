@@ -62,6 +62,6 @@ class ThingsboardExceptionHandler
 
     public function getStatus(): int
     {
-        return self::$response->status() == 0 ? 500 : self::$response->status();
+        return self::$response->status();
     }
 }
