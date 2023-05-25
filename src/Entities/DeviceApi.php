@@ -2,6 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\Tntity;
 
 class DeviceApi extends Tntity
@@ -14,14 +15,21 @@ class DeviceApi extends Tntity
         'deviceToken' => 'string',
     ];
 
+    public function entityType(): ?ThingsboardEntityType
+    {
+        return null;
+    }
+
     /**
+     * Post time-series data
+     *
      * @throws \Throwable
      *
      * @author JalalLinuX
      *
      * @group GUEST
      */
-    public function postTelemetry(array $payload): bool
+    public function postTelemetry(array $payload, string $deviceToken = null): bool
     {
         if (empty($payload)) {
             throw $this->exception('method argument must be array of ["ts" => in millisecond-timestamp, "values" => in associative array]');
@@ -34,23 +42,29 @@ class DeviceApi extends Tntity
             );
         }
 
-        return $this->api()->post("/v1/{$this->forceAttribute('deviceToken')}/telemetry", $payload)->successful();
+        $deviceToken = $deviceToken ?? $this->forceAttribute('deviceToken');
+
+        return $this->api()->post("/v1/{$deviceToken}/telemetry", $payload)->successful();
     }
 
     /**
+     * Post attributes
+     *
      * @throws \Throwable
      *
      * @author JalalLinuX
      *
      * @group GUEST
      */
-    public function postAttributes(array $payload): bool
+    public function postDeviceAttributes(array $payload, string $deviceToken = null): bool
     {
         throw_if(
             ! isArrayAssoc($payload),
             $this->exception('method argument must be associative array.')
         );
 
-        return $this->api()->post("/v1/{$this->forceAttribute('deviceToken')}/attributes", $payload)->successful();
+        $deviceToken = $deviceToken ?? $this->forceAttribute('deviceToken');
+
+        return $this->api()->post("/v1/{$deviceToken}/attributes", $payload)->successful();
     }
 }

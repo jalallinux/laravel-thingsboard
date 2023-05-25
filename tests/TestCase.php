@@ -2,12 +2,16 @@
 
 namespace JalalLinuX\Thingsboard\Tests;
 
-use JalalLinuX\Thingsboard\Enums\UserRole;
+use Illuminate\Foundation\Testing\WithFaker;
+use JalalLinuX\Thingsboard\Enums\ThingsboardSortOrder;
+use JalalLinuX\Thingsboard\Enums\ThingsboardUserRole;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use JalalLinuX\Thingsboard\LaravelThingsboardServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
+    use WithFaker;
+
     protected $loadEnvironmentVariables = true;
 
     protected function getPackageProviders($app): array
@@ -24,7 +28,17 @@ class TestCase extends \Orchestra\Testbench\TestCase
         // Code after application created.
     }
 
-    public function thingsboardUser(UserRole $role, string $mail = null, string $pass = null): ThingsboardUser
+    public function randomPagination(string $sortPropertyEnum, int $page = null, int $pageSize = null, ThingsboardSortOrder $sortOrder = null): array
+    {
+        return [
+            'page' => $page ?? $this->faker->numberBetween(1, 10),
+            'pageSize' => $pageSize ?? $this->faker->numberBetween(1, 10),
+            'sortOrder' => $sortOrder ?? $this->faker->randomElement(ThingsboardSortOrder::cases()),
+            'sortProperty' => $this->faker->randomElement($sortPropertyEnum::cases()),
+        ];
+    }
+
+    public function thingsboardUser(ThingsboardUserRole $role, string $mail = null, string $pass = null): ThingsboardUser
     {
         return new class($role, $mail, $pass) implements ThingsboardUser
         {
@@ -34,7 +48,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
             private ?string $pass;
 
-            public function __construct(UserRole $role, string $mail = null, string $pass = null)
+            public function __construct(ThingsboardUserRole $role, string $mail = null, string $pass = null)
             {
                 $this->user = collect(config('thingsboard.rest.users'))->filter(fn ($user) => $role->equals($user['role']))->random();
                 $this->mail = $mail;
@@ -51,7 +65,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
                 return $this->pass ?? $this->user['pass'];
             }
 
-            public function getThingsboardRoleAttribute(): UserRole
+            public function getThingsboardRoleAttribute(): ThingsboardUserRole
             {
                 return $this->user['role'];
             }

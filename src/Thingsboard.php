@@ -10,13 +10,27 @@ use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
  * @method Entities\Auth auth(array $attributes = [])
  * @method Entities\User user(array $attributes = [])
  * @method Entities\Device device(array $attributes = [])
+ * @method Entities\DeviceProfile deviceProfile(array $attributes = [])
+ * @method Entities\Tenant tenant(array $attributes = [])
+ * @method Entities\Customer customer(array $attributes = [])
  * @method Entities\DeviceApi deviceApi(array $attributes = [])
  */
 class Thingsboard
 {
+    private ?ThingsboardUser $withUser;
+
+    public function __construct(ThingsboardUser $withUser = null)
+    {
+        $this->withUser = $withUser;
+    }
+
     public function __call(string $name, array $arguments)
     {
         $class = '\\JalalLinuX\\Thingsboard\\Entities\\'.ucfirst($name);
+
+        if (isset($this->withUser)) {
+            return $class::instance(...$arguments)->withUser($this->withUser);
+        }
 
         return $class::instance(...$arguments);
     }

@@ -2,10 +2,10 @@
 
 namespace JalalLinuX\Thingsboard;
 
-use JalalLinuX\Thingsboard\Enums\SortOrder;
+use JalalLinuX\Thingsboard\Enums\ThingsboardSortOrder;
 use Spatie\Enum\Laravel\Enum;
 
-class PaginationArguments
+class ThingsboardPaginationArguments
 {
     public int $page = 0;
 
@@ -17,7 +17,7 @@ class PaginationArguments
 
     public ?string $textSearch = null;
 
-    public function __construct(int $page = null, int $pageSize = null, Enum $sortProperty = null, SortOrder $sortOrder = null, string $textSearch = null)
+    public function __construct(int $page = null, int $pageSize = null, Enum $sortProperty = null, ThingsboardSortOrder $sortOrder = null, string $textSearch = null)
     {
         $this->setPage($page);
         $this->setPageSize($pageSize);
@@ -26,16 +26,14 @@ class PaginationArguments
         $this->setTextSearch($textSearch);
     }
 
-    public static function make(int $page = null, int $pageSize = null, Enum $sortProperty = null, SortOrder $sortOrder = null, string $textSearch = null): PaginationArguments
+    public static function make(int $page = null, int $pageSize = null, Enum $sortProperty = null, ThingsboardSortOrder $sortOrder = null, string $textSearch = null): ThingsboardPaginationArguments
     {
-        $instance = new self;
-        $instance->setPage($page);
-        $instance->setPageSize($pageSize);
-        $instance->setSortProperty($sortProperty);
-        $instance->setSortOrder($sortOrder);
-        $instance->setTextSearch($textSearch);
-
-        return $instance;
+        return (new self)
+            ->setPage($page)
+            ->setPageSize($pageSize)
+            ->setSortProperty($sortProperty)
+            ->setSortOrder($sortOrder)
+            ->setTextSearch($textSearch);
     }
 
     protected function setPage(?int $page): self
@@ -53,7 +51,7 @@ class PaginationArguments
         return tap($this, fn () => $this->sortProperty = (! is_null($sortProperty) && str_ends_with($sortProperty::class, 'SortProperty') ? $sortProperty->value : $this->sortProperty));
     }
 
-    protected function setSortOrder(?SortOrder $sortOrder): self
+    protected function setSortOrder(?ThingsboardSortOrder $sortOrder): self
     {
         return tap($this, fn () => $this->sortOrder = ! is_null($sortOrder) ? $sortOrder->value : $this->sortOrder);
     }
@@ -63,8 +61,22 @@ class PaginationArguments
         return tap($this, fn () => $this->textSearch = (! is_null($textSearch) ? $textSearch : $this->textSearch));
     }
 
+    public function validateSortProperty(string $sortPropertyEnum, bool $throw = true): bool
+    {
+        $validated = in_array($this->sortProperty, $sortPropertyEnum::toValues());
+        throw_if($throw && ! $validated, new \Exception("Sort property must be a instance of {$sortPropertyEnum}."));
+
+        return $validated;
+    }
+
     public function queryParams(array $extra = []): array
     {
-        return array_filter(array_merge(get_class_vars($this::class), $extra), fn ($v) => $v !== null);
+        return array_filter(array_merge([
+            'page' => $this->page,
+            'pageSize' => $this->pageSize,
+            'sortProperty' => $this->sortProperty,
+            'sortOrder' => $this->sortOrder,
+            'textSearch' => $this->textSearch,
+        ], $extra), fn ($v) => $v !== null);
     }
 }

@@ -3,25 +3,30 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use DateTime;
-use JalalLinuX\Thingsboard\PaginatedResponse;
-use JalalLinuX\Thingsboard\PaginationArguments;
+use Illuminate\Support\Str;
+use JalalLinuX\Thingsboard\Enums\DeviceSortProperty;
+use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
+use JalalLinuX\Thingsboard\Interfaces\ThingsboardEntityId;
+use JalalLinuX\Thingsboard\ThingsboardPaginatedResponse;
+use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
- * @property array $id
+ * @property ThingsboardEntityId $id
  * @property DateTime $createdTime
  * @property string $type
  * @property string $name
  * @property string $label
+ * @property bool $active
  * @property array $additionalInfo
- * @property array $customerId
- * @property array $deviceProfileId
  * @property array $deviceData
  * @property string $searchText
- * @property array $tenantId
- * @property array $firmwareId
- * @property array $softwareId
- * @property array $externalId
+ * @property ThingsboardEntityId $customerId
+ * @property ThingsboardEntityId $deviceProfileId
+ * @property ThingsboardEntityId $tenantId
+ * @property ThingsboardEntityId $firmwareId
+ * @property ThingsboardEntityId $softwareId
+ * @property ThingsboardEntityId $externalId
  */
 class Device extends Tntity
 {
@@ -31,6 +36,7 @@ class Device extends Tntity
         'type',
         'name',
         'label',
+        'active',
         'additionalInfo',
         'customerId',
         'deviceProfileId',
@@ -43,34 +49,42 @@ class Device extends Tntity
     ];
 
     protected $casts = [
-        'id' => 'array',
+        'id' => 'id',
         'createdTime' => 'timestamp',
         'type' => 'string',
         'name' => 'string',
         'label' => 'string',
+        'active' => 'bool',
         'additionalInfo' => 'array',
-        'customerId' => 'array',
-        'deviceProfileId' => 'array',
+        'customerId' => 'id',
+        'deviceProfileId' => 'id',
         'deviceData' => 'array',
-        'tenantId' => 'array',
-        'firmwareId' => 'array',
-        'softwareId' => 'array',
-        'externalId' => 'array',
+        'tenantId' => 'id',
+        'firmwareId' => 'id',
+        'softwareId' => 'id',
+        'externalId' => 'id',
     ];
 
+    public function entityType(): ?ThingsboardEntityType
+    {
+        return ThingsboardEntityType::DEVICE();
+    }
+
     /**
+     * Get Device
+     *
      * @throws \Throwable
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN, CUSTOMER_USER
      */
-    public function getById(string $id = null): self
+    public function getDeviceById(string $id = null): self
     {
-        $id = $id ?? $this->forceAttribute('id');
+        $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            ! uuid_is_valid($id),
+            ! Str::isUuid($id),
             $this->exception('method "id" argument must be a valid uuid.'),
         );
 
@@ -79,17 +93,21 @@ class Device extends Tntity
         return tap($this, fn () => $this->fill($device));
     }
 
-    public function list(PaginationArguments $paginationArguments, string $customerId = null, string $deviceProfileId = null, bool $active = null): PaginatedResponse
+    /**
+     * Get Tenant Device Infos
+     *
+     * @throws \Throwable
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function getTenantDeviceInfos(ThingsboardPaginationArguments $paginationArguments, string $deviceProfileId = null, bool $active = null): ThingsboardPaginatedResponse
     {
-        $customerId = $customerId ?? @$this->forceAttribute('customerId')['id'];
+        $paginationArguments->validateSortProperty(DeviceSortProperty::class);
 
-        throw_if(
-            ! uuid_is_valid($customerId),
-            $this->exception('method "customerId" argument must be a valid uuid.'),
-        );
-
-        $response = $this->api(true)->get("customer/{$customerId}/deviceInfos", $paginationArguments->queryParams([
-            'active' => $active, 'deviceProfileId' => $deviceProfileId,
+        $response = $this->api(true)->get('tenant/deviceInfos', $paginationArguments->queryParams([
+            'active' => $active ?? $this->active, 'deviceProfileId' => $deviceProfileId ?? @$this->deviceProfileId->id,
         ]));
 
         return $this->paginatedResponse($response, $paginationArguments);
