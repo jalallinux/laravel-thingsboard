@@ -23,6 +23,8 @@ jobs:
           - laravel: 10.*
             php: 8.0
 
+  container-job:
+    runs-on: ubuntu-latest
     services:
       thingsboard:
         image: thingsboard/tb-postgres:3.5.0
@@ -50,4 +52,4 @@ jobs:
       - name: Execute tests
         run: vendor/bin/phpunit
         env:
-          THINGSBOARD_BASE_URI: 0.0.0.0:9090
+          THINGSBOARD_BASE_URI: thingsboard:9090
