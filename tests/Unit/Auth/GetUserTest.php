@@ -17,7 +17,7 @@ class GetUserTest extends TestCase
 
     public function testCorrectUser()
     {
-        $user = thingsboard($this->thingsboardUser(fake()->randomElement(ThingsboardUserRole::cases())))->auth()->getUser();
+        $user = thingsboard($this->thingsboardUser($this->faker->randomElement(ThingsboardUserRole::cases())))->auth()->getUser();
 
         $this->assertInstanceOf(User::class, $user);
         $this->assertTrue(ThingsboardEntityType::USER()->equals($user->id->entityType));

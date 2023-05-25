@@ -12,7 +12,7 @@ class GetCustomerUsersTest extends TestCase
 {
     public function testTextSearch()
     {
-        $customerLetter = fake()->randomElement(['A', 'B', 'C']);
+        $customerLetter = $this->faker->randomElement(['A', 'B', 'C']);
         $user = $this->thingsboardUser(ThingsboardUserRole::TENANT_ADMIN());
 
         $customerId = thingsboard()->customer()->withUser($user)->getCustomers(

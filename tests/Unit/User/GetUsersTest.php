@@ -12,7 +12,7 @@ class GetUsersTest extends TestCase
 {
     public function testTextSearch()
     {
-        $user = $this->thingsboardUser(fake()->randomElement([ThingsboardUserRole::TENANT_ADMIN(), ThingsboardUserRole::CUSTOMER_USER()]));
+        $user = $this->thingsboardUser($this->faker->randomElement([ThingsboardUserRole::TENANT_ADMIN(), ThingsboardUserRole::CUSTOMER_USER()]));
 
         $users = thingsboard($user)->user()->getUsers(
             ThingsboardPaginationArguments::make()

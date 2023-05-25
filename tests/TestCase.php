@@ -2,6 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Tests;
 
+use Illuminate\Foundation\Testing\WithFaker;
 use JalalLinuX\Thingsboard\Enums\ThingsboardSortOrder;
 use JalalLinuX\Thingsboard\Enums\ThingsboardUserRole;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
@@ -9,6 +10,8 @@ use JalalLinuX\Thingsboard\LaravelThingsboardServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
+    use WithFaker;
+
     protected $loadEnvironmentVariables = true;
 
     protected function getPackageProviders($app): array

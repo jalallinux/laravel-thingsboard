@@ -8,12 +8,12 @@ class PostDeviceAttributesTest extends TestCase
 {
     public function testCorrectPayload()
     {
-        $deviceToken = fake()->randomElement([
+        $deviceToken = $this->faker->randomElement([
             'A1_TEST_TOKEN', 'A2_TEST_TOKEN', 'A3_TEST_TOKEN', 'B1_TEST_TOKEN', 'C1_TEST_TOKEN',
         ]);
         $result = thingsboard()->deviceApi()->postDeviceAttributes([
-            'test-temperature' => fake()->numerify('##'),
-            'test-humidity' => fake()->numerify('##'),
+            'test-temperature' => $this->faker->numerify('##'),
+            'test-humidity' => $this->faker->numerify('##'),
         ], $deviceToken);
         $this->assertTrue($result);
     }
@@ -22,14 +22,14 @@ class PostDeviceAttributesTest extends TestCase
     {
         $this->expectExceptionCode(401);
         thingsboard()->deviceApi()->postDeviceAttributes([
-            'test-temperature' => fake()->numerify('##'),
-            'test-humidity' => fake()->numerify('##'),
-        ], fake()->slug);
+            'test-temperature' => $this->faker->numerify('##'),
+            'test-humidity' => $this->faker->numerify('##'),
+        ], $this->faker->slug);
     }
 
     public function testInvalidPayload()
     {
-        $deviceToken = fake()->randomElement([
+        $deviceToken = $this->faker->randomElement([
             'A1_TEST_TOKEN', 'A2_TEST_TOKEN', 'A3_TEST_TOKEN', 'B1_TEST_TOKEN', 'C1_TEST_TOKEN',
         ]);
         $this->expectExceptionCode(500);

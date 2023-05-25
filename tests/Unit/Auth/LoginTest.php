@@ -15,7 +15,7 @@ class LoginTest extends TestCase
 
     public function testCorrectCredentials()
     {
-        $user = $this->thingsboardUser(fake()->randomElement(ThingsboardUserRole::cases()));
+        $user = $this->thingsboardUser($this->faker->randomElement(ThingsboardUserRole::cases()));
         $tokens = thingsboard()->auth()->login($user->getThingsboardEmailAttribute(), $user->getThingsboardPasswordAttribute());
 
         $this->assertIsArray($tokens);

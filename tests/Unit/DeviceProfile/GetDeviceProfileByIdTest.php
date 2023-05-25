@@ -28,7 +28,7 @@ class GetDeviceProfileByIdTest extends TestCase
 
         $this->expectException(\Exception::class);
         $this->expectExceptionCode(500);
-        thingsboard($user)->deviceProfile()->getDeviceProfileById(substr_replace(fake()->uuid, 'z', -1));
+        thingsboard($user)->deviceProfile()->getDeviceProfileById(substr_replace($this->faker->uuid, 'z', -1));
     }
 
     public function testNonExistUuid()
@@ -36,6 +36,6 @@ class GetDeviceProfileByIdTest extends TestCase
         $user = $this->thingsboardUser(ThingsboardUserRole::TENANT_ADMIN());
 
         $this->expectExceptionCode(404);
-        thingsboard($user)->deviceProfile()->getDeviceProfileById(fake()->uuid);
+        thingsboard($user)->deviceProfile()->getDeviceProfileById($this->faker->uuid);
     }
 }
