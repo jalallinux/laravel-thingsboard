@@ -31,10 +31,10 @@ class TestCase extends \Orchestra\Testbench\TestCase
     public function randomPagination(string $sortPropertyEnum, int $page = null, int $pageSize = null, ThingsboardSortOrder $sortOrder = null): array
     {
         return [
-            'page' => $page ?? fake()->numberBetween(1, 10),
-            'pageSize' => $pageSize ?? fake()->numberBetween(1, 10),
-            'sortOrder' => $sortOrder ?? fake()->randomElement(ThingsboardSortOrder::cases()),
-            'sortProperty' => fake()->randomElement($sortPropertyEnum::cases()),
+            'page' => $page ?? $this->faker->numberBetween(1, 10),
+            'pageSize' => $pageSize ?? $this->faker->numberBetween(1, 10),
+            'sortOrder' => $sortOrder ?? $this->faker->randomElement(ThingsboardSortOrder::cases()),
+            'sortProperty' => $this->faker->randomElement($sortPropertyEnum::cases()),
         ];
     }
 
