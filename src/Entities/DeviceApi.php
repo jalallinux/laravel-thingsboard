@@ -82,4 +82,37 @@ class DeviceApi extends Tntity
 
         return $this->api(false)->post("/v1/{$deviceToken}/attributes", $payload)->successful();
     }
+
+    /**
+     * Returns all attributes that belong to device.
+     * Use optional 'clientKeys' and/or 'sharedKeys' parameter to return specific attributes.
+     * Example of the result:
+     * {
+     *  "stringKey":"value1",
+     *  "booleanKey":true,
+     *  "doubleKey":42.0,
+     *  "longKey":73,
+     *  "jsonKey": {
+     *      "someNumber": 42,
+     *      "someArray": [1,2,3],
+     *      "someNestedObject": {"key": "value"}
+     *  }
+     * }
+     * The API call is designed to be used by device firmware and requires device access token ('deviceToken').
+     * It is not recommended to use this API call by third-party scripts, rule-engine or platform widgets (use 'Telemetry Controller' instead).
+     * @param string|null $deviceToken
+     * @param array $clientKeys
+     * @param array $sharedKeys
+     * @return array
+     * @author JalalLinuX
+     * @group Guest
+     */
+    public function getDeviceAttributes(string $deviceToken = null, array $clientKeys = [], array $sharedKeys = []): array
+    {
+        $deviceToken = $deviceToken ?? $this->forceAttribute('deviceToken')->id;
+
+        return $this->api(false)->get("v1/{$deviceToken}/attributes", [
+            'clientKeys' => implode(',', $clientKeys), 'sharedKeys' => implode(',', $sharedKeys)
+        ])->json();
+    }
 }
