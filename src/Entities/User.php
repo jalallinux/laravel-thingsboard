@@ -135,7 +135,7 @@ class User extends Tntity
 
         $user = $this->api(true)->post('user?sendActivationMail='.($sendActivationMail ? 'true' : 'false'), $payload)->json();
 
-        return tap($this, fn() => $this->fill($user));
+        return tap($this, fn () => $this->fill($user));
     }
 
     /**
@@ -161,10 +161,11 @@ class User extends Tntity
 
     /**
      * Get User
-     * @param string|null $id
-     * @return User
+     *
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group
      */
     public function getUserById(string $id = null): self
@@ -178,6 +179,6 @@ class User extends Tntity
 
         $user = $this->api(true)->get("user/{$id}")->json();
 
-        return tap($this, fn() => $this->fill($user));
+        return tap($this, fn () => $this->fill($user));
     }
 }
