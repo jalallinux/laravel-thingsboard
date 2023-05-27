@@ -3,8 +3,8 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\Auth;
 
 use JalalLinuX\Thingsboard\Entities\User;
-use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
+use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class GetUserTest extends TestCase

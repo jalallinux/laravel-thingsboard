@@ -3,8 +3,8 @@
 namespace JalalLinuX\Thingsboard\Tests;
 
 use Illuminate\Foundation\Testing\WithFaker;
-use JalalLinuX\Thingsboard\Enums\ThingsboardSortOrder;
 use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
+use JalalLinuX\Thingsboard\Enums\ThingsboardSortOrder;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use JalalLinuX\Thingsboard\LaravelThingsboardServiceProvider;
 
