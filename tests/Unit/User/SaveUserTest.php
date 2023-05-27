@@ -127,7 +127,7 @@ class SaveUserTest extends TestCase
             'additionalInfo' => [],
         ];
         $this->expectExceptionCode(400);
-        $this->expectExceptionMessageMatches("/non-existent customer/");
+        $this->expectExceptionMessageMatches('/non-existent customer/');
         thingsboard($tenantUser)->user($attributes)->saveUser();
     }
 }
