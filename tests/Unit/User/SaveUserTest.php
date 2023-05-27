@@ -12,8 +12,8 @@ class SaveUserTest extends TestCase
 {
     public function testCreateTenantSuccess()
     {
-        $user = $this->thingsboardUser(ThingsboardAuthority::SYS_ADMIN());
-        $tenantId = thingsboard($user)->tenant()->getTenants(ThingsboardPaginationArguments::make())->data()->first()->id;
+        $adminUser = $this->thingsboardUser(ThingsboardAuthority::SYS_ADMIN());
+        $tenantId = thingsboard($adminUser)->tenant()->getTenants(ThingsboardPaginationArguments::make())->data()->first()->id;
         $attributes = [
             'tenantId' => $tenantId,
             'email' => $this->faker->unique()->safeEmail,
@@ -23,16 +23,19 @@ class SaveUserTest extends TestCase
             'phone' => $this->faker->e164PhoneNumber,
             'additionalInfo' => [],
         ];
-        $newUser = thingsboard($user)->user($attributes)->saveUser();
+        $newUser = thingsboard($adminUser)->user($attributes)->saveUser();
 
         $this->assertInstanceOf(User::class, $newUser);
         $this->assertInstanceOf(ThingsboardId::class, $newUser->id);
+
+        $result = thingsboard($adminUser)->user()->deleteUser($newUser->id->id);
+        $this->assertTrue($result);
     }
 
     public function testCreateCustomerSuccess()
     {
-        $user = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
-        $customerId = thingsboard($user)->customer()->getCustomers(ThingsboardPaginationArguments::make())->data()->first()->id;
+        $tenantUser = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
+        $customerId = thingsboard($tenantUser)->customer()->getCustomers(ThingsboardPaginationArguments::make())->data()->first()->id;
         $attributes = [
             'customerId' => $customerId,
             'email' => $this->faker->unique()->safeEmail,
@@ -42,9 +45,12 @@ class SaveUserTest extends TestCase
             'phone' => $this->faker->e164PhoneNumber,
             'additionalInfo' => [],
         ];
-        $newUser = thingsboard($user)->user($attributes)->saveUser();
+        $newUser = thingsboard($tenantUser)->user($attributes)->saveUser();
 
         $this->assertInstanceOf(User::class, $newUser);
         $this->assertInstanceOf(ThingsboardId::class, $newUser->id);
+
+        $result = thingsboard($tenantUser)->user()->deleteUser($newUser->id->id);
+        $this->assertTrue($result);
     }
 }

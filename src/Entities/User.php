@@ -137,4 +137,23 @@ class User extends Tntity
 
         return $this->fill($user);
     }
+
+    /**
+     * @param string|null $id
+     * @return bool
+     * @throws \Throwable
+     * @author JalalLinuX
+     * @group SYS_ADMIN | TENANT_ADMIN
+     */
+    public function deleteUser(string $id = null): bool
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        throw_if(
+            ! Str::isUuid($id),
+            $this->exception('method argument must be a valid uuid.'),
+        );
+
+        return $this->api(true)->delete("user/{$id}")->successful();
+    }
 }
