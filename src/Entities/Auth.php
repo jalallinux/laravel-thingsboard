@@ -85,17 +85,15 @@ class Auth extends Tntity
      * The response already contains the JWT activation and refresh tokens, to simplify the user activation flow and avoid asking user to input password again after activation.
      * If token is valid, returns the object that contains JWT access and refresh tokens.
      * If token is not valid, returns '404 Bad Request'.
-     * @param string $activateToken
-     * @param string $password
-     * @param bool $sendActivationMail
-     * @return ThingsboardToken
+     *
      * @author JalalLinuX
+     *
      * @group GUEST
      */
     public function activateUser(string $activateToken, string $password, bool $sendActivationMail = false): ThingsboardToken
     {
         return new ThingsboardToken(
-            $this->api(false)->post("noauth/activate?sendActivationMail=" . ($sendActivationMail ? 'true' : 'false'), [
+            $this->api(false)->post('noauth/activate?sendActivationMail='.($sendActivationMail ? 'true' : 'false'), [
                 'activateToken' => $activateToken,
                 'password' => $password,
             ])

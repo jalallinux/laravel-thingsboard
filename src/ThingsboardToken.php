@@ -7,7 +7,9 @@ use Illuminate\Http\Client\Response;
 class ThingsboardToken
 {
     public ?string $scope;
+
     public string $token;
+
     public string $refreshToken;
 
     public function __construct(Response $response)

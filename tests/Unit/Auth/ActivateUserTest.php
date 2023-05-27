@@ -27,7 +27,7 @@ class ActivateUserTest extends TestCase
 
         $activationLink = thingsboard($tenantUser)->user()->getActivationLink($newUser->id->id);
         $queryParams = collect(explode('&', parse_url($activationLink, PHP_URL_QUERY)))
-            ->mapWithKeys(fn($param) => [explode('=', $param)[0] => explode('=', $param)[1]]);
+            ->mapWithKeys(fn ($param) => [explode('=', $param)[0] => explode('=', $param)[1]]);
         $tokens = thingsboard()->auth()->activateUser($queryParams['activateToken'], '123456');
 
         $newUser->deleteUser();
