@@ -185,10 +185,11 @@ class User extends Tntity
     /**
      * Get the activation link for the user.
      * The base url for activation link is configurable in the general settings of system administrator.
-     * @param string|null $id
-     * @return string
+     *
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group SYS_ADMIN | TENANT_ADMIN
      */
     public function getActivationLink(string $id = null): string
