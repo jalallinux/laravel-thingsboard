@@ -16,7 +16,8 @@ class Auth extends Tntity
     }
 
     /**
-     * Login method to get user JWT token data
+     * Login method used to authenticate user and get JWT token data.
+     * Value of the response token field can be used as X-Authorization header value
      *
      * @author JalalLinuX
      *
@@ -34,7 +35,7 @@ class Auth extends Tntity
     }
 
     /**
-     * Get current User
+     * Get the information about the User which credentials are used to perform this REST API call.
      *
      * @author JalalLinuX
      *
@@ -48,7 +49,8 @@ class Auth extends Tntity
     }
 
     /**
-     * Change password for current User
+     * Change the password for the User which credentials are used to perform this REST API call.
+     * Be aware that previously generated JWT tokens will be still valid until they expire.
      *
      * @author JalalLinuX
      *
@@ -68,7 +70,7 @@ class Auth extends Tntity
     }
 
     /**
-     * Get the current User password policy
+     * API call to get the password policy for the password validation form(s).
      *
      * @author JalallinuX
      *

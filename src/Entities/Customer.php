@@ -58,7 +58,10 @@ class Customer extends Tntity
     }
 
     /**
-     * Get Tenant Customers
+     * Returns a page of customers owned by tenant.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details.
      *
      * @author JalalLinuX
      *

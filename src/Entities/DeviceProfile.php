@@ -72,6 +72,20 @@ class DeviceProfile extends Tntity
         return ThingsboardEntityType::DEVICE_PROFILE();
     }
 
+    /**
+     * Returns a page of devices profile objects owned by tenant.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details.
+     *
+     * @param ThingsboardPaginationArguments $paginationArguments
+     *
+     * @return ThingsboardPaginatedResponse
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
     public function getDeviceProfiles(ThingsboardPaginationArguments $paginationArguments): ThingsboardPaginatedResponse
     {
         $paginationArguments->validateSortProperty(DeviceProfileSortProperty::class);
@@ -82,7 +96,8 @@ class DeviceProfile extends Tntity
     }
 
     /**
-     * Get Device Profile
+     * Fetch the Device Profile object based on the provided Device Profile ID.
+     * The server checks that the device profile is owned by the same tenant.
      *
      * @throws \Throwable
      *

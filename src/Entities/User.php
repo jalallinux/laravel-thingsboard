@@ -56,7 +56,11 @@ class User extends Tntity
     }
 
     /**
-     * Get Users
+     * Returns a page of users owned by tenant or customer.
+     * The scope depends on authority of the user that performs the request.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details.
      *
      * @author JalalLinuX
      *
@@ -70,7 +74,10 @@ class User extends Tntity
     }
 
     /**
-     * Get Customer Users
+     * Returns a page of users owned by customer.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details.
      *
      * @throws \Throwable
      *
@@ -95,7 +102,10 @@ class User extends Tntity
     }
 
     /**
-     * Get Tenant Users
+     * Returns a page of users owned by tenant.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details.
      *
      * @throws \Throwable
      *
@@ -121,6 +131,12 @@ class User extends Tntity
 
     /**
      * Create or update the User.
+     * When creating user, platform generates User ID as time-based UUID.
+     * The newly created User ID will be present in the response.
+     * Specify existing User ID to update the user.
+     * Referencing non-existing User ID will cause 'Not Found' error.
+     * User email is unique for entire platform setup.
+     * Remove 'id', 'tenantId' and optionally 'customerId' from the request body example (below) to create new User entity.
      *
      * @author JalalLinuX
      *
@@ -139,7 +155,8 @@ class User extends Tntity
     }
 
     /**
-     * Delete User
+     * Deletes the User, it's credentials and all the relations (from and to the User).
+     * Referencing non-existing User ID will cause an error.
      *
      * @throws \Throwable
      *
@@ -160,7 +177,10 @@ class User extends Tntity
     }
 
     /**
-     * Get User
+     * Fetch the User object based on the provided User ID.
+     * If the user has the authority of 'SYS_ADMIN', the server does not perform additional checks.
+     * If the user has the authority of 'TENANT_ADMIN', the server checks that the requested user is owned by the same tenant.
+     * If the user has the authority of 'CUSTOMER_USER', the server checks that the requested user is owned by the same customer.
      *
      * @throws \Throwable
      *

@@ -17,7 +17,12 @@ class DeviceApi extends Tntity
     }
 
     /**
-     * Post time-series data
+     * Post time-series data on behalf of device.
+     * Example of the request: The request payload is a JSON document with three possible formats:
+     * [
+     *  {"ts":1634712287000,"values":{"temperature":26, "humidity":87}},
+     *  {"ts":1634712588000,"values":{"temperature":25, "humidity":88}}
+     * ]
      *
      * @throws \Throwable
      *
@@ -44,7 +49,21 @@ class DeviceApi extends Tntity
     }
 
     /**
-     * Post attributes
+     * Post client attribute updates on behalf of device.
+     * Example of the request:
+     * {
+     *  "stringKey":"value1",
+     *  "booleanKey":true,
+     *  "doubleKey":42.0,
+     *  "longKey":73,
+     *  "jsonKey": {
+     *      "someNumber": 42,
+     *      "someArray": [1,2,3],
+     *      "someNestedObject": {"key": "value"}
+     *  }
+     * }
+     * The API call is designed to be used by device firmware and requires device access token ('deviceToken').
+     * It is not recommended to use this API call by third-party scripts, rule-engine or platform widgets (use 'Telemetry Controller' instead).
      *
      * @throws \Throwable
      *

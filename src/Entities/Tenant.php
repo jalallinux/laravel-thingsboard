@@ -62,7 +62,11 @@ class Tenant extends Tntity
     }
 
     /**
-     * Get Tenants Info
+     * Returns a page of tenant info objects registered in the platform.
+     * The Tenant Info object extends regular Tenant object and includes Tenant Profile name.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details.
      *
      * @author JalalLinuX
      *

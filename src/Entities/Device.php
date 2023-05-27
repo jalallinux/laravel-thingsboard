@@ -69,7 +69,9 @@ class Device extends Tntity
     }
 
     /**
-     * Get Device
+     * Fetch the Device object based on the provided Device ID.
+     * If the user has the authority of 'TENANT_ADMIN', the server checks that the device is owned by the same tenant.
+     * If the user has the authority of 'CUSTOMER_USER', the server checks that the device is assigned to the same customer.
      *
      * @throws \Throwable
      *
@@ -92,7 +94,11 @@ class Device extends Tntity
     }
 
     /**
-     * Get Tenant Device Infos
+     * Returns a page of devices info objects owned by tenant.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details.
+     * Device Info is an extension of the default Device object that contains information about the assigned customer name and device profile name.
      *
      * @throws \Throwable
      *
