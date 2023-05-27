@@ -26,16 +26,11 @@ class GetUsersTest extends TestCase
         $pagination = $this->randomPagination(EnumUserSortProperty::class);
         $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 
-        $devices = thingsboard()->user()->withUser($user)->getUsers(
-            PaginationArguments::make(
-                page: $pagination['page'], pageSize: $pagination['pageSize'],
-                sortProperty: $pagination['sortProperty'], sortOrder: $pagination['sortOrder']
-            )
-        );
+        $devices = thingsboard()->user()->withUser($user)->getUsers($pagination);
 
-        $this->assertEquals($pagination['page'], $devices->paginator()->currentPage());
-        $this->assertEquals($pagination['pageSize'], $devices->paginator()->perPage());
-        $this->assertEquals($pagination['sortOrder'], $devices->paginator()->getOptions()['sortOrder']);
-        $this->assertEquals($pagination['sortProperty'], $devices->paginator()->getOptions()['sortProperty']);
+        $this->assertEquals($pagination->page, $devices->paginator()->currentPage());
+        $this->assertEquals($pagination->pageSize, $devices->paginator()->perPage());
+        $this->assertEquals($pagination->sortOrder, $devices->paginator()->getOptions()['sortOrder']);
+        $this->assertEquals($pagination->sortProperty, $devices->paginator()->getOptions()['sortProperty']);
     }
 }

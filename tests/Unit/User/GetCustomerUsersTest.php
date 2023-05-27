@@ -36,16 +36,11 @@ class GetCustomerUsersTest extends TestCase
             PaginationArguments::make()
         )->data()->first()->id->id;
 
-        $devices = thingsboard()->user(['customerId' => new Id($customerId, EnumThingsboardEntityType::CUSTOMER())])->withUser($user)->getCustomerUsers(
-            PaginationArguments::make(
-                page: $pagination['page'], pageSize: $pagination['pageSize'],
-                sortProperty: $pagination['sortProperty'], sortOrder: $pagination['sortOrder']
-            )
-        );
+        $devices = thingsboard()->user(['customerId' => new Id($customerId, EnumThingsboardEntityType::CUSTOMER())])->withUser($user)->getCustomerUsers($pagination);
 
-        $this->assertEquals($pagination['page'], $devices->paginator()->currentPage());
-        $this->assertEquals($pagination['pageSize'], $devices->paginator()->perPage());
-        $this->assertEquals($pagination['sortOrder'], $devices->paginator()->getOptions()['sortOrder']);
-        $this->assertEquals($pagination['sortProperty'], $devices->paginator()->getOptions()['sortProperty']);
+        $this->assertEquals($pagination->page, $devices->paginator()->currentPage());
+        $this->assertEquals($pagination->pageSize, $devices->paginator()->perPage());
+        $this->assertEquals($pagination->sortOrder, $devices->paginator()->getOptions()['sortOrder']);
+        $this->assertEquals($pagination->sortProperty, $devices->paginator()->getOptions()['sortProperty']);
     }
 }

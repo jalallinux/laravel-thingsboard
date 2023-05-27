@@ -27,16 +27,11 @@ class GetDeviceProfilesTest extends TestCase
         $pagination = $this->randomPagination(EnumDeviceProfileSortProperty::class);
         $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 
-        $deviceProfiles = thingsboard()->deviceProfile()->withUser($user)->getDeviceProfiles(
-            PaginationArguments::make(
-                page: $pagination['page'], pageSize: $pagination['pageSize'],
-                sortProperty: $pagination['sortProperty'], sortOrder: $pagination['sortOrder']
-            )
-        );
+        $deviceProfiles = thingsboard()->deviceProfile()->withUser($user)->getDeviceProfiles($pagination);
 
-        $this->assertEquals($pagination['page'], $deviceProfiles->paginator()->currentPage());
-        $this->assertEquals($pagination['pageSize'], $deviceProfiles->paginator()->perPage());
-        $this->assertEquals($pagination['sortOrder'], $deviceProfiles->paginator()->getOptions()['sortOrder']);
-        $this->assertEquals($pagination['sortProperty'], $deviceProfiles->paginator()->getOptions()['sortProperty']);
+        $this->assertEquals($pagination->page, $deviceProfiles->paginator()->currentPage());
+        $this->assertEquals($pagination->pageSize, $deviceProfiles->paginator()->perPage());
+        $this->assertEquals($pagination->sortOrder, $deviceProfiles->paginator()->getOptions()['sortOrder']);
+        $this->assertEquals($pagination->sortProperty, $deviceProfiles->paginator()->getOptions()['sortProperty']);
     }
 }

@@ -5,6 +5,7 @@ namespace JalalLinuX\Thingsboard\Tests;
 use Illuminate\Foundation\Testing\WithFaker;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumThingsboardSortOrder;
+use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use JalalLinuX\Thingsboard\LaravelThingsboardServiceProvider;
 
@@ -28,14 +29,14 @@ class TestCase extends \Orchestra\Testbench\TestCase
         // Code after application created.
     }
 
-    public function randomPagination(string $sortPropertyEnum, int $page = null, int $pageSize = null, EnumThingsboardSortOrder $sortOrder = null): array
+    public function randomPagination(string $sortPropertyEnum, int $page = null, int $pageSize = null, EnumThingsboardSortOrder $sortOrder = null): PaginationArguments
     {
-        return [
-            'page' => $page ?? $this->faker->numberBetween(1, 10),
-            'pageSize' => $pageSize ?? $this->faker->numberBetween(1, 10),
-            'sortOrder' => $sortOrder ?? $this->faker->randomElement(EnumThingsboardSortOrder::cases()),
-            'sortProperty' => $this->faker->randomElement($sortPropertyEnum::cases()),
-        ];
+        return PaginationArguments::make(
+            $page ?? $this->faker->numberBetween(1, 10),
+            $pageSize ?? $this->faker->numberBetween(1, 10),
+                $this->faker->randomElement($sortPropertyEnum::cases()),
+            $sortOrder ?? $this->faker->randomElement(EnumThingsboardSortOrder::cases())
+        );
     }
 
     public function thingsboardUser(EnumAuthority $role, string $mail = null, string $pass = null): ThingsboardUser

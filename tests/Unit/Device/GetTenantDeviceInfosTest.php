@@ -27,16 +27,11 @@ class GetTenantDeviceInfosTest extends TestCase
         $pagination = $this->randomPagination(EnumDeviceSortProperty::class);
         $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 
-        $devices = thingsboard()->device()->withUser($user)->getTenantDeviceInfos(
-            PaginationArguments::make(
-                page: $pagination['page'], pageSize: $pagination['pageSize'],
-                sortProperty: $pagination['sortProperty'], sortOrder: $pagination['sortOrder']
-            )
-        );
+        $devices = thingsboard()->device()->withUser($user)->getTenantDeviceInfos($pagination);
 
-        $this->assertEquals($pagination['page'], $devices->paginator()->currentPage());
-        $this->assertEquals($pagination['pageSize'], $devices->paginator()->perPage());
-        $this->assertEquals($pagination['sortOrder'], $devices->paginator()->getOptions()['sortOrder']);
-        $this->assertEquals($pagination['sortProperty'], $devices->paginator()->getOptions()['sortProperty']);
+        $this->assertEquals($pagination->page, $devices->paginator()->currentPage());
+        $this->assertEquals($pagination->pageSize, $devices->paginator()->perPage());
+        $this->assertEquals($pagination->sortOrder, $devices->paginator()->getOptions()['sortOrder']);
+        $this->assertEquals($pagination->sortProperty, $devices->paginator()->getOptions()['sortProperty']);
     }
 }

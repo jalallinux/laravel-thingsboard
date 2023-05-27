@@ -28,16 +28,11 @@ class GetCustomersTest extends TestCase
         $pagination = $this->randomPagination(EnumCustomerSortProperty::class);
         $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 
-        $customers = thingsboard($user)->customer()->getCustomers(
-            PaginationArguments::make(
-                page: $pagination['page'], pageSize: $pagination['pageSize'],
-                sortProperty: $pagination['sortProperty'], sortOrder: $pagination['sortOrder']
-            )
-        );
+        $customers = thingsboard($user)->customer()->getCustomers($pagination);
 
-        $this->assertEquals($pagination['page'], $customers->paginator()->currentPage());
-        $this->assertEquals($pagination['pageSize'], $customers->paginator()->perPage());
-        $this->assertEquals($pagination['sortOrder'], $customers->paginator()->getOptions()['sortOrder']);
-        $this->assertEquals($pagination['sortProperty'], $customers->paginator()->getOptions()['sortProperty']);
+        $this->assertEquals($pagination->page, $customers->paginator()->currentPage());
+        $this->assertEquals($pagination->pageSize, $customers->paginator()->perPage());
+        $this->assertEquals($pagination->sortOrder, $customers->paginator()->getOptions()['sortOrder']);
+        $this->assertEquals($pagination->sortProperty, $customers->paginator()->getOptions()['sortProperty']);
     }
 }
