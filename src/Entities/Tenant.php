@@ -2,7 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
-use JalalLinuX\Thingsboard\Casts\Id;
+use JalalLinuX\Thingsboard\Casts\IdCast;
 use JalalLinuX\Thingsboard\Enums\TenantSortProperty;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\ThingsboardId;
@@ -50,8 +50,8 @@ class Tenant extends Tntity
     ];
 
     protected $casts = [
-        'id' => Id::class,
-        'tenantProfileId' => Id::class,
+        'id' => IdCast::class,
+        'tenantProfileId' => IdCast::class,
         'createdTime' => 'timestamp',
         'additionalInfo' => 'array',
     ];

@@ -7,7 +7,7 @@ use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\ThingsboardId;
 use Vkovic\LaravelCustomCasts\CustomCastBase;
 
-class Id extends CustomCastBase
+class IdCast extends CustomCastBase
 {
     public function setAttribute($value): ?array
     {

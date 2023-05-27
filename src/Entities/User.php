@@ -3,7 +3,7 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use Illuminate\Support\Str;
-use JalalLinuX\Thingsboard\Casts\Id;
+use JalalLinuX\Thingsboard\Casts\IdCast;
 use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\Enums\UserSortProperty;
@@ -42,10 +42,10 @@ class User extends Tntity
     ];
 
     protected $casts = [
-        'id' => Id::class,
+        'id' => IdCast::class,
         'createdTime' => 'timestamp',
-        'tenantId' => Id::class,
-        'customerId' => Id::class,
+        'tenantId' => IdCast::class,
+        'customerId' => IdCast::class,
         'additionalInfo' => 'array',
         'authority' => ThingsboardAuthority::class,
     ];

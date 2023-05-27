@@ -3,7 +3,7 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use Illuminate\Support\Str;
-use JalalLinuX\Thingsboard\Casts\Id;
+use JalalLinuX\Thingsboard\Casts\IdCast;
 use JalalLinuX\Thingsboard\Enums\DeviceProfileSortProperty;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\ThingsboardId;
@@ -55,16 +55,16 @@ class DeviceProfile extends Tntity
     ];
 
     protected $casts = [
-        'id' => Id::class,
+        'id' => IdCast::class,
         'createdTime' => 'timestamp',
         'additionalInfo' => 'array',
-        'customerId' => Id::class,
-        'deviceProfileId' => Id::class,
+        'customerId' => IdCast::class,
+        'deviceProfileId' => IdCast::class,
         'deviceData' => 'array',
-        'tenantId' => Id::class,
-        'firmwareId' => Id::class,
-        'softwareId' => Id::class,
-        'externalId' => Id::class,
+        'tenantId' => IdCast::class,
+        'firmwareId' => IdCast::class,
+        'softwareId' => IdCast::class,
+        'externalId' => IdCast::class,
     ];
 
     public function entityType(): ?ThingsboardEntityType
