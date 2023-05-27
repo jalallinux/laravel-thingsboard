@@ -139,10 +139,10 @@ class User extends Tntity
     }
 
     /**
-     * @param string|null $id
-     * @return bool
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group SYS_ADMIN | TENANT_ADMIN
      */
     public function deleteUser(string $id = null): bool
