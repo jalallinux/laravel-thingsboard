@@ -4,6 +4,7 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\Auth;
 
 use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
 use JalalLinuX\Thingsboard\Tests\TestCase;
+use JalalLinuX\Thingsboard\ThingsboardToken;
 
 class LoginTest extends TestCase
 {
@@ -18,6 +19,6 @@ class LoginTest extends TestCase
         $user = $this->thingsboardUser($this->faker->randomElement(ThingsboardAuthority::cases()));
         $tokens = thingsboard()->auth()->login($user->getThingsboardEmailAttribute(), $user->getThingsboardPasswordAttribute());
 
-        $this->assertIsArray($tokens);
+        $this->assertInstanceOf(ThingsboardToken::class, $tokens);
     }
 }

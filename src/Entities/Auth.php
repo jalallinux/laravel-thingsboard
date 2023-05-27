@@ -5,6 +5,7 @@ namespace JalalLinuX\Thingsboard\Entities;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\Interfaces\PasswordPolicy;
 use JalalLinuX\Thingsboard\ThingsboardCacheHandler;
+use JalalLinuX\Thingsboard\ThingsboardToken;
 use JalalLinuX\Thingsboard\Tntity;
 
 class Auth extends Tntity
@@ -21,15 +22,15 @@ class Auth extends Tntity
      *
      * @group *
      */
-    public function login(string $mail, string $password): array
+    public function login(string $mail, string $password): ThingsboardToken
     {
         $tokens = $this->api(false)->post('auth/login', [
             'username' => $mail, 'password' => $password,
-        ])->json();
+        ]);
 
-        ThingsboardCacheHandler::updateToken($mail, $tokens['token']);
+        ThingsboardCacheHandler::updateToken($mail, $tokens->json('token'));
 
-        return $tokens;
+        return new ThingsboardToken($tokens);
     }
 
     /**
@@ -76,5 +77,28 @@ class Auth extends Tntity
     public function getUserPasswordPolicy(): PasswordPolicy
     {
         return PasswordPolicy::fromArray($this->api(false)->get('noauth/userPasswordPolicy')->json());
+    }
+
+    /**
+     * Checks the activation token and updates corresponding user password in the database.
+     * Now the user may start using his password to login.
+     * The response already contains the JWT activation and refresh tokens, to simplify the user activation flow and avoid asking user to input password again after activation.
+     * If token is valid, returns the object that contains JWT access and refresh tokens.
+     * If token is not valid, returns '404 Bad Request'.
+     * @param string $activateToken
+     * @param string $password
+     * @param bool $sendActivationMail
+     * @return ThingsboardToken
+     * @author JalalLinuX
+     * @group GUEST
+     */
+    public function activateUser(string $activateToken, string $password, bool $sendActivationMail = false): ThingsboardToken
+    {
+        return new ThingsboardToken(
+            $this->api(false)->post("noauth/activate?sendActivationMail=" . ($sendActivationMail ? 'true' : 'false'), [
+                'activateToken' => $activateToken,
+                'password' => $password,
+            ])
+        );
     }
 }

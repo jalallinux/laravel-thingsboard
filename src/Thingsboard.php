@@ -52,13 +52,13 @@ class Thingsboard
         $mail = $user->getThingsboardEmailAttribute();
 
         if ($flush) {
-            return Auth::instance()->login($mail, $user->getThingsboardPasswordAttribute())['token'];
+            return Auth::instance()->login($mail, $user->getThingsboardPasswordAttribute())->token;
         }
 
         if ($token = ThingsboardCacheHandler::get(ThingsboardCacheHandler::tokenCacheKey($mail))) {
             return $token;
         }
 
-        return Auth::instance()->login($mail, $user->getThingsboardPasswordAttribute())['token'];
+        return Auth::instance()->login($mail, $user->getThingsboardPasswordAttribute())->token;
     }
 }
