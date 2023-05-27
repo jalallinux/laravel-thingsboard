@@ -3,16 +3,16 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\Auth;
 
 use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
+use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\infrastructure\Token;
 use JalalLinuX\Thingsboard\Tests\TestCase;
-use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
-use JalalLinuX\Thingsboard\ThingsboardToken;
 
 class ActivateUserTest extends TestCase
 {
     public function testSuccess()
     {
         $tenantUser = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
-        $customerId = thingsboard($tenantUser)->customer()->getCustomers(ThingsboardPaginationArguments::make())->data()->first()->id;
+        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->first()->id;
         $attributes = [
             'customerId' => $customerId,
             'email' => $this->faker->unique()->safeEmail,
@@ -31,6 +31,6 @@ class ActivateUserTest extends TestCase
         $tokens = thingsboard()->auth()->activateUser($queryParams['activateToken'], '123456');
 
         $newUser->deleteUser();
-        $this->assertInstanceOf(ThingsboardToken::class, $tokens);
+        $this->assertInstanceOf(Token::class, $tokens);
     }
 }

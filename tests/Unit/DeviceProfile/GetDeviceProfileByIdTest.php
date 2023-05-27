@@ -4,9 +4,9 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\DeviceProfile;
 
 use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
+use JalalLinuX\Thingsboard\infrastructure\Id;
+use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
-use JalalLinuX\Thingsboard\ThingsboardId;
-use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 
 class GetDeviceProfileByIdTest extends TestCase
 {
@@ -14,13 +14,13 @@ class GetDeviceProfileByIdTest extends TestCase
     {
         $user = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
         $deviceProfileId = thingsboard($user)->deviceProfile()->getDeviceProfiles(
-            ThingsboardPaginationArguments::make()
+            PaginationArguments::make()
         )->data()->first()->id->id;
 
         $deviceProfile = thingsboard($user)->deviceProfile()->getDeviceProfileById($deviceProfileId);
         $this->assertEquals($deviceProfileId, $deviceProfile->id->id);
 
-        $deviceProfile = thingsboard($user)->deviceProfile(['id' => new ThingsboardId($deviceProfileId, ThingsboardEntityType::DEVICE_PROFILE())])->getDeviceProfileById();
+        $deviceProfile = thingsboard($user)->deviceProfile(['id' => new Id($deviceProfileId, ThingsboardEntityType::DEVICE_PROFILE())])->getDeviceProfileById();
         $this->assertEquals($deviceProfileId, $deviceProfile->id->id);
     }
 

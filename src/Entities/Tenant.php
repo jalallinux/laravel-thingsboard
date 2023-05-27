@@ -5,14 +5,14 @@ namespace JalalLinuX\Thingsboard\Entities;
 use JalalLinuX\Thingsboard\Casts\IdCast;
 use JalalLinuX\Thingsboard\Enums\TenantSortProperty;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
-use JalalLinuX\Thingsboard\ThingsboardId;
-use JalalLinuX\Thingsboard\ThingsboardPaginatedResponse;
-use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
+use JalalLinuX\Thingsboard\infrastructure\Id;
+use JalalLinuX\Thingsboard\infrastructure\PaginatedResponse;
+use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
- * @property ThingsboardId $id;
- * @property ThingsboardId $tenantProfileId
+ * @property Id $id;
+ * @property Id $tenantProfileId
  * @property \DateTime $createdTime
  * @property string $title
  * @property string $name
@@ -72,7 +72,7 @@ class Tenant extends Tntity
      *
      * @group SYS_ADMIN
      */
-    public function getTenants(ThingsboardPaginationArguments $paginationArguments): ThingsboardPaginatedResponse
+    public function getTenants(PaginationArguments $paginationArguments): PaginatedResponse
     {
         $paginationArguments->validateSortProperty(TenantSortProperty::class);
 

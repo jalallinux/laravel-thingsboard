@@ -5,8 +5,8 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\User;
 use JalalLinuX\Thingsboard\Entities\User;
 use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
 use JalalLinuX\Thingsboard\Enums\UserSortProperty;
+use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
-use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 
 class GetUsersTest extends TestCase
 {
@@ -15,7 +15,7 @@ class GetUsersTest extends TestCase
         $user = $this->thingsboardUser($this->faker->randomElement([ThingsboardAuthority::TENANT_ADMIN(), ThingsboardAuthority::CUSTOMER_USER()]));
 
         $users = thingsboard($user)->user()->getUsers(
-            ThingsboardPaginationArguments::make()
+            PaginationArguments::make()
         );
 
         $users->data()->each(fn ($user) => $this->assertInstanceOf(User::class, $user));
@@ -27,7 +27,7 @@ class GetUsersTest extends TestCase
         $user = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
 
         $devices = thingsboard()->user()->withUser($user)->getUsers(
-            ThingsboardPaginationArguments::make(
+            PaginationArguments::make(
                 page: $pagination['page'], pageSize: $pagination['pageSize'],
                 sortProperty: $pagination['sortProperty'], sortOrder: $pagination['sortOrder']
             )

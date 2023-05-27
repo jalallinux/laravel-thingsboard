@@ -3,9 +3,9 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
-use JalalLinuX\Thingsboard\Interfaces\PasswordPolicy;
-use JalalLinuX\Thingsboard\ThingsboardCacheHandler;
-use JalalLinuX\Thingsboard\ThingsboardToken;
+use JalalLinuX\Thingsboard\infrastructure\CacheHandler;
+use JalalLinuX\Thingsboard\infrastructure\PasswordPolicy;
+use JalalLinuX\Thingsboard\infrastructure\Token;
 use JalalLinuX\Thingsboard\Tntity;
 
 class Auth extends Tntity
@@ -23,15 +23,15 @@ class Auth extends Tntity
      *
      * @group *
      */
-    public function login(string $mail, string $password): ThingsboardToken
+    public function login(string $mail, string $password): Token
     {
         $tokens = $this->api(false)->post('auth/login', [
             'username' => $mail, 'password' => $password,
         ]);
 
-        ThingsboardCacheHandler::updateToken($mail, $tokens->json('token'));
+        CacheHandler::updateToken($mail, $tokens->json('token'));
 
-        return new ThingsboardToken($tokens);
+        return new Token($tokens);
     }
 
     /**
@@ -63,7 +63,7 @@ class Auth extends Tntity
         ])->successful();
 
         if ($changed) {
-            ThingsboardCacheHandler::forgetToken($this->_thingsboardUser->getThingsboardEmailAttribute());
+            CacheHandler::forgetToken($this->_thingsboardUser->getThingsboardEmailAttribute());
         }
 
         return $changed;
@@ -92,9 +92,9 @@ class Auth extends Tntity
      *
      * @group GUEST
      */
-    public function activateUser(string $activateToken, string $password, bool $sendActivationMail = false): ThingsboardToken
+    public function activateUser(string $activateToken, string $password, bool $sendActivationMail = false): Token
     {
-        return new ThingsboardToken(
+        return new Token(
             $this->api(false)->post('noauth/activate?sendActivationMail='.($sendActivationMail ? 'true' : 'false'), [
                 'activateToken' => $activateToken,
                 'password' => $password,

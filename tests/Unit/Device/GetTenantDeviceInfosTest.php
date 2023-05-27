@@ -5,8 +5,8 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\Device;
 use JalalLinuX\Thingsboard\Entities\Device;
 use JalalLinuX\Thingsboard\Enums\DeviceSortProperty;
 use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
+use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
-use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 
 class GetTenantDeviceInfosTest extends TestCase
 {
@@ -15,7 +15,7 @@ class GetTenantDeviceInfosTest extends TestCase
         $user = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
 
         $devices = thingsboard($user)->device()->getTenantDeviceInfos(
-            ThingsboardPaginationArguments::make(textSearch: 'Raspberry')
+            PaginationArguments::make(textSearch: 'Raspberry')
         );
 
         $devices->data()->each(fn ($device) => $this->assertInstanceOf(Device::class, $device));
@@ -28,7 +28,7 @@ class GetTenantDeviceInfosTest extends TestCase
         $user = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
 
         $devices = thingsboard()->device()->withUser($user)->getTenantDeviceInfos(
-            ThingsboardPaginationArguments::make(
+            PaginationArguments::make(
                 page: $pagination['page'], pageSize: $pagination['pageSize'],
                 sortProperty: $pagination['sortProperty'], sortOrder: $pagination['sortOrder']
             )

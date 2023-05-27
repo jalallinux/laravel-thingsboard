@@ -6,9 +6,9 @@ use JalalLinuX\Thingsboard\Entities\User;
 use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\Enums\UserSortProperty;
+use JalalLinuX\Thingsboard\infrastructure\Id;
+use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
-use JalalLinuX\Thingsboard\ThingsboardId;
-use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 
 class GetTenantAdminsTest extends TestCase
 {
@@ -16,8 +16,8 @@ class GetTenantAdminsTest extends TestCase
     {
         $user = $this->thingsboardUser(ThingsboardAuthority::SYS_ADMIN());
 
-        $tenantId = thingsboard()->tenant()->withUser($user)->getTenants(ThingsboardPaginationArguments::make())->data()->first()->id->id;
-        $tenantUsers = thingsboard()->user()->withUser($user)->getTenantAdmins(ThingsboardPaginationArguments::make(), $tenantId);
+        $tenantId = thingsboard()->tenant()->withUser($user)->getTenants(PaginationArguments::make())->data()->first()->id->id;
+        $tenantUsers = thingsboard()->user()->withUser($user)->getTenantAdmins(PaginationArguments::make(), $tenantId);
 
         $tenantUsers->data()->each(fn ($user) => $this->assertInstanceOf(User::class, $user));
     }
@@ -27,11 +27,11 @@ class GetTenantAdminsTest extends TestCase
         $pagination = $this->randomPagination(UserSortProperty::class);
         $user = $this->thingsboardUser(ThingsboardAuthority::SYS_ADMIN());
         $tenantId = thingsboard()->tenant()->withUser($user)->getTenants(
-            ThingsboardPaginationArguments::make()
+            PaginationArguments::make()
         )->data()->first()->id->id;
 
-        $devices = thingsboard()->user(['tenantId' => new ThingsboardId($tenantId, ThingsboardEntityType::TENANT())])->withUser($user)->getTenantAdmins(
-            ThingsboardPaginationArguments::make(
+        $devices = thingsboard()->user(['tenantId' => new Id($tenantId, ThingsboardEntityType::TENANT())])->withUser($user)->getTenantAdmins(
+            PaginationArguments::make(
                 page: $pagination['page'], pageSize: $pagination['pageSize'],
                 sortProperty: $pagination['sortProperty'], sortOrder: $pagination['sortOrder']
             )

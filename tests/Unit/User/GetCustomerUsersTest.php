@@ -6,9 +6,9 @@ use JalalLinuX\Thingsboard\Entities\User;
 use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\Enums\UserSortProperty;
+use JalalLinuX\Thingsboard\infrastructure\Id;
+use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
-use JalalLinuX\Thingsboard\ThingsboardId;
-use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 
 class GetCustomerUsersTest extends TestCase
 {
@@ -18,10 +18,10 @@ class GetCustomerUsersTest extends TestCase
         $user = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
 
         $customerId = thingsboard()->customer()->withUser($user)->getCustomers(
-            ThingsboardPaginationArguments::make(textSearch: $customerLetter)
+            PaginationArguments::make(textSearch: $customerLetter)
         )->data()->first()->id->id;
         $customerUsers = thingsboard()->user()->withUser($user)->getCustomerUsers(
-            ThingsboardPaginationArguments::make(textSearch: $customerLetter), $customerId
+            PaginationArguments::make(textSearch: $customerLetter), $customerId
         );
 
         $customerUsers->data()->each(fn ($device) => $this->assertInstanceOf(User::class, $device));
@@ -33,11 +33,11 @@ class GetCustomerUsersTest extends TestCase
         $pagination = $this->randomPagination(UserSortProperty::class);
         $user = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
         $customerId = thingsboard()->customer()->withUser($user)->getCustomers(
-            ThingsboardPaginationArguments::make()
+            PaginationArguments::make()
         )->data()->first()->id->id;
 
-        $devices = thingsboard()->user(['customerId' => new ThingsboardId($customerId, ThingsboardEntityType::CUSTOMER())])->withUser($user)->getCustomerUsers(
-            ThingsboardPaginationArguments::make(
+        $devices = thingsboard()->user(['customerId' => new Id($customerId, ThingsboardEntityType::CUSTOMER())])->withUser($user)->getCustomerUsers(
+            PaginationArguments::make(
                 page: $pagination['page'], pageSize: $pagination['pageSize'],
                 sortProperty: $pagination['sortProperty'], sortOrder: $pagination['sortOrder']
             )

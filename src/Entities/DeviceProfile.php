@@ -6,9 +6,9 @@ use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\IdCast;
 use JalalLinuX\Thingsboard\Enums\DeviceProfileSortProperty;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
+use JalalLinuX\Thingsboard\infrastructure\PaginatedResponse;
+use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\ThingsboardId;
-use JalalLinuX\Thingsboard\ThingsboardPaginatedResponse;
-use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -84,7 +84,7 @@ class DeviceProfile extends Tntity
      *
      * @group TENANT_ADMIN
      */
-    public function getDeviceProfiles(ThingsboardPaginationArguments $paginationArguments): ThingsboardPaginatedResponse
+    public function getDeviceProfiles(PaginationArguments $paginationArguments): PaginatedResponse
     {
         $paginationArguments->validateSortProperty(DeviceProfileSortProperty::class);
 

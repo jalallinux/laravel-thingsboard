@@ -1,11 +1,11 @@
 <?php
 
-namespace JalalLinuX\Thingsboard;
+namespace JalalLinuX\Thingsboard\infrastructure;
 
 use JalalLinuX\Thingsboard\Enums\ThingsboardSortOrder;
 use Spatie\Enum\Laravel\Enum;
 
-class ThingsboardPaginationArguments
+class PaginationArguments
 {
     public int $page = 0;
 
@@ -26,7 +26,7 @@ class ThingsboardPaginationArguments
         $this->setTextSearch($textSearch);
     }
 
-    public static function make(int $page = null, int $pageSize = null, Enum $sortProperty = null, ThingsboardSortOrder $sortOrder = null, string $textSearch = null): ThingsboardPaginationArguments
+    public static function make(int $page = null, int $pageSize = null, Enum $sortProperty = null, ThingsboardSortOrder $sortOrder = null, string $textSearch = null): PaginationArguments
     {
         return (new self)
             ->setPage($page)

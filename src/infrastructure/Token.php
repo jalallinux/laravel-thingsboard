@@ -1,10 +1,10 @@
 <?php
 
-namespace JalalLinuX\Thingsboard;
+namespace JalalLinuX\Thingsboard\infrastructure;
 
 use Illuminate\Http\Client\Response;
 
-class ThingsboardToken
+class Token
 {
     public ?string $scope;
 

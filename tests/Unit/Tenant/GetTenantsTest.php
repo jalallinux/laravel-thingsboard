@@ -5,8 +5,8 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\Tenant;
 use JalalLinuX\Thingsboard\Entities\Tenant;
 use JalalLinuX\Thingsboard\Enums\TenantSortProperty;
 use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
+use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
-use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 
 class GetTenantsTest extends TestCase
 {
@@ -14,7 +14,7 @@ class GetTenantsTest extends TestCase
     {
         $user = $this->thingsboardUser(ThingsboardAuthority::SYS_ADMIN());
         $tenants = thingsboard($user)->tenant()->getTenants(
-            ThingsboardPaginationArguments::make()
+            PaginationArguments::make()
         );
 
         $tenants->data()->each(fn ($tenant) => $this->assertInstanceOf(Tenant::class, $tenant));
@@ -26,7 +26,7 @@ class GetTenantsTest extends TestCase
         $user = $this->thingsboardUser(ThingsboardAuthority::SYS_ADMIN());
 
         $tenants = thingsboard($user)->tenant()->getTenants(
-            ThingsboardPaginationArguments::make(
+            PaginationArguments::make(
                 page: $pagination['page'], pageSize: $pagination['pageSize'],
                 sortProperty: $pagination['sortProperty'], sortOrder: $pagination['sortOrder']
             )

@@ -1,11 +1,11 @@
 <?php
 
-namespace JalalLinuX\Thingsboard;
+namespace JalalLinuX\Thingsboard\infrastructure;
 
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 
-class ThingsboardId
+class Id
 {
     public string $id;
 

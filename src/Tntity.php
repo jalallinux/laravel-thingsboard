@@ -10,6 +10,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Http;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\Exceptions\ThingsboardExceptionHandler;
+use JalalLinuX\Thingsboard\infrastructure\PaginatedResponse;
+use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use Jenssegers\Model\Model;
 use Vkovic\LaravelCustomCasts\HasCustomCasts;
@@ -95,8 +97,8 @@ abstract class Tntity extends Model
         return new static($attributes);
     }
 
-    public function paginatedResponse(Response $response, ThingsboardPaginationArguments $arguments, Tntity $tntity = null): ThingsboardPaginatedResponse
+    public function paginatedResponse(Response $response, PaginationArguments $arguments, Tntity $tntity = null): PaginatedResponse
     {
-        return new ThingsboardPaginatedResponse($tntity ?? $this, $response, $arguments);
+        return new PaginatedResponse($tntity ?? $this, $response, $arguments);
     }
 }

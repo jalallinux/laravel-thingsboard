@@ -5,8 +5,8 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\Customer;
 use JalalLinuX\Thingsboard\Entities\Customer;
 use JalalLinuX\Thingsboard\Enums\CustomerSortProperty;
 use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
+use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
-use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 
 class GetCustomersTest extends TestCase
 {
@@ -15,7 +15,7 @@ class GetCustomersTest extends TestCase
         $textSearch = $this->faker->randomElement(['A', 'B', 'C']);
         $user = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
         $customers = thingsboard($user)->customer()->getCustomers(
-            ThingsboardPaginationArguments::make(textSearch: $textSearch)
+            PaginationArguments::make(textSearch: $textSearch)
         );
 
         $customers->data()->each(fn ($customer) => $this->assertInstanceOf(Customer::class, $customer));
@@ -29,7 +29,7 @@ class GetCustomersTest extends TestCase
         $user = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
 
         $customers = thingsboard($user)->customer()->getCustomers(
-            ThingsboardPaginationArguments::make(
+            PaginationArguments::make(
                 page: $pagination['page'], pageSize: $pagination['pageSize'],
                 sortProperty: $pagination['sortProperty'], sortOrder: $pagination['sortOrder']
             )

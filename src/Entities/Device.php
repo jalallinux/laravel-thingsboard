@@ -7,13 +7,13 @@ use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\IdCast;
 use JalalLinuX\Thingsboard\Enums\DeviceSortProperty;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
-use JalalLinuX\Thingsboard\ThingsboardId;
-use JalalLinuX\Thingsboard\ThingsboardPaginatedResponse;
-use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
+use JalalLinuX\Thingsboard\infrastructure\Id;
+use JalalLinuX\Thingsboard\infrastructure\PaginatedResponse;
+use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
- * @property ThingsboardId $id
+ * @property Id $id
  * @property DateTime $createdTime
  * @property string $type
  * @property string $name
@@ -22,12 +22,12 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property array $additionalInfo
  * @property array $deviceData
  * @property string $searchText
- * @property ThingsboardId $customerId
- * @property ThingsboardId $deviceProfileId
- * @property ThingsboardId $tenantId
- * @property ThingsboardId $firmwareId
- * @property ThingsboardId $softwareId
- * @property ThingsboardId $externalId
+ * @property Id $customerId
+ * @property Id $deviceProfileId
+ * @property Id $tenantId
+ * @property Id $firmwareId
+ * @property Id $softwareId
+ * @property Id $externalId
  */
 class Device extends Tntity
 {
@@ -106,7 +106,7 @@ class Device extends Tntity
      *
      * @group TENANT_ADMIN
      */
-    public function getTenantDeviceInfos(ThingsboardPaginationArguments $paginationArguments, string $deviceProfileId = null, bool $active = null): ThingsboardPaginatedResponse
+    public function getTenantDeviceInfos(PaginationArguments $paginationArguments, string $deviceProfileId = null, bool $active = null): PaginatedResponse
     {
         $paginationArguments->validateSortProperty(DeviceSortProperty::class);
 

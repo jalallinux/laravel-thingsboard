@@ -1,20 +1,21 @@
 <?php
 
-namespace JalalLinuX\Thingsboard;
+namespace JalalLinuX\Thingsboard\infrastructure;
 
 use Illuminate\Http\Client\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use JalalLinuX\Thingsboard\Tntity;
 
-class ThingsboardPaginatedResponse
+class PaginatedResponse
 {
     private Tntity $tntity;
 
     private Response $response;
 
-    private ThingsboardPaginationArguments $arguments;
+    private PaginationArguments $arguments;
 
-    public function __construct(Tntity $tntity, Response $response, ThingsboardPaginationArguments $arguments)
+    public function __construct(Tntity $tntity, Response $response, PaginationArguments $arguments)
     {
         $this->tntity = $tntity;
         $this->response = $response;

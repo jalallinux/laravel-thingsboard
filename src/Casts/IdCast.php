@@ -4,7 +4,7 @@ namespace JalalLinuX\Thingsboard\Casts;
 
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
-use JalalLinuX\Thingsboard\ThingsboardId;
+use JalalLinuX\Thingsboard\infrastructure\Id;
 use Vkovic\LaravelCustomCasts\CustomCastBase;
 
 class IdCast extends CustomCastBase
@@ -15,7 +15,7 @@ class IdCast extends CustomCastBase
             return null;
         }
 
-        if ($value instanceof ThingsboardId) {
+        if ($value instanceof Id) {
             return $value->toArray();
         }
 
@@ -28,8 +28,8 @@ class IdCast extends CustomCastBase
         ];
     }
 
-    public function castAttribute($value): ?ThingsboardId
+    public function castAttribute($value): ?Id
     {
-        return is_null($value) ? null : new ThingsboardId($value['id'], $value['entityType']);
+        return is_null($value) ? null : new Id($value['id'], $value['entityType']);
     }
 }

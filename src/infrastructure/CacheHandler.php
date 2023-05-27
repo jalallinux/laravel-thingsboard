@@ -1,12 +1,12 @@
 <?php
 
-namespace JalalLinuX\Thingsboard;
+namespace JalalLinuX\Thingsboard\infrastructure;
 
 use DateTimeInterface;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Support\Carbon;
 
-class ThingsboardCacheHandler
+class CacheHandler
 {
     public static function driver(): Repository
     {

@@ -4,6 +4,7 @@ namespace JalalLinuX\Thingsboard;
 
 use DateTimeInterface;
 use JalalLinuX\Thingsboard\Entities\Auth;
+use JalalLinuX\Thingsboard\infrastructure\CacheHandler;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 
 /**
@@ -55,7 +56,7 @@ class Thingsboard
             return Auth::instance()->login($mail, $user->getThingsboardPasswordAttribute())->token;
         }
 
-        if ($token = ThingsboardCacheHandler::get(ThingsboardCacheHandler::tokenCacheKey($mail))) {
+        if ($token = CacheHandler::get(CacheHandler::tokenCacheKey($mail))) {
             return $token;
         }
 

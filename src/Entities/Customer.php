@@ -5,15 +5,15 @@ namespace JalalLinuX\Thingsboard\Entities;
 use JalalLinuX\Thingsboard\Casts\IdCast;
 use JalalLinuX\Thingsboard\Enums\CustomerSortProperty;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
-use JalalLinuX\Thingsboard\ThingsboardId;
-use JalalLinuX\Thingsboard\ThingsboardPaginatedResponse;
-use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
+use JalalLinuX\Thingsboard\infrastructure\Id;
+use JalalLinuX\Thingsboard\infrastructure\PaginatedResponse;
+use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
- * @property ThingsboardId $id;
+ * @property Id $id;
  * @property \DateTime $createdTime;
- * @property ThingsboardId $tenantId;
+ * @property Id $tenantId;
  * @property string $title;
  * @property string $name;
  * @property string $country;
@@ -67,7 +67,7 @@ class Customer extends Tntity
      *
      * @group TENANT_ADMIN
      */
-    public function getCustomers(ThingsboardPaginationArguments $paginationArguments): ThingsboardPaginatedResponse
+    public function getCustomers(PaginationArguments $paginationArguments): PaginatedResponse
     {
         $paginationArguments->validateSortProperty(CustomerSortProperty::class);
 

@@ -4,8 +4,8 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\User;
 
 use JalalLinuX\Thingsboard\Entities\User;
 use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
+use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
-use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 
 class GetUserByIdTest extends TestCase
 {
@@ -13,8 +13,8 @@ class GetUserByIdTest extends TestCase
     {
         $adminUser = $this->thingsboardUser(ThingsboardAuthority::SYS_ADMIN());
 
-        $tenantId = thingsboard()->tenant()->withUser($adminUser)->getTenants(ThingsboardPaginationArguments::make())->data()->first()->id->id;
-        $userId = thingsboard($adminUser)->user()->getTenantAdmins(ThingsboardPaginationArguments::make(), $tenantId)->data()->first()->id->id;
+        $tenantId = thingsboard()->tenant()->withUser($adminUser)->getTenants(PaginationArguments::make())->data()->first()->id->id;
+        $userId = thingsboard($adminUser)->user()->getTenantAdmins(PaginationArguments::make(), $tenantId)->data()->first()->id->id;
 
         $user = thingsboard($adminUser)->user()->getUserById($userId);
         $this->assertInstanceOf(User::class, $user);
@@ -27,8 +27,8 @@ class GetUserByIdTest extends TestCase
         $uuid = $this->faker->uuid;
         $adminUser = $this->thingsboardUser(ThingsboardAuthority::SYS_ADMIN());
 
-        $tenantId = thingsboard()->tenant()->withUser($adminUser)->getTenants(ThingsboardPaginationArguments::make())->data()->first()->id->id;
-        $userId = thingsboard($adminUser)->user()->getTenantAdmins(ThingsboardPaginationArguments::make(), $tenantId)->data()->first()->id->id;
+        $tenantId = thingsboard()->tenant()->withUser($adminUser)->getTenants(PaginationArguments::make())->data()->first()->id->id;
+        $userId = thingsboard($adminUser)->user()->getTenantAdmins(PaginationArguments::make(), $tenantId)->data()->first()->id->id;
 
         $this->expectExceptionCode(404);
         $this->expectExceptionMessageMatches("/{$uuid}/");

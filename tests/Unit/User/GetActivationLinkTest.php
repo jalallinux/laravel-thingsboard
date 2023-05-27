@@ -4,15 +4,15 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\User;
 
 use Illuminate\Support\Facades\Http;
 use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
+use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
-use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 
 class GetActivationLinkTest extends TestCase
 {
     public function testCorrectUuid()
     {
         $tenantUser = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
-        $customerId = thingsboard($tenantUser)->customer()->getCustomers(ThingsboardPaginationArguments::make())->data()->first()->id;
+        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->first()->id;
         $attributes = [
             'customerId' => $customerId,
             'email' => $this->faker->unique()->safeEmail,

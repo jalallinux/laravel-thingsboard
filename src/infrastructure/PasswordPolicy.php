@@ -1,6 +1,6 @@
 <?php
 
-namespace JalalLinuX\Thingsboard\Interfaces;
+namespace JalalLinuX\Thingsboard\infrastructure;
 
 class PasswordPolicy
 {

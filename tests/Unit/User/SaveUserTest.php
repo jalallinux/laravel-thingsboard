@@ -6,16 +6,16 @@ use Illuminate\Support\Arr;
 use JalalLinuX\Thingsboard\Entities\User;
 use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
+use JalalLinuX\Thingsboard\infrastructure\Id;
+use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
-use JalalLinuX\Thingsboard\ThingsboardId;
-use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 
 class SaveUserTest extends TestCase
 {
     public function testCreateTenantSuccess()
     {
         $adminUser = $this->thingsboardUser(ThingsboardAuthority::SYS_ADMIN());
-        $tenantId = thingsboard($adminUser)->tenant()->getTenants(ThingsboardPaginationArguments::make())->data()->first()->id;
+        $tenantId = thingsboard($adminUser)->tenant()->getTenants(PaginationArguments::make())->data()->first()->id;
         $attributes = [
             'tenantId' => $tenantId,
             'email' => $this->faker->unique()->safeEmail,
@@ -28,7 +28,7 @@ class SaveUserTest extends TestCase
         $newUser = thingsboard($adminUser)->user($attributes)->saveUser();
 
         $this->assertInstanceOf(User::class, $newUser);
-        $this->assertInstanceOf(ThingsboardId::class, $newUser->id);
+        $this->assertInstanceOf(Id::class, $newUser->id);
 
         $result = thingsboard($adminUser)->user()->deleteUser($newUser->id->id);
         $this->assertTrue($result);
@@ -37,7 +37,7 @@ class SaveUserTest extends TestCase
     public function testCreateCustomerSuccess()
     {
         $tenantUser = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
-        $customerId = thingsboard($tenantUser)->customer()->getCustomers(ThingsboardPaginationArguments::make())->data()->first()->id;
+        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->first()->id;
         $attributes = [
             'customerId' => $customerId,
             'email' => $this->faker->unique()->safeEmail,
@@ -50,7 +50,7 @@ class SaveUserTest extends TestCase
         $newUser = thingsboard($tenantUser)->user($attributes)->saveUser();
 
         $this->assertInstanceOf(User::class, $newUser);
-        $this->assertInstanceOf(ThingsboardId::class, $newUser->id);
+        $this->assertInstanceOf(Id::class, $newUser->id);
 
         $result = thingsboard($tenantUser)->user()->deleteUser($newUser->id->id);
         $this->assertTrue($result);
@@ -64,7 +64,7 @@ class SaveUserTest extends TestCase
 
         switch ($authority) {
             case ThingsboardAuthority::SYS_ADMIN():
-                $tenantId = thingsboard($user)->tenant()->getTenants(ThingsboardPaginationArguments::make())->data()->first()->id;
+                $tenantId = thingsboard($user)->tenant()->getTenants(PaginationArguments::make())->data()->first()->id;
                 $attributes = [
                     'tenantId' => $tenantId,
                     'email' => $this->faker->unique()->safeEmail,
@@ -79,7 +79,7 @@ class SaveUserTest extends TestCase
                 thingsboard($user)->user(Arr::except($attributes, $exceptKey))->saveUser();
                 break;
             case ThingsboardAuthority::TENANT_ADMIN():
-                $customerId = thingsboard($user)->customer()->getCustomers(ThingsboardPaginationArguments::make())->data()->first()->id;
+                $customerId = thingsboard($user)->customer()->getCustomers(PaginationArguments::make())->data()->first()->id;
                 $attributes = [
                     'customerId' => $customerId,
                     'email' => $this->faker->unique()->safeEmail,
@@ -99,7 +99,7 @@ class SaveUserTest extends TestCase
     public function testExistsEmail()
     {
         $tenantUser = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
-        $customerId = thingsboard($tenantUser)->customer()->getCustomers(ThingsboardPaginationArguments::make())->data()->first()->id;
+        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->first()->id;
         $attributes = [
             'customerId' => $customerId,
             'email' => $this->thingsboardUser(ThingsboardAuthority::CUSTOMER_USER())->getThingsboardEmailAttribute(),
@@ -118,7 +118,7 @@ class SaveUserTest extends TestCase
     {
         $tenantUser = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
         $attributes = [
-            'customerId' => new ThingsboardId($this->faker->uuid, ThingsboardEntityType::CUSTOMER()),
+            'customerId' => new Id($this->faker->uuid, ThingsboardEntityType::CUSTOMER()),
             'email' => $this->faker->unique()->safeEmail,
             'authority' => ThingsboardAuthority::CUSTOMER_USER(),
             'firstName' => $this->faker->firstName,

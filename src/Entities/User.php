@@ -7,16 +7,16 @@ use JalalLinuX\Thingsboard\Casts\IdCast;
 use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\Enums\UserSortProperty;
-use JalalLinuX\Thingsboard\ThingsboardId;
-use JalalLinuX\Thingsboard\ThingsboardPaginatedResponse;
-use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
+use JalalLinuX\Thingsboard\infrastructure\Id;
+use JalalLinuX\Thingsboard\infrastructure\PaginatedResponse;
+use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
- * @property ThingsboardId $id
+ * @property Id $id
  * @property \DateTime $createdTime
- * @property ThingsboardId $tenantId
- * @property ThingsboardId $customerId
+ * @property Id $tenantId
+ * @property Id $customerId
  * @property string $email
  * @property string $name
  * @property string $authority
@@ -66,7 +66,7 @@ class User extends Tntity
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getUsers(ThingsboardPaginationArguments $paginationArguments): ThingsboardPaginatedResponse
+    public function getUsers(PaginationArguments $paginationArguments): PaginatedResponse
     {
         $response = $this->api()->get('users', $paginationArguments->queryParams());
 
@@ -85,7 +85,7 @@ class User extends Tntity
      *
      * @group TENANT_ADMIN
      */
-    public function getCustomerUsers(ThingsboardPaginationArguments $paginationArguments, string $customerId = null): ThingsboardPaginatedResponse
+    public function getCustomerUsers(PaginationArguments $paginationArguments, string $customerId = null): PaginatedResponse
     {
         $customerId = $customerId ?? $this->forceAttribute('customerId')->id;
 
@@ -113,7 +113,7 @@ class User extends Tntity
      *
      * @group SYS_ADMIN
      */
-    public function getTenantAdmins(ThingsboardPaginationArguments $paginationArguments, string $tenantId = null): ThingsboardPaginatedResponse
+    public function getTenantAdmins(PaginationArguments $paginationArguments, string $tenantId = null): PaginatedResponse
     {
         $tenantId = $tenantId ?? $this->forceAttribute('tenantId')->id;
 
