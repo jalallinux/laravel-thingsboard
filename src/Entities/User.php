@@ -135,10 +135,12 @@ class User extends Tntity
 
         $user = $this->api(true)->post('user?sendActivationMail='.($sendActivationMail ? 'true' : 'false'), $payload)->json();
 
-        return $this->fill($user);
+        return tap($this, fn() => $this->fill($user));
     }
 
     /**
+     * Delete User
+     *
      * @throws \Throwable
      *
      * @author JalalLinuX
@@ -155,5 +157,27 @@ class User extends Tntity
         );
 
         return $this->api(true)->delete("user/{$id}")->successful();
+    }
+
+    /**
+     * Get User
+     * @param string|null $id
+     * @return User
+     * @throws \Throwable
+     * @author JalalLinuX
+     * @group
+     */
+    public function getUserById(string $id = null): self
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        throw_if(
+            ! Str::isUuid($id),
+            $this->exception('method argument must be a valid uuid.'),
+        );
+
+        $user = $this->api(true)->get("user/{$id}")->json();
+
+        return tap($this, fn() => $this->fill($user));
     }
 }
