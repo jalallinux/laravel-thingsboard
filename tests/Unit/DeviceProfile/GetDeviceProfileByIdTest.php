@@ -2,7 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Tests\Unit\DeviceProfile;
 
-use JalalLinuX\Thingsboard\Enums\ThingsboardUserAuthority;
+use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 
@@ -10,7 +10,7 @@ class GetDeviceProfileByIdTest extends TestCase
 {
     public function testExistUuid()
     {
-        $user = $this->thingsboardUser(ThingsboardUserAuthority::TENANT_ADMIN());
+        $user = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
         $deviceProfileId = thingsboard($user)->deviceProfile()->getDeviceProfiles(
             ThingsboardPaginationArguments::make()
         )->data()->first()->id->id;
@@ -24,7 +24,7 @@ class GetDeviceProfileByIdTest extends TestCase
 
     public function testInvalidUuid()
     {
-        $user = $this->thingsboardUser(ThingsboardUserAuthority::TENANT_ADMIN());
+        $user = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
 
         $this->expectException(\Exception::class);
         $this->expectExceptionCode(500);
@@ -33,7 +33,7 @@ class GetDeviceProfileByIdTest extends TestCase
 
     public function testNonExistUuid()
     {
-        $user = $this->thingsboardUser(ThingsboardUserAuthority::TENANT_ADMIN());
+        $user = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
 
         $this->expectExceptionCode(404);
         thingsboard($user)->deviceProfile()->getDeviceProfileById($this->faker->uuid);

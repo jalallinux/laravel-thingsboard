@@ -4,7 +4,7 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\Tenant;
 
 use JalalLinuX\Thingsboard\Entities\Tenant;
 use JalalLinuX\Thingsboard\Enums\TenantSortProperty;
-use JalalLinuX\Thingsboard\Enums\ThingsboardUserAuthority;
+use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 
@@ -12,7 +12,7 @@ class GetTenantsTest extends TestCase
 {
     public function testTextSearch()
     {
-        $user = $this->thingsboardUser(ThingsboardUserAuthority::SYS_ADMIN());
+        $user = $this->thingsboardUser(ThingsboardAuthority::SYS_ADMIN());
         $tenants = thingsboard($user)->tenant()->getTenants(
             ThingsboardPaginationArguments::make()
         );
@@ -23,7 +23,7 @@ class GetTenantsTest extends TestCase
     public function testPaginationData()
     {
         $pagination = $this->randomPagination(TenantSortProperty::class);
-        $user = $this->thingsboardUser(ThingsboardUserAuthority::SYS_ADMIN());
+        $user = $this->thingsboardUser(ThingsboardAuthority::SYS_ADMIN());
 
         $tenants = thingsboard($user)->tenant()->getTenants(
             ThingsboardPaginationArguments::make(
