@@ -9,7 +9,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self SYS_ADMIN()
  * @method static self CUSTOMER_USER()
  */
-class ThingsboardUserRole extends Enum
+class ThingsboardUserAuthority extends Enum
 {
     protected static function values(): array
     {

@@ -4,7 +4,7 @@ namespace JalalLinuX\Thingsboard\Tests;
 
 use Illuminate\Foundation\Testing\WithFaker;
 use JalalLinuX\Thingsboard\Enums\ThingsboardSortOrder;
-use JalalLinuX\Thingsboard\Enums\ThingsboardUserRole;
+use JalalLinuX\Thingsboard\Enums\ThingsboardUserAuthority;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use JalalLinuX\Thingsboard\LaravelThingsboardServiceProvider;
 
@@ -38,7 +38,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
         ];
     }
 
-    public function thingsboardUser(ThingsboardUserRole $role, string $mail = null, string $pass = null): ThingsboardUser
+    public function thingsboardUser(ThingsboardUserAuthority $role, string $mail = null, string $pass = null): ThingsboardUser
     {
         return new class($role, $mail, $pass) implements ThingsboardUser
         {
@@ -48,7 +48,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
             private ?string $pass;
 
-            public function __construct(ThingsboardUserRole $role, string $mail = null, string $pass = null)
+            public function __construct(ThingsboardUserAuthority $role, string $mail = null, string $pass = null)
             {
                 $this->user = collect(config('thingsboard.rest.users'))->filter(fn ($user) => $role->equals($user['role']))->random();
                 $this->mail = $mail;
@@ -65,7 +65,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
                 return $this->pass ?? $this->user['pass'];
             }
 
-            public function getThingsboardRoleAttribute(): ThingsboardUserRole
+            public function getThingsboardRoleAttribute(): ThingsboardUserAuthority
             {
                 return $this->user['role'];
             }

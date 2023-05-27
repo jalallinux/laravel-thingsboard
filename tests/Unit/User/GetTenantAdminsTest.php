@@ -3,7 +3,7 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\User;
 
 use JalalLinuX\Thingsboard\Entities\User;
-use JalalLinuX\Thingsboard\Enums\ThingsboardUserRole;
+use JalalLinuX\Thingsboard\Enums\ThingsboardUserAuthority;
 use JalalLinuX\Thingsboard\Enums\UserSortProperty;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
@@ -12,7 +12,7 @@ class GetTenantAdminsTest extends TestCase
 {
     public function testTextSearch()
     {
-        $user = $this->thingsboardUser(ThingsboardUserRole::SYS_ADMIN());
+        $user = $this->thingsboardUser(ThingsboardUserAuthority::SYS_ADMIN());
 
         $tenantId = thingsboard()->tenant()->withUser($user)->getTenants(ThingsboardPaginationArguments::make())->data()->first()->id->id;
         $tenantUsers = thingsboard()->user()->withUser($user)->getTenantAdmins(ThingsboardPaginationArguments::make(), $tenantId);
@@ -23,7 +23,7 @@ class GetTenantAdminsTest extends TestCase
     public function testPaginationData()
     {
         $pagination = $this->randomPagination(UserSortProperty::class);
-        $user = $this->thingsboardUser(ThingsboardUserRole::SYS_ADMIN());
+        $user = $this->thingsboardUser(ThingsboardUserAuthority::SYS_ADMIN());
         $tenantId = thingsboard()->tenant()->withUser($user)->getTenants(
             ThingsboardPaginationArguments::make()
         )->data()->first()->id->id;

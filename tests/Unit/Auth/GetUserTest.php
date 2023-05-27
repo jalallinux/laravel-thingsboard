@@ -4,7 +4,7 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\Auth;
 
 use JalalLinuX\Thingsboard\Entities\User;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
-use JalalLinuX\Thingsboard\Enums\ThingsboardUserRole;
+use JalalLinuX\Thingsboard\Enums\ThingsboardUserAuthority;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class GetUserTest extends TestCase
@@ -17,7 +17,7 @@ class GetUserTest extends TestCase
 
     public function testCorrectUser()
     {
-        $user = thingsboard($this->thingsboardUser($this->faker->randomElement(ThingsboardUserRole::cases())))->auth()->getUser();
+        $user = thingsboard($this->thingsboardUser($this->faker->randomElement(ThingsboardUserAuthority::cases())))->auth()->getUser();
 
         $this->assertInstanceOf(User::class, $user);
         $this->assertTrue(ThingsboardEntityType::USER()->equals($user->id->entityType));

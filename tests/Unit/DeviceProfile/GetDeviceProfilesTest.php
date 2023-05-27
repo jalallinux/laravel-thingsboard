@@ -4,7 +4,7 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\DeviceProfile;
 
 use JalalLinuX\Thingsboard\Entities\DeviceProfile;
 use JalalLinuX\Thingsboard\Enums\DeviceProfileSortProperty;
-use JalalLinuX\Thingsboard\Enums\ThingsboardUserRole;
+use JalalLinuX\Thingsboard\Enums\ThingsboardUserAuthority;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 
@@ -12,7 +12,7 @@ class GetDeviceProfilesTest extends TestCase
 {
     public function testTextSearch()
     {
-        $user = $this->thingsboardUser(ThingsboardUserRole::TENANT_ADMIN());
+        $user = $this->thingsboardUser(ThingsboardUserAuthority::TENANT_ADMIN());
 
         $deviceProfiles = thingsboard($user)->deviceProfile()->getDeviceProfiles(
             ThingsboardPaginationArguments::make(textSearch: 'default')
@@ -25,7 +25,7 @@ class GetDeviceProfilesTest extends TestCase
     public function testPaginationData()
     {
         $pagination = $this->randomPagination(DeviceProfileSortProperty::class);
-        $user = $this->thingsboardUser(ThingsboardUserRole::TENANT_ADMIN());
+        $user = $this->thingsboardUser(ThingsboardUserAuthority::TENANT_ADMIN());
 
         $deviceProfiles = thingsboard()->deviceProfile()->withUser($user)->getDeviceProfiles(
             ThingsboardPaginationArguments::make(

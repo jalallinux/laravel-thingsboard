@@ -17,17 +17,17 @@ return [
         ],
         'users' => [
             [
-                'role' => \JalalLinuX\Thingsboard\Enums\ThingsboardUserRole::SYS_ADMIN(),
+                'role' => \JalalLinuX\Thingsboard\Enums\ThingsboardUserAuthority::SYS_ADMIN(),
                 'mail' => env('THINGSBOARD_ADMIN_MAIL', 'sysadmin@thingsboard.org'),
                 'pass' => env('THINGSBOARD_ADMIN_PASS', 'sysadmin'),
             ],
             [
-                'role' => \JalalLinuX\Thingsboard\Enums\ThingsboardUserRole::TENANT_ADMIN(),
+                'role' => \JalalLinuX\Thingsboard\Enums\ThingsboardUserAuthority::TENANT_ADMIN(),
                 'mail' => env('THINGSBOARD_TENANT_MAIL', 'tenant@thingsboard.org'),
                 'pass' => env('THINGSBOARD_TENANT_PASS', 'tenant'),
             ],
             [
-                'role' => \JalalLinuX\Thingsboard\Enums\ThingsboardUserRole::CUSTOMER_USER(),
+                'role' => \JalalLinuX\Thingsboard\Enums\ThingsboardUserAuthority::CUSTOMER_USER(),
                 'mail' => env('THINGSBOARD_CUSTOMER_MAIL', 'customer@thingsboard.org'),
                 'pass' => env('THINGSBOARD_CUSTOMER_PASS', 'customer'),
             ],
