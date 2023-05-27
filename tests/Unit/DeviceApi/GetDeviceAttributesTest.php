@@ -11,7 +11,7 @@ class GetDeviceAttributesTest extends TestCase
         $deviceToken = $this->faker->randomElement([
             'A1_TEST_TOKEN', 'A2_TEST_TOKEN', 'A3_TEST_TOKEN', 'B1_TEST_TOKEN', 'C1_TEST_TOKEN',
         ]);
-        $attributes = thingsboard()->deviceApi()->getDeviceAttributes($deviceToken);
+        $attributes = thingsboard()->deviceApi()->getDeviceAttributes(deviceToken: $deviceToken);
         $this->assertIsArray($attributes);
     }
 
@@ -19,7 +19,7 @@ class GetDeviceAttributesTest extends TestCase
     {
         $this->expectExceptionCode(401);
 
-        $attributes = thingsboard()->deviceApi()->getDeviceAttributes($this->faker->slug);
+        $attributes = thingsboard()->deviceApi()->getDeviceAttributes(deviceToken: $this->faker->slug);
         $this->assertIsArray($attributes);
     }
 }
