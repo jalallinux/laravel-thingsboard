@@ -28,4 +28,14 @@ class GetActivationLinkTest extends TestCase
         self::assertTrue(Http::get($activationLink)->successful());
         $newUser->deleteUser();
     }
+
+    public function testNonExistUuid()
+    {
+        $uuid = $this->faker->uuid;
+        $tenantUser = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
+
+        $this->expectExceptionCode(404);
+        $this->expectExceptionMessageMatches("/{$uuid}/");
+        thingsboard($tenantUser)->user()->getActivationLink($uuid);
+    }
 }
