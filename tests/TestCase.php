@@ -34,7 +34,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
         return PaginationArguments::make(
             $page ?? $this->faker->numberBetween(1, 10),
             $pageSize ?? $this->faker->numberBetween(1, 10),
-                $this->faker->randomElement($sortPropertyEnum::cases()),
+            $this->faker->randomElement($sortPropertyEnum::cases()),
             $sortOrder ?? $this->faker->randomElement(EnumThingsboardSortOrder::cases())
         );
     }

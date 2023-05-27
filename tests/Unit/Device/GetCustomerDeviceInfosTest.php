@@ -21,7 +21,7 @@ class GetCustomerDeviceInfosTest extends TestCase
 
         $devices = thingsboard($tenantUser)->device()->getCustomerDeviceInfos($pagination, $customerId);
 
-        $devices->data()->each(fn($device) => $this->assertInstanceOf(Device::class, $device));
+        $devices->data()->each(fn ($device) => $this->assertInstanceOf(Device::class, $device));
         $device->unAssignDeviceFromCustomer();
 
         $this->assertEquals($pagination->page, $devices->paginator()->currentPage());

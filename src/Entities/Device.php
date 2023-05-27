@@ -124,13 +124,9 @@ class Device extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      * Device Info is an extension of the default Device object that contains information about the assigned customer name and device profile name.
-     * @param PaginationArguments $paginationArguments
-     * @param string|null $customerId
-     * @param string|null $deviceProfileId
-     * @param bool|null $active
-     * @param string|null $type
-     * @return PaginatedResponse
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function getCustomerDeviceInfos(PaginationArguments $paginationArguments, string $customerId = null, string $deviceProfileId = null, bool $active = null, string $type = null): PaginatedResponse
