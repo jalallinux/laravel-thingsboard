@@ -100,11 +100,9 @@ class DeviceApi extends Tntity
      * }
      * The API call is designed to be used by device firmware and requires device access token ('deviceToken').
      * It is not recommended to use this API call by third-party scripts, rule-engine or platform widgets (use 'Telemetry Controller' instead).
-     * @param string|null $deviceToken
-     * @param array $clientKeys
-     * @param array $sharedKeys
-     * @return array
+     *
      * @author JalalLinuX
+     *
      * @group Guest
      */
     public function getDeviceAttributes(string $deviceToken = null, array $clientKeys = [], array $sharedKeys = []): array
@@ -112,7 +110,7 @@ class DeviceApi extends Tntity
         $deviceToken = $deviceToken ?? $this->forceAttribute('deviceToken')->id;
 
         return $this->api(false)->get("v1/{$deviceToken}/attributes", [
-            'clientKeys' => implode(',', $clientKeys), 'sharedKeys' => implode(',', $sharedKeys)
+            'clientKeys' => implode(',', $clientKeys), 'sharedKeys' => implode(',', $sharedKeys),
         ])->json();
     }
 }
