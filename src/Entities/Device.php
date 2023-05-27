@@ -3,7 +3,6 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use DateTime;
-use Illuminate\Support\HigherOrderTapProxy;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumDeviceSortProperty;
@@ -121,14 +120,14 @@ class Device extends Tntity
     /**
      * Creates assignment of the device to customer.
      * Customer will be able to query device afterward.
-     * @param string $customerId
-     * @param string|null $id
-     * @return Device
+     *
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN
      */
-    public function assignDeviceToCustomer(string $customerId, string $id = null):self
+    public function assignDeviceToCustomer(string $customerId, string $id = null): self
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
@@ -138,16 +137,18 @@ class Device extends Tntity
         );
 
         $device = $this->api()->post("customer/{$customerId}/device/{$id}")->json();
-        return tap($this, fn() => $this->fill($device));
+
+        return tap($this, fn () => $this->fill($device));
     }
 
     /**
      * Clears assignment of the device to customer.
      * Customer will not be able to query device afterward.
-     * @param string|null $id
-     * @return bool
+     *
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN
      */
     public function unAssignDeviceFromCustomer(string $id = null): bool

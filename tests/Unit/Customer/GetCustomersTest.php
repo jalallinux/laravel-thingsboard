@@ -3,8 +3,8 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\Customer;
 
 use JalalLinuX\Thingsboard\Entities\Customer;
-use JalalLinuX\Thingsboard\Enums\EnumCustomerSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
+use JalalLinuX\Thingsboard\Enums\EnumCustomerSortProperty;
 use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 

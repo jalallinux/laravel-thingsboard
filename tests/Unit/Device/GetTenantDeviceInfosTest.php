@@ -3,8 +3,8 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\Device;
 
 use JalalLinuX\Thingsboard\Entities\Device;
-use JalalLinuX\Thingsboard\Enums\EnumDeviceSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
+use JalalLinuX\Thingsboard\Enums\EnumDeviceSortProperty;
 use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
