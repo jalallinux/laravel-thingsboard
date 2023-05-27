@@ -50,8 +50,8 @@ class Tenant extends Tntity
     ];
 
     protected $casts = [
-        'id'=> Id::class,
-        'tenantProfileId'=> Id::class,
+        'id' => Id::class,
+        'tenantProfileId' => Id::class,
         'createdTime' => 'timestamp',
         'additionalInfo' => 'array',
     ];

@@ -50,20 +50,20 @@ class Device extends Tntity
     ];
 
     protected $casts = [
-        'id'=> Id::class,
+        'id' => Id::class,
         'createdTime' => 'timestamp',
         'type' => 'string',
         'name' => 'string',
         'label' => 'string',
         'active' => 'bool',
         'additionalInfo' => 'array',
-        'customerId'=> Id::class,
-        'deviceProfileId'=> Id::class,
+        'customerId' => Id::class,
+        'deviceProfileId' => Id::class,
         'deviceData' => 'array',
-        'tenantId'=> Id::class,
-        'firmwareId'=> Id::class,
-        'softwareId'=> Id::class,
-        'externalId'=> Id::class,
+        'tenantId' => Id::class,
+        'firmwareId' => Id::class,
+        'softwareId' => Id::class,
+        'externalId' => Id::class,
     ];
 
     public function entityType(): ?ThingsboardEntityType

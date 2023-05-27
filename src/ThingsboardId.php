@@ -14,8 +14,8 @@ class ThingsboardId
     public function __construct(string $id, string $entityType)
     {
         throw_if(
-            !Str::isUuid($id),
-            new \Exception("Id must be a valid uuid.")
+            ! Str::isUuid($id),
+            new \Exception('Id must be a valid uuid.')
         );
         $this->id = $id;
         $this->entityType = ThingsboardEntityType::from($entityType);

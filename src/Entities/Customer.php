@@ -46,9 +46,9 @@ class Customer extends Tntity
     ];
 
     protected $casts = [
-        'id'=> Id::class,
+        'id' => Id::class,
         'createdTime' => 'timestamp',
-        'tenantId'=> Id::class,
+        'tenantId' => Id::class,
         'additionalInfo' => 'array',
     ];
 

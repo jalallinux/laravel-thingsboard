@@ -21,7 +21,7 @@ class SaveUserTest extends TestCase
             'firstName' => $this->faker->firstName,
             'lastName' => $this->faker->lastName,
             'phone' => $this->faker->e164PhoneNumber,
-            'additionalInfo' => []
+            'additionalInfo' => [],
         ];
         $newUser = thingsboard($user)->user($attributes)->saveUser();
 
@@ -40,7 +40,7 @@ class SaveUserTest extends TestCase
             'firstName' => $this->faker->firstName,
             'lastName' => $this->faker->lastName,
             'phone' => $this->faker->e164PhoneNumber,
-            'additionalInfo' => []
+            'additionalInfo' => [],
         ];
         $newUser = thingsboard($user)->user($attributes)->saveUser();
 

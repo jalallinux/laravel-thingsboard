@@ -42,10 +42,10 @@ class User extends Tntity
     ];
 
     protected $casts = [
-        'id'=> Id::class,
+        'id' => Id::class,
         'createdTime' => 'timestamp',
         'tenantId' => Id::class,
-        'customerId'=> Id::class,
+        'customerId' => Id::class,
         'additionalInfo' => 'array',
         'authority' => ThingsboardAuthority::class,
     ];
@@ -121,9 +121,9 @@ class User extends Tntity
 
     /**
      * Create or update the User.
-     * @param bool $sendActivationMail
-     * @return self
+     *
      * @author JalalLinuX
+     *
      * @group SYS_ADMIN | TENANT_ADMIN
      */
     public function saveUser(bool $sendActivationMail = false): self
@@ -133,7 +133,8 @@ class User extends Tntity
             'authority' => $this->forceAttribute('authority'),
         ]);
 
-        $user = $this->api(true)->post("user?sendActivationMail=" . ($sendActivationMail ? 'true' : 'false'), $payload)->json();
+        $user = $this->api(true)->post('user?sendActivationMail='.($sendActivationMail ? 'true' : 'false'), $payload)->json();
+
         return $this->fill($user);
     }
 }

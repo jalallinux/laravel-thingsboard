@@ -19,12 +19,12 @@ class Id extends CustomCastBase
             return $value->toArray();
         }
 
-        throw_if(!is_array($value) || !array_key_exists('id', $value) || !array_key_exists('entityType', $value), new \Exception("Attribute must have id, entityType key in a array."));
-        throw_if(!Str::isUuid($value['id']), new \Exception("Id must be a valid uuid."));
+        throw_if(! is_array($value) || ! array_key_exists('id', $value) || ! array_key_exists('entityType', $value), new \Exception('Attribute must have id, entityType key in a array.'));
+        throw_if(! Str::isUuid($value['id']), new \Exception('Id must be a valid uuid.'));
 
         return [
             'id' => $value['id'],
-            'entityType' => ThingsboardEntityType::from($value['entityType'])->value
+            'entityType' => ThingsboardEntityType::from($value['entityType'])->value,
         ];
     }
 
