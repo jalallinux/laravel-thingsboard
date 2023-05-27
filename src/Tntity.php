@@ -7,16 +7,17 @@ use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Collection as BaseCollection;
 use Illuminate\Support\Facades\Http;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\Exceptions\ThingsboardExceptionHandler;
-use JalalLinuX\Thingsboard\Interfaces\ThingsboardEntityId;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use Jenssegers\Model\Model;
+use Vkovic\LaravelCustomCasts\HasCustomCasts;
 
 abstract class Tntity extends Model
 {
+    use HasCustomCasts;
+
     protected ThingsboardUser $_thingsboardUser;
 
     abstract public function entityType(): ?ThingsboardEntityType;
@@ -97,38 +98,5 @@ abstract class Tntity extends Model
     public function paginatedResponse(Response $response, ThingsboardPaginationArguments $arguments, Tntity $tntity = null): ThingsboardPaginatedResponse
     {
         return new ThingsboardPaginatedResponse($tntity ?? $this, $response, $arguments);
-    }
-
-    protected function castAttribute($key, $value)
-    {
-        if (is_null($value)) {
-            return $value;
-        }
-
-        switch ($this->getCastType($key)) {
-            case 'id':
-                return new ThingsboardEntityId(is_array($value) ? @$value['id'] : $value, $this->entityType());
-            case 'int':
-            case 'integer':
-                return (int) $value;
-            case 'real':
-            case 'float':
-            case 'double':
-                return (float) $value;
-            case 'string':
-                return (string) $value;
-            case 'bool':
-            case 'boolean':
-                return (bool) $value;
-            case 'object':
-                return $this->fromJson($value, true);
-            case 'array':
-            case 'json':
-                return $this->fromJson($value);
-            case 'collection':
-                return new BaseCollection($this->fromJson($value));
-            default:
-                return $value;
-        }
     }
 }

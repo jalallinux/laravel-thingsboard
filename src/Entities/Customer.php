@@ -2,17 +2,18 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use JalalLinuX\Thingsboard\Casts\Id;
 use JalalLinuX\Thingsboard\Enums\CustomerSortProperty;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
-use JalalLinuX\Thingsboard\Interfaces\ThingsboardEntityId;
+use JalalLinuX\Thingsboard\ThingsboardId;
 use JalalLinuX\Thingsboard\ThingsboardPaginatedResponse;
 use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
- * @property ThingsboardEntityId $id;
+ * @property ThingsboardId $id;
  * @property \DateTime $createdTime;
- * @property ThingsboardEntityId $tenantId;
+ * @property ThingsboardId $tenantId;
  * @property string $title;
  * @property string $name;
  * @property string $country;
@@ -45,9 +46,9 @@ class Customer extends Tntity
     ];
 
     protected $casts = [
-        'id' => 'id',
+        'id'=> Id::class,
         'createdTime' => 'timestamp',
-        'tenantId' => 'id',
+        'tenantId'=> Id::class,
         'additionalInfo' => 'array',
     ];
 

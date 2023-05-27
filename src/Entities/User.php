@@ -3,18 +3,20 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use Illuminate\Support\Str;
+use JalalLinuX\Thingsboard\Casts\Id;
+use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\Enums\UserSortProperty;
-use JalalLinuX\Thingsboard\Interfaces\ThingsboardEntityId;
+use JalalLinuX\Thingsboard\ThingsboardId;
 use JalalLinuX\Thingsboard\ThingsboardPaginatedResponse;
 use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
- * @property ThingsboardEntityId $id
+ * @property ThingsboardId $id
  * @property \DateTime $createdTime
- * @property ThingsboardEntityId $tenantId
- * @property ThingsboardEntityId $customerId
+ * @property ThingsboardId $tenantId
+ * @property ThingsboardId $customerId
  * @property string $email
  * @property string $name
  * @property string $authority
@@ -40,11 +42,12 @@ class User extends Tntity
     ];
 
     protected $casts = [
-        'id' => 'id',
+        'id'=> Id::class,
         'createdTime' => 'timestamp',
-        'tenantId' => 'id',
-        'customerId' => 'id',
+        'tenantId' => Id::class,
+        'customerId'=> Id::class,
         'additionalInfo' => 'array',
+        'authority' => ThingsboardAuthority::class,
     ];
 
     public function entityType(): ?ThingsboardEntityType
@@ -114,5 +117,23 @@ class User extends Tntity
         $response = $this->api(true)->get("tenant/{$tenantId}/users", $paginationArguments->queryParams());
 
         return $this->paginatedResponse($response, $paginationArguments);
+    }
+
+    /**
+     * Create or update the User.
+     * @param bool $sendActivationMail
+     * @return self
+     * @author JalalLinuX
+     * @group SYS_ADMIN | TENANT_ADMIN
+     */
+    public function saveUser(bool $sendActivationMail = false): self
+    {
+        $payload = array_merge($this->getAttributes(), [
+            'email' => $this->forceAttribute('email'),
+            'authority' => $this->forceAttribute('authority'),
+        ]);
+
+        $user = $this->api(true)->post("user?sendActivationMail=" . ($sendActivationMail ? 'true' : 'false'), $payload)->json();
+        return $this->fill($user);
     }
 }

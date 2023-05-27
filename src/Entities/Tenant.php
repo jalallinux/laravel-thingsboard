@@ -2,16 +2,17 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use JalalLinuX\Thingsboard\Casts\Id;
 use JalalLinuX\Thingsboard\Enums\TenantSortProperty;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
-use JalalLinuX\Thingsboard\Interfaces\ThingsboardEntityId;
+use JalalLinuX\Thingsboard\ThingsboardId;
 use JalalLinuX\Thingsboard\ThingsboardPaginatedResponse;
 use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
- * @property ThingsboardEntityId $id;
- * @property ThingsboardEntityId $tenantProfileId
+ * @property ThingsboardId $id;
+ * @property ThingsboardId $tenantProfileId
  * @property \DateTime $createdTime
  * @property string $title
  * @property string $name
@@ -49,8 +50,8 @@ class Tenant extends Tntity
     ];
 
     protected $casts = [
-        'id' => 'id',
-        'tenantProfileId' => 'id',
+        'id'=> Id::class,
+        'tenantProfileId'=> Id::class,
         'createdTime' => 'timestamp',
         'additionalInfo' => 'array',
     ];

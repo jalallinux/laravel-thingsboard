@@ -3,7 +3,9 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\DeviceProfile;
 
 use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
+use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\Tests\TestCase;
+use JalalLinuX\Thingsboard\ThingsboardId;
 use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 
 class GetDeviceProfileByIdTest extends TestCase
@@ -18,7 +20,7 @@ class GetDeviceProfileByIdTest extends TestCase
         $deviceProfile = thingsboard($user)->deviceProfile()->getDeviceProfileById($deviceProfileId);
         $this->assertEquals($deviceProfileId, $deviceProfile->id->id);
 
-        $deviceProfile = thingsboard($user)->deviceProfile(['id' => $deviceProfileId])->getDeviceProfileById();
+        $deviceProfile = thingsboard($user)->deviceProfile(['id' => new ThingsboardId($deviceProfileId, ThingsboardEntityType::DEVICE_PROFILE())])->getDeviceProfileById();
         $this->assertEquals($deviceProfileId, $deviceProfile->id->id);
     }
 

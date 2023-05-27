@@ -3,15 +3,16 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use Illuminate\Support\Str;
+use JalalLinuX\Thingsboard\Casts\Id;
 use JalalLinuX\Thingsboard\Enums\DeviceProfileSortProperty;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
-use JalalLinuX\Thingsboard\Interfaces\ThingsboardEntityId;
+use JalalLinuX\Thingsboard\ThingsboardId;
 use JalalLinuX\Thingsboard\ThingsboardPaginatedResponse;
 use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
- * @property ThingsboardEntityId $id;
+ * @property ThingsboardId $id;
  * @property \DateTime $createdTime;
  * @property bool $default;
  * @property string $name;
@@ -23,12 +24,12 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property string $transportType;
  * @property string $provisionType;
  * @property array $profileData;
- * @property ThingsboardEntityId $tenantId;
- * @property ThingsboardEntityId $defaultDashboardId;
- * @property ThingsboardEntityId $defaultRuleChainId;
- * @property ThingsboardEntityId $firmwareId;
- * @property ThingsboardEntityId $softwareId;
- * @property ThingsboardEntityId $defaultEdgeRuleChainId;
+ * @property ThingsboardId $tenantId;
+ * @property ThingsboardId $defaultDashboardId;
+ * @property ThingsboardId $defaultRuleChainId;
+ * @property ThingsboardId $firmwareId;
+ * @property ThingsboardId $softwareId;
+ * @property ThingsboardId $defaultEdgeRuleChainId;
  */
 class DeviceProfile extends Tntity
 {
@@ -54,16 +55,16 @@ class DeviceProfile extends Tntity
     ];
 
     protected $casts = [
-        'id' => 'id',
+        'id'=> Id::class,
         'createdTime' => 'timestamp',
         'additionalInfo' => 'array',
-        'customerId' => 'id',
-        'deviceProfileId' => 'id',
+        'customerId'=> Id::class,
+        'deviceProfileId'=> Id::class,
         'deviceData' => 'array',
-        'tenantId' => 'id',
-        'firmwareId' => 'id',
-        'softwareId' => 'id',
-        'externalId' => 'id',
+        'tenantId'=> Id::class,
+        'firmwareId'=> Id::class,
+        'softwareId'=> Id::class,
+        'externalId'=> Id::class,
     ];
 
     public function entityType(): ?ThingsboardEntityType
@@ -98,8 +99,8 @@ class DeviceProfile extends Tntity
             $this->exception('method argument must be a valid uuid.'),
         );
 
-        $device = $this->api(true)->get("/deviceProfile/{$id}")->json();
+        $deviceProfile = $this->api(true)->get("/deviceProfile/{$id}")->json();
 
-        return tap($this, fn () => $this->fill($device));
+        return tap($this, fn () => $this->fill($deviceProfile));
     }
 }

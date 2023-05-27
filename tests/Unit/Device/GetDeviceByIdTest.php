@@ -3,7 +3,9 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\Device;
 
 use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
+use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\Tests\TestCase;
+use JalalLinuX\Thingsboard\ThingsboardId;
 use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 
 class GetDeviceByIdTest extends TestCase
@@ -18,7 +20,7 @@ class GetDeviceByIdTest extends TestCase
         $device = thingsboard($user)->device()->getDeviceById($deviceId);
         $this->assertEquals($deviceId, $device->id->id);
 
-        $device = thingsboard($user)->device(['id' => $deviceId])->getDeviceById();
+        $device = thingsboard($user)->device(['id' => new ThingsboardId($deviceId, ThingsboardEntityType::DEVICE())])->getDeviceById();
         $this->assertEquals($deviceId, $device->id->id);
     }
 

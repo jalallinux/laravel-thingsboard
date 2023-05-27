@@ -4,8 +4,10 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\User;
 
 use JalalLinuX\Thingsboard\Entities\User;
 use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
+use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\Enums\UserSortProperty;
 use JalalLinuX\Thingsboard\Tests\TestCase;
+use JalalLinuX\Thingsboard\ThingsboardId;
 use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 
 class GetTenantAdminsTest extends TestCase
@@ -28,7 +30,7 @@ class GetTenantAdminsTest extends TestCase
             ThingsboardPaginationArguments::make()
         )->data()->first()->id->id;
 
-        $devices = thingsboard()->user(['tenantId' => $tenantId])->withUser($user)->getTenantAdmins(
+        $devices = thingsboard()->user(['tenantId' => new ThingsboardId($tenantId, ThingsboardEntityType::TENANT())])->withUser($user)->getTenantAdmins(
             ThingsboardPaginationArguments::make(
                 page: $pagination['page'], pageSize: $pagination['pageSize'],
                 sortProperty: $pagination['sortProperty'], sortOrder: $pagination['sortOrder']

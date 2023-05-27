@@ -4,8 +4,10 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\User;
 
 use JalalLinuX\Thingsboard\Entities\User;
 use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
+use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
 use JalalLinuX\Thingsboard\Enums\UserSortProperty;
 use JalalLinuX\Thingsboard\Tests\TestCase;
+use JalalLinuX\Thingsboard\ThingsboardId;
 use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 
 class GetCustomerUsersTest extends TestCase
@@ -34,7 +36,7 @@ class GetCustomerUsersTest extends TestCase
             ThingsboardPaginationArguments::make()
         )->data()->first()->id->id;
 
-        $devices = thingsboard()->user(['customerId' => $customerId])->withUser($user)->getCustomerUsers(
+        $devices = thingsboard()->user(['customerId' => new ThingsboardId($customerId, ThingsboardEntityType::CUSTOMER())])->withUser($user)->getCustomerUsers(
             ThingsboardPaginationArguments::make(
                 page: $pagination['page'], pageSize: $pagination['pageSize'],
                 sortProperty: $pagination['sortProperty'], sortOrder: $pagination['sortOrder']

@@ -4,15 +4,16 @@ namespace JalalLinuX\Thingsboard\Entities;
 
 use DateTime;
 use Illuminate\Support\Str;
+use JalalLinuX\Thingsboard\Casts\Id;
 use JalalLinuX\Thingsboard\Enums\DeviceSortProperty;
 use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
-use JalalLinuX\Thingsboard\Interfaces\ThingsboardEntityId;
+use JalalLinuX\Thingsboard\ThingsboardId;
 use JalalLinuX\Thingsboard\ThingsboardPaginatedResponse;
 use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
- * @property ThingsboardEntityId $id
+ * @property ThingsboardId $id
  * @property DateTime $createdTime
  * @property string $type
  * @property string $name
@@ -21,12 +22,12 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property array $additionalInfo
  * @property array $deviceData
  * @property string $searchText
- * @property ThingsboardEntityId $customerId
- * @property ThingsboardEntityId $deviceProfileId
- * @property ThingsboardEntityId $tenantId
- * @property ThingsboardEntityId $firmwareId
- * @property ThingsboardEntityId $softwareId
- * @property ThingsboardEntityId $externalId
+ * @property ThingsboardId $customerId
+ * @property ThingsboardId $deviceProfileId
+ * @property ThingsboardId $tenantId
+ * @property ThingsboardId $firmwareId
+ * @property ThingsboardId $softwareId
+ * @property ThingsboardId $externalId
  */
 class Device extends Tntity
 {
@@ -49,20 +50,20 @@ class Device extends Tntity
     ];
 
     protected $casts = [
-        'id' => 'id',
+        'id'=> Id::class,
         'createdTime' => 'timestamp',
         'type' => 'string',
         'name' => 'string',
         'label' => 'string',
         'active' => 'bool',
         'additionalInfo' => 'array',
-        'customerId' => 'id',
-        'deviceProfileId' => 'id',
+        'customerId'=> Id::class,
+        'deviceProfileId'=> Id::class,
         'deviceData' => 'array',
-        'tenantId' => 'id',
-        'firmwareId' => 'id',
-        'softwareId' => 'id',
-        'externalId' => 'id',
+        'tenantId'=> Id::class,
+        'firmwareId'=> Id::class,
+        'softwareId'=> Id::class,
+        'externalId'=> Id::class,
     ];
 
     public function entityType(): ?ThingsboardEntityType

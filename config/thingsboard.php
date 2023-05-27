@@ -12,7 +12,7 @@ return [
     'rest' => [
         'base_uri' => env('THINGSBOARD_BASE_URI', 'localhost:9090'),
         'authorization' => [
-            'header_key' => 'Authorization',
+            'header_key' => 'X-Authorization',
             'token_type' => 'Bearer',
         ],
         'users' => [
