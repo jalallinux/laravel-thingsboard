@@ -54,7 +54,7 @@ abstract class Tntity extends Model
     {
         throw_if(
             is_null($value = @$this->{$key}),
-            $this->exception("{$key} attribute is required in ")
+            $this->exception("{$key} attribute is required.")
         );
 
         return $value;
