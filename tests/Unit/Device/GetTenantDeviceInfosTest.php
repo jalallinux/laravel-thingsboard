@@ -3,8 +3,8 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\Device;
 
 use JalalLinuX\Thingsboard\Entities\Device;
-use JalalLinuX\Thingsboard\Enums\DeviceSortProperty;
-use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
+use JalalLinuX\Thingsboard\Enums\EnumDeviceSortProperty;
+use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
@@ -12,7 +12,7 @@ class GetTenantDeviceInfosTest extends TestCase
 {
     public function testTextSearch()
     {
-        $user = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
+        $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 
         $devices = thingsboard($user)->device()->getTenantDeviceInfos(
             PaginationArguments::make(textSearch: 'Raspberry')
@@ -24,8 +24,8 @@ class GetTenantDeviceInfosTest extends TestCase
 
     public function testPaginationData()
     {
-        $pagination = $this->randomPagination(DeviceSortProperty::class);
-        $user = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
+        $pagination = $this->randomPagination(EnumDeviceSortProperty::class);
+        $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 
         $devices = thingsboard()->device()->withUser($user)->getTenantDeviceInfos(
             PaginationArguments::make(

@@ -3,10 +3,10 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use Illuminate\Support\Str;
-use JalalLinuX\Thingsboard\Casts\IdCast;
-use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
-use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
-use JalalLinuX\Thingsboard\Enums\UserSortProperty;
+use JalalLinuX\Thingsboard\Casts\CastId;
+use JalalLinuX\Thingsboard\Enums\EnumAuthority;
+use JalalLinuX\Thingsboard\Enums\EnumThingsboardEntityType;
+use JalalLinuX\Thingsboard\Enums\EnumUserSortProperty;
 use JalalLinuX\Thingsboard\infrastructure\Id;
 use JalalLinuX\Thingsboard\infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
@@ -42,17 +42,17 @@ class User extends Tntity
     ];
 
     protected $casts = [
-        'id' => IdCast::class,
+        'id' => CastId::class,
         'createdTime' => 'timestamp',
-        'tenantId' => IdCast::class,
-        'customerId' => IdCast::class,
+        'tenantId' => CastId::class,
+        'customerId' => CastId::class,
         'additionalInfo' => 'array',
-        'authority' => ThingsboardAuthority::class,
+        'authority' => EnumAuthority::class,
     ];
 
-    public function entityType(): ?ThingsboardEntityType
+    public function entityType(): ?EnumThingsboardEntityType
     {
-        return ThingsboardEntityType::USER();
+        return EnumThingsboardEntityType::USER();
     }
 
     /**
@@ -94,7 +94,7 @@ class User extends Tntity
             $this->exception('method "customerId" argument must be a valid uuid.'),
         );
 
-        $paginationArguments->validateSortProperty(UserSortProperty::class);
+        $paginationArguments->validateSortProperty(EnumUserSortProperty::class);
 
         $response = $this->api()->get("customer/{$customerId}/users", $paginationArguments->queryParams());
 
@@ -122,7 +122,7 @@ class User extends Tntity
             $this->exception('method "tenantId" argument must be a valid uuid.'),
         );
 
-        $paginationArguments->validateSortProperty(UserSortProperty::class);
+        $paginationArguments->validateSortProperty(EnumUserSortProperty::class);
 
         $response = $this->api()->get("tenant/{$tenantId}/users", $paginationArguments->queryParams());
 

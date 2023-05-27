@@ -8,7 +8,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self ASC()
  * @method static self DESC()
  */
-class ThingsboardSortOrder extends Enum
+class EnumThingsboardSortOrder extends Enum
 {
     protected static function values(): array
     {

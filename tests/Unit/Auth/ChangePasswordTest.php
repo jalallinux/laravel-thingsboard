@@ -2,14 +2,14 @@
 
 namespace JalalLinuX\Thingsboard\Tests\Unit\Auth;
 
-use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
+use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class ChangePasswordTest extends TestCase
 {
     public function testSuccess()
     {
-        [$targetRole, $newPassword] = [ThingsboardAuthority::CUSTOMER_USER(), '123456789'];
+        [$targetRole, $newPassword] = [EnumAuthority::CUSTOMER_USER(), '123456789'];
 
         $user = $this->thingsboardUser($targetRole);
         $result = thingsboard($user)->auth()->changePassword($user->getThingsboardPasswordAttribute(), $newPassword);

@@ -11,7 +11,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self COUNTRY()
  * @method static self CITY()
  */
-class CustomerSortProperty extends Enum
+class EnumCustomerSortProperty extends Enum
 {
     protected static function values(): array
     {

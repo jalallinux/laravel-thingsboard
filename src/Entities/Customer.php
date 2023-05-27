@@ -2,9 +2,9 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
-use JalalLinuX\Thingsboard\Casts\IdCast;
-use JalalLinuX\Thingsboard\Enums\CustomerSortProperty;
-use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
+use JalalLinuX\Thingsboard\Casts\CastId;
+use JalalLinuX\Thingsboard\Enums\EnumCustomerSortProperty;
+use JalalLinuX\Thingsboard\Enums\EnumThingsboardEntityType;
 use JalalLinuX\Thingsboard\infrastructure\Id;
 use JalalLinuX\Thingsboard\infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
@@ -46,15 +46,15 @@ class Customer extends Tntity
     ];
 
     protected $casts = [
-        'id' => IdCast::class,
+        'id' => CastId::class,
         'createdTime' => 'timestamp',
-        'tenantId' => IdCast::class,
+        'tenantId' => CastId::class,
         'additionalInfo' => 'array',
     ];
 
-    public function entityType(): ?ThingsboardEntityType
+    public function entityType(): ?EnumThingsboardEntityType
     {
-        return ThingsboardEntityType::CUSTOMER();
+        return EnumThingsboardEntityType::CUSTOMER();
     }
 
     /**
@@ -69,7 +69,7 @@ class Customer extends Tntity
      */
     public function getCustomers(PaginationArguments $paginationArguments): PaginatedResponse
     {
-        $paginationArguments->validateSortProperty(CustomerSortProperty::class);
+        $paginationArguments->validateSortProperty(EnumCustomerSortProperty::class);
 
         $response = $this->api()->get('customers', $paginationArguments->queryParams());
 

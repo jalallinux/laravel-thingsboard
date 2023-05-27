@@ -3,9 +3,9 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use Illuminate\Support\Str;
-use JalalLinuX\Thingsboard\Casts\IdCast;
-use JalalLinuX\Thingsboard\Enums\DeviceProfileSortProperty;
-use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
+use JalalLinuX\Thingsboard\Casts\CastId;
+use JalalLinuX\Thingsboard\Enums\EnumDeviceProfileSortProperty;
+use JalalLinuX\Thingsboard\Enums\EnumThingsboardEntityType;
 use JalalLinuX\Thingsboard\infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\ThingsboardId;
@@ -55,21 +55,21 @@ class DeviceProfile extends Tntity
     ];
 
     protected $casts = [
-        'id' => IdCast::class,
+        'id' => CastId::class,
         'createdTime' => 'timestamp',
         'additionalInfo' => 'array',
-        'customerId' => IdCast::class,
-        'deviceProfileId' => IdCast::class,
+        'customerId' => CastId::class,
+        'deviceProfileId' => CastId::class,
         'deviceData' => 'array',
-        'tenantId' => IdCast::class,
-        'firmwareId' => IdCast::class,
-        'softwareId' => IdCast::class,
-        'externalId' => IdCast::class,
+        'tenantId' => CastId::class,
+        'firmwareId' => CastId::class,
+        'softwareId' => CastId::class,
+        'externalId' => CastId::class,
     ];
 
-    public function entityType(): ?ThingsboardEntityType
+    public function entityType(): ?EnumThingsboardEntityType
     {
-        return ThingsboardEntityType::DEVICE_PROFILE();
+        return EnumThingsboardEntityType::DEVICE_PROFILE();
     }
 
     /**
@@ -86,7 +86,7 @@ class DeviceProfile extends Tntity
      */
     public function getDeviceProfiles(PaginationArguments $paginationArguments): PaginatedResponse
     {
-        $paginationArguments->validateSortProperty(DeviceProfileSortProperty::class);
+        $paginationArguments->validateSortProperty(EnumDeviceProfileSortProperty::class);
 
         $response = $this->api()->get('deviceProfiles', $paginationArguments->queryParams());
 

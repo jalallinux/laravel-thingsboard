@@ -11,7 +11,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self LABEL()
  * @method static self NAME()
  */
-class DeviceSortProperty extends Enum
+class EnumDeviceSortProperty extends Enum
 {
     protected static function values(): array
     {

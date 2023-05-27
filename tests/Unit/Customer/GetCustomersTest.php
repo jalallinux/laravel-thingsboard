@@ -3,8 +3,8 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\Customer;
 
 use JalalLinuX\Thingsboard\Entities\Customer;
-use JalalLinuX\Thingsboard\Enums\CustomerSortProperty;
-use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
+use JalalLinuX\Thingsboard\Enums\EnumCustomerSortProperty;
+use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
@@ -13,7 +13,7 @@ class GetCustomersTest extends TestCase
     public function testTextSearch()
     {
         $textSearch = $this->faker->randomElement(['A', 'B', 'C']);
-        $user = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
+        $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $customers = thingsboard($user)->customer()->getCustomers(
             PaginationArguments::make(textSearch: $textSearch)
         );
@@ -25,8 +25,8 @@ class GetCustomersTest extends TestCase
 
     public function testPaginationData()
     {
-        $pagination = $this->randomPagination(CustomerSortProperty::class);
-        $user = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
+        $pagination = $this->randomPagination(EnumCustomerSortProperty::class);
+        $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 
         $customers = thingsboard($user)->customer()->getCustomers(
             PaginationArguments::make(

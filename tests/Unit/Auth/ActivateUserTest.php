@@ -2,7 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Tests\Unit\Auth;
 
-use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
+use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\infrastructure\Token;
 use JalalLinuX\Thingsboard\Tests\TestCase;
@@ -11,12 +11,12 @@ class ActivateUserTest extends TestCase
 {
     public function testSuccess()
     {
-        $tenantUser = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
+        $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->first()->id;
         $attributes = [
             'customerId' => $customerId,
             'email' => $this->faker->unique()->safeEmail,
-            'authority' => ThingsboardAuthority::CUSTOMER_USER(),
+            'authority' => EnumAuthority::CUSTOMER_USER(),
             'firstName' => $this->faker->firstName,
             'lastName' => $this->faker->lastName,
             'phone' => $this->faker->e164PhoneNumber,

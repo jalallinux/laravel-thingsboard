@@ -17,7 +17,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self TITLE()
  * @method static self ZIP()
  */
-class TenantSortProperty extends Enum
+class EnumTenantSortProperty extends Enum
 {
     protected static function values(): array
     {

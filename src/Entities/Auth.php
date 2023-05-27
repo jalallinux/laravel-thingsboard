@@ -2,7 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
-use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
+use JalalLinuX\Thingsboard\Enums\EnumThingsboardEntityType;
 use JalalLinuX\Thingsboard\infrastructure\CacheHandler;
 use JalalLinuX\Thingsboard\infrastructure\PasswordPolicy;
 use JalalLinuX\Thingsboard\infrastructure\Token;
@@ -10,7 +10,7 @@ use JalalLinuX\Thingsboard\Tntity;
 
 class Auth extends Tntity
 {
-    public function entityType(): ?ThingsboardEntityType
+    public function entityType(): ?EnumThingsboardEntityType
     {
         return null;
     }

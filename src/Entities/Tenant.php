@@ -2,9 +2,9 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
-use JalalLinuX\Thingsboard\Casts\IdCast;
-use JalalLinuX\Thingsboard\Enums\TenantSortProperty;
-use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
+use JalalLinuX\Thingsboard\Casts\CastId;
+use JalalLinuX\Thingsboard\Enums\EnumTenantSortProperty;
+use JalalLinuX\Thingsboard\Enums\EnumThingsboardEntityType;
 use JalalLinuX\Thingsboard\infrastructure\Id;
 use JalalLinuX\Thingsboard\infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
@@ -50,15 +50,15 @@ class Tenant extends Tntity
     ];
 
     protected $casts = [
-        'id' => IdCast::class,
-        'tenantProfileId' => IdCast::class,
+        'id' => CastId::class,
+        'tenantProfileId' => CastId::class,
         'createdTime' => 'timestamp',
         'additionalInfo' => 'array',
     ];
 
-    public function entityType(): ?ThingsboardEntityType
+    public function entityType(): ?EnumThingsboardEntityType
     {
-        return ThingsboardEntityType::TENANT();
+        return EnumThingsboardEntityType::TENANT();
     }
 
     /**
@@ -74,7 +74,7 @@ class Tenant extends Tntity
      */
     public function getTenants(PaginationArguments $paginationArguments): PaginatedResponse
     {
-        $paginationArguments->validateSortProperty(TenantSortProperty::class);
+        $paginationArguments->validateSortProperty(EnumTenantSortProperty::class);
 
         $response = $this->api()->get('tenantInfos', $paginationArguments->queryParams());
 

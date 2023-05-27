@@ -2,7 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Tests\Unit\Auth;
 
-use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
+use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\infrastructure\Token;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
@@ -16,7 +16,7 @@ class LoginTest extends TestCase
 
     public function testCorrectCredentials()
     {
-        $user = $this->thingsboardUser($this->faker->randomElement(ThingsboardAuthority::cases()));
+        $user = $this->thingsboardUser($this->faker->randomElement(EnumAuthority::cases()));
         $tokens = thingsboard()->auth()->login($user->getThingsboardEmailAttribute(), $user->getThingsboardPasswordAttribute());
 
         $this->assertInstanceOf(Token::class, $tokens);

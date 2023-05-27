@@ -3,8 +3,8 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\User;
 
 use JalalLinuX\Thingsboard\Entities\User;
-use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
-use JalalLinuX\Thingsboard\Enums\UserSortProperty;
+use JalalLinuX\Thingsboard\Enums\EnumAuthority;
+use JalalLinuX\Thingsboard\Enums\EnumUserSortProperty;
 use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
@@ -12,7 +12,7 @@ class GetUsersTest extends TestCase
 {
     public function testTextSearch()
     {
-        $user = $this->thingsboardUser($this->faker->randomElement([ThingsboardAuthority::TENANT_ADMIN(), ThingsboardAuthority::CUSTOMER_USER()]));
+        $user = $this->thingsboardUser($this->faker->randomElement([EnumAuthority::TENANT_ADMIN(), EnumAuthority::CUSTOMER_USER()]));
 
         $users = thingsboard($user)->user()->getUsers(
             PaginationArguments::make()
@@ -23,8 +23,8 @@ class GetUsersTest extends TestCase
 
     public function testPaginationData()
     {
-        $pagination = $this->randomPagination(UserSortProperty::class);
-        $user = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
+        $pagination = $this->randomPagination(EnumUserSortProperty::class);
+        $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 
         $devices = thingsboard()->user()->withUser($user)->getUsers(
             PaginationArguments::make(

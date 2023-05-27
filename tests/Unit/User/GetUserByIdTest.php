@@ -3,7 +3,7 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\User;
 
 use JalalLinuX\Thingsboard\Entities\User;
-use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
+use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
@@ -11,7 +11,7 @@ class GetUserByIdTest extends TestCase
 {
     public function testCorrectUuid()
     {
-        $adminUser = $this->thingsboardUser(ThingsboardAuthority::SYS_ADMIN());
+        $adminUser = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
 
         $tenantId = thingsboard()->tenant()->withUser($adminUser)->getTenants(PaginationArguments::make())->data()->first()->id->id;
         $userId = thingsboard($adminUser)->user()->getTenantAdmins(PaginationArguments::make(), $tenantId)->data()->first()->id->id;
@@ -19,13 +19,13 @@ class GetUserByIdTest extends TestCase
         $user = thingsboard($adminUser)->user()->getUserById($userId);
         $this->assertInstanceOf(User::class, $user);
         $this->assertEquals($userId, $user->id->id);
-        $this->assertEquals(ThingsboardAuthority::TENANT_ADMIN(), $user->authority);
+        $this->assertEquals(EnumAuthority::TENANT_ADMIN(), $user->authority);
     }
 
     public function testNonExistUuid()
     {
         $uuid = $this->faker->uuid;
-        $adminUser = $this->thingsboardUser(ThingsboardAuthority::SYS_ADMIN());
+        $adminUser = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
 
         $tenantId = thingsboard()->tenant()->withUser($adminUser)->getTenants(PaginationArguments::make())->data()->first()->id->id;
         $userId = thingsboard($adminUser)->user()->getTenantAdmins(PaginationArguments::make(), $tenantId)->data()->first()->id->id;

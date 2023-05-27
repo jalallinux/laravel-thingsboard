@@ -3,9 +3,9 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\User;
 
 use JalalLinuX\Thingsboard\Entities\User;
-use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
-use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
-use JalalLinuX\Thingsboard\Enums\UserSortProperty;
+use JalalLinuX\Thingsboard\Enums\EnumAuthority;
+use JalalLinuX\Thingsboard\Enums\EnumThingsboardEntityType;
+use JalalLinuX\Thingsboard\Enums\EnumUserSortProperty;
 use JalalLinuX\Thingsboard\infrastructure\Id;
 use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
@@ -14,7 +14,7 @@ class GetTenantAdminsTest extends TestCase
 {
     public function testTextSearch()
     {
-        $user = $this->thingsboardUser(ThingsboardAuthority::SYS_ADMIN());
+        $user = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
 
         $tenantId = thingsboard()->tenant()->withUser($user)->getTenants(PaginationArguments::make())->data()->first()->id->id;
         $tenantUsers = thingsboard()->user()->withUser($user)->getTenantAdmins(PaginationArguments::make(), $tenantId);
@@ -24,13 +24,13 @@ class GetTenantAdminsTest extends TestCase
 
     public function testPaginationData()
     {
-        $pagination = $this->randomPagination(UserSortProperty::class);
-        $user = $this->thingsboardUser(ThingsboardAuthority::SYS_ADMIN());
+        $pagination = $this->randomPagination(EnumUserSortProperty::class);
+        $user = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
         $tenantId = thingsboard()->tenant()->withUser($user)->getTenants(
             PaginationArguments::make()
         )->data()->first()->id->id;
 
-        $devices = thingsboard()->user(['tenantId' => new Id($tenantId, ThingsboardEntityType::TENANT())])->withUser($user)->getTenantAdmins(
+        $devices = thingsboard()->user(['tenantId' => new Id($tenantId, EnumThingsboardEntityType::TENANT())])->withUser($user)->getTenantAdmins(
             PaginationArguments::make(
                 page: $pagination['page'], pageSize: $pagination['pageSize'],
                 sortProperty: $pagination['sortProperty'], sortOrder: $pagination['sortOrder']

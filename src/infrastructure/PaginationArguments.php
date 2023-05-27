@@ -2,7 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\infrastructure;
 
-use JalalLinuX\Thingsboard\Enums\ThingsboardSortOrder;
+use JalalLinuX\Thingsboard\Enums\EnumThingsboardSortOrder;
 use Spatie\Enum\Laravel\Enum;
 
 class PaginationArguments
@@ -17,7 +17,7 @@ class PaginationArguments
 
     public ?string $textSearch = null;
 
-    public function __construct(int $page = null, int $pageSize = null, Enum $sortProperty = null, ThingsboardSortOrder $sortOrder = null, string $textSearch = null)
+    public function __construct(int $page = null, int $pageSize = null, Enum $sortProperty = null, EnumThingsboardSortOrder $sortOrder = null, string $textSearch = null)
     {
         $this->setPage($page);
         $this->setPageSize($pageSize);
@@ -26,7 +26,7 @@ class PaginationArguments
         $this->setTextSearch($textSearch);
     }
 
-    public static function make(int $page = null, int $pageSize = null, Enum $sortProperty = null, ThingsboardSortOrder $sortOrder = null, string $textSearch = null): PaginationArguments
+    public static function make(int $page = null, int $pageSize = null, Enum $sortProperty = null, EnumThingsboardSortOrder $sortOrder = null, string $textSearch = null): PaginationArguments
     {
         return (new self)
             ->setPage($page)
@@ -51,7 +51,7 @@ class PaginationArguments
         return tap($this, fn () => $this->sortProperty = (! is_null($sortProperty) && str_ends_with($sortProperty::class, 'SortProperty') ? $sortProperty->value : $this->sortProperty));
     }
 
-    protected function setSortOrder(?ThingsboardSortOrder $sortOrder): self
+    protected function setSortOrder(?EnumThingsboardSortOrder $sortOrder): self
     {
         return tap($this, fn () => $this->sortOrder = ! is_null($sortOrder) ? $sortOrder->value : $this->sortOrder);
     }

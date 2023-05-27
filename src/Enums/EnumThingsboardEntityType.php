@@ -25,7 +25,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self WIDGET_TYPE()
  * @method static self WIDGETS_BUNDLE()
  */
-class ThingsboardEntityType extends Enum
+class EnumThingsboardEntityType extends Enum
 {
     protected static function values(): array
     {

@@ -4,8 +4,8 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\User;
 
 use Illuminate\Support\Arr;
 use JalalLinuX\Thingsboard\Entities\User;
-use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
-use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
+use JalalLinuX\Thingsboard\Enums\EnumAuthority;
+use JalalLinuX\Thingsboard\Enums\EnumThingsboardEntityType;
 use JalalLinuX\Thingsboard\infrastructure\Id;
 use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
@@ -14,12 +14,12 @@ class SaveUserTest extends TestCase
 {
     public function testCreateTenantSuccess()
     {
-        $adminUser = $this->thingsboardUser(ThingsboardAuthority::SYS_ADMIN());
+        $adminUser = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
         $tenantId = thingsboard($adminUser)->tenant()->getTenants(PaginationArguments::make())->data()->first()->id;
         $attributes = [
             'tenantId' => $tenantId,
             'email' => $this->faker->unique()->safeEmail,
-            'authority' => ThingsboardAuthority::TENANT_ADMIN(),
+            'authority' => EnumAuthority::TENANT_ADMIN(),
             'firstName' => $this->faker->firstName,
             'lastName' => $this->faker->lastName,
             'phone' => $this->faker->e164PhoneNumber,
@@ -36,12 +36,12 @@ class SaveUserTest extends TestCase
 
     public function testCreateCustomerSuccess()
     {
-        $tenantUser = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
+        $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->first()->id;
         $attributes = [
             'customerId' => $customerId,
             'email' => $this->faker->unique()->safeEmail,
-            'authority' => ThingsboardAuthority::CUSTOMER_USER(),
+            'authority' => EnumAuthority::CUSTOMER_USER(),
             'firstName' => $this->faker->firstName,
             'lastName' => $this->faker->lastName,
             'phone' => $this->faker->e164PhoneNumber,
@@ -52,23 +52,23 @@ class SaveUserTest extends TestCase
         $this->assertInstanceOf(User::class, $newUser);
         $this->assertInstanceOf(Id::class, $newUser->id);
 
-        $result = thingsboard($tenantUser)->user()->deleteUser($newUser->id->id);
+        $result = $newUser->deleteUser();
         $this->assertTrue($result);
     }
 
     public function testRequiredProperty()
     {
         $exceptKey = $this->faker->randomElement(['email', 'authority']);
-        $authority = $this->faker->randomElement([ThingsboardAuthority::SYS_ADMIN(), ThingsboardAuthority::TENANT_ADMIN()]);
+        $authority = $this->faker->randomElement([EnumAuthority::SYS_ADMIN(), EnumAuthority::TENANT_ADMIN()]);
         $user = $this->thingsboardUser($authority);
 
         switch ($authority) {
-            case ThingsboardAuthority::SYS_ADMIN():
+            case EnumAuthority::SYS_ADMIN():
                 $tenantId = thingsboard($user)->tenant()->getTenants(PaginationArguments::make())->data()->first()->id;
                 $attributes = [
                     'tenantId' => $tenantId,
                     'email' => $this->faker->unique()->safeEmail,
-                    'authority' => ThingsboardAuthority::TENANT_ADMIN(),
+                    'authority' => EnumAuthority::TENANT_ADMIN(),
                     'firstName' => $this->faker->firstName,
                     'lastName' => $this->faker->lastName,
                     'phone' => $this->faker->e164PhoneNumber,
@@ -78,12 +78,12 @@ class SaveUserTest extends TestCase
                 $this->expectExceptionMessageMatches("/{$exceptKey}/");
                 thingsboard($user)->user(Arr::except($attributes, $exceptKey))->saveUser();
                 break;
-            case ThingsboardAuthority::TENANT_ADMIN():
+            case EnumAuthority::TENANT_ADMIN():
                 $customerId = thingsboard($user)->customer()->getCustomers(PaginationArguments::make())->data()->first()->id;
                 $attributes = [
                     'customerId' => $customerId,
                     'email' => $this->faker->unique()->safeEmail,
-                    'authority' => ThingsboardAuthority::CUSTOMER_USER(),
+                    'authority' => EnumAuthority::CUSTOMER_USER(),
                     'firstName' => $this->faker->firstName,
                     'lastName' => $this->faker->lastName,
                     'phone' => $this->faker->e164PhoneNumber,
@@ -98,12 +98,12 @@ class SaveUserTest extends TestCase
 
     public function testExistsEmail()
     {
-        $tenantUser = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
+        $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->first()->id;
         $attributes = [
             'customerId' => $customerId,
-            'email' => $this->thingsboardUser(ThingsboardAuthority::CUSTOMER_USER())->getThingsboardEmailAttribute(),
-            'authority' => ThingsboardAuthority::CUSTOMER_USER(),
+            'email' => $this->thingsboardUser(EnumAuthority::CUSTOMER_USER())->getThingsboardEmailAttribute(),
+            'authority' => EnumAuthority::CUSTOMER_USER(),
             'firstName' => $this->faker->firstName,
             'lastName' => $this->faker->lastName,
             'phone' => $this->faker->e164PhoneNumber,
@@ -116,11 +116,11 @@ class SaveUserTest extends TestCase
 
     public function testNonExistsCustomerId()
     {
-        $tenantUser = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
+        $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $attributes = [
-            'customerId' => new Id($this->faker->uuid, ThingsboardEntityType::CUSTOMER()),
+            'customerId' => new Id($this->faker->uuid, EnumThingsboardEntityType::CUSTOMER()),
             'email' => $this->faker->unique()->safeEmail,
-            'authority' => ThingsboardAuthority::CUSTOMER_USER(),
+            'authority' => EnumAuthority::CUSTOMER_USER(),
             'firstName' => $this->faker->firstName,
             'lastName' => $this->faker->lastName,
             'phone' => $this->faker->e164PhoneNumber,

@@ -12,7 +12,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self NAME()
  * @method static self TYPE()
  */
-class DeviceProfileSortProperty extends Enum
+class EnumDeviceProfileSortProperty extends Enum
 {
     protected static function values(): array
     {

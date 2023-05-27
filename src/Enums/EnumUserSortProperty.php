@@ -10,7 +10,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self FIRSTNAME()
  * @method static self LASTNAME()
  */
-class UserSortProperty extends Enum
+class EnumUserSortProperty extends Enum
 {
     protected static function values(): array
     {

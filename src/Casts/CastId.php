@@ -3,11 +3,11 @@
 namespace JalalLinuX\Thingsboard\Casts;
 
 use Illuminate\Support\Str;
-use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
+use JalalLinuX\Thingsboard\Enums\EnumThingsboardEntityType;
 use JalalLinuX\Thingsboard\infrastructure\Id;
 use Vkovic\LaravelCustomCasts\CustomCastBase;
 
-class IdCast extends CustomCastBase
+class CastId extends CustomCastBase
 {
     public function setAttribute($value): ?array
     {
@@ -24,7 +24,7 @@ class IdCast extends CustomCastBase
 
         return [
             'id' => $value['id'],
-            'entityType' => ThingsboardEntityType::from($value['entityType'])->value,
+            'entityType' => EnumThingsboardEntityType::from($value['entityType'])->value,
         ];
     }
 

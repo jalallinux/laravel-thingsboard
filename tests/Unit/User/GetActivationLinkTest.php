@@ -3,7 +3,7 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\User;
 
 use Illuminate\Support\Facades\Http;
-use JalalLinuX\Thingsboard\Enums\ThingsboardAuthority;
+use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
@@ -11,12 +11,12 @@ class GetActivationLinkTest extends TestCase
 {
     public function testCorrectUuid()
     {
-        $tenantUser = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
+        $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->first()->id;
         $attributes = [
             'customerId' => $customerId,
             'email' => $this->faker->unique()->safeEmail,
-            'authority' => ThingsboardAuthority::CUSTOMER_USER(),
+            'authority' => EnumAuthority::CUSTOMER_USER(),
             'firstName' => $this->faker->firstName,
             'lastName' => $this->faker->lastName,
             'phone' => $this->faker->e164PhoneNumber,
@@ -32,7 +32,7 @@ class GetActivationLinkTest extends TestCase
     public function testNonExistUuid()
     {
         $uuid = $this->faker->uuid;
-        $tenantUser = $this->thingsboardUser(ThingsboardAuthority::TENANT_ADMIN());
+        $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 
         $this->expectExceptionCode(404);
         $this->expectExceptionMessageMatches("/{$uuid}/");

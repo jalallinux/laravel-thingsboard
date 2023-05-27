@@ -3,10 +3,11 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use DateTime;
+use Illuminate\Support\HigherOrderTapProxy;
 use Illuminate\Support\Str;
-use JalalLinuX\Thingsboard\Casts\IdCast;
-use JalalLinuX\Thingsboard\Enums\DeviceSortProperty;
-use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
+use JalalLinuX\Thingsboard\Casts\CastId;
+use JalalLinuX\Thingsboard\Enums\EnumDeviceSortProperty;
+use JalalLinuX\Thingsboard\Enums\EnumThingsboardEntityType;
 use JalalLinuX\Thingsboard\infrastructure\Id;
 use JalalLinuX\Thingsboard\infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
@@ -50,22 +51,22 @@ class Device extends Tntity
     ];
 
     protected $casts = [
-        'id' => IdCast::class,
+        'id' => CastId::class,
         'createdTime' => 'timestamp',
         'active' => 'bool',
         'additionalInfo' => 'array',
-        'customerId' => IdCast::class,
-        'deviceProfileId' => IdCast::class,
+        'customerId' => CastId::class,
+        'deviceProfileId' => CastId::class,
         'deviceData' => 'array',
-        'tenantId' => IdCast::class,
-        'firmwareId' => IdCast::class,
-        'softwareId' => IdCast::class,
-        'externalId' => IdCast::class,
+        'tenantId' => CastId::class,
+        'firmwareId' => CastId::class,
+        'softwareId' => CastId::class,
+        'externalId' => CastId::class,
     ];
 
-    public function entityType(): ?ThingsboardEntityType
+    public function entityType(): ?EnumThingsboardEntityType
     {
-        return ThingsboardEntityType::DEVICE();
+        return EnumThingsboardEntityType::DEVICE();
     }
 
     /**
@@ -108,12 +109,56 @@ class Device extends Tntity
      */
     public function getTenantDeviceInfos(PaginationArguments $paginationArguments, string $deviceProfileId = null, bool $active = null): PaginatedResponse
     {
-        $paginationArguments->validateSortProperty(DeviceSortProperty::class);
+        $paginationArguments->validateSortProperty(EnumDeviceSortProperty::class);
 
         $response = $this->api()->get('tenant/deviceInfos', $paginationArguments->queryParams([
             'active' => $active ?? $this->active, 'deviceProfileId' => $deviceProfileId ?? @$this->deviceProfileId->id,
         ]));
 
         return $this->paginatedResponse($response, $paginationArguments);
+    }
+
+    /**
+     * Creates assignment of the device to customer.
+     * Customer will be able to query device afterward.
+     * @param string $customerId
+     * @param string|null $id
+     * @return Device
+     * @throws \Throwable
+     * @author JalalLinuX
+     * @group TENANT_ADMIN
+     */
+    public function assignDeviceToCustomer(string $customerId, string $id = null):self
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        throw_if(
+            ! Str::isUuid($id) || ! Str::isUuid($customerId),
+            $this->exception('method "id", "customerId" argument must be a valid uuid.'),
+        );
+
+        $device = $this->api()->post("customer/{$customerId}/device/{$id}")->json();
+        return tap($this, fn() => $this->fill($device));
+    }
+
+    /**
+     * Clears assignment of the device to customer.
+     * Customer will not be able to query device afterward.
+     * @param string|null $id
+     * @return bool
+     * @throws \Throwable
+     * @author JalalLinuX
+     * @group TENANT_ADMIN
+     */
+    public function unAssignDeviceFromCustomer(string $id = null): bool
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        throw_if(
+            ! Str::isUuid($id),
+            $this->exception('method "id" argument must be a valid uuid.'),
+        );
+
+        return $this->api()->delete("customer/device/{$id}")->successful();
     }
 }
