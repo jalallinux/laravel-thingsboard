@@ -76,7 +76,7 @@ class DeviceProfile extends Tntity
     {
         $paginationArguments->validateSortProperty(DeviceProfileSortProperty::class);
 
-        $response = $this->api(true)->get('deviceProfiles', $paginationArguments->queryParams());
+        $response = $this->api()->get('deviceProfiles', $paginationArguments->queryParams());
 
         return $this->paginatedResponse($response, $paginationArguments);
     }
@@ -99,7 +99,7 @@ class DeviceProfile extends Tntity
             $this->exception('method argument must be a valid uuid.'),
         );
 
-        $deviceProfile = $this->api(true)->get("/deviceProfile/{$id}")->json();
+        $deviceProfile = $this->api()->get("/deviceProfile/{$id}")->json();
 
         return tap($this, fn () => $this->fill($deviceProfile));
     }

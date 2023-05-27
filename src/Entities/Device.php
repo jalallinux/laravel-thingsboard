@@ -52,9 +52,6 @@ class Device extends Tntity
     protected $casts = [
         'id' => Id::class,
         'createdTime' => 'timestamp',
-        'type' => 'string',
-        'name' => 'string',
-        'label' => 'string',
         'active' => 'bool',
         'additionalInfo' => 'array',
         'customerId' => Id::class,
@@ -89,7 +86,7 @@ class Device extends Tntity
             $this->exception('method "id" argument must be a valid uuid.'),
         );
 
-        $device = $this->api(true)->get("/device/{$id}")->json();
+        $device = $this->api()->get("/device/{$id}")->json();
 
         return tap($this, fn () => $this->fill($device));
     }
@@ -107,7 +104,7 @@ class Device extends Tntity
     {
         $paginationArguments->validateSortProperty(DeviceSortProperty::class);
 
-        $response = $this->api(true)->get('tenant/deviceInfos', $paginationArguments->queryParams([
+        $response = $this->api()->get('tenant/deviceInfos', $paginationArguments->queryParams([
             'active' => $active ?? $this->active, 'deviceProfileId' => $deviceProfileId ?? @$this->deviceProfileId->id,
         ]));
 

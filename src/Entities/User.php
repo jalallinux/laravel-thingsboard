@@ -64,7 +64,7 @@ class User extends Tntity
      */
     public function getUsers(ThingsboardPaginationArguments $paginationArguments): ThingsboardPaginatedResponse
     {
-        $response = $this->api(true)->get('users', $paginationArguments->queryParams());
+        $response = $this->api()->get('users', $paginationArguments->queryParams());
 
         return $this->paginatedResponse($response, $paginationArguments);
     }
@@ -89,7 +89,7 @@ class User extends Tntity
 
         $paginationArguments->validateSortProperty(UserSortProperty::class);
 
-        $response = $this->api(true)->get("customer/{$customerId}/users", $paginationArguments->queryParams());
+        $response = $this->api()->get("customer/{$customerId}/users", $paginationArguments->queryParams());
 
         return $this->paginatedResponse($response, $paginationArguments);
     }
@@ -114,7 +114,7 @@ class User extends Tntity
 
         $paginationArguments->validateSortProperty(UserSortProperty::class);
 
-        $response = $this->api(true)->get("tenant/{$tenantId}/users", $paginationArguments->queryParams());
+        $response = $this->api()->get("tenant/{$tenantId}/users", $paginationArguments->queryParams());
 
         return $this->paginatedResponse($response, $paginationArguments);
     }
@@ -133,7 +133,7 @@ class User extends Tntity
             'authority' => $this->forceAttribute('authority'),
         ]);
 
-        $user = $this->api(true)->post('user?sendActivationMail='.($sendActivationMail ? 'true' : 'false'), $payload)->json();
+        $user = $this->api()->post('user?sendActivationMail='.($sendActivationMail ? 'true' : 'false'), $payload)->json();
 
         return tap($this, fn () => $this->fill($user));
     }
@@ -156,7 +156,7 @@ class User extends Tntity
             $this->exception('method argument must be a valid uuid.'),
         );
 
-        return $this->api(true)->delete("user/{$id}")->successful();
+        return $this->api()->delete("user/{$id}")->successful();
     }
 
     /**
@@ -177,8 +177,29 @@ class User extends Tntity
             $this->exception('method argument must be a valid uuid.'),
         );
 
-        $user = $this->api(true)->get("user/{$id}")->json();
+        $user = $this->api()->get("user/{$id}")->json();
 
         return tap($this, fn () => $this->fill($user));
+    }
+
+    /**
+     * Get the activation link for the user.
+     * The base url for activation link is configurable in the general settings of system administrator.
+     * @param string|null $id
+     * @return string
+     * @throws \Throwable
+     * @author JalalLinuX
+     * @group SYS_ADMIN | TENANT_ADMIN
+     */
+    public function getActivationLink(string $id = null): string
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        throw_if(
+            ! Str::isUuid($id),
+            $this->exception('method argument must be a valid uuid.'),
+        );
+
+        return $this->api()->get("user/{$id}/activationLink")->body();
     }
 }

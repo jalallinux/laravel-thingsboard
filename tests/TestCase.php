@@ -65,7 +65,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
                 return $this->pass ?? $this->user['pass'];
             }
 
-            public function getThingsboardRoleAttribute(): ThingsboardAuthority
+            public function getThingsboardAuthorityAttribute(): ThingsboardAuthority
             {
                 return $this->user['role'];
             }

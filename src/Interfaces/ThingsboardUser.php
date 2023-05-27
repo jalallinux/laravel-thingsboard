@@ -10,5 +10,5 @@ interface ThingsboardUser
 
     public function getThingsboardPasswordAttribute(): string;
 
-    public function getThingsboardRoleAttribute(): ThingsboardAuthority;
+    public function getThingsboardAuthorityAttribute(): ThingsboardAuthority;
 }

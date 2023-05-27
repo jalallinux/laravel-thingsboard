@@ -22,11 +22,11 @@ abstract class Tntity extends Model
 
     abstract public function entityType(): ?ThingsboardEntityType;
 
-    protected function api(bool $auth = false, bool $handleException = true): PendingRequest
+    protected function api(bool $auth = true, bool $handleException = true): PendingRequest
     {
         $baseUri = config('thingsboard.rest.base_uri');
         $baseUri = str_ends_with($baseUri, '/') ? substr($baseUri, 0, -1) : $baseUri;
-        $request = Http::baseUrl("{$baseUri}/api")->acceptJson();
+        $request = Http::baseUrl("{$baseUri}/api");
 
         if ($auth) {
             throw_if(! isset($this->_thingsboardUser), $this->exception('method need authentication token.', 401));

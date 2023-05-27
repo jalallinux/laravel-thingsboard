@@ -11,10 +11,6 @@ class DeviceApi extends Tntity
         'deviceToken',
     ];
 
-    protected $casts = [
-        'deviceToken' => 'string',
-    ];
-
     public function entityType(): ?ThingsboardEntityType
     {
         return null;
@@ -44,7 +40,7 @@ class DeviceApi extends Tntity
 
         $deviceToken = $deviceToken ?? $this->forceAttribute('deviceToken');
 
-        return $this->api()->post("/v1/{$deviceToken}/telemetry", $payload)->successful();
+        return $this->api(false)->post("/v1/{$deviceToken}/telemetry", $payload)->successful();
     }
 
     /**
@@ -65,6 +61,6 @@ class DeviceApi extends Tntity
 
         $deviceToken = $deviceToken ?? $this->forceAttribute('deviceToken');
 
-        return $this->api()->post("/v1/{$deviceToken}/attributes", $payload)->successful();
+        return $this->api(false)->post("/v1/{$deviceToken}/attributes", $payload)->successful();
     }
 }

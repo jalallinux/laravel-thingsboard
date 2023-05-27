@@ -23,7 +23,7 @@ class Auth extends Tntity
      */
     public function login(string $mail, string $password): array
     {
-        $tokens = $this->api()->post('auth/login', [
+        $tokens = $this->api(false)->post('auth/login', [
             'username' => $mail, 'password' => $password,
         ])->json();
 
@@ -42,7 +42,7 @@ class Auth extends Tntity
     public function getUser(): User
     {
         return new User(
-            $this->api(true)->get('auth/user')->json()
+            $this->api()->get('auth/user')->json()
         );
     }
 
@@ -55,7 +55,7 @@ class Auth extends Tntity
      */
     public function changePassword(string $current, $new): bool
     {
-        $changed = $this->api(true)->post('auth/changePassword', [
+        $changed = $this->api()->post('auth/changePassword', [
             'currentPassword' => $current, 'newPassword' => $new,
         ])->successful();
 
@@ -75,6 +75,6 @@ class Auth extends Tntity
      */
     public function getUserPasswordPolicy(): PasswordPolicy
     {
-        return PasswordPolicy::fromArray($this->api()->get('noauth/userPasswordPolicy')->json());
+        return PasswordPolicy::fromArray($this->api(false)->get('noauth/userPasswordPolicy')->json());
     }
 }

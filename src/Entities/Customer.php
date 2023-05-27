@@ -68,7 +68,7 @@ class Customer extends Tntity
     {
         $paginationArguments->validateSortProperty(CustomerSortProperty::class);
 
-        $response = $this->api(true)->get('customers', $paginationArguments->queryParams());
+        $response = $this->api()->get('customers', $paginationArguments->queryParams());
 
         return $this->paginatedResponse($response, $paginationArguments);
     }

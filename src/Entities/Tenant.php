@@ -72,7 +72,7 @@ class Tenant extends Tntity
     {
         $paginationArguments->validateSortProperty(TenantSortProperty::class);
 
-        $response = $this->api(true)->get('tenantInfos', $paginationArguments->queryParams());
+        $response = $this->api()->get('tenantInfos', $paginationArguments->queryParams());
 
         return $this->paginatedResponse($response, $paginationArguments);
     }

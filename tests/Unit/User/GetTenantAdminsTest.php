@@ -19,7 +19,7 @@ class GetTenantAdminsTest extends TestCase
         $tenantId = thingsboard()->tenant()->withUser($user)->getTenants(ThingsboardPaginationArguments::make())->data()->first()->id->id;
         $tenantUsers = thingsboard()->user()->withUser($user)->getTenantAdmins(ThingsboardPaginationArguments::make(), $tenantId);
 
-        $tenantUsers->data()->each(fn ($device) => $this->assertInstanceOf(User::class, $device));
+        $tenantUsers->data()->each(fn ($user) => $this->assertInstanceOf(User::class, $user));
     }
 
     public function testPaginationData()
