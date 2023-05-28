@@ -185,7 +185,7 @@ class Device extends Tntity
             $this->exception('method "id" argument must be a valid uuid.'),
         );
 
-        return $this->api()->delete("customer/device/{$id}")->successful();
+        return $this->api(handleException: $this->throwBooleanMethods())->delete("customer/device/{$id}")->successful();
     }
 
     /**
@@ -207,7 +207,7 @@ class Device extends Tntity
             $this->exception('method "id" argument must be a valid uuid.'),
         );
 
-        return $this->api()->delete("device/{$id}")->successful();
+        return $this->api(handleException: $this->throwBooleanMethods())->delete("device/{$id}")->successful();
     }
 
     /**

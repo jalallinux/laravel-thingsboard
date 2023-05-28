@@ -32,6 +32,13 @@ return [
                 'pass' => env('THINGSBOARD_CUSTOMER_PASS', 'customer'),
             ],
         ],
+        'exception' => [
+            /**
+             * True => Boolean methods return exception
+             * False => Boolean methods return false
+             */
+            'throw_bool_methods' => boolval(env('THINGSBOARD_EXCEPTION_THROW_BOOL_METHOD', true)),
+        ]
     ],
 
     'cache' => [

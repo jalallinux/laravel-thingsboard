@@ -101,4 +101,9 @@ abstract class Tntity extends Model
     {
         return new PaginatedResponse($tntity ?? $this, $response, $arguments);
     }
+
+    public function throwBooleanMethods(): bool
+    {
+        return boolval(config('thingsboard.rest.exception.throw_bool_methods', false));
+    }
 }

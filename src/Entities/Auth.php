@@ -58,7 +58,7 @@ class Auth extends Tntity
      */
     public function changePassword(string $current, $new): bool
     {
-        $changed = $this->api()->post('auth/changePassword', [
+        $changed = $this->api(handleException: $this->throwBooleanMethods())->post('auth/changePassword', [
             'currentPassword' => $current, 'newPassword' => $new,
         ])->successful();
 
