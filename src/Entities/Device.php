@@ -95,6 +95,31 @@ class Device extends Tntity
     }
 
     /**
+     * Fetch the Device Info object based on the provided Device IdD.
+     * If the user has the authority of 'Tenant Administrator', the server checks that the device is owned by the same tenant.
+     * If the user has the authority of 'Customer User', the server checks that the device is assigned to the same customer.
+     * Device Info is an extension of the default Device object that contains information about the assigned customer name and device profile name.
+     * @param string|null $id
+     * @return self
+     * @throws \Throwable
+     * @author JalalLinuX
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function getDeviceInfoById(string $id = null): self
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        throw_if(
+            ! Str::isUuid($id),
+            $this->exception('method "id" argument must be a valid uuid.'),
+        );
+
+        $device = $this->api()->get("/device/info/{$id}")->json();
+
+        return tap($this, fn () => $this->fill($device));
+    }
+
+    /**
      * Returns a page of devices info objects owned by tenant.
      * You can specify parameters to filter the results.
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
