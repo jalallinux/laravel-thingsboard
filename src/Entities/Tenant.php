@@ -4,7 +4,7 @@ namespace JalalLinuX\Thingsboard\Entities;
 
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumTenantSortProperty;
-use JalalLinuX\Thingsboard\Enums\EnumThingsboardEntityType;
+use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\infrastructure\Id;
 use JalalLinuX\Thingsboard\infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
@@ -56,9 +56,9 @@ class Tenant extends Tntity
         'additionalInfo' => 'array',
     ];
 
-    public function entityType(): ?EnumThingsboardEntityType
+    public function entityType(): ?EnumEntityType
     {
-        return EnumThingsboardEntityType::TENANT();
+        return EnumEntityType::TENANT();
     }
 
     /**

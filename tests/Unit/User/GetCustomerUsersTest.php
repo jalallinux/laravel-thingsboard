@@ -4,7 +4,7 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\User;
 
 use JalalLinuX\Thingsboard\Entities\User;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
-use JalalLinuX\Thingsboard\Enums\EnumThingsboardEntityType;
+use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumUserSortProperty;
 use JalalLinuX\Thingsboard\infrastructure\Id;
 use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
@@ -36,7 +36,7 @@ class GetCustomerUsersTest extends TestCase
             PaginationArguments::make()
         )->data()->first()->id->id;
 
-        $devices = thingsboard()->user(['customerId' => new Id($customerId, EnumThingsboardEntityType::CUSTOMER())])->withUser($user)->getCustomerUsers($pagination);
+        $devices = thingsboard()->user(['customerId' => new Id($customerId, EnumEntityType::CUSTOMER())])->withUser($user)->getCustomerUsers($pagination);
 
         $this->assertEquals($pagination->page, $devices->paginator()->currentPage());
         $this->assertEquals($pagination->pageSize, $devices->paginator()->perPage());

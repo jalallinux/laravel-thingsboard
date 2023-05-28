@@ -6,7 +6,7 @@ use DateTime;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumDeviceSortProperty;
-use JalalLinuX\Thingsboard\Enums\EnumThingsboardEntityType;
+use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\infrastructure\Id;
 use JalalLinuX\Thingsboard\infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
@@ -63,9 +63,9 @@ class Device extends Tntity
         'externalId' => CastId::class,
     ];
 
-    public function entityType(): ?EnumThingsboardEntityType
+    public function entityType(): ?EnumEntityType
     {
-        return EnumThingsboardEntityType::DEVICE();
+        return EnumEntityType::DEVICE();
     }
 
     /**
@@ -186,5 +186,57 @@ class Device extends Tntity
         );
 
         return $this->api()->delete("customer/device/{$id}")->successful();
+    }
+
+    /**
+     * Deletes the device, it's credentials and all the relations (from and to the device).
+     * Referencing non-existing device Id will cause an error.
+     * @param string|null $id
+     * @return bool
+     * @throws \Throwable
+     * @author JalalLinuX
+     * @group TENANT_ADMIN
+     */
+    public function deleteDevice(string $id = null): bool
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        throw_if(
+            ! Str::isUuid($id),
+            $this->exception('method "id" argument must be a valid uuid.'),
+        );
+
+        return $this->api()->delete("device/{$id}")->successful();
+    }
+
+
+    /**
+     * Create or update the Device.
+     * When creating device, platform generates Device ID as time-based UUID.
+     * Device credentials are also generated if not provided in the 'accessToken' request parameter.
+     * The newly created device id will be present in the response.
+     * Specify existing Device id to update the device.
+     * Referencing non-existing device ID will cause 'Not Found' error.
+     * Device name is unique in the scope of tenant.
+     * Use unique identifiers like MAC or IMEI for the device names and non-unique 'label' field for user-friendly visualization purposes.
+     * Remove 'id', 'tenantId' and optionally 'customerId' from the request body example (below) to create new Device entity.
+     * @param string|null $accessToken
+     * @param string|null $deviceProfileId
+     * @return self
+     * @author JalalLinuX
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function saveDevice(string $accessToken = null, string $deviceProfileId = null): self
+    {
+        $deviceProfileId = $deviceProfileId ?? $this->deviceProfileId->id ?? DeviceProfile::instance()->withUser($this->_thingsboardUser)->getDefaultDeviceProfileInfo()->id->id;
+
+        $payload = array_merge($this->getAttributes(), [
+            'name' => $this->forceAttribute('name'),
+            'deviceProfileId' => new Id($deviceProfileId, EnumEntityType::DEVICE_PROFILE()),
+        ]);
+
+        $device = $this->api()->post('device'.(!is_null($accessToken) ? "?accessToken={$accessToken}" : ''), $payload)->json();
+
+        return tap($this, fn () => $this->fill($device));
     }
 }

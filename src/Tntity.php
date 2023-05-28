@@ -8,7 +8,7 @@ use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Http;
-use JalalLinuX\Thingsboard\Enums\EnumThingsboardEntityType;
+use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Exceptions\ThingsboardExceptionHandler;
 use JalalLinuX\Thingsboard\infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
@@ -22,7 +22,7 @@ abstract class Tntity extends Model
 
     protected ThingsboardUser $_thingsboardUser;
 
-    abstract public function entityType(): ?EnumThingsboardEntityType;
+    abstract public function entityType(): ?EnumEntityType;
 
     protected function api(bool $auth = true, bool $handleException = true): PendingRequest
     {

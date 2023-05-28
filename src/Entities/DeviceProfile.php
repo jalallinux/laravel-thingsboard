@@ -5,14 +5,14 @@ namespace JalalLinuX\Thingsboard\Entities;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumDeviceProfileSortProperty;
-use JalalLinuX\Thingsboard\Enums\EnumThingsboardEntityType;
+use JalalLinuX\Thingsboard\Enums\EnumEntityType;
+use JalalLinuX\Thingsboard\infrastructure\Id;
 use JalalLinuX\Thingsboard\infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
-use JalalLinuX\Thingsboard\ThingsboardId;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
- * @property ThingsboardId $id;
+ * @property Id $id;
  * @property \DateTime $createdTime;
  * @property bool $default;
  * @property string $name;
@@ -24,12 +24,12 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property string $transportType;
  * @property string $provisionType;
  * @property array $profileData;
- * @property ThingsboardId $tenantId;
- * @property ThingsboardId $defaultDashboardId;
- * @property ThingsboardId $defaultRuleChainId;
- * @property ThingsboardId $firmwareId;
- * @property ThingsboardId $softwareId;
- * @property ThingsboardId $defaultEdgeRuleChainId;
+ * @property Id $tenantId;
+ * @property Id $defaultDashboardId;
+ * @property Id $defaultRuleChainId;
+ * @property Id $firmwareId;
+ * @property Id $softwareId;
+ * @property Id $defaultEdgeRuleChainId;
  */
 class DeviceProfile extends Tntity
 {
@@ -67,9 +67,9 @@ class DeviceProfile extends Tntity
         'externalId' => CastId::class,
     ];
 
-    public function entityType(): ?EnumThingsboardEntityType
+    public function entityType(): ?EnumEntityType
     {
-        return EnumThingsboardEntityType::DEVICE_PROFILE();
+        return EnumEntityType::DEVICE_PROFILE();
     }
 
     /**
@@ -115,5 +115,18 @@ class DeviceProfile extends Tntity
         $deviceProfile = $this->api()->get("/deviceProfile/{$id}")->json();
 
         return tap($this, fn () => $this->fill($deviceProfile));
+    }
+
+    /**
+     * Fetch the Default Device Profile Info object.
+     * Device Profile Info is a lightweight object that includes main information about Device Profile excluding the heavyweight configuration object.
+     * @return self
+     * @author JalallinuX
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function getDefaultDeviceProfileInfo(): self
+    {
+        $deviceProfile = $this->api()->get("deviceProfileInfo/default")->json();
+        return tap($this, fn() => $this->fill($deviceProfile));
     }
 }

@@ -5,7 +5,7 @@ namespace JalalLinuX\Thingsboard\Entities;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
-use JalalLinuX\Thingsboard\Enums\EnumThingsboardEntityType;
+use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumUserSortProperty;
 use JalalLinuX\Thingsboard\infrastructure\Id;
 use JalalLinuX\Thingsboard\infrastructure\PaginatedResponse;
@@ -50,9 +50,9 @@ class User extends Tntity
         'authority' => EnumAuthority::class,
     ];
 
-    public function entityType(): ?EnumThingsboardEntityType
+    public function entityType(): ?EnumEntityType
     {
-        return EnumThingsboardEntityType::USER();
+        return EnumEntityType::USER();
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace JalalLinuX\Thingsboard\Casts;
 
 use Illuminate\Support\Str;
-use JalalLinuX\Thingsboard\Enums\EnumThingsboardEntityType;
+use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\infrastructure\Id;
 use Vkovic\LaravelCustomCasts\CustomCastBase;
 
@@ -24,7 +24,7 @@ class CastId extends CustomCastBase
 
         return [
             'id' => $value['id'],
-            'entityType' => EnumThingsboardEntityType::from($value['entityType'])->value,
+            'entityType' => EnumEntityType::from($value['entityType'])->value,
         ];
     }
 

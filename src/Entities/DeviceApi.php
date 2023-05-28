@@ -2,7 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
-use JalalLinuX\Thingsboard\Enums\EnumThingsboardEntityType;
+use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Tntity;
 
 class DeviceApi extends Tntity
@@ -11,7 +11,7 @@ class DeviceApi extends Tntity
         'deviceToken',
     ];
 
-    public function entityType(): ?EnumThingsboardEntityType
+    public function entityType(): ?EnumEntityType
     {
         return null;
     }

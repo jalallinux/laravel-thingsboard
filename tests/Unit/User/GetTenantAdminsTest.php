@@ -4,7 +4,7 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\User;
 
 use JalalLinuX\Thingsboard\Entities\User;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
-use JalalLinuX\Thingsboard\Enums\EnumThingsboardEntityType;
+use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumUserSortProperty;
 use JalalLinuX\Thingsboard\infrastructure\Id;
 use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
@@ -30,7 +30,7 @@ class GetTenantAdminsTest extends TestCase
             PaginationArguments::make()
         )->data()->first()->id->id;
 
-        $devices = thingsboard()->user(['tenantId' => new Id($tenantId, EnumThingsboardEntityType::TENANT())])->withUser($user)->getTenantAdmins($pagination);
+        $devices = thingsboard()->user(['tenantId' => new Id($tenantId, EnumEntityType::TENANT())])->withUser($user)->getTenantAdmins($pagination);
 
         $this->assertEquals($pagination->page, $devices->paginator()->currentPage());
         $this->assertEquals($pagination->pageSize, $devices->paginator()->perPage());

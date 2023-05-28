@@ -3,13 +3,13 @@
 namespace JalalLinuX\Thingsboard\infrastructure;
 
 use Illuminate\Support\Str;
-use JalalLinuX\Thingsboard\Enums\EnumThingsboardEntityType;
+use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 
 class Id
 {
     public string $id;
 
-    public EnumThingsboardEntityType $entityType;
+    public EnumEntityType $entityType;
 
     public function __construct(string $id, string $entityType)
     {
@@ -18,7 +18,7 @@ class Id
             new \Exception('Id must be a valid uuid.')
         );
         $this->id = $id;
-        $this->entityType = EnumThingsboardEntityType::from($entityType);
+        $this->entityType = EnumEntityType::from($entityType);
     }
 
     public function toArray(): array

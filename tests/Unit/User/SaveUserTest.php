@@ -5,7 +5,7 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\User;
 use Illuminate\Support\Arr;
 use JalalLinuX\Thingsboard\Entities\User;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
-use JalalLinuX\Thingsboard\Enums\EnumThingsboardEntityType;
+use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\infrastructure\Id;
 use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
@@ -118,7 +118,7 @@ class SaveUserTest extends TestCase
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $attributes = [
-            'customerId' => new Id($this->faker->uuid, EnumThingsboardEntityType::CUSTOMER()),
+            'customerId' => new Id($this->faker->uuid, EnumEntityType::CUSTOMER()),
             'email' => $this->faker->unique()->safeEmail,
             'authority' => EnumAuthority::CUSTOMER_USER(),
             'firstName' => $this->faker->firstName,
