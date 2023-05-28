@@ -11,6 +11,7 @@ use JalalLinuX\Thingsboard\Infrastructure\DeviceCredentials;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Infrastructure\Type;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -99,11 +100,10 @@ class Device extends Tntity
      * If the user has the authority of 'Tenant Administrator', the server checks that the device is owned by the same tenant.
      * If the user has the authority of 'Customer User', the server checks that the device is assigned to the same customer.
      * Device Info is an extension of the default Device object that contains information about the assigned customer name and device profile name.
-     *
+     * @param string|null $id
+     * @return self
      * @throws \Throwable
-     *
      * @author JalalLinuX
-     *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function getDeviceInfoById(string $id = null): self
@@ -304,5 +304,16 @@ class Device extends Tntity
         $newCredentials = $this->api()->post('device/credentials', $credentials->toArray())->json();
 
         return new DeviceCredentials($newCredentials);
+    }
+
+    /**
+     * Returns a set of unique device profile names based on devices that are either owned by the tenant or assigned to the customer which user is performing the request.
+     * @return array
+     * @author JalalLinuX
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function getDeviceTypes(): array
+    {
+        return $this->api()->get("device/types")->collect()->map(fn($type) => Type::make($type))->toArray();
     }
 }

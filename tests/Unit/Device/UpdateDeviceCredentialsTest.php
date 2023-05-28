@@ -16,7 +16,7 @@ class UpdateDeviceCredentialsTest extends TestCase
         $deviceCredentials = thingsboard($tenantUser)->device()->getDeviceCredentialsByDeviceId($device->id->id);
 
         $originalId = $deviceCredentials->credentialsId();
-        $newId = $this->faker->slug(3);
+        $newId = $this->faker->slug(2);
         $deviceCredentials = $deviceCredentials->setCredentialsId($newId);
 
         $deviceCredentials = thingsboard($tenantUser)->device()->updateDeviceCredentials($deviceCredentials);
