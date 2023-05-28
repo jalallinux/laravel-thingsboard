@@ -96,6 +96,27 @@ class Device extends Tntity
     }
 
     /**
+     * Requested devices must be owned by tenant or assigned to customer which user is performing the request.
+     * @param array $ids
+     * @return self[]
+     * @throws \Throwable
+     * @author JalalLinuX
+     * @group TENANT_ADMIN' or 'CUSTOMER_USER
+     */
+    public function getDevicesByIds(array $ids): array
+    {
+        foreach ($ids as $id) {
+            throw_if(
+                ! Str::isUuid($id),
+                $this->exception('method "ids" argument must be a valid array of uuid.'),
+            );
+        }
+
+        $devices = $this->api()->get("/devices", ['deviceIds' => implode(',', $ids)])->json();
+        return array_map(fn($device) => new Device($device), $devices);
+    }
+
+    /**
      * Fetch the Device Info object based on the provided Device IdD.
      * If the user has the authority of 'Tenant Administrator', the server checks that the device is owned by the same tenant.
      * If the user has the authority of 'Customer User', the server checks that the device is assigned to the same customer.
@@ -318,6 +339,7 @@ class Device extends Tntity
      */
     public function getDeviceTypes(): array
     {
-        return $this->api()->get('device/types')->collect()->map(fn ($type) => Type::make($type))->toArray();
+        $types = $this->api()->get("device/types")->json();
+        return array_map(fn($type) => Type::make($type), $types);
     }
 }
