@@ -125,9 +125,13 @@ class DeviceProfile extends Tntity
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getDefaultDeviceProfileInfo(): self
+    public function getDefaultDeviceProfileInfo(bool $full = false): self
     {
         $deviceProfile = $this->api()->get('deviceProfileInfo/default')->json();
+
+        if ($full) {
+            return $this->getDeviceProfileById($deviceProfile['id']['id']);
+        }
 
         return tap($this, fn () => $this->fill($deviceProfile));
     }
