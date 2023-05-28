@@ -105,10 +105,6 @@ class Customer extends Tntity
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      *
-     * @param string|null $id
-     *
-     * @return Customer
-     *
      * @throws \Throwable
      *
      * @author Sabiee
