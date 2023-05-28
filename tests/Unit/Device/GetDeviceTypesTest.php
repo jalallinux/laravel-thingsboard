@@ -15,7 +15,7 @@ class GetDeviceTypesTest extends TestCase
         $types = thingsboard($tenantUser)->device()->getDeviceTypes();
         $deviceTypes = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->pluck('type')->unique()->values();
 
-        collect($types)->each(function($type) use($deviceTypes) {
+        collect($types)->each(function ($type) use ($deviceTypes) {
             $this->assertInstanceOf(Type::class, $type);
             $this->assertTrue($deviceTypes->contains($type->type()));
         });

@@ -24,6 +24,7 @@ class Type
     public static function make(array $type): self
     {
         $id = last(Arr::except($type, ['entityType', 'type']));
+
         return new self(new Id($id['id'], $id['entityType']), EnumEntityType::from($type['entityType']), $type['type']);
     }
 
@@ -34,7 +35,7 @@ class Type
 
     public function setEntityType(EnumEntityType $entityType): self
     {
-        return tap($this, fn() => $this->entityType = $entityType);
+        return tap($this, fn () => $this->entityType = $entityType);
     }
 
     public function type(): string
@@ -44,7 +45,7 @@ class Type
 
     public function setType(string $type): self
     {
-        return tap($this, fn() => $this->type = $type);
+        return tap($this, fn () => $this->type = $type);
     }
 
     public function id(): Id
@@ -59,7 +60,7 @@ class Type
 
     public function setId(Id $id): self
     {
-        return tap($this, fn() => $this->id = $id);
+        return tap($this, fn () => $this->id = $id);
     }
 
     public function toArray(): array
