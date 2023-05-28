@@ -20,7 +20,7 @@ class SaveDeviceTest extends TestCase
             'name' => $this->faker->sentence(3),
             'label' => $this->faker->sentence(3),
         ];
-        $device = thingsboard($tenantUser)->device($attributes)->saveDevice("ACCESS_TOKEN_" . $this->faker->numerify);
+        $device = thingsboard($tenantUser)->device($attributes)->saveDevice('ACCESS_TOKEN_'.$this->faker->numerify);
         $device->deleteDevice();
 
         $this->assertInstanceOf(Device::class, $device);
@@ -38,7 +38,7 @@ class SaveDeviceTest extends TestCase
             'name' => $this->faker->sentence(3),
         ];
         $this->expectExceptionCode(500);
-        $this->expectExceptionMessageMatches("/name/");
+        $this->expectExceptionMessageMatches('/name/');
         thingsboard($user)->device(Arr::except($attributes, 'name'))->saveDevice();
     }
 
@@ -50,7 +50,7 @@ class SaveDeviceTest extends TestCase
             'name' => $deviceName,
         ];
         $this->expectExceptionCode(400);
-        $this->expectExceptionMessageMatches("/name/");
+        $this->expectExceptionMessageMatches('/name/');
         thingsboard($tenantUser)->device($attributes)->saveDevice();
     }
 }

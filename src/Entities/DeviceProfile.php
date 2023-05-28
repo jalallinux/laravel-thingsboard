@@ -120,13 +120,15 @@ class DeviceProfile extends Tntity
     /**
      * Fetch the Default Device Profile Info object.
      * Device Profile Info is a lightweight object that includes main information about Device Profile excluding the heavyweight configuration object.
-     * @return self
+     *
      * @author JalallinuX
+     *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function getDefaultDeviceProfileInfo(): self
     {
-        $deviceProfile = $this->api()->get("deviceProfileInfo/default")->json();
-        return tap($this, fn() => $this->fill($deviceProfile));
+        $deviceProfile = $this->api()->get('deviceProfileInfo/default')->json();
+
+        return tap($this, fn () => $this->fill($deviceProfile));
     }
 }

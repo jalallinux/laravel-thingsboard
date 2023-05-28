@@ -191,10 +191,11 @@ class Device extends Tntity
     /**
      * Deletes the device, it's credentials and all the relations (from and to the device).
      * Referencing non-existing device Id will cause an error.
-     * @param string|null $id
-     * @return bool
+     *
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN
      */
     public function deleteDevice(string $id = null): bool
@@ -209,7 +210,6 @@ class Device extends Tntity
         return $this->api()->delete("device/{$id}")->successful();
     }
 
-
     /**
      * Create or update the Device.
      * When creating device, platform generates Device ID as time-based UUID.
@@ -220,10 +220,9 @@ class Device extends Tntity
      * Device name is unique in the scope of tenant.
      * Use unique identifiers like MAC or IMEI for the device names and non-unique 'label' field for user-friendly visualization purposes.
      * Remove 'id', 'tenantId' and optionally 'customerId' from the request body example (below) to create new Device entity.
-     * @param string|null $accessToken
-     * @param string|null $deviceProfileId
-     * @return self
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function saveDevice(string $accessToken = null, string $deviceProfileId = null): self
@@ -235,7 +234,7 @@ class Device extends Tntity
             'deviceProfileId' => new Id($deviceProfileId, EnumEntityType::DEVICE_PROFILE()),
         ]);
 
-        $device = $this->api()->post('device'.(!is_null($accessToken) ? "?accessToken={$accessToken}" : ''), $payload)->json();
+        $device = $this->api()->post('device'.(! is_null($accessToken) ? "?accessToken={$accessToken}" : ''), $payload)->json();
 
         return tap($this, fn () => $this->fill($device));
     }
