@@ -260,4 +260,23 @@ class Device extends Tntity
 
         return new DeviceCredentials($this->api()->get("device/{$id}/credentials")->json());
     }
+
+    /**
+     * During device creation, platform generates random 'ACCESS_TOKEN' credentials.
+     * Use this method to update the device credentials.
+     * First use 'getDeviceCredentialsByDeviceId' to get the credentials id and value.
+     * Then use current method to update the credentials type and value.
+     * It is not possible to create multiple device credentials for the same device.
+     * The structure of device credentials id and value is simple for the 'ACCESS_TOKEN' but is much more complex for the 'MQTT_BASIC' or 'LWM2M_CREDENTIALS'.
+     * @param DeviceCredentials $credentials
+     * @return DeviceCredentials
+     * @author JalalLinuX
+     * @group TENANT_ADMIN
+     */
+    public function updateDeviceCredentials(DeviceCredentials $credentials): DeviceCredentials
+    {
+        $newCredentials = $this->api()->post("device/credentials", $credentials->toArray())->json();
+
+        return new DeviceCredentials($newCredentials);
+    }
 }
