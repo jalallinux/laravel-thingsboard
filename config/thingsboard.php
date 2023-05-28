@@ -45,4 +45,6 @@ return [
         'prefix' => '_thingsboard_',
         'driver' => env('THINGSBOARD_CACHE_DRIVER', 'redis'),
     ],
+
+    'countries' => json_decode(file_get_contents(__DIR__ . "/countries.json"), true)
 ];
