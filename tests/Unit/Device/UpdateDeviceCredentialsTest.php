@@ -3,8 +3,8 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\Device;
 
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
-use JalalLinuX\Thingsboard\infrastructure\DeviceCredentials;
-use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Infrastructure\DeviceCredentials;
+use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class UpdateDeviceCredentialsTest extends TestCase

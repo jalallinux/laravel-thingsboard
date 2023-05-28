@@ -5,7 +5,7 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\Tenant;
 use JalalLinuX\Thingsboard\Entities\Tenant;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumTenantSortProperty;
-use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class GetTenantsTest extends TestCase

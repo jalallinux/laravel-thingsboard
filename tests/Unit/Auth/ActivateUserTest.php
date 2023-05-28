@@ -3,8 +3,8 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\Auth;
 
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
-use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
-use JalalLinuX\Thingsboard\infrastructure\Token;
+use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Infrastructure\Token;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class ActivateUserTest extends TestCase

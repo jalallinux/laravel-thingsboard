@@ -5,9 +5,9 @@ namespace JalalLinuX\Thingsboard\Entities;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumTenantSortProperty;
-use JalalLinuX\Thingsboard\infrastructure\Id;
-use JalalLinuX\Thingsboard\infrastructure\PaginatedResponse;
-use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Infrastructure\Id;
+use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
+use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**

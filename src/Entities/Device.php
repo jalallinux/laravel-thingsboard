@@ -7,10 +7,10 @@ use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumDeviceSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
-use JalalLinuX\Thingsboard\infrastructure\DeviceCredentials;
-use JalalLinuX\Thingsboard\infrastructure\Id;
-use JalalLinuX\Thingsboard\infrastructure\PaginatedResponse;
-use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Infrastructure\DeviceCredentials;
+use JalalLinuX\Thingsboard\Infrastructure\Id;
+use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
+use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**

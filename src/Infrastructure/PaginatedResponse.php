@@ -1,6 +1,6 @@
 <?php
 
-namespace JalalLinuX\Thingsboard\infrastructure;
+namespace JalalLinuX\Thingsboard\Infrastructure;
 
 use Illuminate\Http\Client\Response;
 use Illuminate\Pagination\LengthAwarePaginator;

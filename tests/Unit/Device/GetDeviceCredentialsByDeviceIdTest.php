@@ -5,9 +5,9 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\Device;
 use Illuminate\Support\Carbon;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumDeviceCredentialsType;
-use JalalLinuX\Thingsboard\infrastructure\DeviceCredentials;
-use JalalLinuX\Thingsboard\infrastructure\Id;
-use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Infrastructure\DeviceCredentials;
+use JalalLinuX\Thingsboard\Infrastructure\Id;
+use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class GetDeviceCredentialsByDeviceIdTest extends TestCase

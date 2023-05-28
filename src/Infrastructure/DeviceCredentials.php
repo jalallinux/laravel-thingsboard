@@ -1,6 +1,6 @@
 <?php
 
-namespace JalalLinuX\Thingsboard\infrastructure;
+namespace JalalLinuX\Thingsboard\Infrastructure;
 
 use Illuminate\Support\Carbon;
 use JalalLinuX\Thingsboard\Enums\EnumDeviceCredentialsType;

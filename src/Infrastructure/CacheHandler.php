@@ -1,6 +1,6 @@
 <?php
 
-namespace JalalLinuX\Thingsboard\infrastructure;
+namespace JalalLinuX\Thingsboard\Infrastructure;
 
 use DateTimeInterface;
 use Illuminate\Contracts\Cache\Repository;

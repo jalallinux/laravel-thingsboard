@@ -4,7 +4,7 @@ namespace JalalLinuX\Thingsboard\Casts;
 
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
-use JalalLinuX\Thingsboard\infrastructure\Id;
+use JalalLinuX\Thingsboard\Infrastructure\Id;
 use Vkovic\LaravelCustomCasts\CustomCastBase;
 
 class CastId extends CustomCastBase

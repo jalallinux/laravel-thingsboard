@@ -1,6 +1,6 @@
 <?php
 
-namespace JalalLinuX\Thingsboard\infrastructure;
+namespace JalalLinuX\Thingsboard\Infrastructure;
 
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;

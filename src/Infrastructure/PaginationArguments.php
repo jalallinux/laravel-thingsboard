@@ -1,6 +1,6 @@
 <?php
 
-namespace JalalLinuX\Thingsboard\infrastructure;
+namespace JalalLinuX\Thingsboard\Infrastructure;
 
 use JalalLinuX\Thingsboard\Enums\EnumSortOrder;
 use Spatie\Enum\Laravel\Enum;

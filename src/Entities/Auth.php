@@ -3,9 +3,9 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
-use JalalLinuX\Thingsboard\infrastructure\CacheHandler;
-use JalalLinuX\Thingsboard\infrastructure\PasswordPolicy;
-use JalalLinuX\Thingsboard\infrastructure\Token;
+use JalalLinuX\Thingsboard\Infrastructure\CacheHandler;
+use JalalLinuX\Thingsboard\Infrastructure\PasswordPolicy;
+use JalalLinuX\Thingsboard\Infrastructure\Token;
 use JalalLinuX\Thingsboard\Tntity;
 
 class Auth extends Tntity

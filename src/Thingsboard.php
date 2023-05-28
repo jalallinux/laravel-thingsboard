@@ -4,7 +4,7 @@ namespace JalalLinuX\Thingsboard;
 
 use DateTimeInterface;
 use JalalLinuX\Thingsboard\Entities\Auth;
-use JalalLinuX\Thingsboard\infrastructure\CacheHandler;
+use JalalLinuX\Thingsboard\Infrastructure\CacheHandler;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 
 /**

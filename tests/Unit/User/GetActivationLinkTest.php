@@ -4,7 +4,7 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\User;
 
 use Illuminate\Support\Facades\Http;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
-use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class GetActivationLinkTest extends TestCase

@@ -2,7 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Tests\Unit\Auth;
 
-use JalalLinuX\Thingsboard\infrastructure\PasswordPolicy;
+use JalalLinuX\Thingsboard\Infrastructure\PasswordPolicy;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class GetUserPasswordPolicyTest extends TestCase
