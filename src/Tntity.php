@@ -104,6 +104,6 @@ abstract class Tntity extends Model
 
     public static function config(string $key = null, $default = null)
     {
-        return is_null($key) ? config("thingsboard") : config("thingsboard.{$key}", $default);
+        return is_null($key) ? config('thingsboard') : config("thingsboard.{$key}", $default);
     }
 }
