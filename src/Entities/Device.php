@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumDeviceSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
+use JalalLinuX\Thingsboard\infrastructure\DeviceCredentials;
 use JalalLinuX\Thingsboard\infrastructure\Id;
 use JalalLinuX\Thingsboard\infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\infrastructure\PaginationArguments;
@@ -237,5 +238,17 @@ class Device extends Tntity
         $device = $this->api()->post('device'.(! is_null($accessToken) ? "?accessToken={$accessToken}" : ''), $payload)->json();
 
         return tap($this, fn () => $this->fill($device));
+    }
+
+    public function getDeviceCredentialsByDeviceId(string $id = null): DeviceCredentials
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        throw_if(
+            ! Str::isUuid($id),
+            $this->exception('method "id" argument must be a valid uuid.'),
+        );
+
+        return new DeviceCredentials($this->api()->get("device/{$id}/credentials")->json());
     }
 }
