@@ -2,6 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumCustomerSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
@@ -74,5 +75,49 @@ class Customer extends Tntity
         $response = $this->api()->get('customers', $paginationArguments->queryParams());
 
         return $this->paginatedResponse($response, $paginationArguments);
+    }
+
+    /**
+     * Creates or Updates the Customer.
+     * When creating customer, platform generates Customer Id as time-based UUID.
+     * The newly created Customer Id will be present in the response. Specify existing Customer Id to update the Customer.
+     * Referencing non-existing Customer Id will cause 'Not Found' error.Remove 'id', 'tenantId' from the request body example (below) to create new Customer entity.
+     *
+     * @group  TENANT_ADMIN
+     *
+     * @author Sabiee
+     */
+    public function saveCustomer(): self
+    {
+        $payload = array_merge($this->getAttributes(), [
+            'title' => $this->forceAttribute('title'),
+        ]);
+
+        $customer = $this->api()->post('customer', $payload)->json();
+
+        return tap($this, fn () => $this->fill($customer));
+    }
+
+    /**
+     * Deletes the Customer and all customer Users.
+     * All assigned Dashboards, Assets, Devices, etc. will be unassigned but not deleted.
+     * Referencing non-existing Customer Id will cause an error.
+     *
+     * @group TENANT_ADMIN
+     *
+     * @throws \Throwable
+     *
+     * @author Sabiee
+     */
+    public function deleteCustomer(string $id = null): bool
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        throw_if(
+            ! Str::isUuid($id),
+            $this->exception('method argument must be a valid uuid.'),
+        );
+
+        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("customer/{$id}")->successful();
     }
 }
