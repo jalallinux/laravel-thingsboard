@@ -240,6 +240,14 @@ class Device extends Tntity
         return tap($this, fn () => $this->fill($device));
     }
 
+    /**
+     * If during device creation there wasn't specified any credentials, platform generates random 'ACCESS_TOKEN' credentials.
+     * @param string|null $id
+     * @return DeviceCredentials
+     * @throws \Throwable
+     * @author JalalLinuX
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
     public function getDeviceCredentialsByDeviceId(string $id = null): DeviceCredentials
     {
         $id = $id ?? $this->forceAttribute('id')->id;
