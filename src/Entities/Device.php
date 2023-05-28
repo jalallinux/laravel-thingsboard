@@ -97,10 +97,13 @@ class Device extends Tntity
 
     /**
      * Requested devices must be owned by tenant or assigned to customer which user is performing the request.
-     * @param array $ids
+     *
      * @return self[]
+     *
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN' or 'CUSTOMER_USER
      */
     public function getDevicesByIds(array $ids): array
@@ -112,8 +115,9 @@ class Device extends Tntity
             );
         }
 
-        $devices = $this->api()->get("/devices", ['deviceIds' => implode(',', $ids)])->json();
-        return array_map(fn($device) => new Device($device), $devices);
+        $devices = $this->api()->get('/devices', ['deviceIds' => implode(',', $ids)])->json();
+
+        return array_map(fn ($device) => new Device($device), $devices);
     }
 
     /**
@@ -339,7 +343,8 @@ class Device extends Tntity
      */
     public function getDeviceTypes(): array
     {
-        $types = $this->api()->get("device/types")->json();
-        return array_map(fn($type) => Type::make($type), $types);
+        $types = $this->api()->get('device/types')->json();
+
+        return array_map(fn ($type) => Type::make($type), $types);
     }
 }
