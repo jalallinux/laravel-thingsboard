@@ -308,7 +308,7 @@ class Device extends Tntity
 
     /**
      * Returns a set of unique device profile names based on devices that are either owned by the tenant or assigned to the customer which user is performing the request.
-     * @return array
+     * @return Type[]
      * @author JalalLinuX
      * @group TENANT_ADMIN | CUSTOMER_USER
      */

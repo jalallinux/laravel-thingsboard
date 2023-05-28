@@ -3,6 +3,7 @@
 namespace JalalLinuX\Thingsboard\Infrastructure;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 
 class Type
@@ -26,7 +27,7 @@ class Type
         return new self(new Id($id['id'], $id['entityType']), EnumEntityType::from($type['entityType']), $type['type']);
     }
 
-    public function entityType(): string
+    public function entityType(): EnumEntityType
     {
         return $this->entityType;
     }
@@ -51,8 +52,22 @@ class Type
         return $this->id;
     }
 
+    public function idKey(): string
+    {
+        return Str::camel(Str::kebab(strtolower("{$this->id->entityType}_ID")));
+    }
+
     public function setId(Id $id): self
     {
         return tap($this, fn() => $this->id = $id);
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'entityType' => $this->entityType()->value,
+            $this->idKey() => $this->id()->toArray(),
+            'type' => $this->type,
+        ];
     }
 }
