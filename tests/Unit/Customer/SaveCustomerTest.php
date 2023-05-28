@@ -26,7 +26,7 @@ class SaveCustomerTest extends TestCase
             'zip' => $this->faker->postcode,
             'phone' => $this->faker->phoneNumber,
             'email' => $this->faker->email,
-            'additionalInfo' => []
+            'additionalInfo' => [],
         ];
         $newCustomer = thingsboard($tenantUser)->customer($attributes)->saveCustomer();
 
@@ -54,10 +54,10 @@ class SaveCustomerTest extends TestCase
             'zip' => $this->faker->postcode,
             'phone' => $this->faker->phoneNumber,
             'email' => $this->faker->email,
-            'additionalInfo' => []
+            'additionalInfo' => [],
         ];
         $this->expectExceptionCode(500);
-        $this->expectExceptionMessageMatches("/title/");
+        $this->expectExceptionMessageMatches('/title/');
         thingsboard($tenantUser)->customer($attributes)->saveCustomer();
     }
 
@@ -74,10 +74,10 @@ class SaveCustomerTest extends TestCase
             'zip' => $this->faker->postcode,
             'phone' => $this->faker->phoneNumber,
             'email' => $this->faker->email,
-            'additionalInfo' => []
+            'additionalInfo' => [],
         ];
         $this->expectExceptionCode(400);
-        $this->expectExceptionMessageMatches("/exists!/");
+        $this->expectExceptionMessageMatches('/exists!/');
         thingsboard($tenantUser)->customer($attributes)->saveCustomer();
     }
 }

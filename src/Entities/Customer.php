@@ -82,14 +82,15 @@ class Customer extends Tntity
      * When creating customer, platform generates Customer Id as time-based UUID.
      * The newly created Customer Id will be present in the response. Specify existing Customer Id to update the Customer.
      * Referencing non-existing Customer Id will cause 'Not Found' error.Remove 'id', 'tenantId' from the request body example (below) to create new Customer entity.
+     *
      * @group  TENANT_ADMIN
-     * @return Customer
+     *
      * @author Sabiee
      */
     public function saveCustomer(): self
     {
         $payload = array_merge($this->getAttributes(), [
-            'title' => $this->forceAttribute('title')
+            'title' => $this->forceAttribute('title'),
         ]);
 
         $customer = $this->api()->post('customer', $payload)->json();
@@ -104,10 +105,6 @@ class Customer extends Tntity
      *
      * @group TENANT_ADMIN
      *
-     * @param string|null $id
-     *
-     * @return bool
-     *
      * @throws \Throwable
      *
      * @author Sabiee
@@ -120,6 +117,7 @@ class Customer extends Tntity
             ! Str::isUuid($id),
             $this->exception('method argument must be a valid uuid.'),
         );
+
         return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("customer/{$id}")->successful();
     }
 }
