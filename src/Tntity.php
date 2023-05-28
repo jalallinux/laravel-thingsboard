@@ -26,14 +26,14 @@ abstract class Tntity extends Model
 
     protected function api(bool $auth = true, bool $handleException = true): PendingRequest
     {
-        $baseUri = config('thingsboard.rest.base_uri');
+        $baseUri = self::config('rest.base_uri');
         $baseUri = str_ends_with($baseUri, '/') ? substr($baseUri, 0, -1) : $baseUri;
         $request = Http::baseUrl("{$baseUri}/api");
 
         if ($auth) {
             throw_if(! isset($this->_thingsboardUser), $this->exception('method need authentication token.', 401));
             $request = $request->withHeaders([
-                config('thingsboard.rest.authorization.header_key') => config('thingsboard.rest.authorization.token_type').' '.Thingsboard::fetchUserToken($this->_thingsboardUser),
+                self::config('rest.authorization.header_key') => self::config('rest.authorization.token_type').' '.Thingsboard::fetchUserToken($this->_thingsboardUser),
             ]);
         }
 
@@ -102,8 +102,8 @@ abstract class Tntity extends Model
         return new PaginatedResponse($tntity ?? $this, $response, $arguments);
     }
 
-    public function throwBooleanMethods(): bool
+    public static function config(string $key = null, $default = null)
     {
-        return boolval(config('thingsboard.rest.exception.throw_bool_methods', false));
+        return is_null($key) ? config("thingsboard") : config("thingsboard.{$key}", $default);
     }
 }

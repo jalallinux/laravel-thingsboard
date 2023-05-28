@@ -173,7 +173,7 @@ class User extends Tntity
             $this->exception('method argument must be a valid uuid.'),
         );
 
-        return $this->api(handleException: $this->throwBooleanMethods())->delete("user/{$id}")->successful();
+        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("user/{$id}")->successful();
     }
 
     /**
