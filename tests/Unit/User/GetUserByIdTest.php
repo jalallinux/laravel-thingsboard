@@ -27,9 +27,6 @@ class GetUserByIdTest extends TestCase
         $uuid = $this->faker->uuid;
         $adminUser = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
 
-        $tenantId = thingsboard()->tenant()->withUser($adminUser)->getTenants(PaginationArguments::make())->data()->first()->id->id;
-        $userId = thingsboard($adminUser)->user()->getTenantAdmins(PaginationArguments::make(), $tenantId)->data()->first()->id->id;
-
         $this->expectExceptionCode(404);
         $this->expectExceptionMessageMatches("/{$uuid}/");
         thingsboard($adminUser)->user()->getUserById($uuid);

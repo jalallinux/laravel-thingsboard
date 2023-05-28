@@ -99,6 +99,35 @@ class Customer extends Tntity
     }
 
     /**
+     * Get the Customer object based on the provided Customer Id.
+     * If the user has the authority of 'Tenant Administrator', the server checks that the customer is owned by the same tenant.
+     * If the user has the authority of 'Customer User', the server checks that the user belongs to the customer.
+     *
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     *
+     * @param string|null $id
+     *
+     * @return Customer
+     *
+     * @throws \Throwable
+     *
+     * @author Sabiee
+     */
+    public function getCustomerById(string $id = null): self
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        throw_if(
+            ! Str::isUuid($id),
+            $this->exception('method argument must be a valid uuid.'),
+        );
+
+        $customer = $this->api()->get("customer/{$id}")->json();
+
+        return tap($this, fn () => $this->fill($customer));
+    }
+
+    /**
      * Deletes the Customer and all customer Users.
      * All assigned Dashboards, Assets, Devices, etc. will be unassigned but not deleted.
      * Referencing non-existing Customer Id will cause an error.
