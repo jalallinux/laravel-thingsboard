@@ -9,10 +9,15 @@ use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 class DeviceCredentials
 {
     private string $id;
+
     private Id $deviceId;
+
     private Carbon $createdTime;
+
     private EnumDeviceCredentialsType $credentialsType;
+
     private string $credentialsId;
+
     private ?string $credentialsValue;
 
     public function __construct(array $deviceCredentials)
@@ -32,7 +37,7 @@ class DeviceCredentials
 
     public function setId(string $id): self
     {
-        return tap($this, fn() => $this->id = $id);
+        return tap($this, fn () => $this->id = $id);
     }
 
     public function deviceId(): Id
@@ -42,7 +47,7 @@ class DeviceCredentials
 
     public function setDeviceId(Id $deviceId): self
     {
-        return tap($this, fn() => $this->deviceId = $deviceId);
+        return tap($this, fn () => $this->deviceId = $deviceId);
     }
 
     public function createdTime(): Carbon
@@ -52,7 +57,7 @@ class DeviceCredentials
 
     public function setCreatedTime(Carbon $createdTime): self
     {
-        return tap($this, fn() => $this->createdTime = $createdTime);
+        return tap($this, fn () => $this->createdTime = $createdTime);
     }
 
     public function credentialsType(): EnumDeviceCredentialsType
@@ -62,7 +67,7 @@ class DeviceCredentials
 
     public function setCredentialsType(EnumDeviceCredentialsType $credentialsType): self
     {
-        return tap($this, fn() => $this->credentialsType = $credentialsType);
+        return tap($this, fn () => $this->credentialsType = $credentialsType);
     }
 
     public function credentialsId(): string
@@ -73,9 +78,10 @@ class DeviceCredentials
     public function setCredentialsId(string $credentialsId): self
     {
         if ($this->credentialsType->equals(EnumDeviceCredentialsType::ACCESS_TOKEN()) && strlen($credentialsId) > 32) {
-            throw new \Exception("CredentialsId must be less than 32 character when CredentialsType is " . EnumDeviceCredentialsType::ACCESS_TOKEN()->value);
+            throw new \Exception('CredentialsId must be less than 32 character when CredentialsType is '.EnumDeviceCredentialsType::ACCESS_TOKEN()->value);
         }
-        return tap($this, fn() => $this->credentialsId = $credentialsId);
+
+        return tap($this, fn () => $this->credentialsId = $credentialsId);
     }
 
     public function credentialsValue(): ?string
@@ -85,7 +91,7 @@ class DeviceCredentials
 
     public function setCredentialsValue(?string $credentialsValue): self
     {
-        return tap($this, fn() => $this->credentialsValue = $credentialsValue);
+        return tap($this, fn () => $this->credentialsValue = $credentialsValue);
     }
 
     public function toArray(): array
