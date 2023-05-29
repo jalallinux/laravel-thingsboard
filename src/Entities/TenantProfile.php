@@ -113,13 +113,14 @@ class TenantProfile extends Tntity
      * Referencing non-existing tenant profile Id will cause an error.
      * Referencing profile that is used by the tenants will cause an error.
      *
+     * @param string|null $id
      * @return bool
      * @throws \Throwable
      * @group SYS_ADMIN
      *
      * @author Sabiee
      */
-    public function deleteTenantProfile(): bool
+    public function deleteTenantProfile(string $id = null): bool
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
