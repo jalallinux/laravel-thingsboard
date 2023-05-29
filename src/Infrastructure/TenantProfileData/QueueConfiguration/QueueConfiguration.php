@@ -19,7 +19,7 @@ class QueueConfiguration
             $this->queues = [];
         }
 
-        return tap($this, fn() => $this->queues[] = $queue);
+        return tap($this, fn () => $this->queues[] = $queue);
     }
 
     public function setQueues(array $queues, bool $flush = false): static
@@ -42,6 +42,6 @@ class QueueConfiguration
 
     public function toArray(): array
     {
-        return array_map(fn(Queue $queue) => $queue->toArray(), $this->queues);
+        return array_map(fn (Queue $queue) => $queue->toArray(), $this->queues);
     }
 }

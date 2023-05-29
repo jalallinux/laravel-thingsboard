@@ -24,7 +24,7 @@ class Queue
 
     public function __construct(array $configuration = [])
     {
-        throw_if(!array_key_exists('name', $configuration), new \Exception("Queue configuration must have name key."));
+        throw_if(! array_key_exists('name', $configuration), new \Exception('Queue configuration must have name key.'));
 
         $this->setProcessingStrategy(ProcessingStrategy::make())->setSubmitStrategy(SubmitStrategy::make());
 
