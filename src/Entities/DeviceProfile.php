@@ -112,7 +112,7 @@ class DeviceProfile extends Tntity
             $this->exception('method argument must be a valid uuid.'),
         );
 
-        $deviceProfile = $this->api()->get("/deviceProfile/{$id}")->json();
+        $deviceProfile = $this->api()->get("deviceProfile/{$id}")->json();
 
         return tap($this, fn () => $this->fill($deviceProfile));
     }

@@ -23,9 +23,9 @@ class GetTenantsTest extends TestCase
     public function testPaginationData()
     {
         $pagination = $this->randomPagination(EnumTenantSortProperty::class);
-        $user = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
+        $adminUser = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
 
-        $tenants = thingsboard($user)->tenant()->getTenants($pagination);
+        $tenants = thingsboard($adminUser)->tenant()->getTenants($pagination);
 
         $this->assertEquals($pagination->page, $tenants->paginator()->currentPage());
         $this->assertEquals($pagination->pageSize, $tenants->paginator()->perPage());

@@ -90,7 +90,7 @@ class Device extends Tntity
             $this->exception('method "id" argument must be a valid uuid.'),
         );
 
-        $device = $this->api()->get("/device/{$id}")->json();
+        $device = $this->api()->get("device/{$id}")->json();
 
         return tap($this, fn () => $this->fill($device));
     }
@@ -141,7 +141,7 @@ class Device extends Tntity
             $this->exception('method "id" argument must be a valid uuid.'),
         );
 
-        $device = $this->api()->get("/device/info/{$id}")->json();
+        $device = $this->api()->get("device/info/{$id}")->json();
 
         return tap($this, fn () => $this->fill($device));
     }

@@ -2,6 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumTenantSortProperty;
@@ -107,5 +108,33 @@ class Tenant extends Tntity
         $response = $this->api()->get('tenantInfos', $paginationArguments->queryParams());
 
         return $this->paginatedResponse($response, $paginationArguments);
+    }
+
+    /**
+     * Fetch the Tenant Info object based on the provided Tenant ID.
+     * The Tenant Info object extends regular Tenant object and includes Tenant Profile name.
+     *
+     * @param string|null $id
+     *
+     * @return self
+     *
+     * @throws \Throwable
+     *
+     * @author JalalLinuX
+     *
+     * @group SYS_ADMIN | TENANT_ADMIN
+     */
+    public function getTenantInfoById(string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        throw_if(
+            ! Str::isUuid($id),
+            $this->exception('method "id" argument must be a valid uuid.'),
+        );
+
+        $tenant = $this->api()->get("tenant/info/{$id}")->json();
+
+        return tap($this, fn () => $this->fill($tenant));
     }
 }
