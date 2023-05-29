@@ -97,7 +97,6 @@ class TenantProfile extends Tntity
      * Remove 'id', from the request body example (below) to create new Tenant Profile entity.
      * Available for users with 'SYS_ADMIN' authority.
      *
-     * @return TenantProfile
      * @author Sabiee
      */
     public function saveTenantProfile(): TenantProfile
@@ -108,7 +107,7 @@ class TenantProfile extends Tntity
 
         $tenantProfile = $this->api()->post('tenantProfile', $payload)->json();
 
-        return tap($this, fn() => $this->fill($tenantProfile));
+        return tap($this, fn () => $this->fill($tenantProfile));
     }
 
     /**
@@ -116,9 +115,8 @@ class TenantProfile extends Tntity
      * Referencing non-existing tenant profile Id will cause an error.
      * Referencing profile that is used by the tenants will cause an error.
      *
-     * @param string|null $id
-     * @return bool
      * @throws \Throwable
+     *
      * @group SYS_ADMIN
      *
      * @author Sabiee
@@ -128,7 +126,7 @@ class TenantProfile extends Tntity
         $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            !Str::isUuid($id),
+            ! Str::isUuid($id),
             $this->exception('method "id" argument must be a valid uuid.'),
         );
 
@@ -140,10 +138,10 @@ class TenantProfile extends Tntity
      *
      *
      *
-     * @param string|null $id
      * @return self
      *
      * @throws \Throwable
+     *
      * @author JalalLinuX
      *
      * @group SYS_ADMIN
@@ -153,23 +151,23 @@ class TenantProfile extends Tntity
         $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            !Str::isUuid($id),
+            ! Str::isUuid($id),
             $this->exception('method "id" argument must be a valid uuid.'),
         );
 
         $tenantProfile = $this->api()->get("tenantProfile/{$id}")->json();
 
-        return tap($this, fn() => $this->fill($tenantProfile));
+        return tap($this, fn () => $this->fill($tenantProfile));
     }
 
     /**
      * Fetch the default Tenant Profile Info object based.
      * Tenant Profile Info is a lightweight object that contains only id and name of the profile.
      *
-     * @param bool $full
      * @return $this
      *
      * @throws \Throwable
+     *
      * @author JalalLinuX
      *
      * @group SYS_ADMIN
@@ -182,7 +180,7 @@ class TenantProfile extends Tntity
             return $this->getTenantProfileById($tenantProfile['id']['id']);
         }
 
-        return tap($this, fn() => $this->fill($tenantProfile));
+        return tap($this, fn () => $this->fill($tenantProfile));
     }
 
     /**
@@ -194,8 +192,6 @@ class TenantProfile extends Tntity
      *
      *
      *
-     * @param PaginationArguments $paginationArguments
-     * @return PaginatedResponse
      * @author JalalLinuX
      *
      * @group SYS_ADMIN
@@ -215,9 +211,6 @@ class TenantProfile extends Tntity
      *
      * @group SYS_ADMIN
      *
-     * @param string|null $id
-     * @param bool $sync
-     * @return TenantProfile
      * @author Sabiee
      */
     public function setDefaultTenantProfile(string $id = null, bool $sync = false): TenantProfile
@@ -225,10 +218,11 @@ class TenantProfile extends Tntity
         $id = $id ?? $this->forceAttribute('id')->id;
 
         $tenantProfile = $this->api()->post("tenantProfile/{$id}/default", $this->attributes)->json();
-        if($sync){
+        if ($sync) {
             $tenantProfile = $this->api()->get("tenantProfile/{$id}")->json();
         }
-        return tap($this, fn() => $this->fill($tenantProfile));
+
+        return tap($this, fn () => $this->fill($tenantProfile));
 
     }
 
@@ -240,8 +234,6 @@ class TenantProfile extends Tntity
      *
      * @group SYS_ADMIN
      *
-     * @param PaginationArguments $paginationArguments
-     * @return PaginatedResponse
      * @author Sabiee
      */
     public function getTenantProfiles(PaginationArguments $paginationArguments): PaginatedResponse

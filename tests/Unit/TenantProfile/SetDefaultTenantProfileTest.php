@@ -19,7 +19,6 @@ class SetDefaultTenantProfileTest extends TestCase
         $tenantProfileId = thingsboard($adminUser)->tenantProfile()->getTenantProfiles(PaginationArguments::make())->data()->first()->id->id;
         $defaultTenantProfileId = thingsboard($adminUser)->tenantProfile()->getDefaultTenantProfileInfo()->id->id;
 
-
         $tenantProfile = thingsboard($adminUser)->tenantProfile()->setDefaultTenantProfile($tenantProfileId, true);
         thingsboard($adminUser)->tenantProfile()
             ->setDefaultTenantProfile($defaultTenantProfileId);
