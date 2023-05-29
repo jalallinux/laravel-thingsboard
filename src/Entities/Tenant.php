@@ -110,7 +110,6 @@ class Tenant extends Tntity
      * Fetch the Tenant Info object based on the provided Tenant ID.
      * The Tenant Info object extends regular Tenant object and includes Tenant Profile name.
      *
-     * @param string|null $id
      *
      * @return self
      *
