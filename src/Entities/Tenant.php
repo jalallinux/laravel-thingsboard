@@ -137,9 +137,7 @@ class Tenant extends Tntity
      * Deletes the tenant, it's customers, rule chains, devices and all other related entities.
      * Referencing non-existing tenant ID will cause an error.
      *
-     * @param string|null $id
      *
-     * @return bool
      *
      * @throws \Throwable
      *
@@ -166,11 +164,13 @@ class Tenant extends Tntity
      * The newly created Tenant ID will be present in the response.
      * Specify existing Tenant ID to update the Tenant.
      * Referencing non-existing Tenant ID will cause 'Not Found' error.Remove 'id', 'tenantId' from the request body example (below) to create new Tenant entity.
-     * @param string|null $accessToken
-     * @param string|null $tenantProfileId
+     *
      * @return $this
+     *
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group SYS_ADMIN
      */
     public function saveTenant(string $accessToken = null, string $tenantProfileId = null): static
@@ -182,7 +182,7 @@ class Tenant extends Tntity
             'tenantProfileId' => new Id($tenantProfileId, EnumEntityType::TENANT_PROFILE()),
         ]);
 
-        $tenant = $this->api()->post("tenant", $payload)->json();
+        $tenant = $this->api()->post('tenant', $payload)->json();
 
         return tap($this, fn () => $this->fill($tenant));
     }
