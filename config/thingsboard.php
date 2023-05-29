@@ -32,6 +32,7 @@ return [
                 'pass' => env('THINGSBOARD_CUSTOMER_PASS', 'customer'),
             ],
         ],
+
         'exception' => [
             /**
              * True => Boolean methods return exception
@@ -39,6 +40,37 @@ return [
              */
             'throw_bool_methods' => boolval(env('THINGSBOARD_EXCEPTION_THROW_BOOL_METHOD', true)),
         ],
+
+        'rpc' => [
+            'default_attributes' => [
+                /**
+                 * timeout - optional, value of the processing timeout in milliseconds.
+                 * The default value is 10000 (10 seconds). The minimum value is 5000 (5 seconds).
+                 */
+                'timeout' => 10000,
+
+                /**
+                 * expirationTime - optional, value of the epoch time (in milliseconds, UTC timezone).
+                 * Overrides timeout if present.
+                 */
+                'expirationTime' => now()->addMinute()->getPreciseTimestamp(3),
+
+                /**
+                 * persistent - optional, indicates persistent RPC. The default value is "false".
+                 */
+                'persistent' => false,
+
+                /**
+                 * retries - optional, defines how many times persistent RPC will be re-sent in case of failures on the network and/or device side.
+                 */
+                'retries' => 1,
+
+                /**
+                 * additionalInfo - optional, defines metadata for the persistent RPC that will be added to the persistent RPC events.
+                 */
+                'additionalInfo' => [],
+            ]
+        ]
     ],
 
     'cache' => [
