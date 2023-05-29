@@ -64,7 +64,7 @@ class PaginationArguments
 
     public function validateSortProperty(string $sortPropertyEnum, array $exceptKeys = [], bool $throw = true): bool
     {
-        $validated = in_array($this->sortProperty, Arr::except($sortPropertyEnum::toValues(), array_map(fn($v) => (string) $v, $exceptKeys)));
+        $validated = in_array($this->sortProperty, Arr::except($sortPropertyEnum::toValues(), array_map(fn ($v) => (string) $v, $exceptKeys)));
         throw_if($throw && ! $validated, new \Exception("Sort property must be a instance of {$sortPropertyEnum}."));
 
         return $validated;
