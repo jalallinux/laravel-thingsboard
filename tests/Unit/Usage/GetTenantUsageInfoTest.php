@@ -24,7 +24,7 @@ class GetTenantUsageInfoTest extends TestCase
         $user = $this->thingsboardUser($this->faker->randomElement([EnumAuthority::SYS_ADMIN(), EnumAuthority::CUSTOMER_USER()]));
 
         $this->expectExceptionCode(403);
-        $this->expectExceptionMessageMatches("/permission/");
+        $this->expectExceptionMessageMatches('/permission/');
         thingsboard($user)->usage()->getTenantUsageInfo();
     }
 }

@@ -13,7 +13,7 @@ class SaveTenantProfileTest extends TestCase
     /**
      * @throws \Throwable
      */
-    public function testCreateTenantSuccess()
+    public function testCreateTenantProfileSuccess()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
         $attributes = [

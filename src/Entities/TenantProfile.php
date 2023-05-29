@@ -103,7 +103,7 @@ class TenantProfile extends Tntity
         $payload = array_merge($this->getAttributes(), [
             'name' => $this->forceAttribute('name'),
         ]);
-        $this->forceAttribute('name');
+
         $tenantProfile = $this->api()->post('tenantProfile', $payload)->json();
 
         return tap($this, fn () => $this->fill($tenantProfile));
@@ -196,6 +196,46 @@ class TenantProfile extends Tntity
      * @group SYS_ADMIN
      */
     public function getTenantProfileInfos(PaginationArguments $paginationArguments): PaginatedResponse
+    {
+        $paginationArguments->validateSortProperty(EnumTenantProfileSortProperty::class);
+
+        $response = $this->api()->get('tenantProfiles', $paginationArguments->queryParams());
+
+        return $this->paginatedResponse($response, $paginationArguments);
+    }
+
+    /**
+     * Makes specified tenant profile to be default.
+     * Referencing non-existing tenant profile Id will cause an error.
+     *
+     * @group SYS_ADMIN
+     *
+     * @author Sabiee
+     */
+    public function setDefaultTenantProfile(string $id = null, bool $sync = false): TenantProfile
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        $tenantProfile = $this->api()->post("tenantProfile/{$id}/default", $this->attributes)->json();
+        if ($sync) {
+            $tenantProfile = $this->api()->get("tenantProfile/{$id}")->json();
+        }
+
+        return tap($this, fn () => $this->fill($tenantProfile));
+
+    }
+
+    /**
+     * Returns a page of tenant profiles registered in the platform.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details.
+     *
+     * @group SYS_ADMIN
+     *
+     * @author Sabiee
+     */
+    public function getTenantProfiles(PaginationArguments $paginationArguments): PaginatedResponse
     {
         $paginationArguments->validateSortProperty(EnumTenantProfileSortProperty::class);
 
