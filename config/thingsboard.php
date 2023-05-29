@@ -69,8 +69,8 @@ return [
                  * additionalInfo - optional, defines metadata for the persistent RPC that will be added to the persistent RPC events.
                  */
                 'additionalInfo' => [],
-            ]
-        ]
+            ],
+        ],
     ],
 
     'cache' => [

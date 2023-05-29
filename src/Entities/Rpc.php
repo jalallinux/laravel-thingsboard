@@ -99,13 +99,9 @@ class Rpc extends Tntity
      * In case of persistent RPC, the result of this call is 'rpcId' UUID. In case of lightweight RPC, the result of this call is either 200 OK if the message was sent to device, or 504 Gateway Timeout if device is offline.
      * Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.
      *
-     * @param string $deviceId
      *
-     * @param string $method
      *
-     * @param array $params
      *
-     * @return bool
      *
      * @throws \Throwable
      *
@@ -121,6 +117,7 @@ class Rpc extends Tntity
         );
 
         $payload = $this->fill(['method' => $method, 'params' => $params])->toArray();
+
         return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->post("rpc/oneway/{$deviceId}", $payload)->successful();
     }
 
@@ -152,13 +149,7 @@ class Rpc extends Tntity
      * In case of persistent RPC, the result of this call is 'rpcId' UUID. In case of lightweight RPC, the result of this call is either 200 OK if the message was sent to device, or 504 Gateway Timeout if device is offline.
      * Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.
      *
-     * @param string $deviceId
-     *
-     * @param string $method
-     *
-     * @param array $params
-     *
-     * @return bool
+     * @param  string  $deviceId
      *
      * @throws \Throwable
      *
@@ -176,13 +167,13 @@ class Rpc extends Tntity
         );
 
         $payload = $this->fill(['method' => $method, 'params' => $params])->toArray();
+
         return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->post("rpc/twoway/{$deviceId}", $payload)->successful();
     }
 
     /**
      * Get information about the status of the RPC call.
      *
-     * @param string|null $id
      *
      * @return $this
      *
@@ -202,15 +193,14 @@ class Rpc extends Tntity
         );
 
         $rpc = $this->api()->get("rpc/persistent/{$id}")->json();
-        return tap($this, fn() => new self($rpc));
+
+        return tap($this, fn () => new self($rpc));
     }
 
     /**
      * Deletes the persistent RPC request.
      *
-     * @param string|null $id
      *
-     * @return bool
      *
      * @throws \Throwable
      *
@@ -233,13 +223,9 @@ class Rpc extends Tntity
     /**
      * Allows to query RPC calls for specific device using pagination.
      *
-     * @param PaginationArguments $paginationArguments
      *
-     * @param string|null $deviceId
      *
-     * @param EnumRpcStatus|null $rpcStatus
      *
-     * @return PaginatedResponse
      *
      * @throws \Throwable
      *
@@ -259,7 +245,7 @@ class Rpc extends Tntity
         );
 
         $response = $this->api()->get("rpc/persistent/device/{$deviceId}", $paginationArguments->queryParams([
-            'rpcStatus' => $rpcStatus
+            'rpcStatus' => $rpcStatus,
         ]));
 
         return $this->paginatedResponse($response, $paginationArguments);
