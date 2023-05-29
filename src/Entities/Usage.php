@@ -6,7 +6,6 @@ use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
- *
  * @property int $alarms;
  * @property int $assets;
  * @property int $customers;
@@ -83,14 +82,17 @@ class Usage extends Tntity
 
     /**
      * Get Tenant Usage Info
+     *
      * @return self
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN
      */
     public function getTenantUsageInfo(): static
     {
-        $usage = $this->api()->get("usage")->json();
+        $usage = $this->api()->get('usage')->json();
 
-        return tap($this, fn() => $this->fill($usage));
+        return tap($this, fn () => $this->fill($usage));
     }
 }
