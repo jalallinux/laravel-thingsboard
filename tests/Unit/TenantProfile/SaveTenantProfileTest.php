@@ -16,7 +16,7 @@ class SaveTenantProfileTest extends TestCase
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
         $attributes = [
-            'name' => 'new one'
+            'name' => 'new one',
         ];
         $tenantProfile = thingsboard($tenantUser)->tenantProfile($attributes)->saveTenantProfile();
         $tenantProfile->deleteTenantProfile();
