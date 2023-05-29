@@ -2,9 +2,12 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
+use JalalLinuX\Thingsboard\Casts\CastTenantProfileDataConfiguration;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
+use JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\ProfileData;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -13,7 +16,7 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property string $name;
  * @property string $description;
  * @property bool $isolatedTbRuleEngine;
- * @property array $profileData;
+ * @property ProfileData $profileData;
  */
 class TenantProfile extends Tntity
 {
@@ -30,11 +33,25 @@ class TenantProfile extends Tntity
         'default' => 'boolean',
         'id' => CastId::class,
         'isolatedTbRuleEngine' => 'boolean',
-        'profileData' => 'array',
+        'profileData' => CastTenantProfileDataConfiguration::class,
     ];
 
     public function entityType(): ?EnumEntityType
     {
         return EnumEntityType::TENANT_PROFILE();
+    }
+
+    public function getTenantProfileById(string $id = null): self
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        throw_if(
+            ! Str::isUuid($id),
+            $this->exception('method "id" argument must be a valid uuid.'),
+        );
+
+        $tenantProfile = $this->api()->get("tenantProfile/{$id}")->json();
+
+        return tap($this, fn () => $this->fill($tenantProfile));
     }
 }
