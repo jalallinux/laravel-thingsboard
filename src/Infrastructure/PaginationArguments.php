@@ -2,6 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Infrastructure;
 
+use Illuminate\Support\Arr;
 use JalalLinuX\Thingsboard\Enums\EnumSortOrder;
 use Spatie\Enum\Laravel\Enum;
 
@@ -61,9 +62,9 @@ class PaginationArguments
         return tap($this, fn () => $this->textSearch = (! is_null($textSearch) ? $textSearch : $this->textSearch));
     }
 
-    public function validateSortProperty(string $sortPropertyEnum, bool $throw = true): bool
+    public function validateSortProperty(string $sortPropertyEnum, array $exceptKeys = [], bool $throw = true): bool
     {
-        $validated = in_array($this->sortProperty, $sortPropertyEnum::toValues());
+        $validated = in_array($this->sortProperty, Arr::except($sortPropertyEnum::toValues(), array_map(fn($v) => (string) $v, $exceptKeys)));
         throw_if($throw && ! $validated, new \Exception("Sort property must be a instance of {$sortPropertyEnum}."));
 
         return $validated;

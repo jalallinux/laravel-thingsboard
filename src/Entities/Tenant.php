@@ -77,7 +77,7 @@ class Tenant extends Tntity
      */
     public function getTenants(PaginationArguments $paginationArguments): PaginatedResponse
     {
-        $paginationArguments->validateSortProperty(EnumTenantSortProperty::class);
+        $paginationArguments->validateSortProperty(EnumTenantSortProperty::class, [EnumTenantSortProperty::TENANT_PROFILE_NAME()]);
 
         $response = $this->api()->get('tenants', $paginationArguments->queryParams());
 

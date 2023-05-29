@@ -8,6 +8,7 @@ use JalalLinuX\Thingsboard\Enums\EnumSortOrder;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use JalalLinuX\Thingsboard\LaravelThingsboardServiceProvider;
+use Spatie\Enum\Laravel\Enum;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -29,12 +30,12 @@ class TestCase extends \Orchestra\Testbench\TestCase
         // Code after application created.
     }
 
-    public function randomPagination(string $sortPropertyEnum, int $page = null, int $pageSize = null, EnumSortOrder $sortOrder = null): PaginationArguments
+    public function randomPagination(string|array $sortPropertyEnum, int $page = null, int $pageSize = null, EnumSortOrder $sortOrder = null): PaginationArguments
     {
         return PaginationArguments::make(
             $page ?? $this->faker->numberBetween(1, 10),
             $pageSize ?? $this->faker->numberBetween(1, 10),
-            $this->faker->randomElement($sortPropertyEnum::cases()),
+            is_string($sortPropertyEnum) ? $this->faker->randomElement($sortPropertyEnum::cases()) : $this->faker->randomElement($sortPropertyEnum),
             $sortOrder ?? $this->faker->randomElement(EnumSortOrder::cases())
         );
     }

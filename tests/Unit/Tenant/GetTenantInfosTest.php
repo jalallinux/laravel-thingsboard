@@ -13,7 +13,7 @@ class GetTenantInfosTest extends TestCase
     public function testTextSearch()
     {
         $user = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
-        $tenants = thingsboard($user)->tenant()->getTenants(
+        $tenants = thingsboard($user)->tenant()->getTenantInfos(
             PaginationArguments::make()
         );
 
@@ -25,7 +25,7 @@ class GetTenantInfosTest extends TestCase
         $pagination = $this->randomPagination(EnumTenantSortProperty::class);
         $user = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
 
-        $tenants = thingsboard($user)->tenant()->getTenants($pagination);
+        $tenants = thingsboard($user)->tenant()->getTenantInfos($pagination);
 
         $this->assertEquals($pagination->page, $tenants->paginator()->currentPage());
         $this->assertEquals($pagination->pageSize, $tenants->paginator()->perPage());
