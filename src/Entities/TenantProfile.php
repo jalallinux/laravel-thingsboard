@@ -43,10 +43,13 @@ class TenantProfile extends Tntity
 
     /**
      * Fetch the Tenant Profile object based on the provided Tenant Profile Id.
-     * @param string|null $id
+     *
      * @return self
+     *
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group SYS_ADMIN
      */
     public function getTenantProfileById(string $id = null): static
