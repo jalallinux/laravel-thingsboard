@@ -21,7 +21,7 @@ class GetTenantProfileByIdTest extends TestCase
         $tenantProfile = thingsboard($user)->tenantProfile()->getTenantProfileById($tenantProfileId);
         $this->assertEquals($tenantProfileId, $tenantProfile->id->id);
 
-        $tenantProfile = thingsboard($user)->tenantProfile(['id' => new Id($tenantProfileId, EnumEntityType::DEVICE_PROFILE())])->getTenantProfileById();
+        $tenantProfile = thingsboard($user)->tenantProfile(['id' => new Id($tenantProfileId, EnumEntityType::TENANT_PROFILE())])->getTenantProfileById();
         $this->assertEquals($tenantProfileId, $tenantProfile->id->id);
 
         $this->assertInstanceOf(ProfileData::class, $tenantProfile->profileData);
