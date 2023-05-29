@@ -5,7 +5,6 @@ namespace JalalLinuX\Thingsboard\Entities;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Casts\CastTenantProfileDataConfiguration;
-use JalalLinuX\Thingsboard\Enums\EnumCustomerSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumTenantProfileSortProperty;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
