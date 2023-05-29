@@ -104,8 +104,9 @@ class TenantProfile extends Tntity
             'name' => $this->forceAttribute('name'),
         ]);
         $this->forceAttribute('name');
-        $tenantProfile = $this->api()->post("tenantProfile", $payload)->json();
-        return tap($this, fn() => $this->fill($tenantProfile));
+        $tenantProfile = $this->api()->post('tenantProfile', $payload)->json();
+
+        return tap($this, fn () => $this->fill($tenantProfile));
     }
 
     /**
@@ -116,6 +117,7 @@ class TenantProfile extends Tntity
      * @param string|null $id
      * @return bool
      * @throws \Throwable
+     *
      * @group SYS_ADMIN
      *
      * @author Sabiee
@@ -152,13 +154,13 @@ class TenantProfile extends Tntity
         $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            !Str::isUuid($id),
+            ! Str::isUuid($id),
             $this->exception('method "id" argument must be a valid uuid.'),
         );
 
         $tenantProfile = $this->api()->get("tenantProfile/{$id}")->json();
 
-        return tap($this, fn() => $this->fill($tenantProfile));
+        return tap($this, fn () => $this->fill($tenantProfile));
     }
 
     /**
@@ -182,7 +184,7 @@ class TenantProfile extends Tntity
             return $this->getTenantProfileById($tenantProfile['id']['id']);
         }
 
-        return tap($this, fn() => $this->fill($tenantProfile));
+        return tap($this, fn () => $this->fill($tenantProfile));
     }
 
     /**
