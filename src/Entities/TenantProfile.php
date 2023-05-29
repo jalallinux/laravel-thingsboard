@@ -246,7 +246,7 @@ class TenantProfile extends Tntity
      */
     public function getTenantProfiles(PaginationArguments $paginationArguments): PaginatedResponse
     {
-        $paginationArguments->validateSortProperty(EnumCustomerSortProperty::class);
+        $paginationArguments->validateSortProperty(EnumTenantProfileSortProperty::class);
 
         $response = $this->api()->get('tenantProfiles', $paginationArguments->queryParams());
 
