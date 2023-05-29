@@ -44,7 +44,6 @@ class TenantProfile extends Tntity
     /**
      * Fetch the Tenant Profile object based on the provided Tenant Profile Id.
      *
-     * @param string|null $id
      *
      * @return self
      *
