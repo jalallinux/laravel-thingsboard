@@ -12,7 +12,7 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property Id $id;
  * @property string $name;
  * @property string $description;
- * @property boolean $isolatedTbRuleEngine;
+ * @property bool $isolatedTbRuleEngine;
  * @property array $profileData;
  */
 class TenantProfile extends Tntity
@@ -29,7 +29,7 @@ class TenantProfile extends Tntity
     protected $casts = [
         'default' => 'boolean',
         'id' => CastId::class,
-        'isolatedTbRuleEngine'=> 'boolean',
+        'isolatedTbRuleEngine' => 'boolean',
         'profileData' => 'array',
     ];
 
