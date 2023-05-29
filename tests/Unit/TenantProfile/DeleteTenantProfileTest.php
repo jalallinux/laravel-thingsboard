@@ -5,6 +5,7 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\TenantProfile;
 use JalalLinuX\Thingsboard\Entities\TenantProfile;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
+use JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\ProfileData;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class DeleteTenantProfileTest extends TestCase
@@ -19,6 +20,7 @@ class DeleteTenantProfileTest extends TestCase
 
         $this->assertInstanceOf(TenantProfile::class, $tenantProfile);
         $this->assertInstanceOf(Id::class, $tenantProfile->id);
+        $this->assertInstanceOf(ProfileData::class, $tenantProfile->profileData);
 
         $result = $tenantProfile->deleteTenantProfile();
         self::assertTrue($result);

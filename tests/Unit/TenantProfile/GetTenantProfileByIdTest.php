@@ -6,6 +6,7 @@ use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\ProfileData;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class GetTenantProfileByIdTest extends TestCase
@@ -22,6 +23,8 @@ class GetTenantProfileByIdTest extends TestCase
 
         $tenantProfile = thingsboard($user)->tenantProfile(['id' => new Id($tenantProfileId, EnumEntityType::DEVICE_PROFILE())])->getTenantProfileById();
         $this->assertEquals($tenantProfileId, $tenantProfile->id->id);
+
+        $this->assertInstanceOf(ProfileData::class, $tenantProfile->profileData);
     }
 
     public function testInvalidUuid()

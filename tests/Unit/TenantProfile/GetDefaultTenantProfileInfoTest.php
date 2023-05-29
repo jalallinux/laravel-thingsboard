@@ -4,6 +4,7 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\TenantProfile;
 
 use JalalLinuX\Thingsboard\Entities\TenantProfile;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
+use JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\ProfileData;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class GetDefaultTenantProfileInfoTest extends TestCase
@@ -20,5 +21,7 @@ class GetDefaultTenantProfileInfoTest extends TestCase
         $this->assertInstanceOf(TenantProfile::class, $tenantProfile);
         $this->assertTrue($tenantProfile->default);
         $this->assertEquals($tenantProfile->name, 'Default');
+
+        $this->assertInstanceOf(ProfileData::class, $tenantProfile->profileData);
     }
 }
