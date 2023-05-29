@@ -142,7 +142,7 @@ class User extends Tntity
      *
      * @group SYS_ADMIN | TENANT_ADMIN
      */
-    public function saveUser(bool $sendActivationMail = false): self
+    public function saveUser(bool $sendActivationMail = false): static
     {
         $payload = array_merge($this->getAttributes(), [
             'email' => $this->forceAttribute('email'),
@@ -188,7 +188,7 @@ class User extends Tntity
      *
      * @group
      */
-    public function getUserById(string $id = null): self
+    public function getUserById(string $id = null): static
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 

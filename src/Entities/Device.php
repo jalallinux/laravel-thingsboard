@@ -81,7 +81,7 @@ class Device extends Tntity
      *
      * @group TENANT_ADMIN, CUSTOMER_USER
      */
-    public function getDeviceById(string $id = null): self
+    public function getDeviceById(string $id = null): static
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
@@ -132,7 +132,7 @@ class Device extends Tntity
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getDeviceInfoById(string $id = null): self
+    public function getDeviceInfoById(string $id = null): static
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
@@ -205,7 +205,7 @@ class Device extends Tntity
      *
      * @group TENANT_ADMIN
      */
-    public function assignDeviceToCustomer(string $customerId, string $id = null): self
+    public function assignDeviceToCustomer(string $customerId, string $id = null): static
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
@@ -278,7 +278,7 @@ class Device extends Tntity
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function saveDevice(string $accessToken = null, string $deviceProfileId = null): self
+    public function saveDevice(string $accessToken = null, string $deviceProfileId = null): static
     {
         $deviceProfileId = $deviceProfileId ?? $this->deviceProfileId->id ?? DeviceProfile::instance()->withUser($this->_thingsboardUser)->getDefaultDeviceProfileInfo()->id->id;
 

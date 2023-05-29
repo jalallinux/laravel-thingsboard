@@ -87,7 +87,7 @@ class Customer extends Tntity
      *
      * @author Sabiee
      */
-    public function saveCustomer(): self
+    public function saveCustomer(): static
     {
         $payload = array_merge($this->getAttributes(), [
             'title' => $this->forceAttribute('title'),
@@ -109,7 +109,7 @@ class Customer extends Tntity
      *
      * @author Sabiee
      */
-    public function getCustomerById(string $id = null): self
+    public function getCustomerById(string $id = null): static
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 

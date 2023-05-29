@@ -41,7 +41,15 @@ class TenantProfile extends Tntity
         return EnumEntityType::TENANT_PROFILE();
     }
 
-    public function getTenantProfileById(string $id = null): self
+    /**
+     * Fetch the Tenant Profile object based on the provided Tenant Profile Id.
+     * @param string|null $id
+     * @return self
+     * @throws \Throwable
+     * @author JalalLinuX
+     * @group SYS_ADMIN
+     */
+    public function getTenantProfileById(string $id = null): static
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 

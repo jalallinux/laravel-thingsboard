@@ -103,7 +103,7 @@ class DeviceProfile extends Tntity
      *
      * @group TENANT_ADMIN
      */
-    public function getDeviceProfileById(string $id = null): self
+    public function getDeviceProfileById(string $id = null): static
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
@@ -125,7 +125,7 @@ class DeviceProfile extends Tntity
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getDefaultDeviceProfileInfo(bool $full = false): self
+    public function getDefaultDeviceProfileInfo(bool $full = false): static
     {
         $deviceProfile = $this->api()->get('deviceProfileInfo/default')->json();
 
