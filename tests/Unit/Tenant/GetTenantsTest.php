@@ -2,7 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Tests\Unit\Tenant;
 
-use Illuminate\Support\Arr;
 use JalalLinuX\Thingsboard\Entities\Tenant;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumTenantSortProperty;

@@ -8,7 +8,6 @@ use JalalLinuX\Thingsboard\Enums\EnumSortOrder;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use JalalLinuX\Thingsboard\LaravelThingsboardServiceProvider;
-use Spatie\Enum\Laravel\Enum;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
