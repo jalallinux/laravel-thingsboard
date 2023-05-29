@@ -2,8 +2,9 @@
 
 namespace JalalLinuX\Thingsboard\Casts;
 
-use JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\Configuration;
+use JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\Configuration\Configuration;
 use JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\ProfileData;
+use JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\QueueConfiguration\QueueConfigurations;
 use Vkovic\LaravelCustomCasts\CustomCastBase;
 
 class CastTenantProfileDataConfiguration extends CustomCastBase
@@ -25,6 +26,6 @@ class CastTenantProfileDataConfiguration extends CustomCastBase
 
     public function castAttribute($value): ?ProfileData
     {
-        return is_null($value) ? null : new ProfileData(new Configuration($value['configuration']), $value['queueConfiguration']);
+        return is_null($value) ? null : new ProfileData(new Configuration($value['configuration']), new QueueConfigurations($value['queueConfiguration']));
     }
 }

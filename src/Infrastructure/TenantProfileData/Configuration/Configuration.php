@@ -1,6 +1,6 @@
 <?php
 
-namespace JalalLinuX\Thingsboard\Infrastructure\TenantProfileData;
+namespace JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\Configuration;
 
 class Configuration
 {

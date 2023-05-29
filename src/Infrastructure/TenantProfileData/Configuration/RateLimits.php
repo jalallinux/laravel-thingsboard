@@ -1,6 +1,6 @@
 <?php
 
-namespace JalalLinuX\Thingsboard\Infrastructure\TenantProfileData;
+namespace JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\Configuration;
 
 use Illuminate\Support\Collection;
 
@@ -47,7 +47,7 @@ class RateLimits
     public static function fromString(string $rateLimits): static
     {
         $instance = self::make();
-        foreach (explode(',', $rateLimits) as $rateLimit) {
+        foreach (array_filter(explode(',', $rateLimits)) as $rateLimit) {
             $instance->add(explode(':', $rateLimit)[0], explode(':', $rateLimit)[1]);
         }
 

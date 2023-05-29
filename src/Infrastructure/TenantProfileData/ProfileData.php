@@ -2,15 +2,18 @@
 
 namespace JalalLinuX\Thingsboard\Infrastructure\TenantProfileData;
 
+use JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\Configuration\Configuration;
+use JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\QueueConfiguration\QueueConfigurations;
+
 class ProfileData
 {
     private Configuration $configuration;
 
-    private ?array $queueConfiguration;
+    private ?QueueConfigurations $queueConfiguration;
 
-    public function __construct(Configuration $configuration, array $queueConfiguration = null)
+    public function __construct(Configuration $configuration, QueueConfigurations $queueConfigurations = null)
     {
-        $this->setConfiguration($configuration)->setQueueConfiguration($queueConfiguration);
+        $this->setConfiguration($configuration)->setQueueConfiguration($queueConfigurations);
     }
 
     public function getConfiguration(): Configuration
@@ -23,12 +26,12 @@ class ProfileData
         return tap($this, fn () => $this->configuration = $configuration);
     }
 
-    public function getQueueConfiguration(): array
+    public function getQueueConfiguration(): QueueConfigurations
     {
         return $this->queueConfiguration;
     }
 
-    public function setQueueConfiguration(array $queueConfiguration = null): static
+    public function setQueueConfiguration(QueueConfigurations $queueConfiguration = null): static
     {
         return tap($this, fn () => $this->queueConfiguration = $queueConfiguration);
     }
@@ -37,7 +40,7 @@ class ProfileData
     {
         return [
             'configuration' => $this->configuration->toArray(),
-            'queueConfiguration' => $this->queueConfiguration,
+            'queueConfiguration' => $this->queueConfiguration->toArray(),
         ];
     }
 }
