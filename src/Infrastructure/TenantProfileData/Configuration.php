@@ -97,7 +97,7 @@ class Configuration
     public function __construct(array $configurations = [])
     {
         foreach ($configurations as $k => $v) {
-            $method = "set" . ucfirst($k);
+            $method = 'set'.ucfirst($k);
             $this->{$method}($v);
         }
     }
@@ -111,8 +111,8 @@ class Configuration
     {
         return [
             'alarmsTtlDays' => $this->alarmsTtlDays,
-            'cassandraQueryTenantRateLimitsConfiguration' => (string)$this->cassandraQueryTenantRateLimitsConfiguration,
-            'customerServerRestLimitsConfiguration' => (string)$this->customerServerRestLimitsConfiguration,
+            'cassandraQueryTenantRateLimitsConfiguration' => (string) $this->cassandraQueryTenantRateLimitsConfiguration,
+            'customerServerRestLimitsConfiguration' => (string) $this->customerServerRestLimitsConfiguration,
             'defaultStorageTtlDays' => $this->defaultStorageTtlDays,
             'maxAssets' => $this->maxAssets,
             'maxCreatedAlarms' => $this->maxCreatedAlarms,
@@ -140,21 +140,21 @@ class Configuration
             'maxWsSubscriptionsPerRegularUser' => $this->maxWsSubscriptionsPerRegularUser,
             'maxWsSubscriptionsPerTenant' => $this->maxWsSubscriptionsPerTenant,
             'rpcTtlDays' => $this->rpcTtlDays,
-            'tenantEntityExportRateLimit' => (string)$this->tenantEntityExportRateLimit,
-            'tenantEntityImportRateLimit' => (string)$this->tenantEntityImportRateLimit,
-            'tenantNotificationRequestsPerRuleRateLimit' => (string)$this->tenantNotificationRequestsPerRuleRateLimit,
-            'tenantNotificationRequestsRateLimit' => (string)$this->tenantNotificationRequestsRateLimit,
-            'tenantServerRestLimitsConfiguration' => (string)$this->tenantServerRestLimitsConfiguration,
-            'transportDeviceMsgRateLimit' => (string)$this->transportDeviceMsgRateLimit,
-            'transportDeviceTelemetryDataPointsRateLimit' => (string)$this->transportDeviceTelemetryDataPointsRateLimit,
-            'transportDeviceTelemetryMsgRateLimit' => (string)$this->transportDeviceTelemetryMsgRateLimit,
-            'transportTenantMsgRateLimit' => (string)$this->transportTenantMsgRateLimit,
-            'transportTenantTelemetryDataPointsRateLimit' => (string)$this->transportTenantTelemetryDataPointsRateLimit,
-            'transportTenantTelemetryMsgRateLimit' => (string)$this->transportTenantTelemetryMsgRateLimit,
+            'tenantEntityExportRateLimit' => (string) $this->tenantEntityExportRateLimit,
+            'tenantEntityImportRateLimit' => (string) $this->tenantEntityImportRateLimit,
+            'tenantNotificationRequestsPerRuleRateLimit' => (string) $this->tenantNotificationRequestsPerRuleRateLimit,
+            'tenantNotificationRequestsRateLimit' => (string) $this->tenantNotificationRequestsRateLimit,
+            'tenantServerRestLimitsConfiguration' => (string) $this->tenantServerRestLimitsConfiguration,
+            'transportDeviceMsgRateLimit' => (string) $this->transportDeviceMsgRateLimit,
+            'transportDeviceTelemetryDataPointsRateLimit' => (string) $this->transportDeviceTelemetryDataPointsRateLimit,
+            'transportDeviceTelemetryMsgRateLimit' => (string) $this->transportDeviceTelemetryMsgRateLimit,
+            'transportTenantMsgRateLimit' => (string) $this->transportTenantMsgRateLimit,
+            'transportTenantTelemetryDataPointsRateLimit' => (string) $this->transportTenantTelemetryDataPointsRateLimit,
+            'transportTenantTelemetryMsgRateLimit' => (string) $this->transportTenantTelemetryMsgRateLimit,
             'type' => $this->type,
             'warnThreshold' => $this->warnThreshold,
-            'wsMsgQueueLimitPerSession' => (string)$this->wsMsgQueueLimitPerSession,
-            'wsUpdatesPerSessionRateLimit' => (string)$this->wsUpdatesPerSessionRateLimit,
+            'wsMsgQueueLimitPerSession' => (string) $this->wsMsgQueueLimitPerSession,
+            'wsUpdatesPerSessionRateLimit' => (string) $this->wsUpdatesPerSessionRateLimit,
         ];
     }
 
@@ -385,7 +385,7 @@ class Configuration
 
     public function setAlarmsTtlDays(int $alarmsTtlDays): static
     {
-        return tap($this, fn() => $this->alarmsTtlDays = $alarmsTtlDays);
+        return tap($this, fn () => $this->alarmsTtlDays = $alarmsTtlDays);
     }
 
     public function setCassandraQueryTenantRateLimitsConfiguration(RateLimits|string|null $cassandraQueryTenantRateLimitsConfiguration): static
@@ -394,7 +394,7 @@ class Configuration
             ? RateLimits::fromString($cassandraQueryTenantRateLimitsConfiguration)
             : $cassandraQueryTenantRateLimitsConfiguration;
 
-        return tap($this, fn() => $this->cassandraQueryTenantRateLimitsConfiguration = $cassandraQueryTenantRateLimitsConfiguration);
+        return tap($this, fn () => $this->cassandraQueryTenantRateLimitsConfiguration = $cassandraQueryTenantRateLimitsConfiguration);
     }
 
     public function setCustomerServerRestLimitsConfiguration(RateLimits|string|null $customerServerRestLimitsConfiguration): static
@@ -403,142 +403,142 @@ class Configuration
             ? RateLimits::fromString($customerServerRestLimitsConfiguration)
             : $customerServerRestLimitsConfiguration;
 
-        return tap($this, fn() => $this->customerServerRestLimitsConfiguration = $customerServerRestLimitsConfiguration);
+        return tap($this, fn () => $this->customerServerRestLimitsConfiguration = $customerServerRestLimitsConfiguration);
     }
 
     public function setDefaultStorageTtlDays(int $defaultStorageTtlDays): static
     {
-        return tap($this, fn() => $this->defaultStorageTtlDays = $defaultStorageTtlDays);
+        return tap($this, fn () => $this->defaultStorageTtlDays = $defaultStorageTtlDays);
     }
 
     public function setMaxAssets(int $maxAssets): static
     {
-        return tap($this, fn() => $this->maxAssets = $maxAssets);
+        return tap($this, fn () => $this->maxAssets = $maxAssets);
     }
 
     public function setMaxCreatedAlarms(int $maxCreatedAlarms): static
     {
-        return tap($this, fn() => $this->maxCreatedAlarms = $maxCreatedAlarms);
+        return tap($this, fn () => $this->maxCreatedAlarms = $maxCreatedAlarms);
     }
 
     public function setMaxCustomers(int $maxCustomers): static
     {
-        return tap($this, fn() => $this->maxCustomers = $maxCustomers);
+        return tap($this, fn () => $this->maxCustomers = $maxCustomers);
     }
 
     public function setMaxDPStorageDays(int $maxDPStorageDays): static
     {
-        return tap($this, fn() => $this->maxDPStorageDays = $maxDPStorageDays);
+        return tap($this, fn () => $this->maxDPStorageDays = $maxDPStorageDays);
     }
 
     public function setMaxDashboards(int $maxDashboards): static
     {
-        return tap($this, fn() => $this->maxDashboards = $maxDashboards);
+        return tap($this, fn () => $this->maxDashboards = $maxDashboards);
     }
 
     public function setMaxDevices(int $maxDevices): static
     {
-        return tap($this, fn() => $this->maxDevices = $maxDevices);
+        return tap($this, fn () => $this->maxDevices = $maxDevices);
     }
 
     public function setMaxEmails(int $maxEmails): static
     {
-        return tap($this, fn() => $this->maxEmails = $maxEmails);
+        return tap($this, fn () => $this->maxEmails = $maxEmails);
     }
 
     public function setMaxJSExecutions(int $maxJSExecutions): static
     {
-        return tap($this, fn() => $this->maxJSExecutions = $maxJSExecutions);
+        return tap($this, fn () => $this->maxJSExecutions = $maxJSExecutions);
     }
 
     public function setMaxOtaPackagesInBytes(int $maxOtaPackagesInBytes): static
     {
-        return tap($this, fn() => $this->maxOtaPackagesInBytes = $maxOtaPackagesInBytes);
+        return tap($this, fn () => $this->maxOtaPackagesInBytes = $maxOtaPackagesInBytes);
     }
 
     public function setMaxREExecutions(int $maxREExecutions): static
     {
-        return tap($this, fn() => $this->maxREExecutions = $maxREExecutions);
+        return tap($this, fn () => $this->maxREExecutions = $maxREExecutions);
     }
 
     public function setMaxResourcesInBytes(int $maxResourcesInBytes): static
     {
-        return tap($this, fn() => $this->maxResourcesInBytes = $maxResourcesInBytes);
+        return tap($this, fn () => $this->maxResourcesInBytes = $maxResourcesInBytes);
     }
 
     public function setMaxRuleChains(int $maxRuleChains): static
     {
-        return tap($this, fn() => $this->maxRuleChains = $maxRuleChains);
+        return tap($this, fn () => $this->maxRuleChains = $maxRuleChains);
     }
 
     public function setMaxRuleNodeExecutionsPerMessage(int $maxRuleNodeExecutionsPerMessage): static
     {
-        return tap($this, fn() => $this->maxRuleNodeExecutionsPerMessage = $maxRuleNodeExecutionsPerMessage);
+        return tap($this, fn () => $this->maxRuleNodeExecutionsPerMessage = $maxRuleNodeExecutionsPerMessage);
     }
 
     public function setMaxSms(int $maxSms): static
     {
-        return tap($this, fn() => $this->maxSms = $maxSms);
+        return tap($this, fn () => $this->maxSms = $maxSms);
     }
 
     public function setMaxTransportDataPoints(int $maxTransportDataPoints): static
     {
-        return tap($this, fn() => $this->maxTransportDataPoints = $maxTransportDataPoints);
+        return tap($this, fn () => $this->maxTransportDataPoints = $maxTransportDataPoints);
     }
 
     public function setMaxTransportMessages(int $maxTransportMessages): static
     {
-        return tap($this, fn() => $this->maxTransportMessages = $maxTransportMessages);
+        return tap($this, fn () => $this->maxTransportMessages = $maxTransportMessages);
     }
 
     public function setMaxUsers(int $maxUsers): static
     {
-        return tap($this, fn() => $this->maxUsers = $maxUsers);
+        return tap($this, fn () => $this->maxUsers = $maxUsers);
     }
 
     public function setMaxWsSessionsPerCustomer(int $maxWsSessionsPerCustomer): static
     {
-        return tap($this, fn() => $this->maxWsSessionsPerCustomer = $maxWsSessionsPerCustomer);
+        return tap($this, fn () => $this->maxWsSessionsPerCustomer = $maxWsSessionsPerCustomer);
     }
 
     public function setMaxWsSessionsPerPublicUser(int $maxWsSessionsPerPublicUser): static
     {
-        return tap($this, fn() => $this->maxWsSessionsPerPublicUser = $maxWsSessionsPerPublicUser);
+        return tap($this, fn () => $this->maxWsSessionsPerPublicUser = $maxWsSessionsPerPublicUser);
     }
 
     public function setMaxWsSessionsPerRegularUser(int $maxWsSessionsPerRegularUser): static
     {
-        return tap($this, fn() => $this->maxWsSessionsPerRegularUser = $maxWsSessionsPerRegularUser);
+        return tap($this, fn () => $this->maxWsSessionsPerRegularUser = $maxWsSessionsPerRegularUser);
     }
 
     public function setMaxWsSessionsPerTenant(int $maxWsSessionsPerTenant): static
     {
-        return tap($this, fn() => $this->maxWsSessionsPerTenant = $maxWsSessionsPerTenant);
+        return tap($this, fn () => $this->maxWsSessionsPerTenant = $maxWsSessionsPerTenant);
     }
 
     public function setMaxWsSubscriptionsPerCustomer(int $maxWsSubscriptionsPerCustomer): static
     {
-        return tap($this, fn() => $this->maxWsSubscriptionsPerCustomer = $maxWsSubscriptionsPerCustomer);
+        return tap($this, fn () => $this->maxWsSubscriptionsPerCustomer = $maxWsSubscriptionsPerCustomer);
     }
 
     public function setMaxWsSubscriptionsPerPublicUser(int $maxWsSubscriptionsPerPublicUser): static
     {
-        return tap($this, fn() => $this->maxWsSubscriptionsPerPublicUser = $maxWsSubscriptionsPerPublicUser);
+        return tap($this, fn () => $this->maxWsSubscriptionsPerPublicUser = $maxWsSubscriptionsPerPublicUser);
     }
 
     public function setMaxWsSubscriptionsPerRegularUser(int $maxWsSubscriptionsPerRegularUser): static
     {
-        return tap($this, fn() => $this->maxWsSubscriptionsPerRegularUser = $maxWsSubscriptionsPerRegularUser);
+        return tap($this, fn () => $this->maxWsSubscriptionsPerRegularUser = $maxWsSubscriptionsPerRegularUser);
     }
 
     public function setMaxWsSubscriptionsPerTenant(int $maxWsSubscriptionsPerTenant): static
     {
-        return tap($this, fn() => $this->maxWsSubscriptionsPerTenant = $maxWsSubscriptionsPerTenant);
+        return tap($this, fn () => $this->maxWsSubscriptionsPerTenant = $maxWsSubscriptionsPerTenant);
     }
 
     public function setRpcTtlDays(int $rpcTtlDays): static
     {
-        return tap($this, fn() => $this->rpcTtlDays = $rpcTtlDays);
+        return tap($this, fn () => $this->rpcTtlDays = $rpcTtlDays);
     }
 
     public function setTenantEntityExportRateLimit(RateLimits|string|null $tenantEntityExportRateLimit): static
@@ -547,7 +547,7 @@ class Configuration
             ? RateLimits::fromString($tenantEntityExportRateLimit)
             : $tenantEntityExportRateLimit;
 
-        return tap($this, fn() => $this->tenantEntityExportRateLimit = $tenantEntityExportRateLimit);
+        return tap($this, fn () => $this->tenantEntityExportRateLimit = $tenantEntityExportRateLimit);
     }
 
     public function setTenantEntityImportRateLimit(RateLimits|string|null $tenantEntityImportRateLimit): static
@@ -556,7 +556,7 @@ class Configuration
             ? RateLimits::fromString($tenantEntityImportRateLimit)
             : $tenantEntityImportRateLimit;
 
-        return tap($this, fn() => $this->tenantEntityImportRateLimit = $tenantEntityImportRateLimit);
+        return tap($this, fn () => $this->tenantEntityImportRateLimit = $tenantEntityImportRateLimit);
     }
 
     public function setTenantNotificationRequestsPerRuleRateLimit(RateLimits|string|null $tenantNotificationRequestsPerRuleRateLimit): static
@@ -565,7 +565,7 @@ class Configuration
             ? RateLimits::fromString($tenantNotificationRequestsPerRuleRateLimit)
             : $tenantNotificationRequestsPerRuleRateLimit;
 
-        return tap($this, fn() => $this->tenantNotificationRequestsPerRuleRateLimit = $tenantNotificationRequestsPerRuleRateLimit);
+        return tap($this, fn () => $this->tenantNotificationRequestsPerRuleRateLimit = $tenantNotificationRequestsPerRuleRateLimit);
     }
 
     public function setTenantNotificationRequestsRateLimit(RateLimits|string|null $tenantNotificationRequestsRateLimit): static
@@ -574,7 +574,7 @@ class Configuration
             ? RateLimits::fromString($tenantNotificationRequestsRateLimit)
             : $tenantNotificationRequestsRateLimit;
 
-        return tap($this, fn() => $this->tenantNotificationRequestsRateLimit = $tenantNotificationRequestsRateLimit);
+        return tap($this, fn () => $this->tenantNotificationRequestsRateLimit = $tenantNotificationRequestsRateLimit);
     }
 
     public function setTenantServerRestLimitsConfiguration(RateLimits|string|null $tenantServerRestLimitsConfiguration): static
@@ -583,7 +583,7 @@ class Configuration
             ? RateLimits::fromString($tenantServerRestLimitsConfiguration)
             : $tenantServerRestLimitsConfiguration;
 
-        return tap($this, fn() => $this->tenantServerRestLimitsConfiguration = $tenantServerRestLimitsConfiguration);
+        return tap($this, fn () => $this->tenantServerRestLimitsConfiguration = $tenantServerRestLimitsConfiguration);
     }
 
     public function setTransportDeviceMsgRateLimit(RateLimits|string|null $transportDeviceMsgRateLimit): static
@@ -592,7 +592,7 @@ class Configuration
             ? RateLimits::fromString($transportDeviceMsgRateLimit)
             : $transportDeviceMsgRateLimit;
 
-        return tap($this, fn() => $this->transportDeviceMsgRateLimit = $transportDeviceMsgRateLimit);
+        return tap($this, fn () => $this->transportDeviceMsgRateLimit = $transportDeviceMsgRateLimit);
     }
 
     public function setTransportDeviceTelemetryDataPointsRateLimit(RateLimits|string|null $transportDeviceTelemetryDataPointsRateLimit): static
@@ -601,7 +601,7 @@ class Configuration
             ? RateLimits::fromString($transportDeviceTelemetryDataPointsRateLimit)
             : $transportDeviceTelemetryDataPointsRateLimit;
 
-        return tap($this, fn() => $this->transportDeviceTelemetryDataPointsRateLimit = $transportDeviceTelemetryDataPointsRateLimit);
+        return tap($this, fn () => $this->transportDeviceTelemetryDataPointsRateLimit = $transportDeviceTelemetryDataPointsRateLimit);
     }
 
     public function setTransportDeviceTelemetryMsgRateLimit(RateLimits|string|null $transportDeviceTelemetryMsgRateLimit): static
@@ -610,7 +610,7 @@ class Configuration
             ? RateLimits::fromString($transportDeviceTelemetryMsgRateLimit)
             : $transportDeviceTelemetryMsgRateLimit;
 
-        return tap($this, fn() => $this->transportDeviceTelemetryMsgRateLimit = $transportDeviceTelemetryMsgRateLimit);
+        return tap($this, fn () => $this->transportDeviceTelemetryMsgRateLimit = $transportDeviceTelemetryMsgRateLimit);
     }
 
     public function setTransportTenantMsgRateLimit(RateLimits|string|null $transportTenantMsgRateLimit): static
@@ -619,7 +619,7 @@ class Configuration
             ? RateLimits::fromString($transportTenantMsgRateLimit)
             : $transportTenantMsgRateLimit;
 
-        return tap($this, fn() => $this->transportTenantMsgRateLimit = $transportTenantMsgRateLimit);
+        return tap($this, fn () => $this->transportTenantMsgRateLimit = $transportTenantMsgRateLimit);
     }
 
     public function setTransportTenantTelemetryDataPointsRateLimit(RateLimits|string|null $transportTenantTelemetryDataPointsRateLimit): static
@@ -628,7 +628,7 @@ class Configuration
             ? RateLimits::fromString($transportTenantTelemetryDataPointsRateLimit)
             : $transportTenantTelemetryDataPointsRateLimit;
 
-        return tap($this, fn() => $this->transportTenantTelemetryDataPointsRateLimit = $transportTenantTelemetryDataPointsRateLimit);
+        return tap($this, fn () => $this->transportTenantTelemetryDataPointsRateLimit = $transportTenantTelemetryDataPointsRateLimit);
     }
 
     public function setTransportTenantTelemetryMsgRateLimit(RateLimits|string|null $transportTenantTelemetryMsgRateLimit): static
@@ -637,22 +637,22 @@ class Configuration
             ? RateLimits::fromString($transportTenantTelemetryMsgRateLimit)
             : $transportTenantTelemetryMsgRateLimit;
 
-        return tap($this, fn() => $this->transportTenantTelemetryMsgRateLimit = $transportTenantTelemetryMsgRateLimit);
+        return tap($this, fn () => $this->transportTenantTelemetryMsgRateLimit = $transportTenantTelemetryMsgRateLimit);
     }
 
     public function setType(string $type): static
     {
-        return tap($this, fn() => $this->type = $type);
+        return tap($this, fn () => $this->type = $type);
     }
 
     public function setWarnThreshold(int $warnThreshold): static
     {
-        return tap($this, fn() => $this->warnThreshold = $warnThreshold);
+        return tap($this, fn () => $this->warnThreshold = $warnThreshold);
     }
 
     public function setWsMsgQueueLimitPerSession(int $wsMsgQueueLimitPerSession): static
     {
-        return tap($this, fn() => $this->wsMsgQueueLimitPerSession = $wsMsgQueueLimitPerSession);
+        return tap($this, fn () => $this->wsMsgQueueLimitPerSession = $wsMsgQueueLimitPerSession);
     }
 
     public function setWsUpdatesPerSessionRateLimit(RateLimits|string|null $wsUpdatesPerSessionRateLimit): static
@@ -661,6 +661,6 @@ class Configuration
             ? RateLimits::fromString($wsUpdatesPerSessionRateLimit)
             : $wsUpdatesPerSessionRateLimit;
 
-        return tap($this, fn() => $this->wsUpdatesPerSessionRateLimit = $wsUpdatesPerSessionRateLimit);
+        return tap($this, fn () => $this->wsUpdatesPerSessionRateLimit = $wsUpdatesPerSessionRateLimit);
     }
 }

@@ -20,7 +20,7 @@ class ProfileData
 
     public function setConfiguration(Configuration $configuration): static
     {
-        return tap($this, fn() => $this->configuration = $configuration);
+        return tap($this, fn () => $this->configuration = $configuration);
     }
 
     public function getQueueConfiguration(): array
@@ -30,14 +30,14 @@ class ProfileData
 
     public function setQueueConfiguration(array $queueConfiguration = null): static
     {
-        return tap($this, fn() => $this->queueConfiguration = $queueConfiguration);
+        return tap($this, fn () => $this->queueConfiguration = $queueConfiguration);
     }
 
     public function toArray(): array
     {
         return [
-            "configuration" => $this->configuration->toArray(),
-            "queueConfiguration" => $this->queueConfiguration,
+            'configuration' => $this->configuration->toArray(),
+            'queueConfiguration' => $this->queueConfiguration,
         ];
     }
 }

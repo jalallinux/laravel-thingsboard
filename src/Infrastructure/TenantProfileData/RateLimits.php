@@ -10,7 +10,7 @@ class RateLimits
 
     public function __construct(array $rateLimits = [])
     {
-        if (!empty($rateLimits)) {
+        if (! empty($rateLimits)) {
             $this->import($rateLimits);
         }
     }
@@ -26,7 +26,7 @@ class RateLimits
             $this->rateLimits = [];
         }
 
-        return tap($this, fn() => $this->rateLimits[] = [$messageCount, $second]);
+        return tap($this, fn () => $this->rateLimits[] = [$messageCount, $second]);
     }
 
     public function import(array $rateLimits, bool $flush = false): static
@@ -50,6 +50,7 @@ class RateLimits
         foreach (explode(',', $rateLimits) as $rateLimit) {
             $instance->add(explode(':', $rateLimit)[0], explode(':', $rateLimit)[1]);
         }
+
         return $instance;
     }
 
