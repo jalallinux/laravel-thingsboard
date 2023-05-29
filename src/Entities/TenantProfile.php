@@ -271,9 +271,6 @@ class TenantProfile extends Tntity
         return $this->paginatedResponse($response, $paginationArguments);
     }
 
-    /**
-     *
-     */
     public function getTenantProfilesByIds(array $ids)
     {
         foreach ($ids as $id) {

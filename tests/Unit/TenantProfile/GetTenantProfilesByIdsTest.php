@@ -2,7 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Tests\Unit\TenantProfile;
 
-use JalalLinuX\Thingsboard\Entities\Device;
 use JalalLinuX\Thingsboard\Entities\TenantProfile;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
