@@ -95,7 +95,7 @@ class TenantProfile extends Tntity
      * }
      * Remove 'id', from the request body example (below) to create new Tenant Profile entity.
      * Available for users with 'SYS_ADMIN' authority.
-     * @return TenantProfile
+     *
      * @author Sabiee
      */
     public function saveTenantProfile(): TenantProfile
@@ -114,8 +114,6 @@ class TenantProfile extends Tntity
      * Referencing non-existing tenant profile Id will cause an error.
      * Referencing profile that is used by the tenants will cause an error.
      *
-     * @param string|null $id
-     * @return bool
      * @throws \Throwable
      *
      * @group SYS_ADMIN
@@ -139,7 +137,6 @@ class TenantProfile extends Tntity
      *
      *
      *
-     * @param string|null $id
      *
      * @return self
      *
