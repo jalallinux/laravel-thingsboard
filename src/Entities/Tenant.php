@@ -69,9 +69,7 @@ class Tenant extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     * @param PaginationArguments $paginationArguments
      *
-     * @return PaginatedResponse
      *
      * @author JalalLinuX
      *
@@ -93,9 +91,7 @@ class Tenant extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     * @param PaginationArguments $paginationArguments
      *
-     * @return PaginatedResponse
      *
      * @author JalalLinuX
      *
