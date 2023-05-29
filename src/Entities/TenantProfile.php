@@ -270,4 +270,21 @@ class TenantProfile extends Tntity
 
         return $this->paginatedResponse($response, $paginationArguments);
     }
+
+    /**
+     *
+     */
+    public function getTenantProfilesByIds(array $ids)
+    {
+        foreach ($ids as $id) {
+            throw_if(
+                ! Str::isUuid($id),
+                $this->exception('method "ids" argument must be a valid array of uuid.'),
+            );
+        }
+
+        $tenantProfiles = $this->api()->get('/tenantProfiles', ['ids' => implode(',', $ids)])->json();
+
+        return array_map(fn ($tenantProfile) => new TenantProfile($tenantProfile), $tenantProfiles);
+    }
 }
