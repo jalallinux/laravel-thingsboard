@@ -15,6 +15,7 @@ use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
  * @method Entities\Tenant tenant(array $attributes = [])
  * @method Entities\Customer customer(array $attributes = [])
  * @method Entities\DeviceApi deviceApi(array $attributes = [])
+ * @method Entities\TenantProfile tenantProfile(array $attributes = [])
  */
 class Thingsboard
 {
