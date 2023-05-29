@@ -68,11 +68,39 @@ class Tenant extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
+     * @param PaginationArguments $paginationArguments
+     *
+     * @return PaginatedResponse
+     *
      * @author JalalLinuX
      *
      * @group SYS_ADMIN
      */
     public function getTenants(PaginationArguments $paginationArguments): PaginatedResponse
+    {
+        $paginationArguments->validateSortProperty(EnumTenantSortProperty::class);
+
+        $response = $this->api()->get('tenants', $paginationArguments->queryParams());
+
+        return $this->paginatedResponse($response, $paginationArguments);
+    }
+
+    /**
+     * Returns a page of tenant info objects registered in the platform.
+     * The Tenant Info object extends regular Tenant object and includes Tenant Profile name.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details.
+     *
+     * @param PaginationArguments $paginationArguments
+     *
+     * @return PaginatedResponse
+     *
+     * @author JalalLinuX
+     *
+     * @group SYS_ADMIN
+     */
+    public function getTenantInfos(PaginationArguments $paginationArguments): PaginatedResponse
     {
         $paginationArguments->validateSortProperty(EnumTenantSortProperty::class);
 
