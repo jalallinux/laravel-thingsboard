@@ -2,11 +2,9 @@
 
 namespace JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\QueueConfiguration;
 
-
-
 class AdditionalInfo
 {
-    public string $description = "";
+    public string $description = '';
 
     public function getDescription(): string
     {
@@ -21,20 +19,21 @@ class AdditionalInfo
     public function toArray(): array
     {
         return [
-            'description' =>  $this->description
+            'description' => $this->description,
         ];
     }
 
     public static function fromArray(array $additionalInfo): ?static
     {
         $instance = self::make();
-        if(empty($additionalInfo)){
+        if (empty($additionalInfo)) {
             return null;
         }
-        foreach ($additionalInfo as $key => $value){
-            $method = 'set' . ucfirst($key);
+        foreach ($additionalInfo as $key => $value) {
+            $method = 'set'.ucfirst($key);
             $instance->{$method}($value);
         }
+
         return $instance;
     }
 
@@ -42,5 +41,4 @@ class AdditionalInfo
     {
         return new self;
     }
-
 }

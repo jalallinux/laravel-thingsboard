@@ -5,20 +5,27 @@ namespace JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\QueueConfigura
 class QueueConfiguration
 {
     public AdditionalInfo $additionalInfo;
+
     public bool $consumerPerPartition;
 
     public string $name;
+
     public int $packProcessingTimeout;
+
     public int $partitions;
+
     public int $pollInterval;
+
     public ProcessingStrategy $processingStrategy;
+
     public SubmitStrategy $submitStrategy;
+
     public string $topic;
 
     public function __construct(array $queueConfiguration = [])
     {
         foreach ($queueConfiguration as $k => $v) {
-            $method = 'set' . ucfirst($k);
+            $method = 'set'.ucfirst($k);
             $this->{$method}($v);
         }
     }
@@ -39,7 +46,7 @@ class QueueConfiguration
             'pollInterval' => $this->pollInterval,
             'processingStrategy' => $this->processingStrategy->toArray(),
             'submitStrategy' => $this->submitStrategy->toArray(),
-            'topic' => $this->topic
+            'topic' => $this->topic,
         ];
     }
 
@@ -51,7 +58,8 @@ class QueueConfiguration
     public function setAdditionalInfo(AdditionalInfo|array|null $additionalInfo): static
     {
         $additionalInfo = is_array($additionalInfo) ? AdditionalInfo::fromArray($additionalInfo) : $additionalInfo;
-        return tap($this, fn() => $this->additionalInfo = $additionalInfo);
+
+        return tap($this, fn () => $this->additionalInfo = $additionalInfo);
     }
 
     public function isConsumerPerPartition(): bool
@@ -61,7 +69,7 @@ class QueueConfiguration
 
     public function setConsumerPerPartition(bool $consumerPerPartition): static
     {
-        return tap($this, fn() => $this->consumerPerPartition = $consumerPerPartition);
+        return tap($this, fn () => $this->consumerPerPartition = $consumerPerPartition);
     }
 
     public function getName(): string
@@ -71,7 +79,7 @@ class QueueConfiguration
 
     public function setName(string $name): static
     {
-        return tap($this, fn() => $this->name = $name);
+        return tap($this, fn () => $this->name = $name);
     }
 
     public function getPackProcessingTimeout(): int
@@ -81,7 +89,7 @@ class QueueConfiguration
 
     public function setPackProcessingTimeout(int $packProcessingTimeout): static
     {
-        return tap($this, fn() => $this->packProcessingTimeout = $packProcessingTimeout);
+        return tap($this, fn () => $this->packProcessingTimeout = $packProcessingTimeout);
     }
 
     public function getPartitions(): int
@@ -91,7 +99,7 @@ class QueueConfiguration
 
     public function setPartitions(int $partitions): static
     {
-        return tap($this, fn() => $this->partitions = $partitions);
+        return tap($this, fn () => $this->partitions = $partitions);
     }
 
     public function getPollInterval(): int
@@ -101,7 +109,7 @@ class QueueConfiguration
 
     public function setPollInterval(int $pollInterval): static
     {
-        return tap($this, fn() => $this->pollInterval = $pollInterval);
+        return tap($this, fn () => $this->pollInterval = $pollInterval);
     }
 
     public function getProcessingStrategy(): ProcessingStrategy
@@ -112,7 +120,8 @@ class QueueConfiguration
     public function setProcessingStrategy(ProcessingStrategy|array|null $processingStrategy): static
     {
         $processingStrategy = is_array($processingStrategy) ? ProcessingStrategy::fromArray($processingStrategy) : $processingStrategy;
-        return tap($this, fn() => $this->processingStrategy = $processingStrategy);
+
+        return tap($this, fn () => $this->processingStrategy = $processingStrategy);
     }
 
     public function getSubmitStrategy(): SubmitStrategy
@@ -123,7 +132,8 @@ class QueueConfiguration
     public function setSubmitStrategy(SubmitStrategy|array|null $submitStrategy): static
     {
         $submitStrategy = is_array($submitStrategy) ? SubmitStrategy::fromArray($submitStrategy) : $submitStrategy;
-        return tap($this, fn() => $this->submitStrategy = $submitStrategy);
+
+        return tap($this, fn () => $this->submitStrategy = $submitStrategy);
     }
 
     public function getTopic(): string
@@ -133,7 +143,6 @@ class QueueConfiguration
 
     public function setTopic(string $topic): static
     {
-        return tap($this, fn() => $this->topic = $topic);
+        return tap($this, fn () => $this->topic = $topic);
     }
-
 }
