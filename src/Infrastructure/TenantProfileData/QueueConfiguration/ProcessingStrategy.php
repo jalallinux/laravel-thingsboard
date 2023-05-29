@@ -4,33 +4,26 @@ namespace JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\QueueConfigura
 
 class ProcessingStrategy
 {
-    public int $failurePercentage;
+    private int $failurePercentage = 0;
 
-    public int $maxPauseBetweenRetries;
+    private int $maxPauseBetweenRetries = 3;
 
-    public int $pauseBetweenRetries;
+    private int $pauseBetweenRetries = 3;
 
-    public int $retries;
+    private int $retries = 3;
 
-    public string $type;
+    private string $type = 'SKIP_ALL_FAILURES';
 
-    public static function fromArray(array $processingStrategy): ?static
+    public static function make(array $processingStrategy = []): static
     {
-        $instance = self::make();
-        if (empty($processingStrategy)) {
-            return null;
-        }
+        $instance = new self;
+
         foreach ($processingStrategy as $key => $value) {
             $method = 'set'.ucfirst($key);
             $instance->{$method}($value);
         }
 
         return $instance;
-    }
-
-    public static function make(): ProcessingStrategy
-    {
-        return new self;
     }
 
     public function getFailurePercentage(): int
@@ -86,10 +79,10 @@ class ProcessingStrategy
     public function toArray(): array
     {
         return [
-            '$failurePercentage = this->type',
-            'maxPauseBetweenRetries' => $this->type,
-            'pauseBetweenRetries' => $this->type,
-            'retries' => $this->type,
+            'failurePercentage' => $this->failurePercentage,
+            'maxPauseBetweenRetries' => $this->maxPauseBetweenRetries,
+            'pauseBetweenRetries' => $this->pauseBetweenRetries,
+            'retries' => $this->retries,
             'type' => $this->type,
         ];
     }

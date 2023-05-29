@@ -4,9 +4,21 @@ namespace JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\QueueConfigura
 
 class SubmitStrategy
 {
-    public string $type;
+    private int $batchSize = 1000;
 
-    public int $batchSize;
+    private string $type = 'BURST';
+
+    public static function make(array $processingStrategy = []): static
+    {
+        $instance = new self;
+
+        foreach ($processingStrategy as $key => $value) {
+            $method = 'set'.ucfirst($key);
+            $instance->{$method}($value);
+        }
+
+        return $instance;
+    }
 
     public function getType(): string
     {
@@ -34,24 +46,5 @@ class SubmitStrategy
             'type' => $this->type,
             'batchSize' => $this->batchSize,
         ];
-    }
-
-    public static function make(): SubmitStrategy
-    {
-        return new self;
-    }
-
-    public static function fromArray(array $SubmitStrategy): ?static
-    {
-        $instance = self::make();
-        if (empty($SubmitStrategy)) {
-            return null;
-        }
-        foreach ($SubmitStrategy as $key => $value) {
-            $method = 'set'.ucfirst($key);
-            $instance->{$method}($value);
-        }
-
-        return $instance;
     }
 }

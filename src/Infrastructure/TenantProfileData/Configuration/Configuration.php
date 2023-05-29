@@ -153,7 +153,7 @@ class Configuration
             'transportTenantTelemetryMsgRateLimit' => (string) $this->transportTenantTelemetryMsgRateLimit,
             'type' => $this->type,
             'warnThreshold' => $this->warnThreshold,
-            'wsMsgQueueLimitPerSession' => (string) $this->wsMsgQueueLimitPerSession,
+            'wsMsgQueueLimitPerSession' => $this->wsMsgQueueLimitPerSession,
             'wsUpdatesPerSessionRateLimit' => (string) $this->wsUpdatesPerSessionRateLimit,
         ];
     }

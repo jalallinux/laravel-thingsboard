@@ -56,7 +56,7 @@ class RateLimits
 
     public function __toString(): string
     {
-        return implode(',', array_map(fn ($messageCount, $second) => "{$messageCount}:{$second}", $this->rateLimits));
+        return implode(',', array_map(fn ($rateLimit) => "{$rateLimit[0]}:{$rateLimit[1]}", $this->rateLimits));
     }
 
     public function collect(): Collection

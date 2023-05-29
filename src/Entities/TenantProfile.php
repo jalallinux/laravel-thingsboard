@@ -135,7 +135,7 @@ class TenantProfile extends Tntity
     /**
      * Fetch the Tenant Profile object based on the provided Tenant Profile Id.
      *
-     *
+     * @param string|null $id
      *
      *
      * @return self
@@ -164,7 +164,6 @@ class TenantProfile extends Tntity
      * Fetch the default Tenant Profile Info object based.
      * Tenant Profile Info is a lightweight object that contains only id and name of the profile.
      *
-     *
      * @return $this
      *
      * @throws \Throwable
@@ -191,7 +190,9 @@ class TenantProfile extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
+     * @param PaginationArguments $paginationArguments
      *
+     * @return PaginatedResponse
      *
      * @author JalalLinuX
      *
