@@ -106,7 +106,7 @@ class TenantProfile extends Tntity
 
         $tenantProfile = $this->api()->post('tenantProfile', $payload)->json();
 
-        return tap($this, fn() => $this->fill($tenantProfile));
+        return tap($this, fn () => $this->fill($tenantProfile));
     }
 
     /**
@@ -125,7 +125,7 @@ class TenantProfile extends Tntity
         $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            !Str::isUuid($id),
+            ! Str::isUuid($id),
             $this->exception('method "id" argument must be a valid uuid.'),
         );
 
@@ -150,13 +150,13 @@ class TenantProfile extends Tntity
         $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            !Str::isUuid($id),
+            ! Str::isUuid($id),
             $this->exception('method "id" argument must be a valid uuid.'),
         );
 
         $tenantProfile = $this->api()->get("tenantProfile/{$id}")->json();
 
-        return tap($this, fn() => $this->fill($tenantProfile));
+        return tap($this, fn () => $this->fill($tenantProfile));
     }
 
     /**
@@ -179,7 +179,7 @@ class TenantProfile extends Tntity
             return $this->getTenantProfileById($tenantProfile['id']['id']);
         }
 
-        return tap($this, fn() => $this->fill($tenantProfile));
+        return tap($this, fn () => $this->fill($tenantProfile));
     }
 
     /**
@@ -188,7 +188,6 @@ class TenantProfile extends Tntity
      *
      * @group SYS_ADMIN
      *
-     * @param string|null $id
      * @return $this
      */
     public function getTenantProfileInfoById(string $id = null): static
@@ -196,13 +195,13 @@ class TenantProfile extends Tntity
         $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            !Str::isUuid($id),
+            ! Str::isUuid($id),
             $this->exception('method "id" argument must be a valid uuid.'),
         );
 
         $tenantProfile = $this->api()->get("tenantProfileInfo/{$id}")->json();
 
-        return tap($this, fn() => $this->fill($tenantProfile));
+        return tap($this, fn () => $this->fill($tenantProfile));
     }
 
     /**
@@ -240,7 +239,7 @@ class TenantProfile extends Tntity
         $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            !Str::isUuid($id),
+            ! Str::isUuid($id),
             $this->exception('method "id" argument must be a valid uuid.'),
         );
 
@@ -249,7 +248,7 @@ class TenantProfile extends Tntity
             return $this->getTenantProfileById($id);
         }
 
-        return tap($this, fn() => $this->fill($tenantProfile));
+        return tap($this, fn () => $this->fill($tenantProfile));
 
     }
 
