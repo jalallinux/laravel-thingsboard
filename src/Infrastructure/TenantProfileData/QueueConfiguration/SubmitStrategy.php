@@ -2,10 +2,10 @@
 
 namespace JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\QueueConfiguration;
 
-
 class SubmitStrategy
 {
     public string $type;
+
     public int $batchSize;
 
     public function getType(): string
@@ -15,7 +15,7 @@ class SubmitStrategy
 
     public function setType(string $type): static
     {
-        return tap($this, fn() => $this->type = $type);
+        return tap($this, fn () => $this->type = $type);
     }
 
     public function getBatchSize(): int
@@ -25,7 +25,7 @@ class SubmitStrategy
 
     public function setBatchSize(int $batchSize): static
     {
-        return tap($this, fn() => $this->batchSize = $batchSize);
+        return tap($this, fn () => $this->batchSize = $batchSize);
     }
 
     public function toArray(): array
@@ -35,7 +35,6 @@ class SubmitStrategy
             'batchSize' => $this->batchSize,
         ];
     }
-
 
     public static function make(): SubmitStrategy
     {
@@ -49,10 +48,10 @@ class SubmitStrategy
             return null;
         }
         foreach ($SubmitStrategy as $key => $value) {
-            $method = 'set' . ucfirst($key);
+            $method = 'set'.ucfirst($key);
             $instance->{$method}($value);
         }
+
         return $instance;
     }
-
 }

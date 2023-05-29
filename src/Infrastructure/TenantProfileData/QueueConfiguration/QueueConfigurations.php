@@ -4,10 +4,11 @@ namespace JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\QueueConfigura
 
 class QueueConfigurations
 {
-   public ?array $queueConfigurations = null;
+    public ?array $queueConfigurations = null;
+
     public function __construct(?array $queueConfigurations = [])
     {
-        if (is_null($queueConfigurations)){
+        if (is_null($queueConfigurations)) {
             return $this->queueConfigurations;
         }
         foreach ($queueConfigurations as $queueConfiguration) {

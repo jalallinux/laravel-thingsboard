@@ -2,13 +2,14 @@
 
 namespace JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\QueueConfiguration;
 
-
 class ProcessingStrategy
 {
     public int $failurePercentage;
+
     public int $maxPauseBetweenRetries;
 
     public int $pauseBetweenRetries;
+
     public int $retries;
 
     public string $type;
@@ -16,13 +17,14 @@ class ProcessingStrategy
     public static function fromArray(array $processingStrategy): ?static
     {
         $instance = self::make();
-        if(empty($processingStrategy)){
+        if (empty($processingStrategy)) {
             return null;
         }
-        foreach ($processingStrategy as $key => $value){
-            $method = 'set' . ucfirst($key);
+        foreach ($processingStrategy as $key => $value) {
+            $method = 'set'.ucfirst($key);
             $instance->{$method}($value);
         }
+
         return $instance;
     }
 
@@ -38,7 +40,7 @@ class ProcessingStrategy
 
     public function setFailurePercentage(int $failurePercentage): static
     {
-        return tap($this, fn() => $this->failurePercentage = $failurePercentage);
+        return tap($this, fn () => $this->failurePercentage = $failurePercentage);
     }
 
     public function getMaxPauseBetweenRetries(): int
@@ -48,7 +50,7 @@ class ProcessingStrategy
 
     public function setMaxPauseBetweenRetries(int $maxPauseBetweenRetries): static
     {
-        return tap($this, fn() => $this->maxPauseBetweenRetries = $maxPauseBetweenRetries);
+        return tap($this, fn () => $this->maxPauseBetweenRetries = $maxPauseBetweenRetries);
     }
 
     public function getPauseBetweenRetries(): int
@@ -58,7 +60,7 @@ class ProcessingStrategy
 
     public function setPauseBetweenRetries(int $pauseBetweenRetries): static
     {
-        return tap($this, fn() => $this->pauseBetweenRetries = $pauseBetweenRetries);
+        return tap($this, fn () => $this->pauseBetweenRetries = $pauseBetweenRetries);
     }
 
     public function getRetries(): int
@@ -68,16 +70,17 @@ class ProcessingStrategy
 
     public function setRetries(int $retries): static
     {
-        return tap($this, fn() => $this->retries = $retries);
+        return tap($this, fn () => $this->retries = $retries);
     }
 
     public function getType(): string
     {
         return $this->type;
     }
+
     public function setType(string $type): static
     {
-        return tap($this, fn() =>$this->type = $type);
+        return tap($this, fn () => $this->type = $type);
     }
 
     public function toArray(): array
@@ -90,6 +93,4 @@ class ProcessingStrategy
             'type' => $this->type,
         ];
     }
-
-
 }
