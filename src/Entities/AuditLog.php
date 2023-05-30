@@ -64,11 +64,11 @@ class AuditLog extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     *
-     *
-     *
-     *
-     *
+     * @param PaginationArguments $paginationArguments
+     * @param \DateTime|null $startTime
+     * @param \DateTime|null $endTime
+     * @param EnumAuditLogActionType|null $actionType
+     * @return PaginatedResponse
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN
