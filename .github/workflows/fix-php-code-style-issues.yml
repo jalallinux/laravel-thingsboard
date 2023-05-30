@@ -17,7 +17,7 @@ jobs:
 
       - name: Fix PHP code style issues
         uses: aglipanci/laravel-pint-action@2.2.0
-        with:
+        with: # https://mlocati.github.io/php-cs-fixer-configurator/
           preset: laravel
           verboseMode: true
           testMode: true
