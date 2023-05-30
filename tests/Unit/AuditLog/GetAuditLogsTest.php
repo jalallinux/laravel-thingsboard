@@ -23,10 +23,10 @@ class GetAuditLogsTest extends TestCase
         )->data()->first();
 
         $this->assertInstanceOf(AuditLog::class, $loginLog);
-        $this->assertEquals($loginLog->actionType, EnumAuditLogActionType::LOGIN());
+        $this->assertEquals(EnumAuditLogActionType::LOGIN(), $loginLog->actionType);
         $this->assertGreaterThan($loginLog->createdTime, now()->getPreciseTimestamp(3));
         $this->assertEquals($tenantUser->getThingsboardEmailAttribute(), $loginLog->userName);
-        $this->assertEquals($loginLog->actionStatus, EnumAuditLogActionStatus::SUCCESS());
+        $this->assertEquals(EnumAuditLogActionStatus::SUCCESS(), $loginLog->actionStatus);
     }
 
     public function testFailedLoginLog()
@@ -42,9 +42,9 @@ class GetAuditLogsTest extends TestCase
         )->data()->first();
 
         $this->assertInstanceOf(AuditLog::class, $loginLog);
-        $this->assertEquals($loginLog->actionType, EnumAuditLogActionType::LOGIN());
+        $this->assertEquals(EnumAuditLogActionType::LOGIN(), $loginLog->actionType);
         $this->assertGreaterThan($loginLog->createdTime, now()->getPreciseTimestamp(3));
         $this->assertEquals($tenantUser->getThingsboardEmailAttribute(), $loginLog->userName);
-        $this->assertEquals($loginLog->actionStatus, EnumAuditLogActionStatus::FAILURE());
+        $this->assertEquals(EnumAuditLogActionStatus::FAILURE(), $loginLog->actionStatus);
     }
 }
