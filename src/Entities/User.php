@@ -62,9 +62,7 @@ class User extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     * @param PaginationArguments $paginationArguments
      *
-     * @return PaginatedResponse
      *
      * @author JalalLinuX
      *
@@ -83,11 +81,8 @@ class User extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     * @param PaginationArguments $paginationArguments
      *
-     * @param string|null $customerId
      *
-     * @return PaginatedResponse
      *
      * @throws \Throwable
      *
@@ -117,11 +112,8 @@ class User extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     * @param PaginationArguments $paginationArguments
      *
-     * @param string|null $tenantId
      *
-     * @return PaginatedResponse
      *
      * @throws \Throwable
      *
@@ -154,7 +146,6 @@ class User extends Tntity
      * User email is unique for entire platform setup.
      * Remove 'id', 'tenantId' and optionally 'customerId' from the request body example (below) to create new User entity.
      *
-     * @param bool $sendActivationMail
      *
      * @return User
      *
@@ -178,9 +169,7 @@ class User extends Tntity
      * Deletes the User, it's credentials and all the relations (from and to the User).
      * Referencing non-existing User ID will cause an error.
      *
-     * @param string|null $id
      *
-     * @return bool
      *
      * @throws \Throwable
      *
@@ -206,7 +195,6 @@ class User extends Tntity
      * If the user has the authority of 'TENANT_ADMIN', the server checks that the requested user is owned by the same tenant.
      * If the user has the authority of 'CUSTOMER_USER', the server checks that the requested user is owned by the same customer.
      *
-     * @param string|null $id
      *
      * @return User
      *
@@ -234,9 +222,7 @@ class User extends Tntity
      * Get the activation link for the user.
      * The base url for activation link is configurable in the general settings of system administrator.
      *
-     * @param string|null $id
      *
-     * @return string
      *
      * @throws \Throwable
      *
