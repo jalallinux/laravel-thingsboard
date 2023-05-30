@@ -15,7 +15,6 @@ class GetAttributesKeysTest extends TestCase
         $attributesKeys = thingsboard($tenantUser)->deviceProfile()->getAttributesKeys($deviceProfileId);
         $this->assertIsArray($attributesKeys);
     }
-
     public function testGetAttributesKeysWithoutUuidSuccess()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
