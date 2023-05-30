@@ -271,6 +271,8 @@ class DeviceProfile extends Tntity
      * @return array
      *
      * @author Sabiee
+     *
+     * @group TENANT_ADMIN'
      */
     public function getTimeseriesKeys(string $id = null): array
     {
@@ -292,6 +294,8 @@ class DeviceProfile extends Tntity
      * @throws \Throwable
      *
      * @author Sabiee
+     *
+     * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function getDeviceProfileInfoById(string $id = null): static
     {
@@ -315,12 +319,13 @@ class DeviceProfile extends Tntity
      * Device Profile Info is a lightweight object that includes main information
      *  about Device Profile excluding the heavyweight configuration object.
      *
-     * @group TENANT_ADMIN | CUSTOMER_USER
      *
      * @param  PaginationArguments  $paginationArguments
      * @return PaginatedResponse
      *
      * @author Sabiee
+     *
+     * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function getDeviceProfileInfos(PaginationArguments $paginationArguments): PaginatedResponse
     {
