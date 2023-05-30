@@ -324,6 +324,8 @@ class Device extends Tntity
      *
      * @return Device
      *
+     * @throws \Throwable
+     *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
