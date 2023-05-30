@@ -60,7 +60,7 @@ class DeviceProfile extends Tntity
         'additionalInfo' => 'array',
         'customerId' => CastId::class,
         'deviceProfileId' => CastId::class,
-        'deviceData' => 'array',
+        'profileData' => 'array',
         'tenantId' => CastId::class,
         'firmwareId' => CastId::class,
         'softwareId' => CastId::class,
