@@ -2,7 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Tests\Unit\Admin\Settings;
 
-use JalalLinuX\Thingsboard\Enums\EnumAdminSettingsKey;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Tests\TestCase;
@@ -17,6 +16,7 @@ class GetAdminSettingsTest extends TestCase
         $this->assertIsArray($settings['id']);
         $this->assertInstanceOf(Id::class, $settings['tenantId']);
     }
+
     public function testGetAdminSettingsNotFound()
     {
         $adminUser = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());

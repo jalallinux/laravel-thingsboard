@@ -3,7 +3,6 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use JalalLinuX\Thingsboard\Casts\CastId;
-use JalalLinuX\Thingsboard\Enums\EnumAdminSettingsKey;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Tntity;
 
@@ -35,7 +34,7 @@ class AdminSettings extends Tntity
      * Referencing non-existing Administration Settings Id will cause an error.
      *
      *
-     * @param string $key
+     * @param  string  $key
      * @return self
      *
      * @author Sabiee
