@@ -78,7 +78,9 @@ class DeviceProfile extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
+     * @param PaginationArguments $paginationArguments
      *
+     * @return PaginatedResponse
      *
      * @author JalalLinuX
      *
@@ -86,7 +88,7 @@ class DeviceProfile extends Tntity
      */
     public function getDeviceProfiles(PaginationArguments $paginationArguments): PaginatedResponse
     {
-        $paginationArguments->validateSortProperty(EnumDeviceProfileSortProperty::class, [EnumDeviceProfileSortProperty::TRANSPORT_TYPE()]);
+        $paginationArguments->validateSortProperty(EnumDeviceProfileSortProperty::class);
 
         $response = $this->api()->get('deviceProfiles', $paginationArguments->queryParams());
 
@@ -97,8 +99,9 @@ class DeviceProfile extends Tntity
      * Fetch the Device Profile object based on the provided Device Profile ID.
      * The server checks that the device profile is owned by the same tenant.
      *
+     * @param string|null $id
      *
-     * @return self
+     * @return DeviceProfile
      *
      * @throws \Throwable
      *
@@ -111,21 +114,22 @@ class DeviceProfile extends Tntity
         $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            ! Str::isUuid($id),
+            !Str::isUuid($id),
             $this->exception('method argument must be a valid uuid.'),
         );
 
         $deviceProfile = $this->api()->get("deviceProfile/{$id}")->json();
 
-        return tap($this, fn () => $this->fill($deviceProfile));
+        return tap($this, fn() => $this->fill($deviceProfile));
     }
 
     /**
      * Fetch the Default Device Profile Info object.
      * Device Profile Info is a lightweight object that includes main information about Device Profile excluding the heavyweight configuration object.
      *
+     * @param bool $full
      *
-     * @return self
+     * @return DeviceProfile
      *
      * @throws \Throwable
      *
@@ -141,7 +145,7 @@ class DeviceProfile extends Tntity
             return $this->getDeviceProfileById($deviceProfile['id']['id']);
         }
 
-        return tap($this, fn () => $this->fill($deviceProfile));
+        return tap($this, fn() => $this->fill($deviceProfile));
     }
 
     /**
@@ -182,7 +186,7 @@ class DeviceProfile extends Tntity
 
         $deviceProfile = $this->api()->post('deviceProfile', $payload)->json();
 
-        return tap($this, fn () => $this->fill($deviceProfile));
+        return tap($this, fn() => $this->fill($deviceProfile));
     }
 
     /**
@@ -191,6 +195,10 @@ class DeviceProfile extends Tntity
      * Can't delete the device profile if it is referenced by existing devices.
      *
      * @group TENANT_ADMIN
+     *
+     * @param string|null $id
+     *
+     * @return bool
      *
      * @throws \Throwable
      *
@@ -201,7 +209,7 @@ class DeviceProfile extends Tntity
         $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            ! Str::isUuid($id),
+            !Str::isUuid($id),
             $this->exception('method "id" argument must be a valid uuid.'),
         );
 
@@ -213,7 +221,9 @@ class DeviceProfile extends Tntity
      *
      * @group TENANT_ADMIN
      *
-     * @return self
+     * @param string|null $id
+     *
+     * @return DeviceProfile
      *
      * @throws \Throwable
      *
@@ -224,13 +234,13 @@ class DeviceProfile extends Tntity
         $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            ! Str::isUuid($id),
+            !Str::isUuid($id),
             $this->exception('method "id" argument must be a valid uuid.'),
         );
 
         $deviceProfile = $this->api()->post("deviceProfile/{$id}/default", $this->attributes)->json();
 
-        return tap($this, fn () => $this->fill($deviceProfile));
+        return tap($this, fn() => $this->fill($deviceProfile));
     }
 
     /**
@@ -242,78 +252,16 @@ class DeviceProfile extends Tntity
      *
      * @group TENANT_ADMIN
      *
+     * @param string|null $id
+     *
+     * @return array
+     *
      * @author Sabiee
      */
     public function getAttributesKeys(string $id = null): array
     {
         $id = $id ?? $this->getAttribute('id');
 
-        return $this->api()->get('deviceProfile/devices/keys/attributes', is_null($id) ? [] : ['deviceProfileId' => $id])->json();
-    }
-
-    /**
-     * Get a set of unique time-series keys used by devices that belong to specified profile.
-     * If profile is not set returns a list of unique keys among all profiles.
-     * The call is used for auto-complete in the UI forms.
-     * The implementation limits the number of devices that participate in search to 100 as a trade of between accurate
-     *  results and time-consuming queries.
-     *
-     * @group TENANT_ADMIN'
-     *
-     * @author Sabiee
-     */
-    public function getTimeseriesKeys(string $id = null): array
-    {
-        $id = $id ?? $this->getAttribute('id');
-
-        return $this->api()->get('deviceProfile/devices/keys/timeseries', is_null($id) ? [] : ['deviceProfileId' => $id])->json();
-    }
-
-    /**
-     * Fetch the Device Profile Info object based on the provided Device Profile Id.
-     * Device Profile Info is a lightweight object that includes main information about
-     *  Device Profile excluding the heavyweight configuration object.
-     *
-     * @group TENANT_ADMIN | CUSTOMER_USER
-     *
-     * @return self
-     *
-     * @throws \Throwable
-     *
-     * @author Sabiee
-     */
-    public function getDeviceProfileInfoById(string $id = null): static
-    {
-        $id = $id ?? $this->forceAttribute('id')->id;
-
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
-        );
-
-        $deviceProfile = $this->api()->get("deviceProfileInfo/{$id}")->json();
-
-        return tap($this, fn () => $this->fill($deviceProfile));
-    }
-
-    /**
-     *Returns a page of devices profile info objects owned by tenant.
-     * You can specify parameters to filter the results.
-     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
-     * See the 'Model' tab of the Response Class for more details.
-     * Device Profile Info is a lightweight object that includes main information
-     *  about Device Profile excluding the heavyweight configuration object.
-     *
-     * @group TENANT_ADMIN | CUSTOMER_USER
-     *
-     * @author Sabiee
-     */
-    public function getDeviceProfileInfos(PaginationArguments $paginationArguments): PaginatedResponse
-    {
-        $paginationArguments->validateSortProperty(EnumDeviceProfileSortProperty::class);
-
-        $response = $this->api()->get('deviceProfileInfos', $paginationArguments->queryParams());
-
-        return $this->paginatedResponse($response, $paginationArguments);
+        return $this->api()->get("deviceProfile/devices/keys/attributes", is_null($id) ? [] : ['deviceProfileId' => $id])->json();
     }
 }
