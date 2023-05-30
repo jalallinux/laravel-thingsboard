@@ -78,7 +78,9 @@ class DeviceProfile extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
+     * @param PaginationArguments $paginationArguments
      *
+     * @return PaginatedResponse
      *
      * @author JalalLinuX
      *
@@ -96,6 +98,10 @@ class DeviceProfile extends Tntity
     /**
      * Fetch the Device Profile object based on the provided Device Profile ID.
      * The server checks that the device profile is owned by the same tenant.
+     *
+     * @param string|null $id
+     *
+     * @return DeviceProfile
      *
      * @throws \Throwable
      *
@@ -120,6 +126,12 @@ class DeviceProfile extends Tntity
     /**
      * Fetch the Default Device Profile Info object.
      * Device Profile Info is a lightweight object that includes main information about Device Profile excluding the heavyweight configuration object.
+     *
+     * @param bool $full
+     *
+     * @return DeviceProfile
+     *
+     * @throws \Throwable
      *
      * @author JalallinuX
      *
@@ -147,11 +159,11 @@ class DeviceProfile extends Tntity
      *
      * @group TENANT_ADMIN
      *
-     * @return DeviceProfile
+     * @return self
      *
      * @author Sabiee
      */
-    public function saveDeviceProfile()
+    public function saveDeviceProfile(): static
     {
         $payload = array_merge($this->getAttributes(), [
             'name' => $this->forceAttribute('name'),
@@ -184,6 +196,10 @@ class DeviceProfile extends Tntity
      *
      * @group TENANT_ADMIN
      *
+     * @param string|null $id
+     *
+     * @return bool
+     *
      * @throws \Throwable
      *
      * @author Sabiee
@@ -205,9 +221,15 @@ class DeviceProfile extends Tntity
      *
      * @group TENANT_ADMIN
      *
+     * @param string|null $id
+     *
+     * @return DeviceProfile
+     *
+     * @throws \Throwable
+     *
      * @author Sabiee
      */
-    public function setDefaultDeviceProfile(string $id = null)
+    public function setDefaultDeviceProfile(string $id = null): static
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
@@ -230,9 +252,13 @@ class DeviceProfile extends Tntity
      *
      * @group TENANT_ADMIN
      *
+     * @param string|null $id
+     *
+     * @return array
+     *
      * @author Sabiee
      */
-    public function getAttributesKeys(string $id = null)
+    public function getAttributesKeys(string $id = null): array
     {
         $id = $id ?? $this->getAttribute('id');
 

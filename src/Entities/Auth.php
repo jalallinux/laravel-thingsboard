@@ -19,6 +19,12 @@ class Auth extends Tntity
      * Login method used to authenticate user and get JWT token data.
      * Value of the response token field can be used as X-Authorization header value
      *
+     * @param string $mail
+     *
+     * @param string $password
+     *
+     * @return Token
+     *
      * @author JalalLinuX
      *
      * @group *
@@ -37,6 +43,8 @@ class Auth extends Tntity
     /**
      * Get the information about the User which credentials are used to perform this REST API call.
      *
+     * @return User
+     *
      * @author JalalLinuX
      *
      * @group *
@@ -51,6 +59,12 @@ class Auth extends Tntity
     /**
      * Change the password for the User which credentials are used to perform this REST API call.
      * Be aware that previously generated JWT tokens will be still valid until they expire.
+     *
+     * @param string $current
+     *
+     * @param $new
+     *
+     * @return bool
      *
      * @author JalalLinuX
      *
@@ -72,6 +86,8 @@ class Auth extends Tntity
     /**
      * API call to get the password policy for the password validation form(s).
      *
+     * @return PasswordPolicy
+     *
      * @author JalallinuX
      *
      * @group GUEST
@@ -87,6 +103,14 @@ class Auth extends Tntity
      * The response already contains the JWT activation and refresh tokens, to simplify the user activation flow and avoid asking user to input password again after activation.
      * If token is valid, returns the object that contains JWT access and refresh tokens.
      * If token is not valid, returns '404 Bad Request'.
+     *
+     * @param string $activateToken
+     *
+     * @param string $password
+     *
+     * @param bool $sendActivationMail
+     *
+     * @return Token
      *
      * @author JalalLinuX
      *

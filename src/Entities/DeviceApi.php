@@ -24,6 +24,12 @@ class DeviceApi extends Tntity
      *  {"ts":1634712588000,"values":{"temperature":25, "humidity":88}}
      * ]
      *
+     * @param array $payload
+     *
+     * @param string|null $deviceToken
+     *
+     * @return bool
+     *
      * @throws \Throwable
      *
      * @author JalalLinuX
@@ -65,6 +71,12 @@ class DeviceApi extends Tntity
      * The API call is designed to be used by device firmware and requires device access token ('deviceToken').
      * It is not recommended to use this API call by third-party scripts, rule-engine or platform widgets (use 'Telemetry Controller' instead).
      *
+     * @param array $payload
+     *
+     * @param string|null $deviceToken
+     *
+     * @return bool
+     *
      * @throws \Throwable
      *
      * @author JalalLinuX
@@ -101,6 +113,14 @@ class DeviceApi extends Tntity
      * The API call is designed to be used by device firmware and requires device access token ('deviceToken').
      * It is not recommended to use this API call by third-party scripts, rule-engine or platform widgets (use 'Telemetry Controller' instead).
      *
+     * @param array $clientKeys
+     *
+     * @param array $sharedKeys
+     *
+     * @param string|null $deviceToken
+     *
+     * @return array
+     *
      * @author JalalLinuX
      *
      * @group Guest
@@ -121,6 +141,14 @@ class DeviceApi extends Tntity
      * {"method": "sumOnServer", "params":{"a":2, "b":2}}
      * The API call is designed to be used by device firmware and requires device access token ('deviceToken').
      * It is not recommended to use this API call by third-party scripts, rule-engine or platform widgets (use 'Telemetry Controller' instead).
+     *
+     * @param string $method
+     *
+     * @param array $params
+     *
+     * @param string|null $deviceToken
+     *
+     * @return array
      *
      * @author JalalLinuX
      *

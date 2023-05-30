@@ -96,6 +96,8 @@ class TenantProfile extends Tntity
      * Remove 'id', from the request body example (below) to create new Tenant Profile entity.
      * Available for users with 'SYS_ADMIN' authority.
      *
+     * @return TenantProfile
+     *
      * @author Sabiee
      */
     public function saveTenantProfile(): TenantProfile
@@ -113,6 +115,10 @@ class TenantProfile extends Tntity
      * Deletes the tenant profile.
      * Referencing non-existing tenant profile Id will cause an error.
      * Referencing profile that is used by the tenants will cause an error.
+     *
+     * @param string|null $id
+     *
+     * @return bool
      *
      * @throws \Throwable
      *
@@ -135,7 +141,7 @@ class TenantProfile extends Tntity
     /**
      * Fetch the Tenant Profile object based on the provided Tenant Profile Id.
      *
-     *
+     * @param string|null $id
      *
      * @return self
      *
@@ -163,7 +169,9 @@ class TenantProfile extends Tntity
      * Fetch the default Tenant Profile Info object based.
      * Tenant Profile Info is a lightweight object that contains only id and name of the profile.
      *
-     * @return $this
+     * @param bool $full
+     *
+     * @return self
      *
      * @throws \Throwable
      *
@@ -188,7 +196,13 @@ class TenantProfile extends Tntity
      *
      * @group SYS_ADMIN
      *
-     * @return $this
+     * @param string|null $id
+     *
+     * @return self
+     *
+     * @throws \Throwable
+     *
+     * @author Sabiee
      */
     public function getTenantProfileInfoById(string $id = null): static
     {
@@ -211,7 +225,9 @@ class TenantProfile extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
+     * @param PaginationArguments $paginationArguments
      *
+     * @return PaginatedResponse
      *
      * @author JalalLinuX
      *
@@ -231,6 +247,14 @@ class TenantProfile extends Tntity
      * Referencing non-existing tenant profile Id will cause an error.
      *
      * @group SYS_ADMIN
+     *
+     * @param string|null $id
+     *
+     * @param bool $sync
+     *
+     * @return TenantProfile
+     *
+     * @throws \Throwable
      *
      * @author Sabiee
      */
@@ -260,6 +284,10 @@ class TenantProfile extends Tntity
      *
      * @group SYS_ADMIN
      *
+     * @param PaginationArguments $paginationArguments
+     *
+     * @return PaginatedResponse
+     *
      * @author Sabiee
      */
     public function getTenantProfiles(PaginationArguments $paginationArguments): PaginatedResponse
@@ -272,13 +300,19 @@ class TenantProfile extends Tntity
     }
 
     /**
-     * get multiple tenantProfile by ids
+     * Get multiple tenantProfile by ids
      *
      * @group SYS_ADMIN
      *
+     * @param array $ids
+     *
+     * @return TenantProfile[]
+     *
+     * @throws \Throwable
+     *
      * @author Sabiee
      */
-    public function getTenantProfilesByIds(array $ids)
+    public function getTenantProfilesByIds(array $ids): array
     {
         foreach ($ids as $id) {
             throw_if(
