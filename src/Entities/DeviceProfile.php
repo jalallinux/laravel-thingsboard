@@ -258,12 +258,15 @@ class DeviceProfile extends Tntity
         return $this->api()->get('deviceProfile/devices/keys/attributes', is_null($id) ? [] : ['deviceProfileId' => $id])->json();
     }
 
+
     /**
      * Get a set of unique time-series keys used by devices that belong to specified profile.
      * If profile is not set returns a list of unique keys among all profiles.
      * The call is used for auto-complete in the UI forms.
      * The implementation limits the number of devices that participate in search to 100 as a trade of between accurate
      *  results and time-consuming queries.
+     *
+     * @group TENANT_ADMIN'
      *
      * @param  string|null  $id
      * @return array
@@ -276,13 +279,15 @@ class DeviceProfile extends Tntity
     {
         $id = $id ?? $this->getAttribute('id');
 
-        return $this->api()->get('deviceProfile/devices/keys/timeseries', is_null($id) ? [] : ['deviceProfileId' => $id])->json();
+        return $this->api()->get("deviceProfile/devices/keys/timeseries", is_null($id) ? [] : ['deviceProfileId' => $id])->json();
     }
 
     /**
      * Fetch the Device Profile Info object based on the provided Device Profile Id.
      * Device Profile Info is a lightweight object that includes main information about
      *  Device Profile excluding the heavyweight configuration object.
+     *
+     * @group TENANT_ADMIN | CUSTOMER_USER
      *
      * @param  string|null  $id
      * @return self
