@@ -96,12 +96,16 @@ class Rpc extends Tntity
      * * RPC Result
      * In case of persistent RPC, the result of this call is 'rpcId' UUID. In case of lightweight RPC, the result of this call is either 200 OK if the message was sent to device, or 504 Gateway Timeout if device is offline.
      * Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.
+     *
      * @param  string  $deviceId
      * @param  string  $method
      * @param  array  $params
      * @return bool
+     *
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function sendOneWay(string $deviceId, string $method, array $params): bool
@@ -141,12 +145,16 @@ class Rpc extends Tntity
      * * RPC Result
      * In case of persistent RPC, the result of this call is 'rpcId' UUID. In case of lightweight RPC, the result of this call is either 200 OK if the message was sent to device, or 504 Gateway Timeout if device is offline.
      * Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.
+     *
      * @param  string  $method
      * @param  array  $params
      * @param  string|null  $deviceId
      * @return bool
+     *
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function sendTwoWay(string $method, array $params, string $deviceId = null): bool
@@ -165,10 +173,14 @@ class Rpc extends Tntity
 
     /**
      * Get information about the status of the RPC call.
+     *
      * @param  string|null  $id
      * @return self
+     *
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function getPersistentRequest(string $id = null): static
@@ -187,10 +199,14 @@ class Rpc extends Tntity
 
     /**
      * Deletes the persistent RPC request.
+     *
      * @param  string|null  $id
      * @return bool
+     *
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN
      */
     public function deletePersistentRequest(string $id = null): bool
@@ -207,12 +223,16 @@ class Rpc extends Tntity
 
     /**
      * Allows to query RPC calls for specific device using pagination.
+     *
      * @param  PaginationArguments  $paginationArguments
      * @param  string|null  $deviceId
      * @param  EnumRpcStatus|null  $rpcStatus
      * @return PaginatedResponse
+     *
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function getPersistentRequests(PaginationArguments $paginationArguments, string $deviceId = null, EnumRpcStatus $rpcStatus = null): PaginatedResponse

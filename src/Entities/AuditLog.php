@@ -64,12 +64,15 @@ class AuditLog extends Tntity
      * You can specify parameters to filter the results.
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
+     *
      * @param  PaginationArguments  $paginationArguments
      * @param  \DateTime|null  $startTime
      * @param  \DateTime|null  $endTime
      * @param  EnumAuditLogActionType|null  $actionType
      * @return PaginatedResponse
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN
      */
     public function getAuditLogs(PaginationArguments $paginationArguments, \DateTime $startTime = null, \DateTime $endTime = null, EnumAuditLogActionType $actionType = null): PaginatedResponse
@@ -88,14 +91,18 @@ class AuditLog extends Tntity
      * You can specify parameters to filter the results.
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
+     *
      * @param  string  $customerId
      * @param  PaginationArguments  $paginationArguments
      * @param  \DateTime|null  $startTime
      * @param  \DateTime|null  $endTime
      * @param  EnumAuditLogActionType|null  $actionType
      * @return PaginatedResponse
+     *
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN
      */
     public function getAuditLogsByCustomerId(string $customerId, PaginationArguments $paginationArguments, \DateTime $startTime = null, \DateTime $endTime = null, EnumAuditLogActionType $actionType = null): PaginatedResponse
@@ -120,13 +127,16 @@ class AuditLog extends Tntity
      * You can specify parameters to filter the results.
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
+     *
      * @param  string  $userId
      * @param  PaginationArguments  $paginationArguments
      * @param  \DateTime|null  $startTime
      * @param  \DateTime|null  $endTime
      * @param  EnumAuditLogActionType|null  $actionType
      * @return PaginatedResponse
+     *
      * @throws \Throwable
+     *
      * @author JalalLinuX
      */
     public function getAuditLogsByUserId(string $userId, PaginationArguments $paginationArguments, \DateTime $startTime = null, \DateTime $endTime = null, EnumAuditLogActionType $actionType = null): PaginatedResponse
@@ -152,13 +162,16 @@ class AuditLog extends Tntity
      * You can specify parameters to filter the results.
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
+     *
      * @param  Id  $entity
      * @param  PaginationArguments  $paginationArguments
      * @param  \DateTime|null  $startTime
      * @param  \DateTime|null  $endTime
      * @param  EnumAuditLogActionType|null  $actionType
      * @return PaginatedResponse
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN
      */
     public function getAuditLogsByEntityId(Id $entity, PaginationArguments $paginationArguments, \DateTime $startTime = null, \DateTime $endTime = null, EnumAuditLogActionType $actionType = null): PaginatedResponse

@@ -82,8 +82,11 @@ class Usage extends Tntity
 
     /**
      * Get Tenant Usage Info
+     *
      * @return self
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN
      */
     public function getTenantUsageInfo(): static

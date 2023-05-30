@@ -27,6 +27,7 @@
         "vkovic/laravel-custom-casts": "^1.4"
     },
     "require-dev": {
+        "laravel/pint": "*",
         "orchestra/testbench": "^7.0|^8.0",
         "phpunit/phpunit": "^9.4"
     },
@@ -46,9 +47,10 @@
         }
     },
     "scripts": {
-        "test": "phpunit",
+        "test": "vendor/bin/phpunit",
         "format": "php-cs-fixer fix --allow-risky=yes",
-        "analyse": "phpstan analyse"
+        "analyse": "phpstan analyse",
+        "pint": "vendor/bin/pint --config pint.json"
     },
     "config": {
         "sort-packages": true
