@@ -258,7 +258,6 @@ class DeviceProfile extends Tntity
         return $this->api()->get('deviceProfile/devices/keys/attributes', is_null($id) ? [] : ['deviceProfileId' => $id])->json();
     }
 
-
     /**
      * Get a set of unique time-series keys used by devices that belong to specified profile.
      * If profile is not set returns a list of unique keys among all profiles.
@@ -266,19 +265,18 @@ class DeviceProfile extends Tntity
      * The implementation limits the number of devices that participate in search to 100 as a trade of between accurate
      *  results and time-consuming queries.
      *
-     * @group TENANT_ADMIN'
-     *
-     * @param string|null $id
-     *
+     * @param  string|null  $id
      * @return array
      *
      * @author Sabiee
+     *
+     * @group TENANT_ADMIN'
      */
     public function getTimeseriesKeys(string $id = null): array
     {
         $id = $id ?? $this->getAttribute('id');
 
-        return $this->api()->get("deviceProfile/devices/keys/timeseries", is_null($id) ? [] : ['deviceProfileId' => $id])->json();
+        return $this->api()->get('deviceProfile/devices/keys/timeseries', is_null($id) ? [] : ['deviceProfileId' => $id])->json();
     }
 
     /**
@@ -286,28 +284,27 @@ class DeviceProfile extends Tntity
      * Device Profile Info is a lightweight object that includes main information about
      *  Device Profile excluding the heavyweight configuration object.
      *
-     * @group TENANT_ADMIN | CUSTOMER_USER
-     *
-     * @param string|null $id
-     *
+     * @param  string|null  $id
      * @return self
      *
      * @throws \Throwable
      *
      * @author Sabiee
+     *
+     * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function getDeviceProfileInfoById(string $id = null): static
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            !Str::isUuid($id),
+            ! Str::isUuid($id),
             $this->exception('method "id" argument must be a valid uuid.'),
         );
 
         $deviceProfile = $this->api()->get("deviceProfileInfo/{$id}")->json();
 
-        return tap($this, fn() => $this->fill($deviceProfile));
+        return tap($this, fn () => $this->fill($deviceProfile));
     }
 
     /**
@@ -318,13 +315,13 @@ class DeviceProfile extends Tntity
      * Device Profile Info is a lightweight object that includes main information
      *  about Device Profile excluding the heavyweight configuration object.
      *
-     * @group TENANT_ADMIN | CUSTOMER_USER
      *
-     * @param PaginationArguments $paginationArguments
-     *
+     * @param  PaginationArguments  $paginationArguments
      * @return PaginatedResponse
      *
      * @author Sabiee
+     *
+     * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function getDeviceProfileInfos(PaginationArguments $paginationArguments): PaginatedResponse
     {
