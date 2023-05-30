@@ -35,14 +35,14 @@ class AdminSettings extends Tntity
      * Referencing non-existing Administration Settings Id will cause an error.
      *
      *
-     * @param  EnumAdminSettingsKey  $key
+     * @param string $key
      * @return self
      *
      * @author Sabiee
      *
      * @group SYS_ADMIN
      */
-    public function getAdminSettings(EnumAdminSettingsKey $key): static
+    public function getAdminSettings(string $key): static
     {
         $adminSettings = $this->api()->get("admin/settings/{$key}")->json();
 
