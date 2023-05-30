@@ -14,7 +14,7 @@ class EnumAdminSettingsKey extends Enum
     {
         return [
             'GENERAL' => 'general',
-            'MAIL' => 'mail'
+            'MAIL' => 'mail',
         ];
     }
 
@@ -22,7 +22,7 @@ class EnumAdminSettingsKey extends Enum
     {
         return [
             'GENERAL' => 'General',
-            'MAIL' => 'Mail'
+            'MAIL' => 'Mail',
         ];
     }
 }

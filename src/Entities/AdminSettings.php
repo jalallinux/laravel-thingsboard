@@ -2,8 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
-use Illuminate\Support\HigherOrderTapProxy;
-use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumAdminSettingsKey;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
@@ -11,7 +9,6 @@ use JalalLinuX\Thingsboard\Tntity;
 
 class AdminSettings extends Tntity
 {
-
     protected $fillable = [
         'key',
         'id',
@@ -24,7 +21,6 @@ class AdminSettings extends Tntity
         'tenantId' => CastId::class,
         'jsonValue' => 'array',
     ];
-
 
     public function entityType(): ?EnumEntityType
     {
@@ -39,8 +35,9 @@ class AdminSettings extends Tntity
      * Referencing non-existing Administration Settings Id will cause an error.
      *
      *
-     * @param EnumAdminSettingsKey $key
+     * @param  EnumAdminSettingsKey  $key
      * @return self
+     *
      * @author Sabiee
      *
      * @group SYS_ADMIN
@@ -48,6 +45,7 @@ class AdminSettings extends Tntity
     public function getAdminSettings(EnumAdminSettingsKey $key): static
     {
         $adminSettings = $this->api()->get("admin/settings/{$key}")->json();
-        return tap($this, fn() => $this->fill($adminSettings));
+
+        return tap($this, fn () => $this->fill($adminSettings));
     }
 }
