@@ -108,13 +108,13 @@ class DeviceProfile extends Tntity
         $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            ! Str::isUuid($id),
+            !Str::isUuid($id),
             $this->exception('method argument must be a valid uuid.'),
         );
 
         $deviceProfile = $this->api()->get("deviceProfile/{$id}")->json();
 
-        return tap($this, fn () => $this->fill($deviceProfile));
+        return tap($this, fn() => $this->fill($deviceProfile));
     }
 
     /**
@@ -133,7 +133,7 @@ class DeviceProfile extends Tntity
             return $this->getDeviceProfileById($deviceProfile['id']['id']);
         }
 
-        return tap($this, fn () => $this->fill($deviceProfile));
+        return tap($this, fn() => $this->fill($deviceProfile));
     }
 
     /**
@@ -174,7 +174,7 @@ class DeviceProfile extends Tntity
 
         $deviceProfile = $this->api()->post('deviceProfile', $payload)->json();
 
-        return tap($this, fn () => $this->fill($deviceProfile));
+        return tap($this, fn() => $this->fill($deviceProfile));
     }
 
     /**
@@ -193,7 +193,7 @@ class DeviceProfile extends Tntity
         $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            ! Str::isUuid($id),
+            !Str::isUuid($id),
             $this->exception('method "id" argument must be a valid uuid.'),
         );
 
@@ -212,12 +212,30 @@ class DeviceProfile extends Tntity
         $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            ! Str::isUuid($id),
+            !Str::isUuid($id),
             $this->exception('method "id" argument must be a valid uuid.'),
         );
 
         $deviceProfile = $this->api()->post("deviceProfile/{$id}/default", $this->attributes)->json();
 
-        return tap($this, fn () => $this->fill($deviceProfile));
+        return tap($this, fn() => $this->fill($deviceProfile));
+    }
+
+    /**
+     * Get a set of unique attribute keys used by devices that belong to specified profile.
+     * If profile is not set returns a list of unique keys among all profiles.
+     * The call is used for auto-complete in the UI forms.
+     * The implementation limits the number of devices that participate in search to 100 as a trade of between accurate
+     *  results and time-consuming queries.
+     *
+     * @group TENANT_ADMIN
+     *
+     * @author Sabiee
+     */
+    public function getAttributesKeys(string $id = null)
+    {
+        $id = $id ?? $this->getAttribute('id');
+
+        return $this->api()->get("deviceProfile/devices/keys/attributes", is_null($id) ? [] : ['deviceProfileId' => $id])->json();
     }
 }
