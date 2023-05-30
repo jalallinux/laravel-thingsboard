@@ -18,7 +18,7 @@ class DeleteDeviceProfileTest extends TestCase
             'name' => $this->faker->sentence(3),
             'description' => $this->faker->sentence(5),
             'provisionType' => EnumDeviceProfileProvisionType::DISABLED(),
-            'transportType' => EnumDeviceProfileTransportType::DEFAULT()
+            'transportType' => EnumDeviceProfileTransportType::DEFAULT(),
 
         ];
         $deviceProfile = thingsboard($tenantUser)->deviceProfile($attributes)->saveDeviceProfile();
