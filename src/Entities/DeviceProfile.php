@@ -108,13 +108,13 @@ class DeviceProfile extends Tntity
         $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            !Str::isUuid($id),
+            ! Str::isUuid($id),
             $this->exception('method argument must be a valid uuid.'),
         );
 
         $deviceProfile = $this->api()->get("deviceProfile/{$id}")->json();
 
-        return tap($this, fn() => $this->fill($deviceProfile));
+        return tap($this, fn () => $this->fill($deviceProfile));
     }
 
     /**
@@ -133,7 +133,7 @@ class DeviceProfile extends Tntity
             return $this->getDeviceProfileById($deviceProfile['id']['id']);
         }
 
-        return tap($this, fn() => $this->fill($deviceProfile));
+        return tap($this, fn () => $this->fill($deviceProfile));
     }
 
     /**
@@ -148,6 +148,7 @@ class DeviceProfile extends Tntity
      * @group TENANT_ADMIN
      *
      * @return DeviceProfile
+     *
      * @author Sabiee
      */
     public function saveDeviceProfile()
@@ -173,7 +174,7 @@ class DeviceProfile extends Tntity
 
         $deviceProfile = $this->api()->post('deviceProfile', $payload)->json();
 
-        return tap($this, fn() => $this->fill($deviceProfile));
+        return tap($this, fn () => $this->fill($deviceProfile));
     }
 
     /**
@@ -183,9 +184,8 @@ class DeviceProfile extends Tntity
      *
      * @group TENANT_ADMIN
      *
-     * @param string|null $id
-     * @return bool
      * @throws \Throwable
+     *
      * @author Sabiee
      */
     public function deleteDeviceProfile(string $id = null): bool
@@ -193,7 +193,7 @@ class DeviceProfile extends Tntity
         $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            !Str::isUuid($id),
+            ! Str::isUuid($id),
             $this->exception('method "id" argument must be a valid uuid.'),
         );
 

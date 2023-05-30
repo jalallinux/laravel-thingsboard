@@ -20,7 +20,7 @@ class EnumDeviceProfileTransportType extends Enum
             'DEFAULT' => 'DEFAULT',
             'LWM2M' => 'LWM2M',
             'MQTT' => 'MQTT',
-            'SNMP' => 'SNMP'
+            'SNMP' => 'SNMP',
         ];
     }
 
@@ -31,7 +31,7 @@ class EnumDeviceProfileTransportType extends Enum
             'DEFAULT' => 'Default',
             'LWM2M' => 'Lwm2m',
             'MQTT' => 'Mqtt',
-            'SNMP' => 'Snmp'
+            'SNMP' => 'Snmp',
         ];
     }
 }
