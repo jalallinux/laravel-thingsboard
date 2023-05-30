@@ -183,6 +183,28 @@ class TenantProfile extends Tntity
     }
 
     /**
+     * Fetch the Tenant Profile Info object based on the provided Tenant Profile Id.
+     * Tenant Profile Info is a lightweight object that contains only id and name of the profile.
+     *
+     * @group SYS_ADMIN
+     *
+     * @return $this
+     */
+    public function getTenantProfileInfoById(string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        throw_if(
+            ! Str::isUuid($id),
+            $this->exception('method "id" argument must be a valid uuid.'),
+        );
+
+        $tenantProfile = $this->api()->get("tenantProfileInfo/{$id}")->json();
+
+        return tap($this, fn () => $this->fill($tenantProfile));
+    }
+
+    /**
      * Returns a page of tenant profile info objects registered in the platform.
      * Tenant Profile Info is a lightweight object that contains only id and name of the profile.
      * You can specify parameters to filter the results.
@@ -216,9 +238,14 @@ class TenantProfile extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
+        throw_if(
+            ! Str::isUuid($id),
+            $this->exception('method "id" argument must be a valid uuid.'),
+        );
+
         $tenantProfile = $this->api()->post("tenantProfile/{$id}/default", $this->attributes)->json();
         if ($sync) {
-            $tenantProfile = $this->api()->get("tenantProfile/{$id}")->json();
+            return $this->getTenantProfileById($id);
         }
 
         return tap($this, fn () => $this->fill($tenantProfile));
@@ -242,5 +269,26 @@ class TenantProfile extends Tntity
         $response = $this->api()->get('tenantProfiles', $paginationArguments->queryParams());
 
         return $this->paginatedResponse($response, $paginationArguments);
+    }
+
+    /**
+     * get multiple tenantProfile by ids
+     *
+     * @group SYS_ADMIN
+     *
+     * @author Sabiee
+     */
+    public function getTenantProfilesByIds(array $ids)
+    {
+        foreach ($ids as $id) {
+            throw_if(
+                ! Str::isUuid($id),
+                $this->exception('method "ids" argument must be a valid array of uuid.'),
+            );
+        }
+
+        $tenantProfiles = $this->api()->get('/tenantProfiles', ['ids' => implode(',', $ids)])->json();
+
+        return array_map(fn ($tenantProfile) => new TenantProfile($tenantProfile), $tenantProfiles);
     }
 }
