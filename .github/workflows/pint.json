@@ -1,3 +1,6 @@
 {
-    "annotations": []
+    "annotations": {},
+    "phpdoc_add_missing_param_annotation": {
+        "only_untyped": false
+    }
 }
