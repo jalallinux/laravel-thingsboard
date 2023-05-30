@@ -11,7 +11,6 @@ use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
- *
  * @property Id $id
  * @property int $createdTime
  * @property Id $tenantId
@@ -54,7 +53,6 @@ class AuditLog extends Tntity
         'actionStatus' => EnumAuditLogActionStatus::class,
     ];
 
-
     public function entityType(): ?EnumEntityType
     {
         return null;
@@ -66,15 +64,10 @@ class AuditLog extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     * @param PaginationArguments $paginationArguments
      *
-     * @param \DateTime|null $startTime
      *
-     * @param \DateTime|null $endTime
      *
-     * @param EnumAuditLogActionType|null $actionType
      *
-     * @return PaginatedResponse
      *
      * @author JalalLinuX
      *
@@ -83,9 +76,9 @@ class AuditLog extends Tntity
     public function getAuditLogs(PaginationArguments $paginationArguments, \DateTime $startTime = null, \DateTime $endTime = null, EnumAuditLogActionType $actionType = null): PaginatedResponse
     {
         $payload = $paginationArguments->queryParams([
-            'actionType' => $actionType, 'startTime' => !is_null($startTime) ? $startTime->getTimestamp() * 1000 : null, 'endTime' => !is_null($endTime) ? $endTime->getTimestamp() * 1000 : null,
+            'actionType' => $actionType, 'startTime' => ! is_null($startTime) ? $startTime->getTimestamp() * 1000 : null, 'endTime' => ! is_null($endTime) ? $endTime->getTimestamp() * 1000 : null,
         ]);
-        $response = $this->api()->get("audit/logs", $payload);
+        $response = $this->api()->get('audit/logs', $payload);
 
         return $this->paginatedResponse($response, $paginationArguments);
     }

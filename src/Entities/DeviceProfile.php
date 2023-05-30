@@ -199,4 +199,25 @@ class DeviceProfile extends Tntity
 
         return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("deviceProfile/{$id}")->successful();
     }
+
+    /**
+     * Marks device profile as default within a tenant scope.
+     *
+     * @group TENANT_ADMIN
+     *
+     * @author Sabiee
+     */
+    public function setDefaultDeviceProfile(string $id = null)
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        throw_if(
+            ! Str::isUuid($id),
+            $this->exception('method "id" argument must be a valid uuid.'),
+        );
+
+        $deviceProfile = $this->api()->post("deviceProfile/{$id}/default", $this->attributes)->json();
+
+        return tap($this, fn () => $this->fill($deviceProfile));
+    }
 }
