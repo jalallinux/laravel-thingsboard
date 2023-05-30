@@ -108,13 +108,13 @@ class DeviceProfile extends Tntity
         $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            ! Str::isUuid($id),
+            !Str::isUuid($id),
             $this->exception('method argument must be a valid uuid.'),
         );
 
         $deviceProfile = $this->api()->get("deviceProfile/{$id}")->json();
 
-        return tap($this, fn () => $this->fill($deviceProfile));
+        return tap($this, fn() => $this->fill($deviceProfile));
     }
 
     /**
@@ -133,6 +133,70 @@ class DeviceProfile extends Tntity
             return $this->getDeviceProfileById($deviceProfile['id']['id']);
         }
 
-        return tap($this, fn () => $this->fill($deviceProfile));
+        return tap($this, fn() => $this->fill($deviceProfile));
+    }
+
+    /**
+     * Create or update the Device Profile.
+     * When creating device profile, platform generates device profile id as time-based UUID.
+     * The newly created device profile id will be present in the response.
+     * Specify existing device profile id to update the device profile.
+     * Referencing non-existing device profile Id will cause 'Not Found' error.
+     * Device profile name is unique in the scope of tenant.
+     * Only one 'default' device profile may exist in scope of tenant.
+     *
+     * @group TENANT_ADMIN
+     *
+     * @return DeviceProfile
+     * @author Sabiee
+     */
+    public function saveDeviceProfile()
+    {
+        $payload = array_merge($this->getAttributes(), [
+            'name' => $this->forceAttribute('name'),
+            'type' => 'DEFAULT',
+            'provisionType' => $this->forceAttribute('provisionType'),
+            'transportType' => $this->forceAttribute('transportType'),
+        ]);
+
+        if (is_null($this->get('profileData.configuration.type'))) {
+            $payload['profileData']['configuration']['type'] = 'DEFAULT';
+        }
+
+        if (is_null($this->get('profileData.provisionConfiguration.type'))) {
+            $payload['profileData']['provisionConfiguration']['type'] = 'DISABLED';
+        }
+
+        if (is_null($this->get('profileData.transportConfiguration.type'))) {
+            $payload['profileData']['transportConfiguration']['type'] = 'DEFAULT';
+        }
+
+        $deviceProfile = $this->api()->post('deviceProfile', $payload)->json();
+
+        return tap($this, fn() => $this->fill($deviceProfile));
+    }
+
+    /**
+     * Deletes the device profile.
+     * Referencing non-existing device profile Id will cause an error.
+     * Can't delete the device profile if it is referenced by existing devices.
+     *
+     * @group TENANT_ADMIN
+     *
+     * @param string|null $id
+     * @return bool
+     * @throws \Throwable
+     * @author Sabiee
+     */
+    public function deleteDeviceProfile(string $id = null): bool
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        throw_if(
+            !Str::isUuid($id),
+            $this->exception('method "id" argument must be a valid uuid.'),
+        );
+
+        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("deviceProfile/{$id}")->successful();
     }
 }
