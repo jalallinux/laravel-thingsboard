@@ -258,7 +258,6 @@ class DeviceProfile extends Tntity
         return $this->api()->get('deviceProfile/devices/keys/attributes', is_null($id) ? [] : ['deviceProfileId' => $id])->json();
     }
 
-
     /**
      * Get a set of unique time-series keys used by devices that belong to specified profile.
      * If profile is not set returns a list of unique keys among all profiles.
@@ -268,8 +267,7 @@ class DeviceProfile extends Tntity
      *
      * @group TENANT_ADMIN'
      *
-     * @param string|null $id
-     *
+     * @param  string|null  $id
      * @return array
      *
      * @author Sabiee
@@ -278,7 +276,7 @@ class DeviceProfile extends Tntity
     {
         $id = $id ?? $this->getAttribute('id');
 
-        return $this->api()->get("deviceProfile/devices/keys/timeseries", is_null($id) ? [] : ['deviceProfileId' => $id])->json();
+        return $this->api()->get('deviceProfile/devices/keys/timeseries', is_null($id) ? [] : ['deviceProfileId' => $id])->json();
     }
 
     /**
@@ -288,8 +286,7 @@ class DeviceProfile extends Tntity
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      *
-     * @param string|null $id
-     *
+     * @param  string|null  $id
      * @return self
      *
      * @throws \Throwable
@@ -301,13 +298,13 @@ class DeviceProfile extends Tntity
         $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            !Str::isUuid($id),
+            ! Str::isUuid($id),
             $this->exception('method "id" argument must be a valid uuid.'),
         );
 
         $deviceProfile = $this->api()->get("deviceProfileInfo/{$id}")->json();
 
-        return tap($this, fn() => $this->fill($deviceProfile));
+        return tap($this, fn () => $this->fill($deviceProfile));
     }
 
     /**
@@ -320,8 +317,7 @@ class DeviceProfile extends Tntity
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      *
-     * @param PaginationArguments $paginationArguments
-     *
+     * @param  PaginationArguments  $paginationArguments
      * @return PaginatedResponse
      *
      * @author Sabiee
