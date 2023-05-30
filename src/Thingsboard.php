@@ -19,6 +19,8 @@ use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
  * @method Entities\Usage usage(array $attributes = [])
  * @method Entities\Rpc rpc(array $attributes = [])
  * @method Entities\AuditLog auditLog(array $attributes = [])
+ * @method Entities\AdminSettings adminSettings(array $attributes = [])
+ * @method Entities\AdminSystemInfo adminSystemInfo(array $attributes = [])
  */
 class Thingsboard
 {
