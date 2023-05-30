@@ -272,7 +272,11 @@ class TenantProfile extends Tntity
     }
 
     /**
+     * get multiple tenantProfile by ids
      *
+     * @group SYS_ADMIN
+     *
+     * @author Sabiee
      */
     public function getTenantProfilesByIds(array $ids)
     {
