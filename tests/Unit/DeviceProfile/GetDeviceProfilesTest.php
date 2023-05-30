@@ -3,19 +3,19 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\DeviceProfile;
 
 use JalalLinuX\Thingsboard\Entities\DeviceProfile;
-use JalalLinuX\Thingsboard\Enums\DeviceProfileSortProperty;
-use JalalLinuX\Thingsboard\Enums\ThingsboardUserRole;
+use JalalLinuX\Thingsboard\Enums\EnumAuthority;
+use JalalLinuX\Thingsboard\Enums\EnumDeviceProfileSortProperty;
+use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
-use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 
 class GetDeviceProfilesTest extends TestCase
 {
     public function testTextSearch()
     {
-        $user = $this->thingsboardUser(ThingsboardUserRole::TENANT_ADMIN());
+        $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 
         $deviceProfiles = thingsboard($user)->deviceProfile()->getDeviceProfiles(
-            ThingsboardPaginationArguments::make(textSearch: 'default')
+            PaginationArguments::make(textSearch: 'default')
         );
 
         $deviceProfiles->data()->each(fn ($device) => $this->assertInstanceOf(DeviceProfile::class, $device));
@@ -24,19 +24,14 @@ class GetDeviceProfilesTest extends TestCase
 
     public function testPaginationData()
     {
-        $pagination = $this->randomPagination(DeviceProfileSortProperty::class);
-        $user = $this->thingsboardUser(ThingsboardUserRole::TENANT_ADMIN());
+        $pagination = $this->randomPagination(EnumDeviceProfileSortProperty::class);
+        $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 
-        $deviceProfiles = thingsboard()->deviceProfile()->withUser($user)->getDeviceProfiles(
-            ThingsboardPaginationArguments::make(
-                page: $pagination['page'], pageSize: $pagination['pageSize'],
-                sortProperty: $pagination['sortProperty'], sortOrder: $pagination['sortOrder']
-            )
-        );
+        $deviceProfiles = thingsboard()->deviceProfile()->withUser($user)->getDeviceProfiles($pagination);
 
-        $this->assertEquals($pagination['page'], $deviceProfiles->paginator()->currentPage());
-        $this->assertEquals($pagination['pageSize'], $deviceProfiles->paginator()->perPage());
-        $this->assertEquals($pagination['sortOrder'], $deviceProfiles->paginator()->getOptions()['sortOrder']);
-        $this->assertEquals($pagination['sortProperty'], $deviceProfiles->paginator()->getOptions()['sortProperty']);
+        $this->assertEquals($pagination->page, $deviceProfiles->paginator()->currentPage());
+        $this->assertEquals($pagination->pageSize, $deviceProfiles->paginator()->perPage());
+        $this->assertEquals($pagination->sortOrder, $deviceProfiles->paginator()->getOptions()['sortOrder']);
+        $this->assertEquals($pagination->sortProperty, $deviceProfiles->paginator()->getOptions()['sortProperty']);
     }
 }

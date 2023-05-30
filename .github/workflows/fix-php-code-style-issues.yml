@@ -17,6 +17,8 @@ jobs:
 
       - name: Fix PHP code style issues
         uses: aglipanci/laravel-pint-action@2.3.0
+        with: # https://mlocati.github.io/php-cs-fixer-configurator/
+          configPath: pint.json
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4

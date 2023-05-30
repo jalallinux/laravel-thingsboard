@@ -3,8 +3,9 @@
 namespace JalalLinuX\Thingsboard\Tests;
 
 use Illuminate\Foundation\Testing\WithFaker;
-use JalalLinuX\Thingsboard\Enums\ThingsboardSortOrder;
-use JalalLinuX\Thingsboard\Enums\ThingsboardUserRole;
+use JalalLinuX\Thingsboard\Enums\EnumAuthority;
+use JalalLinuX\Thingsboard\Enums\EnumSortOrder;
+use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use JalalLinuX\Thingsboard\LaravelThingsboardServiceProvider;
 
@@ -28,17 +29,17 @@ class TestCase extends \Orchestra\Testbench\TestCase
         // Code after application created.
     }
 
-    public function randomPagination(string $sortPropertyEnum, int $page = null, int $pageSize = null, ThingsboardSortOrder $sortOrder = null): array
+    public function randomPagination(string|array $sortPropertyEnum, int $page = null, int $pageSize = null, EnumSortOrder $sortOrder = null): PaginationArguments
     {
-        return [
-            'page' => $page ?? $this->faker->numberBetween(1, 10),
-            'pageSize' => $pageSize ?? $this->faker->numberBetween(1, 10),
-            'sortOrder' => $sortOrder ?? $this->faker->randomElement(ThingsboardSortOrder::cases()),
-            'sortProperty' => $this->faker->randomElement($sortPropertyEnum::cases()),
-        ];
+        return PaginationArguments::make(
+            $page ?? $this->faker->numberBetween(1, 10),
+            $pageSize ?? $this->faker->numberBetween(1, 10),
+            is_string($sortPropertyEnum) ? $this->faker->randomElement($sortPropertyEnum::cases()) : $this->faker->randomElement($sortPropertyEnum),
+            $sortOrder ?? $this->faker->randomElement(EnumSortOrder::cases())
+        );
     }
 
-    public function thingsboardUser(ThingsboardUserRole $role, string $mail = null, string $pass = null): ThingsboardUser
+    public function thingsboardUser(EnumAuthority $role, string $mail = null, string $pass = null): ThingsboardUser
     {
         return new class($role, $mail, $pass) implements ThingsboardUser
         {
@@ -48,7 +49,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
             private ?string $pass;
 
-            public function __construct(ThingsboardUserRole $role, string $mail = null, string $pass = null)
+            public function __construct(EnumAuthority $role, string $mail = null, string $pass = null)
             {
                 $this->user = collect(config('thingsboard.rest.users'))->filter(fn ($user) => $role->equals($user['role']))->random();
                 $this->mail = $mail;
@@ -65,7 +66,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
                 return $this->pass ?? $this->user['pass'];
             }
 
-            public function getThingsboardRoleAttribute(): ThingsboardUserRole
+            public function getThingsboardAuthorityAttribute(): EnumAuthority
             {
                 return $this->user['role'];
             }

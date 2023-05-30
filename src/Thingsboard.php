@@ -4,6 +4,7 @@ namespace JalalLinuX\Thingsboard;
 
 use DateTimeInterface;
 use JalalLinuX\Thingsboard\Entities\Auth;
+use JalalLinuX\Thingsboard\Infrastructure\CacheHandler;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 
 /**
@@ -14,6 +15,13 @@ use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
  * @method Entities\Tenant tenant(array $attributes = [])
  * @method Entities\Customer customer(array $attributes = [])
  * @method Entities\DeviceApi deviceApi(array $attributes = [])
+ * @method Entities\TenantProfile tenantProfile(array $attributes = [])
+ * @method Entities\Usage usage(array $attributes = [])
+ * @method Entities\Rpc rpc(array $attributes = [])
+ * @method Entities\AuditLog auditLog(array $attributes = [])
+ * @method Entities\AdminSettings adminSettings(array $attributes = [])
+ * @method Entities\AdminSystemInfo adminSystemInfo(array $attributes = [])
+ * @method Entities\AdminUpdates adminUpdates(array $attributes = [])
  */
 class Thingsboard
 {
@@ -52,13 +60,13 @@ class Thingsboard
         $mail = $user->getThingsboardEmailAttribute();
 
         if ($flush) {
-            return Auth::instance()->login($mail, $user->getThingsboardPasswordAttribute())['token'];
+            return Auth::instance()->login($mail, $user->getThingsboardPasswordAttribute())->token;
         }
 
-        if ($token = ThingsboardCacheHandler::get(ThingsboardCacheHandler::tokenCacheKey($mail))) {
+        if ($token = CacheHandler::get(CacheHandler::tokenCacheKey($mail))) {
             return $token;
         }
 
-        return Auth::instance()->login($mail, $user->getThingsboardPasswordAttribute())['token'];
+        return Auth::instance()->login($mail, $user->getThingsboardPasswordAttribute())->token;
     }
 }

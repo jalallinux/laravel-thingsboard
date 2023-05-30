@@ -2,29 +2,31 @@
 
 namespace JalalLinuX\Thingsboard\Tests\Unit\DeviceProfile;
 
-use JalalLinuX\Thingsboard\Enums\ThingsboardUserRole;
+use JalalLinuX\Thingsboard\Enums\EnumAuthority;
+use JalalLinuX\Thingsboard\Enums\EnumEntityType;
+use JalalLinuX\Thingsboard\Infrastructure\Id;
+use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
-use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 
 class GetDeviceProfileByIdTest extends TestCase
 {
     public function testExistUuid()
     {
-        $user = $this->thingsboardUser(ThingsboardUserRole::TENANT_ADMIN());
+        $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $deviceProfileId = thingsboard($user)->deviceProfile()->getDeviceProfiles(
-            ThingsboardPaginationArguments::make()
+            PaginationArguments::make()
         )->data()->first()->id->id;
 
         $deviceProfile = thingsboard($user)->deviceProfile()->getDeviceProfileById($deviceProfileId);
         $this->assertEquals($deviceProfileId, $deviceProfile->id->id);
 
-        $deviceProfile = thingsboard($user)->deviceProfile(['id' => $deviceProfileId])->getDeviceProfileById();
+        $deviceProfile = thingsboard($user)->deviceProfile(['id' => new Id($deviceProfileId, EnumEntityType::DEVICE_PROFILE())])->getDeviceProfileById();
         $this->assertEquals($deviceProfileId, $deviceProfile->id->id);
     }
 
     public function testInvalidUuid()
     {
-        $user = $this->thingsboardUser(ThingsboardUserRole::TENANT_ADMIN());
+        $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 
         $this->expectException(\Exception::class);
         $this->expectExceptionCode(500);
@@ -33,7 +35,7 @@ class GetDeviceProfileByIdTest extends TestCase
 
     public function testNonExistUuid()
     {
-        $user = $this->thingsboardUser(ThingsboardUserRole::TENANT_ADMIN());
+        $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 
         $this->expectExceptionCode(404);
         thingsboard($user)->deviceProfile()->getDeviceProfileById($this->faker->uuid);

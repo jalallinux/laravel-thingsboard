@@ -7,30 +7,33 @@ use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Collection as BaseCollection;
 use Illuminate\Support\Facades\Http;
-use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
+use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Exceptions\ThingsboardExceptionHandler;
-use JalalLinuX\Thingsboard\Interfaces\ThingsboardEntityId;
+use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
+use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use Jenssegers\Model\Model;
+use Vkovic\LaravelCustomCasts\HasCustomCasts;
 
 abstract class Tntity extends Model
 {
+    use HasCustomCasts;
+
     protected ThingsboardUser $_thingsboardUser;
 
-    abstract public function entityType(): ?ThingsboardEntityType;
+    abstract public function entityType(): ?EnumEntityType;
 
-    protected function api(bool $auth = false, bool $handleException = true): PendingRequest
+    protected function api(bool $auth = true, bool $handleException = true): PendingRequest
     {
-        $baseUri = config('thingsboard.rest.base_uri');
+        $baseUri = self::config('rest.base_uri');
         $baseUri = str_ends_with($baseUri, '/') ? substr($baseUri, 0, -1) : $baseUri;
-        $request = Http::baseUrl("{$baseUri}/api")->acceptJson();
+        $request = Http::baseUrl("{$baseUri}/api");
 
         if ($auth) {
             throw_if(! isset($this->_thingsboardUser), $this->exception('method need authentication token.', 401));
             $request = $request->withHeaders([
-                config('thingsboard.rest.authorization.header_key') => config('thingsboard.rest.authorization.token_type').' '.Thingsboard::fetchUserToken($this->_thingsboardUser),
+                self::config('rest.authorization.header_key') => self::config('rest.authorization.token_type').' '.Thingsboard::fetchUserToken($this->_thingsboardUser),
             ]);
         }
 
@@ -53,7 +56,7 @@ abstract class Tntity extends Model
     {
         throw_if(
             is_null($value = @$this->{$key}),
-            $this->exception("{$key} attribute is required in ")
+            $this->exception("{$key} attribute is required.")
         );
 
         return $value;
@@ -94,41 +97,13 @@ abstract class Tntity extends Model
         return new static($attributes);
     }
 
-    public function paginatedResponse(Response $response, ThingsboardPaginationArguments $arguments, Tntity $tntity = null): ThingsboardPaginatedResponse
+    public function paginatedResponse(Response $response, PaginationArguments $arguments, Tntity $tntity = null): PaginatedResponse
     {
-        return new ThingsboardPaginatedResponse($tntity ?? $this, $response, $arguments);
+        return new PaginatedResponse($tntity ?? $this, $response, $arguments);
     }
 
-    protected function castAttribute($key, $value)
+    public static function config(string $key = null, $default = null)
     {
-        if (is_null($value)) {
-            return $value;
-        }
-
-        switch ($this->getCastType($key)) {
-            case 'id':
-                return new ThingsboardEntityId(is_array($value) ? @$value['id'] : $value, $this->entityType());
-            case 'int':
-            case 'integer':
-                return (int) $value;
-            case 'real':
-            case 'float':
-            case 'double':
-                return (float) $value;
-            case 'string':
-                return (string) $value;
-            case 'bool':
-            case 'boolean':
-                return (bool) $value;
-            case 'object':
-                return $this->fromJson($value, true);
-            case 'array':
-            case 'json':
-                return $this->fromJson($value);
-            case 'collection':
-                return new BaseCollection($this->fromJson($value));
-            default:
-                return $value;
-        }
+        return is_null($key) ? config('thingsboard') : config("thingsboard.{$key}", $default);
     }
 }

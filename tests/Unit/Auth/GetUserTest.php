@@ -3,8 +3,8 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\Auth;
 
 use JalalLinuX\Thingsboard\Entities\User;
-use JalalLinuX\Thingsboard\Enums\ThingsboardEntityType;
-use JalalLinuX\Thingsboard\Enums\ThingsboardUserRole;
+use JalalLinuX\Thingsboard\Enums\EnumAuthority;
+use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class GetUserTest extends TestCase
@@ -17,10 +17,10 @@ class GetUserTest extends TestCase
 
     public function testCorrectUser()
     {
-        $user = thingsboard($this->thingsboardUser($this->faker->randomElement(ThingsboardUserRole::cases())))->auth()->getUser();
+        $user = thingsboard($this->thingsboardUser($this->faker->randomElement(EnumAuthority::cases())))->auth()->getUser();
 
         $this->assertInstanceOf(User::class, $user);
-        $this->assertTrue(ThingsboardEntityType::USER()->equals($user->id->entityType));
+        $this->assertTrue(EnumEntityType::USER()->equals($user->id->entityType));
         $this->assertNotEmpty($user->name);
         $this->assertNotEmpty($user->createdTime);
     }

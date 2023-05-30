@@ -3,19 +3,19 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\User;
 
 use JalalLinuX\Thingsboard\Entities\User;
-use JalalLinuX\Thingsboard\Enums\ThingsboardUserRole;
-use JalalLinuX\Thingsboard\Enums\UserSortProperty;
+use JalalLinuX\Thingsboard\Enums\EnumAuthority;
+use JalalLinuX\Thingsboard\Enums\EnumUserSortProperty;
+use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
-use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 
 class GetUsersTest extends TestCase
 {
     public function testTextSearch()
     {
-        $user = $this->thingsboardUser($this->faker->randomElement([ThingsboardUserRole::TENANT_ADMIN(), ThingsboardUserRole::CUSTOMER_USER()]));
+        $user = $this->thingsboardUser($this->faker->randomElement([EnumAuthority::TENANT_ADMIN(), EnumAuthority::CUSTOMER_USER()]));
 
         $users = thingsboard($user)->user()->getUsers(
-            ThingsboardPaginationArguments::make()
+            PaginationArguments::make()
         );
 
         $users->data()->each(fn ($user) => $this->assertInstanceOf(User::class, $user));
@@ -23,19 +23,14 @@ class GetUsersTest extends TestCase
 
     public function testPaginationData()
     {
-        $pagination = $this->randomPagination(UserSortProperty::class);
-        $user = $this->thingsboardUser(ThingsboardUserRole::TENANT_ADMIN());
+        $pagination = $this->randomPagination(EnumUserSortProperty::class);
+        $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 
-        $devices = thingsboard()->user()->withUser($user)->getUsers(
-            ThingsboardPaginationArguments::make(
-                page: $pagination['page'], pageSize: $pagination['pageSize'],
-                sortProperty: $pagination['sortProperty'], sortOrder: $pagination['sortOrder']
-            )
-        );
+        $devices = thingsboard()->user()->withUser($user)->getUsers($pagination);
 
-        $this->assertEquals($pagination['page'], $devices->paginator()->currentPage());
-        $this->assertEquals($pagination['pageSize'], $devices->paginator()->perPage());
-        $this->assertEquals($pagination['sortOrder'], $devices->paginator()->getOptions()['sortOrder']);
-        $this->assertEquals($pagination['sortProperty'], $devices->paginator()->getOptions()['sortProperty']);
+        $this->assertEquals($pagination->page, $devices->paginator()->currentPage());
+        $this->assertEquals($pagination->pageSize, $devices->paginator()->perPage());
+        $this->assertEquals($pagination->sortOrder, $devices->paginator()->getOptions()['sortOrder']);
+        $this->assertEquals($pagination->sortProperty, $devices->paginator()->getOptions()['sortProperty']);
     }
 }

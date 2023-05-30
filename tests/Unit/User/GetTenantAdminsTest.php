@@ -3,41 +3,40 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\User;
 
 use JalalLinuX\Thingsboard\Entities\User;
-use JalalLinuX\Thingsboard\Enums\ThingsboardUserRole;
-use JalalLinuX\Thingsboard\Enums\UserSortProperty;
+use JalalLinuX\Thingsboard\Enums\EnumAuthority;
+use JalalLinuX\Thingsboard\Enums\EnumEntityType;
+use JalalLinuX\Thingsboard\Enums\EnumUserSortProperty;
+use JalalLinuX\Thingsboard\Infrastructure\Id;
+use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
+use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
-use JalalLinuX\Thingsboard\ThingsboardPaginationArguments;
 
 class GetTenantAdminsTest extends TestCase
 {
     public function testTextSearch()
     {
-        $user = $this->thingsboardUser(ThingsboardUserRole::SYS_ADMIN());
+        $user = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
 
-        $tenantId = thingsboard()->tenant()->withUser($user)->getTenants(ThingsboardPaginationArguments::make())->data()->first()->id->id;
-        $tenantUsers = thingsboard()->user()->withUser($user)->getTenantAdmins(ThingsboardPaginationArguments::make(), $tenantId);
+        $tenantId = thingsboard()->tenant()->withUser($user)->getTenants(PaginationArguments::make())->data()->first()->id->id;
+        $tenantUsers = thingsboard()->user()->withUser($user)->getTenantAdmins(PaginationArguments::make(), $tenantId);
 
-        $tenantUsers->data()->each(fn ($device) => $this->assertInstanceOf(User::class, $device));
+        $this->assertInstanceOf(PaginatedResponse::class, $tenantUsers);
+        $tenantUsers->data()->each(fn ($user) => $this->assertInstanceOf(User::class, $user));
     }
 
     public function testPaginationData()
     {
-        $pagination = $this->randomPagination(UserSortProperty::class);
-        $user = $this->thingsboardUser(ThingsboardUserRole::SYS_ADMIN());
+        $pagination = $this->randomPagination(EnumUserSortProperty::class);
+        $user = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
         $tenantId = thingsboard()->tenant()->withUser($user)->getTenants(
-            ThingsboardPaginationArguments::make()
+            PaginationArguments::make()
         )->data()->first()->id->id;
 
-        $devices = thingsboard()->user(['tenantId' => $tenantId])->withUser($user)->getTenantAdmins(
-            ThingsboardPaginationArguments::make(
-                page: $pagination['page'], pageSize: $pagination['pageSize'],
-                sortProperty: $pagination['sortProperty'], sortOrder: $pagination['sortOrder']
-            )
-        );
+        $devices = thingsboard()->user(['tenantId' => new Id($tenantId, EnumEntityType::TENANT())])->withUser($user)->getTenantAdmins($pagination);
 
-        $this->assertEquals($pagination['page'], $devices->paginator()->currentPage());
-        $this->assertEquals($pagination['pageSize'], $devices->paginator()->perPage());
-        $this->assertEquals($pagination['sortOrder'], $devices->paginator()->getOptions()['sortOrder']);
-        $this->assertEquals($pagination['sortProperty'], $devices->paginator()->getOptions()['sortProperty']);
+        $this->assertEquals($pagination->page, $devices->paginator()->currentPage());
+        $this->assertEquals($pagination->pageSize, $devices->paginator()->perPage());
+        $this->assertEquals($pagination->sortOrder, $devices->paginator()->getOptions()['sortOrder']);
+        $this->assertEquals($pagination->sortProperty, $devices->paginator()->getOptions()['sortProperty']);
     }
 }
