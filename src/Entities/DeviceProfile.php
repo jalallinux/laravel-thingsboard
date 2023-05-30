@@ -258,7 +258,6 @@ class DeviceProfile extends Tntity
         return $this->api()->get('deviceProfile/devices/keys/attributes', is_null($id) ? [] : ['deviceProfileId' => $id])->json();
     }
 
-
     /**
      * Get a set of unique time-series keys used by devices that belong to specified profile.
      * If profile is not set returns a list of unique keys among all profiles.
@@ -279,7 +278,7 @@ class DeviceProfile extends Tntity
     {
         $id = $id ?? $this->getAttribute('id');
 
-        return $this->api()->get("deviceProfile/devices/keys/timeseries", is_null($id) ? [] : ['deviceProfileId' => $id])->json();
+        return $this->api()->get('deviceProfile/devices/keys/timeseries', is_null($id) ? [] : ['deviceProfileId' => $id])->json();
     }
 
     /**
