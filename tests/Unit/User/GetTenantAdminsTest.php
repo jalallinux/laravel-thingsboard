@@ -7,6 +7,7 @@ use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumUserSortProperty;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
+use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
@@ -19,6 +20,7 @@ class GetTenantAdminsTest extends TestCase
         $tenantId = thingsboard()->tenant()->withUser($user)->getTenants(PaginationArguments::make())->data()->first()->id->id;
         $tenantUsers = thingsboard()->user()->withUser($user)->getTenantAdmins(PaginationArguments::make(), $tenantId);
 
+        $this->assertInstanceOf(PaginatedResponse::class, $tenantUsers);
         $tenantUsers->data()->each(fn ($user) => $this->assertInstanceOf(User::class, $user));
     }
 
