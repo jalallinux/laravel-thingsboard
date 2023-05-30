@@ -84,7 +84,6 @@ class Rpc extends Tntity
      *      "value": 1
      *  }
      * }
-     *
      * * Server-side RPC structure
      *  The body of server-side RPC request consists of multiple fields:
      *  - method - mandatory, name of the method to distinct the RPC calls. For example, "getCurrentTime" or "getWeatherForecast". The value of the parameter is a string.
@@ -94,23 +93,15 @@ class Rpc extends Tntity
      *  - persistent - optional, indicates persistent RPC. The default value is "false".
      *  - retries - optional, defines how many times persistent RPC will be re-sent in case of failures on the network and/or device side.
      *  - additionalInfo - optional, defines metadata for the persistent RPC that will be added to the persistent RPC events.
-     *
      * * RPC Result
      * In case of persistent RPC, the result of this call is 'rpcId' UUID. In case of lightweight RPC, the result of this call is either 200 OK if the message was sent to device, or 504 Gateway Timeout if device is offline.
      * Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.
-     *
-     * @param string $deviceId
-     *
-     * @param string $method
-     *
-     * @param array $params
-     *
+     * @param  string  $deviceId
+     * @param  string  $method
+     * @param  array  $params
      * @return bool
-     *
      * @throws \Throwable
-     *
      * @author JalalLinuX
-     *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function sendOneWay(string $deviceId, string $method, array $params): bool
@@ -138,7 +129,6 @@ class Rpc extends Tntity
      *      "value": 1
      *  }
      * }
-     *
      * * Server-side RPC structure
      *  The body of server-side RPC request consists of multiple fields:
      *  - method - mandatory, name of the method to distinct the RPC calls. For example, "getCurrentTime" or "getWeatherForecast". The value of the parameter is a string.
@@ -148,23 +138,15 @@ class Rpc extends Tntity
      *  - persistent - optional, indicates persistent RPC. The default value is "false".
      *  - retries - optional, defines how many times persistent RPC will be re-sent in case of failures on the network and/or device side.
      *  - additionalInfo - optional, defines metadata for the persistent RPC that will be added to the persistent RPC events.
-     *
      * * RPC Result
      * In case of persistent RPC, the result of this call is 'rpcId' UUID. In case of lightweight RPC, the result of this call is either 200 OK if the message was sent to device, or 504 Gateway Timeout if device is offline.
      * Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.
-     *
-     * @param string $method
-     *
-     * @param array $params
-     *
-     * @param string|null $deviceId
-     *
+     * @param  string  $method
+     * @param  array  $params
+     * @param  string|null  $deviceId
      * @return bool
-     *
      * @throws \Throwable
-     *
      * @author JalalLinuX
-     *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function sendTwoWay(string $method, array $params, string $deviceId = null): bool
@@ -183,15 +165,10 @@ class Rpc extends Tntity
 
     /**
      * Get information about the status of the RPC call.
-     *
-     * @param string|null $id
-     *
+     * @param  string|null  $id
      * @return self
-     *
      * @throws \Throwable
-     *
      * @author JalalLinuX
-     *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function getPersistentRequest(string $id = null): static
@@ -210,15 +187,10 @@ class Rpc extends Tntity
 
     /**
      * Deletes the persistent RPC request.
-     *
-     * @param string|null $id
-     *
+     * @param  string|null  $id
      * @return bool
-     *
      * @throws \Throwable
-     *
      * @author JalalLinuX
-     *
      * @group TENANT_ADMIN
      */
     public function deletePersistentRequest(string $id = null): bool
@@ -235,19 +207,12 @@ class Rpc extends Tntity
 
     /**
      * Allows to query RPC calls for specific device using pagination.
-     *
-     * @param PaginationArguments $paginationArguments
-     *
-     * @param string|null $deviceId
-     *
-     * @param EnumRpcStatus|null $rpcStatus
-     *
+     * @param  PaginationArguments  $paginationArguments
+     * @param  string|null  $deviceId
+     * @param  EnumRpcStatus|null  $rpcStatus
      * @return PaginatedResponse
-     *
      * @throws \Throwable
-     *
      * @author JalalLinuX
-     *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function getPersistentRequests(PaginationArguments $paginationArguments, string $deviceId = null, EnumRpcStatus $rpcStatus = null): PaginatedResponse

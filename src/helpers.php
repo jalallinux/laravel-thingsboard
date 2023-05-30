@@ -33,7 +33,7 @@ if (! function_exists('decodeJWTToken')) {
     {
         $sections = explode('.', $jwtToken);
         if (count($sections) != 3) {
-            return null;
+            return;
         }
         [$headb64, $bodyb64, $cryptob64] = $sections;
         $input = $bodyb64;

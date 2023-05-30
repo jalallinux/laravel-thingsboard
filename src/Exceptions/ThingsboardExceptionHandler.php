@@ -21,7 +21,7 @@ class ThingsboardExceptionHandler
         self::$response = $response;
         self::$exception = $exception;
 
-        return new static();
+        return new static;
     }
 
     public static function getResponse(): Response

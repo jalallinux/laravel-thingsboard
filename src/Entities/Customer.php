@@ -63,13 +63,9 @@ class Customer extends Tntity
      * You can specify parameters to filter the results.
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
-     *
-     * @param PaginationArguments $paginationArguments
-     *
+     * @param  PaginationArguments  $paginationArguments
      * @return PaginatedResponse
-     *
      * @author JalalLinuX
-     *
      * @group TENANT_ADMIN
      */
     public function getCustomers(PaginationArguments $paginationArguments): PaginatedResponse
@@ -86,11 +82,8 @@ class Customer extends Tntity
      * When creating customer, platform generates Customer Id as time-based UUID.
      * The newly created Customer Id will be present in the response. Specify existing Customer Id to update the Customer.
      * Referencing non-existing Customer Id will cause 'Not Found' error.Remove 'id', 'tenantId' from the request body example (below) to create new Customer entity.
-     *
      * @group  TENANT_ADMIN
-     *
      * @return Customer
-     *
      * @author Sabiee
      */
     public function saveCustomer(): static
@@ -108,11 +101,8 @@ class Customer extends Tntity
      * Get the Customer object based on the provided Customer Id.
      * If the user has the authority of 'Tenant Administrator', the server checks that the customer is owned by the same tenant.
      * If the user has the authority of 'Customer User', the server checks that the user belongs to the customer.
-     *
      * @group TENANT_ADMIN | CUSTOMER_USER
-     *
      * @throws \Throwable
-     *
      * @author Sabiee
      */
     public function getCustomerById(string $id = null): static
@@ -133,15 +123,10 @@ class Customer extends Tntity
      * Deletes the Customer and all customer Users.
      * All assigned Dashboards, Assets, Devices, etc. will be unassigned but not deleted.
      * Referencing non-existing Customer Id will cause an error.
-     *
      * @group TENANT_ADMIN
-     *
-     * @param string|null $id
-     *
+     * @param  string|null  $id
      * @return bool
-     *
      * @throws \Throwable
-     *
      * @author Sabiee
      */
     public function deleteCustomer(string $id = null): bool

@@ -68,13 +68,9 @@ class Tenant extends Tntity
      * You can specify parameters to filter the results.
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
-     *
-     * @param PaginationArguments $paginationArguments
-     *
+     * @param  PaginationArguments  $paginationArguments
      * @return PaginatedResponse
-     *
      * @author JalalLinuX
-     *
      * @group SYS_ADMIN
      */
     public function getTenants(PaginationArguments $paginationArguments): PaginatedResponse
@@ -92,13 +88,9 @@ class Tenant extends Tntity
      * You can specify parameters to filter the results.
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
-     *
-     * @param PaginationArguments $paginationArguments
-     *
+     * @param  PaginationArguments  $paginationArguments
      * @return PaginatedResponse
-     *
      * @author JalalLinuX
-     *
      * @group SYS_ADMIN
      */
     public function getTenantInfos(PaginationArguments $paginationArguments): PaginatedResponse
@@ -113,15 +105,10 @@ class Tenant extends Tntity
     /**
      * Fetch the Tenant Info object based on the provided Tenant ID.
      * The Tenant Info object extends regular Tenant object and includes Tenant Profile name.
-     *
-     * @param string|null $id
-     *
+     * @param  string|null  $id
      * @return self
-     *
      * @throws \Throwable
-     *
      * @author JalalLinuX
-     *
      * @group SYS_ADMIN | TENANT_ADMIN
      */
     public function getTenantInfoById(string $id = null): static
@@ -141,15 +128,10 @@ class Tenant extends Tntity
     /**
      * Deletes the tenant, it's customers, rule chains, devices and all other related entities.
      * Referencing non-existing tenant ID will cause an error.
-     *
-     * @param string|null $id
-     *
+     * @param  string|null  $id
      * @return bool
-     *
      * @throws \Throwable
-     *
      * @author JalalLinuX
-     *
      * @group SYS_ADMIN
      */
     public function deleteTenant(string $id = null): bool
@@ -171,17 +153,11 @@ class Tenant extends Tntity
      * The newly created Tenant ID will be present in the response.
      * Specify existing Tenant ID to update the Tenant.
      * Referencing non-existing Tenant ID will cause 'Not Found' error.Remove 'id', 'tenantId' from the request body example (below) to create new Tenant entity.
-     *
-     * @param string|null $accessToken
-     *
-     * @param string|null $tenantProfileId
-     *
+     * @param  string|null  $accessToken
+     * @param  string|null  $tenantProfileId
      * @return self
-     *
      * @throws \Throwable
-     *
      * @author JalalLinuX
-     *
      * @group SYS_ADMIN
      */
     public function saveTenant(string $accessToken = null, string $tenantProfileId = null): static

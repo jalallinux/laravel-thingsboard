@@ -61,13 +61,9 @@ class User extends Tntity
      * You can specify parameters to filter the results.
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
-     *
-     * @param PaginationArguments $paginationArguments
-     *
+     * @param  PaginationArguments  $paginationArguments
      * @return PaginatedResponse
-     *
      * @author JalalLinuX
-     *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function getUsers(PaginationArguments $paginationArguments): PaginatedResponse
@@ -82,17 +78,11 @@ class User extends Tntity
      * You can specify parameters to filter the results.
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
-     *
-     * @param PaginationArguments $paginationArguments
-     *
-     * @param string|null $customerId
-     *
+     * @param  PaginationArguments  $paginationArguments
+     * @param  string|null  $customerId
      * @return PaginatedResponse
-     *
      * @throws \Throwable
-     *
      * @author JalalLinuX
-     *
      * @group TENANT_ADMIN
      */
     public function getCustomerUsers(PaginationArguments $paginationArguments, string $customerId = null): PaginatedResponse
@@ -116,17 +106,11 @@ class User extends Tntity
      * You can specify parameters to filter the results.
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
-     *
-     * @param PaginationArguments $paginationArguments
-     *
-     * @param string|null $tenantId
-     *
+     * @param  PaginationArguments  $paginationArguments
+     * @param  string|null  $tenantId
      * @return PaginatedResponse
-     *
      * @throws \Throwable
-     *
      * @author JalalLinuX
-     *
      * @group SYS_ADMIN
      */
     public function getTenantAdmins(PaginationArguments $paginationArguments, string $tenantId = null): PaginatedResponse
@@ -153,13 +137,9 @@ class User extends Tntity
      * Referencing non-existing User ID will cause 'Not Found' error.
      * User email is unique for entire platform setup.
      * Remove 'id', 'tenantId' and optionally 'customerId' from the request body example (below) to create new User entity.
-     *
-     * @param bool $sendActivationMail
-     *
+     * @param  bool  $sendActivationMail
      * @return User
-     *
      * @author JalalLinuX
-     *
      * @group SYS_ADMIN | TENANT_ADMIN
      */
     public function saveUser(bool $sendActivationMail = false): static
@@ -177,15 +157,10 @@ class User extends Tntity
     /**
      * Deletes the User, it's credentials and all the relations (from and to the User).
      * Referencing non-existing User ID will cause an error.
-     *
-     * @param string|null $id
-     *
+     * @param  string|null  $id
      * @return bool
-     *
      * @throws \Throwable
-     *
      * @author JalalLinuX
-     *
      * @group SYS_ADMIN | TENANT_ADMIN
      */
     public function deleteUser(string $id = null): bool
@@ -205,15 +180,10 @@ class User extends Tntity
      * If the user has the authority of 'SYS_ADMIN', the server does not perform additional checks.
      * If the user has the authority of 'TENANT_ADMIN', the server checks that the requested user is owned by the same tenant.
      * If the user has the authority of 'CUSTOMER_USER', the server checks that the requested user is owned by the same customer.
-     *
-     * @param string|null $id
-     *
+     * @param  string|null  $id
      * @return User
-     *
      * @throws \Throwable
-     *
      * @author JalalLinuX
-     *
      * @group
      */
     public function getUserById(string $id = null): static
@@ -233,15 +203,10 @@ class User extends Tntity
     /**
      * Get the activation link for the user.
      * The base url for activation link is configurable in the general settings of system administrator.
-     *
-     * @param string|null $id
-     *
+     * @param  string|null  $id
      * @return string
-     *
      * @throws \Throwable
-     *
      * @author JalalLinuX
-     *
      * @group SYS_ADMIN | TENANT_ADMIN
      */
     public function getActivationLink(string $id = null): string
