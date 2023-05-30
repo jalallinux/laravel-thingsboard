@@ -6,20 +6,20 @@ use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
-class GetAttributesKeysTest extends TestCase
+class GetTimeseriesKeysTest extends TestCase
 {
-    public function testGetAttributesKeysSuccess()
+    public function testGetTimeseriesKeysSuccess()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $deviceProfileId = thingsboard($tenantUser)->deviceProfile()->getDeviceProfiles(PaginationArguments::make())->data()->first()->id->id;
-        $attributesKeys = thingsboard($tenantUser)->deviceProfile()->getAttributesKeys($deviceProfileId);
-        $this->assertIsArray($attributesKeys);
+        $timeseriesKeys = thingsboard($tenantUser)->deviceProfile()->getTimeseriesKeys($deviceProfileId);
+        $this->assertIsArray($timeseriesKeys);
     }
 
-    public function testGetAttributesKeysWithoutUuidSuccess()
+    public function testGetTimeseriesKeysWithoutUuidSuccess()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $attributesKeys = thingsboard($tenantUser)->deviceProfile()->getAttributesKeys();
-        $this->assertIsArray($attributesKeys);
+        $timeseriesKeys = thingsboard($tenantUser)->deviceProfile()->getTimeseriesKeys();
+        $this->assertIsArray($timeseriesKeys);
     }
 }
