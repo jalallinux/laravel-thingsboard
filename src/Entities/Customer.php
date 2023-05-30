@@ -64,7 +64,9 @@ class Customer extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
+     * @param PaginationArguments $paginationArguments
      *
+     * @return PaginatedResponse
      *
      * @author JalalLinuX
      *
@@ -133,6 +135,10 @@ class Customer extends Tntity
      * Referencing non-existing Customer Id will cause an error.
      *
      * @group TENANT_ADMIN
+     *
+     * @param string|null $id
+     *
+     * @return bool
      *
      * @throws \Throwable
      *

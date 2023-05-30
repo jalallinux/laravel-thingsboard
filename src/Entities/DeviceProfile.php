@@ -78,7 +78,9 @@ class DeviceProfile extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
+     * @param PaginationArguments $paginationArguments
      *
+     * @return PaginatedResponse
      *
      * @author JalalLinuX
      *
@@ -97,6 +99,7 @@ class DeviceProfile extends Tntity
      * Fetch the Device Profile object based on the provided Device Profile ID.
      * The server checks that the device profile is owned by the same tenant.
      *
+     * @param string|null $id
      *
      * @return DeviceProfile
      *
@@ -111,19 +114,20 @@ class DeviceProfile extends Tntity
         $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            ! Str::isUuid($id),
+            !Str::isUuid($id),
             $this->exception('method argument must be a valid uuid.'),
         );
 
         $deviceProfile = $this->api()->get("deviceProfile/{$id}")->json();
 
-        return tap($this, fn () => $this->fill($deviceProfile));
+        return tap($this, fn() => $this->fill($deviceProfile));
     }
 
     /**
      * Fetch the Default Device Profile Info object.
      * Device Profile Info is a lightweight object that includes main information about Device Profile excluding the heavyweight configuration object.
      *
+     * @param bool $full
      *
      * @return DeviceProfile
      *
@@ -141,7 +145,7 @@ class DeviceProfile extends Tntity
             return $this->getDeviceProfileById($deviceProfile['id']['id']);
         }
 
-        return tap($this, fn () => $this->fill($deviceProfile));
+        return tap($this, fn() => $this->fill($deviceProfile));
     }
 
     /**
@@ -182,7 +186,7 @@ class DeviceProfile extends Tntity
 
         $deviceProfile = $this->api()->post('deviceProfile', $payload)->json();
 
-        return tap($this, fn () => $this->fill($deviceProfile));
+        return tap($this, fn() => $this->fill($deviceProfile));
     }
 
     /**
@@ -191,6 +195,10 @@ class DeviceProfile extends Tntity
      * Can't delete the device profile if it is referenced by existing devices.
      *
      * @group TENANT_ADMIN
+     *
+     * @param string|null $id
+     *
+     * @return bool
      *
      * @throws \Throwable
      *
@@ -201,7 +209,7 @@ class DeviceProfile extends Tntity
         $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            ! Str::isUuid($id),
+            !Str::isUuid($id),
             $this->exception('method "id" argument must be a valid uuid.'),
         );
 
@@ -212,6 +220,8 @@ class DeviceProfile extends Tntity
      * Marks device profile as default within a tenant scope.
      *
      * @group TENANT_ADMIN
+     *
+     * @param string|null $id
      *
      * @return DeviceProfile
      *
@@ -224,13 +234,13 @@ class DeviceProfile extends Tntity
         $id = $id ?? $this->forceAttribute('id')->id;
 
         throw_if(
-            ! Str::isUuid($id),
+            !Str::isUuid($id),
             $this->exception('method "id" argument must be a valid uuid.'),
         );
 
         $deviceProfile = $this->api()->post("deviceProfile/{$id}/default", $this->attributes)->json();
 
-        return tap($this, fn () => $this->fill($deviceProfile));
+        return tap($this, fn() => $this->fill($deviceProfile));
     }
 
     /**
@@ -242,12 +252,16 @@ class DeviceProfile extends Tntity
      *
      * @group TENANT_ADMIN
      *
+     * @param string|null $id
+     *
+     * @return array
+     *
      * @author Sabiee
      */
     public function getAttributesKeys(string $id = null): array
     {
         $id = $id ?? $this->getAttribute('id');
 
-        return $this->api()->get('deviceProfile/devices/keys/attributes', is_null($id) ? [] : ['deviceProfileId' => $id])->json();
+        return $this->api()->get("deviceProfile/devices/keys/attributes", is_null($id) ? [] : ['deviceProfileId' => $id])->json();
     }
 }

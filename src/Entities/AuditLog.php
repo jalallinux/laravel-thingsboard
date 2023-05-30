@@ -65,10 +65,15 @@ class AuditLog extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
+     * @param PaginationArguments $paginationArguments
      *
+     * @param \DateTime|null $startTime
      *
+     * @param \DateTime|null $endTime
      *
+     * @param EnumAuditLogActionType|null $actionType
      *
+     * @return PaginatedResponse
      *
      * @author JalalLinuX
      *
@@ -80,7 +85,7 @@ class AuditLog extends Tntity
             'actionType' => $actionType, 'startTime' => ! is_null($startTime) ? $startTime->getTimestamp() * 1000 : null, 'endTime' => ! is_null($endTime) ? $endTime->getTimestamp() * 1000 : null,
         ]);
 
-        $response = $this->api()->get('audit/logs', $payload);
+        $response = $this->api()->get("audit/logs", $payload);
 
         return $this->paginatedResponse($response, $paginationArguments);
     }
@@ -91,11 +96,17 @@ class AuditLog extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
+     * @param string $customerId
      *
+     * @param PaginationArguments $paginationArguments
      *
+     * @param \DateTime|null $startTime
      *
+     * @param \DateTime|null $endTime
      *
+     * @param EnumAuditLogActionType|null $actionType
      *
+     * @return PaginatedResponse
      *
      * @throws \Throwable
      *
@@ -126,11 +137,17 @@ class AuditLog extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
+     * @param string $userId
      *
+     * @param PaginationArguments $paginationArguments
      *
+     * @param \DateTime|null $startTime
      *
+     * @param \DateTime|null $endTime
      *
+     * @param EnumAuditLogActionType|null $actionType
      *
+     * @return PaginatedResponse
      *
      * @throws \Throwable
      *
@@ -159,9 +176,13 @@ class AuditLog extends Tntity
      * You can specify parameters to filter the results.
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
-     *
+     * @param Id $entity
+     * @param PaginationArguments $paginationArguments
+     * @param \DateTime|null $startTime
+     * @param \DateTime|null $endTime
+     * @param EnumAuditLogActionType|null $actionType
+     * @return PaginatedResponse
      * @author JalalLinuX
-     *
      * @group TENANT_ADMIN
      */
     public function getAuditLogsByEntityId(Id $entity, PaginationArguments $paginationArguments, \DateTime $startTime = null, \DateTime $endTime = null, EnumAuditLogActionType $actionType = null): PaginatedResponse

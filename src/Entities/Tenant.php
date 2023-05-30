@@ -69,7 +69,9 @@ class Tenant extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
+     * @param PaginationArguments $paginationArguments
      *
+     * @return PaginatedResponse
      *
      * @author JalalLinuX
      *
@@ -91,7 +93,9 @@ class Tenant extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
+     * @param PaginationArguments $paginationArguments
      *
+     * @return PaginatedResponse
      *
      * @author JalalLinuX
      *
@@ -110,6 +114,7 @@ class Tenant extends Tntity
      * Fetch the Tenant Info object based on the provided Tenant ID.
      * The Tenant Info object extends regular Tenant object and includes Tenant Profile name.
      *
+     * @param string|null $id
      *
      * @return self
      *
@@ -137,7 +142,9 @@ class Tenant extends Tntity
      * Deletes the tenant, it's customers, rule chains, devices and all other related entities.
      * Referencing non-existing tenant ID will cause an error.
      *
+     * @param string|null $id
      *
+     * @return bool
      *
      * @throws \Throwable
      *
@@ -165,7 +172,9 @@ class Tenant extends Tntity
      * Specify existing Tenant ID to update the Tenant.
      * Referencing non-existing Tenant ID will cause 'Not Found' error.Remove 'id', 'tenantId' from the request body example (below) to create new Tenant entity.
      *
+     * @param string|null $accessToken
      *
+     * @param string|null $tenantProfileId
      *
      * @return self
      *
