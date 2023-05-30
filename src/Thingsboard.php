@@ -18,6 +18,7 @@ use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
  * @method Entities\TenantProfile tenantProfile(array $attributes = [])
  * @method Entities\Usage usage(array $attributes = [])
  * @method Entities\Rpc rpc(array $attributes = [])
+ * @method Entities\AuditLog auditLog(array $attributes = [])
  */
 class Thingsboard
 {

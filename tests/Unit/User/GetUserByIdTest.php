@@ -15,8 +15,9 @@ class GetUserByIdTest extends TestCase
 
         $tenantId = thingsboard()->tenant()->withUser($adminUser)->getTenants(PaginationArguments::make())->data()->first()->id->id;
         $userId = thingsboard($adminUser)->user()->getTenantAdmins(PaginationArguments::make(), $tenantId)->data()->first()->id->id;
-
         $user = thingsboard($adminUser)->user()->getUserById($userId);
+
+        dd($user);
         $this->assertInstanceOf(User::class, $user);
         $this->assertEquals($userId, $user->id->id);
         $this->assertEquals(EnumAuthority::TENANT_ADMIN(), $user->authority);
