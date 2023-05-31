@@ -58,7 +58,7 @@ thingsboard()->deviceApi()->setAttribute('deviceToken', 'A1_TEST_TOKEN')->postDe
 
 /** With Authentication */
 thingsboard()->device()->withUser($tenantUser)->getDeviceById('ca3b8fc0-dcf6-11ed-a299-0f591673a2d6')
-thingsboard()->device()->withUser($tenantUser)->setAttribute('id', 'ca3b8fc0-dcf6-11ed-a299-0f591673a2d6')->getDeviceById()
+thingsboard($tenantUser)->device()->setAttribute('id', 'ca3b8fc0-dcf6-11ed-a299-0f591673a2d6')->getDeviceById()
 thingsboard()->device(['id' => 'ca3b8fc0-dcf6-11ed-a299-0f591673a2d6'])->withUser($tenantUser)->getDeviceById()
 ```
 
