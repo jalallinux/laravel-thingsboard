@@ -38,9 +38,9 @@ class Telemetry extends Tntity
      * }
      * }
      *
-     * @param  array  $payload
-     * @param  EnumTelemetryScope  $scope
-     * @param  string  $deviceId
+     * @param array $payload
+     * @param EnumTelemetryScope $scope
+     * @param string $deviceId
      * @return bool
      *
      * @throws \Throwable
@@ -61,7 +61,7 @@ class Telemetry extends Tntity
         }
 
         throw_if(
-            ! Str::isUuid($deviceId),
+            !Str::isUuid($deviceId),
             $this->exception('method "deviceId" argument must be a valid uuid.'),
         );
 
@@ -72,9 +72,9 @@ class Telemetry extends Tntity
      * Delete device attributes using provided Device Id, scope and a list of keys.
      * Referencing a non-existing Device Id will cause an error
      *
-     * @param  EnumTelemetryScope  $scope
-     * @param  array  $keys
-     * @param  string  $deviceId
+     * @param EnumTelemetryScope $scope
+     * @param array $keys
+     * @param string $deviceId
      * @return bool
      *
      * @throws \Throwable
@@ -90,7 +90,7 @@ class Telemetry extends Tntity
         }
 
         throw_if(
-            ! Str::isUuid($deviceId),
+            !Str::isUuid($deviceId),
             $this->exception('method "deviceId" argument must be a valid uuid.'),
         );
 
@@ -121,10 +121,10 @@ class Telemetry extends Tntity
      * }
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param  array  $payload
-     * @param  EnumEntityType  $entityType
-     * @param  EnumTelemetryScope  $scope
-     * @param  string  $entityId
+     * @param array $payload
+     * @param EnumEntityType $entityType
+     * @param EnumTelemetryScope $scope
+     * @param string $entityId
      * @return bool
      *
      * @throws \Throwable
@@ -145,7 +145,7 @@ class Telemetry extends Tntity
         );
 
         throw_if(
-            ! Str::isUuid($entityId),
+            !Str::isUuid($entityId),
             $this->exception('method "entityId" argument must be a valid uuid.'),
         );
 
@@ -167,7 +167,7 @@ class Telemetry extends Tntity
         }
 
         throw_if(
-            ! Str::isUuid($entityId),
+            !Str::isUuid($entityId),
             $this->exception('method "entityId" argument must be a valid uuid.'),
         );
 
@@ -197,10 +197,10 @@ class Telemetry extends Tntity
      * }
      * }
      *
-     * @param  array  $payload
-     * @param  EnumEntityType  $entityType
-     * @param  string  $entityId
-     * @param  EnumTelemetryScope  $scope
+     * @param array $payload
+     * @param EnumEntityType $entityType
+     * @param string $entityId
+     * @param EnumTelemetryScope $scope
      * @return bool
      *
      * @throws \Throwable
@@ -217,7 +217,7 @@ class Telemetry extends Tntity
         }
 
         throw_if(
-            ! Str::isUuid($entityId),
+            !Str::isUuid($entityId),
             $this->exception('method "entityId" argument must be a valid uuid.'),
         );
 
@@ -257,5 +257,29 @@ class Telemetry extends Tntity
         );
 
         return $this->api()->get("plugins/telemetry/{$entityType}/{$entityId}/keys/attributes")->json();
+    }
+
+    /**
+     * Returns a set of unique attribute key names for the selected entity and attributes scope:
+     * SERVER_SCOPE - supported for all entity types;
+     * CLIENT_SCOPE - supported for devices;
+     * SHARED_SCOPE - supported for devices.
+     * Referencing a non-existing entity Id or invalid entity type will cause an error.
+     *
+     * @return void
+     *
+     * @throws \Throwable
+     * @author Sabiee
+     *
+     * @group TENANT_ADMIN | CUSTOMER
+     */
+    public function getAttributeKeysByScope(EnumEntityType $entityType, string $entityId, EnumTelemetryScope $scope): array
+    {
+        throw_if(
+            !Str::isUuid($entityId),
+            $this->exception('method "entityId" argument must be a valid uuid.'),
+        );
+
+        return $this->api()->get("plugins/telemetry/{$entityType}/{$entityId}/keys/attributes/{$scope}")->json();
     }
 }
