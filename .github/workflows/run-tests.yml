@@ -54,7 +54,7 @@ jobs:
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
 
       - name: Wait for Thingsboard container
-        run: sleep 100s
+        run: sleep 90s
         shell: bash
 
       - name: Execute tests
