@@ -38,9 +38,9 @@ class Telemetry extends Tntity
      * }
      * }
      *
-     * @param  array  $payload
-     * @param  EnumTelemetryScope  $scope
-     * @param  string  $deviceId
+     * @param array $payload
+     * @param EnumTelemetryScope $scope
+     * @param string $deviceId
      * @return bool
      *
      * @throws \Throwable
@@ -61,20 +61,20 @@ class Telemetry extends Tntity
         }
 
         throw_if(
-            ! Str::isUuid($deviceId),
+            !Str::isUuid($deviceId),
             $this->exception('method "deviceId" argument must be a valid uuid.'),
         );
 
-        return $this->api(self::config('rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$deviceId}/{$scope}", $payload)->successful();
+        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$deviceId}/{$scope}", $payload)->successful();
     }
 
     /**
      * Delete device attributes using provided Device Id, scope and a list of keys.
      * Referencing a non-existing Device Id will cause an error
      *
-     * @param  EnumTelemetryScope  $scope
-     * @param  array  $keys
-     * @param  string  $deviceId
+     * @param EnumTelemetryScope $scope
+     * @param array $keys
+     * @param string $deviceId
      * @return bool
      *
      * @throws \Throwable
@@ -90,13 +90,13 @@ class Telemetry extends Tntity
         }
 
         throw_if(
-            ! Str::isUuid($deviceId),
+            !Str::isUuid($deviceId),
             $this->exception('method "deviceId" argument must be a valid uuid.'),
         );
 
         $keys = implode(',', $keys);
 
-        return $this->api(self::config('rest.exception.throw_bool_methods'))->bodyFormat('query')
+        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->bodyFormat('query')
             ->delete("plugins/telemetry/{$deviceId}/{$scope}", ['keys' => $keys])->successful();
     }
 
@@ -121,10 +121,10 @@ class Telemetry extends Tntity
      * }
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param  array  $payload
-     * @param  EnumEntityType  $entityType
-     * @param  EnumTelemetryScope  $scope
-     * @param  string  $entityId
+     * @param array $payload
+     * @param EnumEntityType $entityType
+     * @param EnumTelemetryScope $scope
+     * @param string $entityId
      * @return bool
      *
      * @throws \Throwable
@@ -145,11 +145,11 @@ class Telemetry extends Tntity
         );
 
         throw_if(
-            ! Str::isUuid($entityId),
+            !Str::isUuid($entityId),
             $this->exception('method "entityId" argument must be a valid uuid.'),
         );
 
-        return $this->api(self::config('rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$entityType}/{$entityId}/{$scope}", $payload)->successful();
+        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$entityType}/{$entityId}/{$scope}", $payload)->successful();
     }
 
     /**
@@ -167,13 +167,13 @@ class Telemetry extends Tntity
         }
 
         throw_if(
-            ! Str::isUuid($entityId),
+            !Str::isUuid($entityId),
             $this->exception('method "entityId" argument must be a valid uuid.'),
         );
 
         $keys = implode(',', $keys);
 
-        return $this->api(self::config('rest.exception.throw_bool_methods'))->bodyFormat('query')
+        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->bodyFormat('query')
             ->delete("plugins/telemetry/{$entityType}/{$entityId}/{$scope}", ['keys' => $keys])->successful();
     }
 
@@ -197,10 +197,10 @@ class Telemetry extends Tntity
      * }
      * }
      *
-     * @param  array  $payload
-     * @param  EnumEntityType  $entityType
-     * @param  string  $entityId
-     * @param  EnumTelemetryScope  $scope
+     * @param array $payload
+     * @param EnumEntityType $entityType
+     * @param string $entityId
+     * @param EnumTelemetryScope $scope
      * @return bool
      *
      * @throws \Throwable
@@ -217,7 +217,7 @@ class Telemetry extends Tntity
         }
 
         throw_if(
-            ! Str::isUuid($entityId),
+            !Str::isUuid($entityId),
             $this->exception('method "entityId" argument must be a valid uuid.'),
         );
 
@@ -226,7 +226,7 @@ class Telemetry extends Tntity
             $this->exception('method "scope" can\'t be client scope'),
         );
 
-        return $this->api(self::config('rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$entityType}/{$entityId}/attributes/{$scope}", $payload)->successful();
+        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$entityType}/{$entityId}/attributes/{$scope}", $payload)->successful();
 
     }
 
@@ -266,10 +266,12 @@ class Telemetry extends Tntity
      * SHARED_SCOPE - supported for devices.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @return void
+     * @param EnumEntityType $entityType
+     * @param string $entityId
+     * @param EnumTelemetryScope $scope
+     * @return array
      *
      * @throws \Throwable
-     *
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER
@@ -277,7 +279,7 @@ class Telemetry extends Tntity
     public function getAttributeKeysByScope(EnumEntityType $entityType, string $entityId, EnumTelemetryScope $scope): array
     {
         throw_if(
-            ! Str::isUuid($entityId),
+            !Str::isUuid($entityId),
             $this->exception('method "entityId" argument must be a valid uuid.'),
         );
 
@@ -288,6 +290,10 @@ class Telemetry extends Tntity
      * Returns a set of unique time-series key names for the selected entity.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
+     * @param EnumEntityType $entityType
+     * @param string $entityId
+     * @return array
+     * @throws \Throwable
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER
@@ -300,5 +306,97 @@ class Telemetry extends Tntity
         );
 
         return $this->api()->get("plugins/telemetry/{$entityType}/{$entityId}/keys/timeseries")->json();
+    }
+
+    /**
+     * Creates or updates the entity time-series data based on the Entity Id and request payload.
+     * The request payload is a JSON document with three possible formats:
+     * Simple format without timestamp. In such a case, current server time will be used:
+     * {"temperature": 26}
+     * Single JSON object with timestamp:
+     * {"ts":1634712287000,"values":{"temperature":26, "humidity":87}}
+     * JSON array with timestamps:
+     * [{"ts":1634712287000,"values":{"temperature":26, "humidity":87}}, {"ts":1634712588000,"values":{"temperature":25, "humidity":88}}]
+     * The scope parameter is not used in the API call implementation but should be specified whatever value because it is used as a path variable.
+     * Referencing a non-existing entity Id or invalid entity type will cause an error.
+     *
+     * @param array $payload
+     * @param EnumEntityType $entityType
+     * @param string $entityId
+     * @return bool
+     * @throws \Throwable
+     * @author Sabiee
+     *
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function saveEntityTelemetry(array $payload, EnumEntityType $entityType, string $entityId): bool
+    {
+        if (empty($payload)) {
+            throw $this->exception('method argument must be array of ["ts" => in millisecond-timestamp, "values" => in associative array]');
+        }
+
+        foreach ($payload as $row) {
+            throw_if(
+                !array_key_exists('ts', $row) || strlen($row['ts']) != 13 || !array_key_exists('values', $row) || !isArrayAssoc($row['values']),
+                $this->exception('method argument must be array of "ts" in millisecond-timestamp, "values" in associative array.')
+            );
+        }
+
+        throw_if(
+            !Str::isUuid($entityId),
+            $this->exception('method "entityId" argument must be a valid uuid.'),
+        );
+
+        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$entityType}/{$entityId}/timeseries/ANY?scope=ANY", $payload)->successful();
+    }
+
+    /**
+     * Delete time-series for selected entity based on entity id, entity type and keys.
+     * Use 'deleteAllDataForKeys' to delete all time-series data. Use 'startTs' and 'endTs' to specify time-range instead.
+     * Use 'rewriteLatestIfDeleted' to rewrite latest value (stored in separate table for performance) after deletion of the time range.
+     *
+     * @author Sabiee
+     *
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function deleteEntityTimeseries(EnumEntityType $entityType, string $entityId, array $keys,
+                                           bool           $deleteAllDataForKeys = false, int $startTs = null, int $endTs = null,
+                                           bool           $rewriteLatestIfDeleted = null)
+    {
+        if (empty($keys)) {
+            throw $this->exception('method "keys" argument cannot be empty!');
+        }
+        $keys = implode(',', $keys);
+        if (!$deleteAllDataForKeys) {
+            throw_if(
+                is_null($startTs),
+                $this->exception('method "entityId" argument must be a valid uuid.'),
+            );
+            throw_if(
+                is_null($endTs),
+                $this->exception('method "entityId" argument must be a valid uuid.'),
+            );
+        }
+
+        $queryParams = [
+            'deleteAllDataForKeys' => $deleteAllDataForKeys,
+            'keys' => $keys,
+        ];
+
+        if(!is_null($startTs) && !is_null($endTs)){
+            $queryParams = array_merge($queryParams, [
+                'startTs' => $startTs,
+                'endTs' => $endTs,
+            ]);
+        }
+
+        if(!is_null($rewriteLatestIfDeleted)){
+            $queryParams = array_merge($queryParams, [
+                'rewriteLatestIfDeleted' => $rewriteLatestIfDeleted
+            ]);
+        }
+
+        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->bodyFormat('query')
+            ->delete("plugins/telemetry/{$entityType}/{$entityId}/timeseries/delete", $queryParams)->successful();
     }
 }
