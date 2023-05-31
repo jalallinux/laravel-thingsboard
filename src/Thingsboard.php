@@ -35,7 +35,7 @@ class Thingsboard
 
     public function __call(string $name, array $arguments)
     {
-        $class = __NAMESPACE__ . '\\Entities\\'.ucfirst($name);
+        $class = __NAMESPACE__.'\\Entities\\'.ucfirst($name);
 
         if (isset($this->withUser)) {
             return $class::instance(...$arguments)->withUser($this->withUser);
