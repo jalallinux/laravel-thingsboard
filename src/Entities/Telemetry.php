@@ -38,9 +38,9 @@ class Telemetry extends Tntity
      * }
      * }
      *
-     * @param array $payload
-     * @param EnumTelemetryScope $scope
-     * @param string $deviceId
+     * @param  array  $payload
+     * @param  EnumTelemetryScope  $scope
+     * @param  string  $deviceId
      * @return bool
      *
      * @throws \Throwable
@@ -61,7 +61,7 @@ class Telemetry extends Tntity
         }
 
         throw_if(
-            !Str::isUuid($deviceId),
+            ! Str::isUuid($deviceId),
             $this->exception('method "deviceId" argument must be a valid uuid.'),
         );
 
@@ -72,9 +72,9 @@ class Telemetry extends Tntity
      * Delete device attributes using provided Device Id, scope and a list of keys.
      * Referencing a non-existing Device Id will cause an error
      *
-     * @param EnumTelemetryScope $scope
-     * @param array $keys
-     * @param string $deviceId
+     * @param  EnumTelemetryScope  $scope
+     * @param  array  $keys
+     * @param  string  $deviceId
      * @return bool
      *
      * @throws \Throwable
@@ -90,7 +90,7 @@ class Telemetry extends Tntity
         }
 
         throw_if(
-            !Str::isUuid($deviceId),
+            ! Str::isUuid($deviceId),
             $this->exception('method "deviceId" argument must be a valid uuid.'),
         );
 
@@ -121,10 +121,10 @@ class Telemetry extends Tntity
      * }
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param array $payload
-     * @param EnumEntityType $entityType
-     * @param EnumTelemetryScope $scope
-     * @param string $entityId
+     * @param  array  $payload
+     * @param  EnumEntityType  $entityType
+     * @param  EnumTelemetryScope  $scope
+     * @param  string  $entityId
      * @return bool
      *
      * @throws \Throwable
@@ -145,7 +145,7 @@ class Telemetry extends Tntity
         );
 
         throw_if(
-            !Str::isUuid($entityId),
+            ! Str::isUuid($entityId),
             $this->exception('method "entityId" argument must be a valid uuid.'),
         );
 
@@ -167,7 +167,7 @@ class Telemetry extends Tntity
         }
 
         throw_if(
-            !Str::isUuid($entityId),
+            ! Str::isUuid($entityId),
             $this->exception('method "entityId" argument must be a valid uuid.'),
         );
 
@@ -197,10 +197,10 @@ class Telemetry extends Tntity
      * }
      * }
      *
-     * @param array $payload
-     * @param EnumEntityType $entityType
-     * @param string $entityId
-     * @param EnumTelemetryScope $scope
+     * @param  array  $payload
+     * @param  EnumEntityType  $entityType
+     * @param  string  $entityId
+     * @param  EnumTelemetryScope  $scope
      * @return bool
      *
      * @throws \Throwable
@@ -217,7 +217,7 @@ class Telemetry extends Tntity
         }
 
         throw_if(
-            !Str::isUuid($entityId),
+            ! Str::isUuid($entityId),
             $this->exception('method "entityId" argument must be a valid uuid.'),
         );
 
@@ -239,8 +239,8 @@ class Telemetry extends Tntity
      * SHARED_SCOPE - supported for devices.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param EnumEntityType $entityType
-     * @param string $entityId
+     * @param  EnumEntityType  $entityType
+     * @param  string  $entityId
      * @return array
      *
      * @throws \Throwable
@@ -252,7 +252,7 @@ class Telemetry extends Tntity
     public function getAttributeKeys(EnumEntityType $entityType, string $entityId): array
     {
         throw_if(
-            !Str::isUuid($entityId),
+            ! Str::isUuid($entityId),
             $this->exception('method "entityId" argument must be a valid uuid.'),
         );
 
@@ -266,9 +266,9 @@ class Telemetry extends Tntity
      * SHARED_SCOPE - supported for devices.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param EnumEntityType $entityType
-     * @param string $entityId
-     * @param EnumTelemetryScope $scope
+     * @param  EnumEntityType  $entityType
+     * @param  string  $entityId
+     * @param  EnumTelemetryScope  $scope
      * @return array
      *
      * @throws \Throwable
@@ -280,7 +280,7 @@ class Telemetry extends Tntity
     public function getAttributeKeysByScope(EnumEntityType $entityType, string $entityId, EnumTelemetryScope $scope): array
     {
         throw_if(
-            !Str::isUuid($entityId),
+            ! Str::isUuid($entityId),
             $this->exception('method "entityId" argument must be a valid uuid.'),
         );
 
@@ -291,8 +291,8 @@ class Telemetry extends Tntity
      * Returns a set of unique time-series key names for the selected entity.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param EnumEntityType $entityType
-     * @param string $entityId
+     * @param  EnumEntityType  $entityType
+     * @param  string  $entityId
      * @return array
      *
      * @throws \Throwable
@@ -304,7 +304,7 @@ class Telemetry extends Tntity
     public function getTimeseriesKeys(EnumEntityType $entityType, string $entityId): array
     {
         throw_if(
-            !Str::isUuid($entityId),
+            ! Str::isUuid($entityId),
             $this->exception('method "entityId" argument must be a valid uuid.'),
         );
 
@@ -323,9 +323,9 @@ class Telemetry extends Tntity
      * The scope parameter is not used in the API call implementation but should be specified whatever value because it is used as a path variable.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param array $payload
-     * @param EnumEntityType $entityType
-     * @param string $entityId
+     * @param  array  $payload
+     * @param  EnumEntityType  $entityType
+     * @param  string  $entityId
      * @return bool
      *
      * @throws \Throwable
@@ -342,13 +342,13 @@ class Telemetry extends Tntity
 
         foreach ($payload as $row) {
             throw_if(
-                !array_key_exists('ts', $row) || strlen($row['ts']) != 13 || !array_key_exists('values', $row) || !isArrayAssoc($row['values']),
+                ! array_key_exists('ts', $row) || strlen($row['ts']) != 13 || ! array_key_exists('values', $row) || ! isArrayAssoc($row['values']),
                 $this->exception('method argument must be array of "ts" in millisecond-timestamp, "values" in associative array.')
             );
         }
 
         throw_if(
-            !Str::isUuid($entityId),
+            ! Str::isUuid($entityId),
             $this->exception('method "entityId" argument must be a valid uuid.'),
         );
 
@@ -384,13 +384,13 @@ class Telemetry extends Tntity
 
         foreach ($payload as $row) {
             throw_if(
-                !array_key_exists('ts', $row) || strlen($row['ts']) != 13 || !array_key_exists('values', $row) || !isArrayAssoc($row['values']),
+                ! array_key_exists('ts', $row) || strlen($row['ts']) != 13 || ! array_key_exists('values', $row) || ! isArrayAssoc($row['values']),
                 $this->exception('method argument must be array of "ts" in millisecond-timestamp, "values" in associative array.')
             );
         }
 
         throw_if(
-            !Str::isUuid($entityId),
+            ! Str::isUuid($entityId),
             $this->exception('method "entityId" argument must be a valid uuid.'),
         );
 
@@ -402,13 +402,13 @@ class Telemetry extends Tntity
      * Use 'deleteAllDataForKeys' to delete all time-series data. Use 'startTs' and 'endTs' to specify time-range instead.
      * Use 'rewriteLatestIfDeleted' to rewrite latest value (stored in separate table for performance) after deletion of the time range.
      *
-     * @param EnumEntityType $entityType
-     * @param string $entityId
-     * @param array $keys
-     * @param bool $deleteAllDataForKeys
-     * @param int|null $startTs
-     * @param int|null $endTs
-     * @param bool|null $rewriteLatestIfDeleted
+     * @param  EnumEntityType  $entityType
+     * @param  string  $entityId
+     * @param  array  $keys
+     * @param  bool  $deleteAllDataForKeys
+     * @param  int|null  $startTs
+     * @param  int|null  $endTs
+     * @param  bool|null  $rewriteLatestIfDeleted
      * @return bool
      *
      * @throws \Throwable
@@ -418,11 +418,11 @@ class Telemetry extends Tntity
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function deleteEntityTimeseries(EnumEntityType $entityType, string $entityId, array $keys,
-                                           bool           $deleteAllDataForKeys = false, int $startTs = null, int $endTs = null,
-                                           bool           $rewriteLatestIfDeleted = null)
+        bool $deleteAllDataForKeys = false, int $startTs = null, int $endTs = null,
+        bool $rewriteLatestIfDeleted = null)
     {
         throw_if(
-            !Str::isUuid($entityId),
+            ! Str::isUuid($entityId),
             $this->exception('method "entityId" argument must be a valid uuid.'),
         );
 
@@ -430,7 +430,7 @@ class Telemetry extends Tntity
             throw $this->exception('method "keys" argument cannot be empty!');
         }
         $keys = implode(',', $keys);
-        if (!$deleteAllDataForKeys) {
+        if (! $deleteAllDataForKeys) {
             throw_if(
                 is_null($startTs),
                 $this->exception('method "startTs" can\'t be null when deleteAllDataForKeys is false'),
@@ -446,14 +446,14 @@ class Telemetry extends Tntity
             'keys' => $keys,
         ];
 
-        if (!is_null($startTs) && !is_null($endTs)) {
+        if (! is_null($startTs) && ! is_null($endTs)) {
             $queryParams = array_merge($queryParams, [
                 'startTs' => $startTs,
                 'endTs' => $endTs,
             ]);
         }
 
-        if (!is_null($rewriteLatestIfDeleted)) {
+        if (! is_null($rewriteLatestIfDeleted)) {
             $queryParams = array_merge($queryParams, [
                 'rewriteLatestIfDeleted' => $rewriteLatestIfDeleted,
             ]);
@@ -488,12 +488,14 @@ class Telemetry extends Tntity
      * ]
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param EnumEntityType $entityType
-     * @param string $entityId
-     * @param EnumTelemetryScope $scope
-     * @param array $keys
+     * @param  EnumEntityType  $entityType
+     * @param  string  $entityId
+     * @param  EnumTelemetryScope  $scope
+     * @param  array  $keys
      * @return array|mixed
+     *
      * @throws \Throwable
+     *
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
@@ -501,7 +503,7 @@ class Telemetry extends Tntity
     public function getAttributesByScope(EnumEntityType $entityType, string $entityId, EnumTelemetryScope $scope, array $keys)
     {
         throw_if(
-            !Str::isUuid($entityId),
+            ! Str::isUuid($entityId),
             $this->exception('method "entityId" argument must be a valid uuid.'),
         );
 
