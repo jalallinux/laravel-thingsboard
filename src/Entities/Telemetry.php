@@ -10,7 +10,6 @@ use JalalLinuX\Thingsboard\Tntity;
 
 class Telemetry extends Tntity
 {
-
     public function entityType(): ?EnumEntityType
     {
         return null;
@@ -18,7 +17,7 @@ class Telemetry extends Tntity
 
     protected $fillable = [
         'deviceId',
-        'scope'
+        'scope',
     ];
 
     protected $casts = [
@@ -42,12 +41,9 @@ class Telemetry extends Tntity
      * }
      * }
      *
-     * @param array $payload
-     *
-     * @param EnumTelemetryScope $scope
-     *
-     * @param string|null $deviceId
-     *
+     * @param  array  $payload
+     * @param  EnumTelemetryScope  $scope
+     * @param  string|null  $deviceId
      * @return bool
      *
      * @throws \Throwable
@@ -70,7 +66,7 @@ class Telemetry extends Tntity
         $deviceId = $deviceId ?? $this->forceAttribute('deviceId')->id;
 
         throw_if(
-            !Str::isUuid($deviceId),
+            ! Str::isUuid($deviceId),
             $this->exception('method "deviceId" argument must be a valid uuid.'),
         );
 
@@ -81,12 +77,9 @@ class Telemetry extends Tntity
      * Delete device attributes using provided Device Id, scope and a list of keys.
      * Referencing a non-existing Device Id will cause an error
      *
-     * @param EnumTelemetryScope $scope
-     *
-     * @param array $keys
-     *
-     * @param string|null $deviceId
-     *
+     * @param  EnumTelemetryScope  $scope
+     * @param  array  $keys
+     * @param  string|null  $deviceId
      * @return bool
      *
      * @throws \Exception

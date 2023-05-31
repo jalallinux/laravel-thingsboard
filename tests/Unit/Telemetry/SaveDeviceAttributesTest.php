@@ -32,7 +32,7 @@ class SaveDeviceAttributesTest extends TestCase
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $this->expectExceptionCode(500);
-        $this->expectExceptionMessageMatches("/payload/");
+        $this->expectExceptionMessageMatches('/payload/');
         thingsboard($tenantUser)->telemetry()->saveDeviceAttributes([], EnumTelemetryScope::SERVER_SCOPE(), Str::uuid());
     }
 
@@ -43,7 +43,7 @@ class SaveDeviceAttributesTest extends TestCase
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $this->expectExceptionCode(500);
-        $this->expectExceptionMessageMatches("/scope/");
+        $this->expectExceptionMessageMatches('/scope/');
         thingsboard($tenantUser)->telemetry()->saveDeviceAttributes(['a' => 'b'], EnumTelemetryScope::CLIENT_SCOPE(), Str::uuid());
     }
 
@@ -54,7 +54,7 @@ class SaveDeviceAttributesTest extends TestCase
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $this->expectExceptionCode(500);
-        $this->expectExceptionMessageMatches("/deviceId/");
+        $this->expectExceptionMessageMatches('/deviceId/');
         thingsboard($tenantUser)->telemetry()->saveDeviceAttributes(['a' => 'b'], EnumTelemetryScope::SHARED_SCOPE(), substr_replace($this->faker->uuid, 'z', -1));
     }
 }
