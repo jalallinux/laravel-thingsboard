@@ -21,16 +21,15 @@ class SaveEntityTelemetryTest extends TestCase
             [
                 'ts' => now()->timestamp * 1000,
                 'values' => [
-                    "temperature" => 26,
-                    "humidity" => 87
-                ]
-            ]
+                    'temperature' => 26,
+                    'humidity' => 87,
+                ],
+            ],
         ];
         $result = thingsboard($tenantUser)->telemetry()->saveEntityTelemetry($payload, EnumEntityType::DEVICE(), $deviceId);
         thingsboard($tenantUser)->telemetry()->deleteEntityTimeseries(EnumEntityType::DEVICE(), $deviceId, $payload[0]['values'], true);
         $this->assertTrue($result);
     }
-
 
         public function testInvalidPayload()
         {
@@ -47,10 +46,10 @@ class SaveEntityTelemetryTest extends TestCase
                 [
                     'ts' => now()->timestamp * 1000,
                     'values' => [
-                        "temperature" => 26,
-                        "humidity" => 87
-                    ]
-                ]
+                        'temperature' => 26,
+                        'humidity' => 87,
+                    ],
+                ],
             ];
             $this->expectExceptionCode(500);
             $this->expectExceptionMessageMatches('/entityId/');
