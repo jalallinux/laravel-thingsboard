@@ -2,7 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Tests\Unit\Telemetry;
 
-use Illuminate\Support\Arr;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumTelemetryScope;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;

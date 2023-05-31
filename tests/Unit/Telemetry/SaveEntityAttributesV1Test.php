@@ -20,7 +20,7 @@ class SaveEntityAttributesV1Test extends TestCase
         $scope = $this->faker->randomElement(array_diff(EnumTelemetryScope::cases(), [EnumTelemetryScope::CLIENT_SCOPE()]));
         $key = $this->faker->word();
         $value = $this->faker->word();
-        $result = thingsboard($tenantUser)->telemetry()->saveEntityAttributesV1([$key => $value],EnumEntityType::DEVICE(), $deviceId, $scope);
+        $result = thingsboard($tenantUser)->telemetry()->saveEntityAttributesV1([$key => $value], EnumEntityType::DEVICE(), $deviceId, $scope);
         thingsboard($tenantUser)->telemetry()->deleteEntityAttributes(EnumEntityType::DEVICE(), $deviceId, $scope, [$key]);
         $this->assertTrue($result);
     }
@@ -44,7 +44,7 @@ class SaveEntityAttributesV1Test extends TestCase
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $this->expectExceptionCode(500);
         $this->expectExceptionMessageMatches('/scope/');
-        thingsboard($tenantUser)->telemetry()->saveEntityAttributesV1(['a' => 'b'],  EnumEntityType::DEVICE(), $this->faker->uuid, EnumTelemetryScope::CLIENT_SCOPE());
+        thingsboard($tenantUser)->telemetry()->saveEntityAttributesV1(['a' => 'b'], EnumEntityType::DEVICE(), $this->faker->uuid, EnumTelemetryScope::CLIENT_SCOPE());
     }
 
     /**
@@ -55,6 +55,6 @@ class SaveEntityAttributesV1Test extends TestCase
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $this->expectExceptionCode(500);
         $this->expectExceptionMessageMatches('/entityId/');
-        thingsboard($tenantUser)->telemetry()->saveEntityAttributesV1(['a' => 'b'],  EnumEntityType::DEVICE(), substr_replace($this->faker->uuid, 'z', -1), EnumTelemetryScope::SHARED_SCOPE());
+        thingsboard($tenantUser)->telemetry()->saveEntityAttributesV1(['a' => 'b'], EnumEntityType::DEVICE(), substr_replace($this->faker->uuid, 'z', -1), EnumTelemetryScope::SHARED_SCOPE());
     }
 }

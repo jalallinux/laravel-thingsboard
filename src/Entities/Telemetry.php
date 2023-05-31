@@ -133,7 +133,7 @@ class Telemetry extends Tntity
      *
      * @throws \Throwable
      */
-    public function saveEntityAttributesV1(array $payload, EnumEntityType $entityType,  string $entityId, EnumTelemetryScope $scope): bool
+    public function saveEntityAttributesV1(array $payload, EnumEntityType $entityType, string $entityId, EnumTelemetryScope $scope): bool
     {
         if (empty($payload)) {
             throw $this->exception('method "payload" cannot be empty');
