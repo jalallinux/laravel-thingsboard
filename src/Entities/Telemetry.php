@@ -239,8 +239,8 @@ class Telemetry extends Tntity
      * SHARED_SCOPE - supported for devices.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param  EnumEntityType  $entityType
-     * @param  string  $entityId
+     * @param EnumEntityType $entityType
+     * @param string $entityId
      * @return array
      *
      * @throws \Throwable
@@ -252,7 +252,7 @@ class Telemetry extends Tntity
     public function getAttributeKeys(EnumEntityType $entityType, string $entityId): array
     {
         throw_if(
-            ! Str::isUuid($entityId),
+            !Str::isUuid($entityId),
             $this->exception('method "entityId" argument must be a valid uuid.'),
         );
 
@@ -282,5 +282,22 @@ class Telemetry extends Tntity
         );
 
         return $this->api()->get("plugins/telemetry/{$entityType}/{$entityId}/keys/attributes/{$scope}")->json();
+    }
+
+    /**
+     * Returns a set of unique time-series key names for the selected entity.
+     * Referencing a non-existing entity Id or invalid entity type will cause an error.
+     *
+     * @author Sabiee
+     * @group TENANT_ADMIN | CUSTOMER
+     */
+    public function getTimeseriesKeys(EnumEntityType $entityType, string $entityId): array
+    {
+        throw_if(
+            !Str::isUuid($entityId),
+            $this->exception('method "entityId" argument must be a valid uuid.'),
+        );
+
+        return $this->api()->get("plugins/telemetry/{$entityType}/{$entityId}/keys/timeseries")->json();
     }
 }
