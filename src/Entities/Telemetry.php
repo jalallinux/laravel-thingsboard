@@ -371,7 +371,9 @@ class Telemetry extends Tntity
      * The scope parameter is not used in the API call implementation but should be specified whatever value because it is used as a path variable.
      *
      * The ttl parameter takes affect only in case of Cassandra DB.Referencing a non-existing entity Id or invalid entity type will cause an error.
+     *
      * @author Sabiee
+     *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function saveEntityTelemetryWithTTL(array $payload, EnumEntityType $entityType, string $entityId, int $ttl)
@@ -382,13 +384,13 @@ class Telemetry extends Tntity
 
         foreach ($payload as $row) {
             throw_if(
-                !array_key_exists('ts', $row) || strlen($row['ts']) != 13 || !array_key_exists('values', $row) || !isArrayAssoc($row['values']),
+                ! array_key_exists('ts', $row) || strlen($row['ts']) != 13 || ! array_key_exists('values', $row) || ! isArrayAssoc($row['values']),
                 $this->exception('method argument must be array of "ts" in millisecond-timestamp, "values" in associative array.')
             );
         }
 
         throw_if(
-            !Str::isUuid($entityId),
+            ! Str::isUuid($entityId),
             $this->exception('method "entityId" argument must be a valid uuid.'),
         );
 
@@ -400,20 +402,13 @@ class Telemetry extends Tntity
      * Use 'deleteAllDataForKeys' to delete all time-series data. Use 'startTs' and 'endTs' to specify time-range instead.
      * Use 'rewriteLatestIfDeleted' to rewrite latest value (stored in separate table for performance) after deletion of the time range.
      *
-     * @param EnumEntityType $entityType
-     *
-     * @param string $entityId
-     *
-     * @param array $keys
-     *
-     * @param bool $deleteAllDataForKeys
-     *
-     * @param int|null $startTs
-     *
-     * @param int|null $endTs
-     *
-     * @param bool|null $rewriteLatestIfDeleted
-     *
+     * @param  EnumEntityType  $entityType
+     * @param  string  $entityId
+     * @param  array  $keys
+     * @param  bool  $deleteAllDataForKeys
+     * @param  int|null  $startTs
+     * @param  int|null  $endTs
+     * @param  bool|null  $rewriteLatestIfDeleted
      * @return bool
      *
      * @throws \Throwable
