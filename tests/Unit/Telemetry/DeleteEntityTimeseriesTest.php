@@ -4,7 +4,6 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\Telemetry;
 
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
-use JalalLinuX\Thingsboard\Enums\EnumTelemetryScope;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
@@ -21,12 +20,12 @@ class DeleteEntityTimeseriesTest extends TestCase
             [
                 'ts' => now()->timestamp * 1000,
                 'values' => [
-                    "temperature" => 26,
-                    "humidity" => 87
-                ]
-            ]
+                    'temperature' => 26,
+                    'humidity' => 87,
+                ],
+            ],
         ];
-        $ttl = (int)now()->getPreciseTimestamp(3);
+        $ttl = (int) now()->getPreciseTimestamp(3);
         thingsboard($tenantUser)->telemetry()->saveEntityTelemetryWithTTL($payload, EnumEntityType::DEVICE(), $deviceId, $ttl);
         $result = thingsboard($tenantUser)->telemetry()->deleteEntityTimeseries(EnumEntityType::DEVICE(), $deviceId, $payload[0]['values'], true);
         $this->assertTrue($result);
@@ -39,10 +38,10 @@ class DeleteEntityTimeseriesTest extends TestCase
                 [
                     'ts' => now()->timestamp * 1000,
                     'values' => [
-                        "temperature" => 26,
-                        "humidity" => 87
-                    ]
-                ]
+                        'temperature' => 26,
+                        'humidity' => 87,
+                    ],
+                ],
             ];
             $this->expectExceptionCode(500);
             $this->expectExceptionMessageMatches('/entityId/');
@@ -56,10 +55,10 @@ class DeleteEntityTimeseriesTest extends TestCase
                 [
                     'ts' => now()->timestamp * 1000,
                     'values' => [
-                        "temperature" => 26,
-                        "humidity" => 87
-                    ]
-                ]
+                        'temperature' => 26,
+                        'humidity' => 87,
+                    ],
+                ],
             ];
             $this->expectExceptionCode(500);
             $this->expectExceptionMessageMatches('/startTs/');
