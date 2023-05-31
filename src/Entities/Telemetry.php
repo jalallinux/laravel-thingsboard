@@ -356,9 +356,67 @@ class Telemetry extends Tntity
     }
 
     /**
+     * Creates or updates the entity time-series data based on the Entity Id and request payload.
+     * The request payload is a JSON document with three possible formats:
+     *
+     * Simple format without timestamp. In such a case, current server time will be used:
+     *
+     * {"temperature": 26}
+     * Single JSON object with timestamp:
+     *
+     * {"ts":1634712287000,"values":{"temperature":26, "humidity":87}}
+     * JSON array with timestamps:
+     *
+     * [{"ts":1634712287000,"values":{"temperature":26, "humidity":87}}, {"ts":1634712588000,"values":{"temperature":25, "humidity":88}}]
+     * The scope parameter is not used in the API call implementation but should be specified whatever value because it is used as a path variable.
+     *
+     * The ttl parameter takes affect only in case of Cassandra DB.Referencing a non-existing entity Id or invalid entity type will cause an error.
+     * @author Sabiee
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function saveEntityTelemetryWithTTL(array $payload, EnumEntityType $entityType, string $entityId, int $ttl)
+    {
+        if (empty($payload)) {
+            throw $this->exception('method argument must be array of ["ts" => in millisecond-timestamp, "values" => in associative array]');
+        }
+
+        foreach ($payload as $row) {
+            throw_if(
+                !array_key_exists('ts', $row) || strlen($row['ts']) != 13 || !array_key_exists('values', $row) || !isArrayAssoc($row['values']),
+                $this->exception('method argument must be array of "ts" in millisecond-timestamp, "values" in associative array.')
+            );
+        }
+
+        throw_if(
+            !Str::isUuid($entityId),
+            $this->exception('method "entityId" argument must be a valid uuid.'),
+        );
+
+        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$entityType}/{$entityId}/timeseries/ANY/{$ttl}?scope=ANY", $payload)->successful();
+    }
+
+    /**
      * Delete time-series for selected entity based on entity id, entity type and keys.
      * Use 'deleteAllDataForKeys' to delete all time-series data. Use 'startTs' and 'endTs' to specify time-range instead.
      * Use 'rewriteLatestIfDeleted' to rewrite latest value (stored in separate table for performance) after deletion of the time range.
+     *
+     * @param EnumEntityType $entityType
+     *
+     * @param string $entityId
+     *
+     * @param array $keys
+     *
+     * @param bool $deleteAllDataForKeys
+     *
+     * @param int|null $startTs
+     *
+     * @param int|null $endTs
+     *
+     * @param bool|null $rewriteLatestIfDeleted
+     *
+     * @return bool
+     *
+     * @throws \Throwable
      *
      * @author Sabiee
      *
