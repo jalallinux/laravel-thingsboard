@@ -2,13 +2,13 @@
 
 namespace JalalLinuX\Thingsboard\Tests\Unit\Telemetry;
 
-use Illuminate\Support\Arr;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
+use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumTelemetryScope;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
-class SaveDeviceAttributesTest extends TestCase
+class SaveEntityAttributesV1Test extends TestCase
 {
     /**
      * @throws \Throwable
@@ -20,8 +20,8 @@ class SaveDeviceAttributesTest extends TestCase
         $scope = $this->faker->randomElement(array_diff(EnumTelemetryScope::cases(), [EnumTelemetryScope::CLIENT_SCOPE()]));
         $key = $this->faker->word();
         $value = $this->faker->word();
-        $result = thingsboard($tenantUser)->telemetry()->saveDeviceAttributes([$key => $value], $scope, $deviceId);
-        thingsboard($tenantUser)->telemetry()->deleteDeviceAttributes($scope, [$key], $deviceId);
+        $result = thingsboard($tenantUser)->telemetry()->saveEntityAttributesV1([$key => $value],EnumEntityType::DEVICE(), $deviceId, $scope);
+        thingsboard($tenantUser)->telemetry()->deleteEntityAttributes(EnumEntityType::DEVICE(), $deviceId, $scope, [$key]);
         $this->assertTrue($result);
     }
 
@@ -33,7 +33,7 @@ class SaveDeviceAttributesTest extends TestCase
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $this->expectExceptionCode(500);
         $this->expectExceptionMessageMatches('/payload/');
-        thingsboard($tenantUser)->telemetry()->saveDeviceAttributes([], EnumTelemetryScope::SERVER_SCOPE(), $this->faker->uuid);
+        thingsboard($tenantUser)->telemetry()->saveEntityAttributesV1([], EnumEntityType::DEVICE(), $this->faker->uuid, EnumTelemetryScope::SERVER_SCOPE());
     }
 
     /**
@@ -44,7 +44,7 @@ class SaveDeviceAttributesTest extends TestCase
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $this->expectExceptionCode(500);
         $this->expectExceptionMessageMatches('/scope/');
-        thingsboard($tenantUser)->telemetry()->saveDeviceAttributes(['a' => 'b'], EnumTelemetryScope::CLIENT_SCOPE(), $this->faker->uuid);
+        thingsboard($tenantUser)->telemetry()->saveEntityAttributesV1(['a' => 'b'],  EnumEntityType::DEVICE(), $this->faker->uuid, EnumTelemetryScope::CLIENT_SCOPE());
     }
 
     /**
@@ -54,7 +54,7 @@ class SaveDeviceAttributesTest extends TestCase
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $this->expectExceptionCode(500);
-        $this->expectExceptionMessageMatches('/deviceId/');
-        thingsboard($tenantUser)->telemetry()->saveDeviceAttributes(['a' => 'b'], EnumTelemetryScope::SHARED_SCOPE(), substr_replace($this->faker->uuid, 'z', -1));
+        $this->expectExceptionMessageMatches('/entityId/');
+        thingsboard($tenantUser)->telemetry()->saveEntityAttributesV1(['a' => 'b'],  EnumEntityType::DEVICE(), substr_replace($this->faker->uuid, 'z', -1), EnumTelemetryScope::SHARED_SCOPE());
     }
 }
