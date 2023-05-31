@@ -421,6 +421,11 @@ class Telemetry extends Tntity
         bool $deleteAllDataForKeys = false, int $startTs = null, int $endTs = null,
         bool $rewriteLatestIfDeleted = null)
     {
+        throw_if(
+            ! Str::isUuid($entityId),
+            $this->exception('method "entityId" argument must be a valid uuid.'),
+        );
+
         if (empty($keys)) {
             throw $this->exception('method "keys" argument cannot be empty!');
         }
@@ -428,11 +433,11 @@ class Telemetry extends Tntity
         if (! $deleteAllDataForKeys) {
             throw_if(
                 is_null($startTs),
-                $this->exception('method "entityId" argument must be a valid uuid.'),
+                $this->exception('method "startTs" can\'t be null when deleteAllDataForKeys is false'),
             );
             throw_if(
                 is_null($endTs),
-                $this->exception('method "entityId" argument must be a valid uuid.'),
+                $this->exception('method "endTs" can\'t be null when deleteAllDataForKeys is false'),
             );
         }
 
