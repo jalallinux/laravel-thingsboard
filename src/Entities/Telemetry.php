@@ -229,4 +229,31 @@ class Telemetry extends Tntity
         return $this->api(self::config('rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$entityType}/{$entityId}/attributes/{$scope}", $payload)->successful();
 
     }
+
+    /**
+     * Returns a set of unique attribute key names for the selected entity.
+     * The response will include merged key names set for all attribute scopes:
+     *
+     * SERVER_SCOPE - supported for all entity types;
+     * CLIENT_SCOPE - supported for devices;
+     * SHARED_SCOPE - supported for devices.
+     * Referencing a non-existing entity Id or invalid entity type will cause an error.
+     *
+     * @param EnumEntityType $entityType
+     * @param string $entityId
+     * @return array
+     * @throws \Throwable
+     * @author Sabiee
+     *
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function getAttributeKeys(EnumEntityType $entityType, string $entityId): array
+    {
+        throw_if(
+            !Str::isUuid($entityId),
+            $this->exception('method "entityId" argument must be a valid uuid.'),
+        );
+
+        return $this->api()->get("plugins/telemetry/{$entityType}/{$entityId}/keys/attributes")->json();
+    }
 }
