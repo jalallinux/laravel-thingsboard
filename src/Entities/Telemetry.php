@@ -239,10 +239,12 @@ class Telemetry extends Tntity
      * SHARED_SCOPE - supported for devices.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param EnumEntityType $entityType
-     * @param string $entityId
+     * @param  EnumEntityType  $entityType
+     * @param  string  $entityId
      * @return array
+     *
      * @throws \Throwable
+     *
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
@@ -250,7 +252,7 @@ class Telemetry extends Tntity
     public function getAttributeKeys(EnumEntityType $entityType, string $entityId): array
     {
         throw_if(
-            !Str::isUuid($entityId),
+            ! Str::isUuid($entityId),
             $this->exception('method "entityId" argument must be a valid uuid.'),
         );
 
