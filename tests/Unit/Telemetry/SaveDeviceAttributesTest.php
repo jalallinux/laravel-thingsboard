@@ -2,7 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Tests\Unit\Telemetry;
 
-use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumTelemetryScope;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
@@ -17,7 +17,7 @@ class SaveDeviceAttributesTest extends TestCase
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->first()->id->id;
-        $scope = $this->faker->randomElement(EnumTelemetryScope::cases());
+        $scope = $this->faker->randomElement(Arr::except(EnumTelemetryScope::cases(), EnumTelemetryScope::CLIENT_SCOPE()));
         $key = $this->faker->word();
         $value = $this->faker->word();
         $result = thingsboard($tenantUser)->telemetry()->saveDeviceAttributes([$key => $value], $scope, $deviceId);
@@ -33,7 +33,7 @@ class SaveDeviceAttributesTest extends TestCase
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $this->expectExceptionCode(500);
         $this->expectExceptionMessageMatches('/payload/');
-        thingsboard($tenantUser)->telemetry()->saveDeviceAttributes([], EnumTelemetryScope::SERVER_SCOPE(), Str::uuid());
+        thingsboard($tenantUser)->telemetry()->saveDeviceAttributes([], EnumTelemetryScope::SERVER_SCOPE(), $this->faker->uuid);
     }
 
     /**
@@ -44,7 +44,7 @@ class SaveDeviceAttributesTest extends TestCase
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $this->expectExceptionCode(500);
         $this->expectExceptionMessageMatches('/scope/');
-        thingsboard($tenantUser)->telemetry()->saveDeviceAttributes(['a' => 'b'], EnumTelemetryScope::CLIENT_SCOPE(), Str::uuid());
+        thingsboard($tenantUser)->telemetry()->saveDeviceAttributes(['a' => 'b'], EnumTelemetryScope::CLIENT_SCOPE(), $this->faker->uuid);
     }
 
     /**
