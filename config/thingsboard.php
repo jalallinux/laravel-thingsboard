@@ -9,6 +9,11 @@ return [
         ],
     ],
 
+    'default' => [
+        'tenant_id' => '13814000-1dd2-11b2-8080-808080808080',
+        'customer_id' => '13814000-1dd2-11b2-8080-808080808080',
+    ],
+
     'rest' => [
         'base_uri' => env('THINGSBOARD_BASE_URI', 'localhost:9090'),
         'authorization' => [

@@ -52,7 +52,7 @@ class WidgetBundle extends Tntity
 
     public function getSystematicAttribute(): bool
     {
-        return $this->tenantId->id == '13814000-1dd2-11b2-8080-808080808080';
+        return $this->tenantId->id == self::config('default.tenant_id');
     }
 
     /**
