@@ -16,5 +16,7 @@ class TelemetryTest extends TestCase
             ['ts' => $this->faker->dateTimeBetween('-5 years')->getTimestamp() * 1000, 'values' => ['test-temperature' => $this->faker->numerify('##')]],
             ['ts' => $this->faker->dateTimeBetween('-5 years')->getTimestamp() * 1000, 'values' => ['test-humidity' => $this->faker->numerify('##')]],
         ]);
+
+        $this->assertTrue(true);
     }
 }
