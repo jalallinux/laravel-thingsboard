@@ -21,14 +21,13 @@ class LaravelThingsboardServiceProvider extends ServiceProvider
 
     protected function registerPublishing(): void
     {
-        if ($this->app->runningInConsole())
-        {
+        if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/thingsboard.php' => config_path('thingsboard.php')
+                __DIR__.'/../config/thingsboard.php' => config_path('thingsboard.php'),
             ], 'config');
 
             $this->publishes([
-                __DIR__.'/../lang' => lang_path("vendor/laravel-thingsboard")
+                __DIR__.'/../lang' => lang_path('vendor/laravel-thingsboard'),
             ], 'lang');
         }
     }
