@@ -2,10 +2,10 @@
 
 namespace JalalLinuX\Thingsboard\Casts;
 
+use JalalLinuX\Thingsboard\Exceptions\Exception;
 use JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\Configuration\Configuration;
 use JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\ProfileData;
 use JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\QueueConfiguration\QueueConfiguration;
-use JalalLinuX\Thingsboard\Exceptions\Exception;
 use Vkovic\LaravelCustomCasts\CustomCastBase;
 
 class CastTenantProfileDataConfiguration extends CustomCastBase

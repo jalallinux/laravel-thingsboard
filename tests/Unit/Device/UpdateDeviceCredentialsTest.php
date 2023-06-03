@@ -18,7 +18,7 @@ class UpdateDeviceCredentialsTest extends TestCase
         $originalId = $deviceCredentials->credentialsId();
 
         $this->expectExceptionCode(500);
-        $this->expectExceptionMessageMatches("/32 character/");
+        $this->expectExceptionMessageMatches('/32 character/');
         $deviceCredentials->setCredentialsId($this->faker->slug(30));
 
         $newId = substr($this->faker->slug, 0, 32);
