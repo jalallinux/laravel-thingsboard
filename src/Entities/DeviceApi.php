@@ -2,7 +2,9 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
+use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 class DeviceApi extends Tntity
@@ -36,15 +38,12 @@ class DeviceApi extends Tntity
      */
     public function postTelemetry(array $payload, string $deviceToken = null): bool
     {
-        throw_if(
-            empty($payload),
-            $this->exception(__('thingsboard::validation.array_of', ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']))
-        );
+        Thingsboard::validation(empty($payload),'array_of', ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']);
 
         foreach ($payload as $row) {
-            throw_if(
+            Thingsboard::validation(
                 ! array_key_exists('ts', $row) || strlen($row['ts']) != 13 || ! array_key_exists('values', $row) || ! isArrayAssoc($row['values']),
-                $this->exception(__('thingsboard::validation.array_of', ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']))
+                'array_of', ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']
             );
         }
 
@@ -82,10 +81,7 @@ class DeviceApi extends Tntity
      */
     public function postDeviceAttributes(array $payload, string $deviceToken = null): bool
     {
-        throw_if(
-            ! isArrayAssoc($payload),
-            $this->exception(__('thingsboard::validation.assoc_array', ['attribute' => 'payload']))
-        );
+        Thingsboard::validation(! isArrayAssoc($payload), 'assoc_array', ['attribute' => 'payload']);
 
         $deviceToken = $deviceToken ?? $this->forceAttribute('deviceToken');
 

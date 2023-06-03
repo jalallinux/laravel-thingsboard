@@ -10,6 +10,7 @@ use JalalLinuX\Thingsboard\Enums\EnumRpcStatus;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -110,10 +111,7 @@ class Rpc extends Tntity
      */
     public function sendOneWay(string $deviceId, string $method, array $params): bool
     {
-        throw_if(
-            ! Str::isUuid($deviceId),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'deviceId'])),
-        );
+        Thingsboard::validation(! Str::isUuid($deviceId), 'uuid', ['attribute' => 'deviceId']);
 
         $payload = $this->fill(['method' => $method, 'params' => $params])->toArray();
 
@@ -161,10 +159,7 @@ class Rpc extends Tntity
     {
         $deviceId = $deviceId ?? $this->forceAttribute('deviceId');
 
-        throw_if(
-            ! Str::isUuid($deviceId),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'deviceId'])),
-        );
+        Thingsboard::validation(! Str::isUuid($deviceId), 'uuid', ['attribute' => 'deviceId']);
 
         $payload = $this->fill(['method' => $method, 'params' => $params])->toArray();
 
@@ -187,10 +182,7 @@ class Rpc extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id');
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'id'])),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'id']);
 
         $rpc = $this->api()->get("rpc/persistent/{$id}")->json();
 
@@ -213,10 +205,7 @@ class Rpc extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id');
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'id'])),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'id']);
 
         return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("rpc/persistent/{$id}")->successful();
     }
@@ -241,10 +230,7 @@ class Rpc extends Tntity
 
         $deviceId = $deviceId ?? $this->forceAttribute('deviceId');
 
-        throw_if(
-            ! Str::isUuid($deviceId),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'deviceId'])),
-        );
+        Thingsboard::validation(! Str::isUuid($deviceId), 'uuid', ['attribute' => 'deviceId']);
 
         $response = $this->api()->get("rpc/persistent/device/{$deviceId}", $paginationArguments->queryParams([
             'rpcStatus' => $rpcStatus,

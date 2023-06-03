@@ -9,6 +9,7 @@ use JalalLinuX\Thingsboard\Enums\EnumTenantSortProperty;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -125,10 +126,7 @@ class Tenant extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'tenantId'])),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'tenantId']);
 
         $tenant = $this->api()->get("tenant/info/{$id}")->json();
 
@@ -152,10 +150,7 @@ class Tenant extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'tenantId'])),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'tenantId']);
 
         return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("tenant/{$id}")->successful();
     }

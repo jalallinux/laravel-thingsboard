@@ -11,6 +11,7 @@ use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\ProfileData;
+use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -129,10 +130,7 @@ class TenantProfile extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'tenantProfileId'])),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'tenantProfileId']);
 
         return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("tenantProfile/{$id}")->successful();
     }
@@ -153,10 +151,7 @@ class TenantProfile extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'tenantProfileId'])),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'tenantProfileId']);
 
         $tenantProfile = $this->api()->get("tenantProfile/{$id}")->json();
 
@@ -204,10 +199,7 @@ class TenantProfile extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'tenantProfileId'])),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'tenantProfileId']);
 
         $tenantProfile = $this->api()->get("tenantProfileInfo/{$id}")->json();
 
@@ -255,10 +247,7 @@ class TenantProfile extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'tenantProfileId'])),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'tenantProfileId']);
 
         $tenantProfile = $this->api()->post("tenantProfile/{$id}/default", $this->attributes)->json();
         if ($sync) {
@@ -306,10 +295,7 @@ class TenantProfile extends Tntity
     public function getTenantProfilesByIds(array $ids): array
     {
         foreach ($ids as $id) {
-            throw_if(
-                ! Str::isUuid($id),
-                $this->exception(__('thingsboard::validation.array_of', ['attribute' => 'ids', 'struct' => 'uuid'])),
-            );
+            Thingsboard::validation(! Str::isUuid($id), 'array_of', ['attribute' => 'ids', 'struct' => 'uuid']);
         }
 
         $tenantProfiles = $this->api()->get('/tenantProfiles', ['ids' => implode(',', $ids)])->json();

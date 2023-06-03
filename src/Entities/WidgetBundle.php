@@ -11,6 +11,7 @@ use JalalLinuX\Thingsboard\Infrastructure\Base64Image;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -116,10 +117,7 @@ class WidgetBundle extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'widgetBundleId'])),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'widgetBundleId']);
 
         $widgetBundle = $this->api()->get("widgetsBundle/{$id}")->json();
 
@@ -143,10 +141,7 @@ class WidgetBundle extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'widgetBundleId'])),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'widgetBundleId']);
 
         return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("widgetsBundle/{$id}")->successful();
     }

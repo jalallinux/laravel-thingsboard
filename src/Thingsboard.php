@@ -4,6 +4,7 @@ namespace JalalLinuX\Thingsboard;
 
 use DateTimeInterface;
 use JalalLinuX\Thingsboard\Entities\Auth;
+use JalalLinuX\Thingsboard\Exceptions\Exception;
 use JalalLinuX\Thingsboard\Infrastructure\CacheHandler;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 
@@ -70,5 +71,19 @@ class Thingsboard
         }
 
         return Auth::instance()->login($mail, $user->getThingsboardPasswordAttribute())->token;
+    }
+
+    public static function validation(bool $condition, string $messageKey, array $replaces = []): void
+    {
+        throw_if(
+            $condition, new Exception(__("thingsboard::validation.{$messageKey}", $replaces))
+        );
+    }
+
+    public static function exception(bool $condition, string $messageKey, int $code, array $replaces = []): void
+    {
+        throw_if(
+            $condition, new Exception(__("thingsboard::exception.{$messageKey}", $replaces), $code)
+        );
     }
 }

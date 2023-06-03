@@ -10,6 +10,7 @@ use JalalLinuX\Thingsboard\Enums\EnumUserSortProperty;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -96,10 +97,7 @@ class User extends Tntity
     {
         $customerId = $customerId ?? $this->forceAttribute('customerId')->id;
 
-        throw_if(
-            ! Str::isUuid($customerId),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'customerId'])),
-        );
+        Thingsboard::validation(! Str::isUuid($customerId), 'uuid', ['attribute' => 'customerId']);
 
         $paginationArguments->validateSortProperty(EnumUserSortProperty::class);
 
@@ -128,10 +126,7 @@ class User extends Tntity
     {
         $tenantId = $tenantId ?? $this->forceAttribute('tenantId')->id;
 
-        throw_if(
-            ! Str::isUuid($tenantId),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'tenantId'])),
-        );
+        Thingsboard::validation(! Str::isUuid($tenantId), 'uuid', ['attribute' => 'tenantId']);
 
         $paginationArguments->validateSortProperty(EnumUserSortProperty::class);
 
@@ -185,10 +180,7 @@ class User extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'userId'])),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'userId']);
 
         return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("user/{$id}")->successful();
     }
@@ -212,10 +204,7 @@ class User extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'userId'])),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'userId']);
 
         $user = $this->api()->get("user/{$id}")->json();
 
@@ -239,10 +228,7 @@ class User extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'userId'])),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'userId']);
 
         return $this->api()->get("user/{$id}/activationLink")->body();
     }

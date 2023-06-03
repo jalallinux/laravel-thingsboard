@@ -9,6 +9,7 @@ use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -111,10 +112,7 @@ class DeviceProfile extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'deviceProfileId'])),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'deviceProfileId']);
 
         $deviceProfile = $this->api()->get("deviceProfile/{$id}")->json();
 
@@ -204,10 +202,7 @@ class DeviceProfile extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'deviceProfileId'])),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'deviceProfileId']);
 
         return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("deviceProfile/{$id}")->successful();
     }
@@ -228,10 +223,7 @@ class DeviceProfile extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'deviceProfileId'])),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'deviceProfileId']);
 
         $deviceProfile = $this->api()->post("deviceProfile/{$id}/default", $this->attributes)->json();
 
@@ -301,10 +293,7 @@ class DeviceProfile extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'deviceProfileId'])),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'deviceProfileId']);
 
         $deviceProfile = $this->api()->get("deviceProfileInfo/{$id}")->json();
 

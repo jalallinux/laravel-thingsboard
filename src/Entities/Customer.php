@@ -9,6 +9,7 @@ use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -118,10 +119,7 @@ class Customer extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'customerId'])),
-        );
+        Thingsboard::validation(! Str::isUuid($id),'uuid', ['attribute' => 'customerId']);
 
         $customer = $this->api()->get("customer/{$id}")->json();
 
@@ -146,10 +144,7 @@ class Customer extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'customerId'])),
-        );
+        Thingsboard::validation(! Str::isUuid($id),'uuid', ['attribute' => 'customerId']);
 
         return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("customer/{$id}")->successful();
     }

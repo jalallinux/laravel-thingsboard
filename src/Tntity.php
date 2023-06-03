@@ -7,6 +7,7 @@ use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Exceptions\Exception;
 use JalalLinuX\Thingsboard\Exceptions\ThingsboardExceptionHandler;
@@ -31,7 +32,7 @@ abstract class Tntity extends Model
         $request = Http::baseUrl("{$baseUri}/api");
 
         if ($auth) {
-            throw_if(! isset($this->_thingsboardUser), $this->exception(__('thingsboard::exception.with_token'), 401));
+            Thingsboard::exception(! isset($this->_thingsboardUser), 'with_token', 401);
             $request = $request->withHeaders([
                 self::config('rest.authorization.header_key') => self::config('rest.authorization.token_type').' '.Thingsboard::fetchUserToken($this->_thingsboardUser),
             ]);
@@ -54,10 +55,7 @@ abstract class Tntity extends Model
 
     public function forceAttribute($key)
     {
-        throw_if(
-            is_null($value = @$this->{$key}),
-            $this->exception(__('thingsboard::validation.required', ['attribute' => $key]))
-        );
+        Thingsboard::validation(is_null($value = @$this->{$key}), 'required', ['attribute' => $key]);
 
         return $value;
     }
@@ -69,13 +67,6 @@ abstract class Tntity extends Model
         }
 
         return $this->attributes;
-    }
-
-    protected function exception(string $message, $code = 500): Exception
-    {
-        $message = debug_backtrace()[1]['class'].'@'.debug_backtrace()[1]['function'].": {$message}";
-
-        return new Exception($message, $code);
     }
 
     public function toResource(string $class): JsonResource
