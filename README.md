@@ -6,7 +6,7 @@
 
 
 
-
+[![Latest Stable Version](https://poser.pugx.org/jalallinux/laravel-thingsboard/v)](https://packagist.org/packages/jalallinux/laravel-thingsboard)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/jalallinux/laravel-thingsboard.svg?style=flat-square)](https://packagist.org/packages/jalallinux/laravel-thingsboard)
 [![Tests](https://github.com/jalallinux/laravel-thingsboard/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/jalallinux/laravel-thingsboard/actions/workflows/run-tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/jalallinux/laravel-thingsboard.svg?style=flat-square)](https://packagist.org/packages/jalallinux/laravel-thingsboard)
