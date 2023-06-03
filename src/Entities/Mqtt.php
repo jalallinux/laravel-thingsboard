@@ -24,6 +24,7 @@ class Mqtt
         );
 
         $mqtt->connect(Thingsboard::connectionSetting($this->accessToken));
+
         return $mqtt;
     }
 
@@ -33,7 +34,7 @@ class Mqtt
 
         foreach ($payload as $row) {
             Thingsboard::validation(
-                !array_key_exists('ts', $row) || strlen($row['ts']) != 13 || !array_key_exists('values', $row) || !isArrayAssoc($row['values']),
+                ! array_key_exists('ts', $row) || strlen($row['ts']) != 13 || ! array_key_exists('values', $row) || ! isArrayAssoc($row['values']),
                 'array_of', ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']
             );
         }
@@ -50,7 +51,7 @@ class Mqtt
 
     public function subscribeRequest(string $requestId = null)
     {
-        $topic = is_null($requestId) ? config('thingsboard.mqtt.topics.request') : rtrim(config('thingsboard.mqtt.topics.request'), '+') . $requestId;
+        $topic = is_null($requestId) ? config('thingsboard.mqtt.topics.request') : rtrim(config('thingsboard.mqtt.topics.request'), '+').$requestId;
 
         dd($topic);
 
@@ -58,7 +59,7 @@ class Mqtt
 
     public function subscribeRpc(string $requestId = null)
     {
-        $topic = is_null($requestId) ? config('thingsboard.mqtt.topics.request') : rtrim(config('thingsboard.mqtt.topics.request'), '+') . $requestId;
+        $topic = is_null($requestId) ? config('thingsboard.mqtt.topics.request') : rtrim(config('thingsboard.mqtt.topics.request'), '+').$requestId;
 
         dd($topic);
 
