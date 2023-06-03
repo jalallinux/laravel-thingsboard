@@ -24,7 +24,8 @@
         "illuminate/support": "^9.0|^10.0",
         "jenssegers/model": "^1.5",
         "spatie/laravel-enum": "^3.0",
-        "vkovic/laravel-custom-casts": "^1.4"
+        "vkovic/laravel-custom-casts": "^1.4",
+        "ext-fileinfo": "*"
     },
     "require-dev": {
         "laravel/pint": "*",

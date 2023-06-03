@@ -23,6 +23,7 @@ use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
  * @method Entities\AdminSystemInfo adminSystemInfo(array $attributes = [])
  * @method Entities\AdminUpdates adminUpdates(array $attributes = [])
  * @method Entities\Telemetry telemetry(array $attributes = [])
+ * @method Entities\WidgetBundle widgetBundle(array $attributes = [])
  */
 class Thingsboard
 {
