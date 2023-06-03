@@ -4,7 +4,6 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\WidgetType;
 
 use JalalLinuX\Thingsboard\Entities\WidgetType;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
-use JalalLinuX\Thingsboard\Infrastructure\Base64Image;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 

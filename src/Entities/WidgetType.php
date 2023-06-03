@@ -2,13 +2,11 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
-use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastBase64Image;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Base64Image;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
-use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -53,40 +51,46 @@ class WidgetType extends Tntity
      * Get the Widget Type based on the provided parameters.
      * Widget Type represents the template for widget creation.
      * Widget Type and Widget are similar to class and object in OOP theory.
-     * @param bool $isSystem
-     * @param string|null $bundleAlias
-     * @param string|null $alias
+     *
+     * @param  bool  $isSystem
+     * @param  string|null  $bundleAlias
+     * @param  string|null  $alias
      * @return self
+     *
      * @author JalalLinuX
+     *
      * @group *
      */
     public function getWidgetType(string $bundleAlias = null, string $alias = null, bool $isSystem = true): static
     {
         [$bundleAlias, $alias] = [
-            $bundleAlias ?? $this->forceAttribute('bundleAlias'), $alias ?? $this->forceAttribute('alias')
+            $bundleAlias ?? $this->forceAttribute('bundleAlias'), $alias ?? $this->forceAttribute('alias'),
         ];
 
-        $widgetType = $this->api()->get("widgetType", [
+        $widgetType = $this->api()->get('widgetType', [
             'isSystem' => $isSystem, 'bundleAlias' => $bundleAlias, 'alias' => $alias,
         ])->json();
 
-        return tap($this, fn() => $this->fill($widgetType));
+        return tap($this, fn () => $this->fill($widgetType));
     }
 
     /**
      * Get the Widget Type Info objects based on the provided parameters.
      * Widget Type Info is a lightweight object that represents Widget Type but does not contain the heavyweight widget descriptor JSON
-     * @param bool $isSystem
-     * @param string|null $bundleAlias
+     *
+     * @param  bool  $isSystem
+     * @param  string|null  $bundleAlias
      * @return self[]
+     *
      * @author JalalLinuX
+     *
      * @group *
      */
     public function getBundleWidgetTypesInfos(string $bundleAlias = null, bool $isSystem = true): array
     {
         $bundleAlias = $bundleAlias ?? $this->forceAttribute('bundleAlias');
 
-        $widgetTypes = $this->api()->get("widgetTypesInfos", ['isSystem' => $isSystem, 'bundleAlias' => $bundleAlias,])->json();
+        $widgetTypes = $this->api()->get('widgetTypesInfos', ['isSystem' => $isSystem, 'bundleAlias' => $bundleAlias])->json();
 
         return array_map(fn ($widgetType) => new self($widgetType), $widgetTypes);
     }
