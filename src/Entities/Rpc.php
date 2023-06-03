@@ -112,7 +112,7 @@ class Rpc extends Tntity
     {
         throw_if(
             ! Str::isUuid($deviceId),
-            $this->exception('method "deviceId" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'deviceId'])),
         );
 
         $payload = $this->fill(['method' => $method, 'params' => $params])->toArray();
@@ -163,7 +163,7 @@ class Rpc extends Tntity
 
         throw_if(
             ! Str::isUuid($deviceId),
-            $this->exception('method "deviceId" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'deviceId'])),
         );
 
         $payload = $this->fill(['method' => $method, 'params' => $params])->toArray();
@@ -189,7 +189,7 @@ class Rpc extends Tntity
 
         throw_if(
             ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'id'])),
         );
 
         $rpc = $this->api()->get("rpc/persistent/{$id}")->json();
@@ -215,7 +215,7 @@ class Rpc extends Tntity
 
         throw_if(
             ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'id'])),
         );
 
         return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("rpc/persistent/{$id}")->successful();
@@ -243,7 +243,7 @@ class Rpc extends Tntity
 
         throw_if(
             ! Str::isUuid($deviceId),
-            $this->exception('method "deviceId" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'deviceId'])),
         );
 
         $response = $this->api()->get("rpc/persistent/device/{$deviceId}", $paginationArguments->queryParams([

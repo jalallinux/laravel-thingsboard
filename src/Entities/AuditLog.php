@@ -109,7 +109,7 @@ class AuditLog extends Tntity
     {
         throw_if(
             ! Str::isUuid($customerId),
-            $this->exception('method "customerId" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'customerId'])),
         );
 
         $payload = $paginationArguments->queryParams([
@@ -143,7 +143,7 @@ class AuditLog extends Tntity
     {
         throw_if(
             ! Str::isUuid($userId),
-            $this->exception('method "userId" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'userId'])),
         );
 
         $payload = $paginationArguments->queryParams([

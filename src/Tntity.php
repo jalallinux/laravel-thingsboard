@@ -31,7 +31,7 @@ abstract class Tntity extends Model
         $request = Http::baseUrl("{$baseUri}/api");
 
         if ($auth) {
-            throw_if(! isset($this->_thingsboardUser), $this->exception('method need authentication token.', 401));
+            throw_if(! isset($this->_thingsboardUser), $this->exception(__('thingsboard::exception.with_token'), 401));
             $request = $request->withHeaders([
                 self::config('rest.authorization.header_key') => self::config('rest.authorization.token_type').' '.Thingsboard::fetchUserToken($this->_thingsboardUser),
             ]);
@@ -56,7 +56,7 @@ abstract class Tntity extends Model
     {
         throw_if(
             is_null($value = @$this->{$key}),
-            $this->exception("{$key} attribute is required.")
+            $this->exception(__("thingsboard::validation.required", ['attribute' => $key]))
         );
 
         return $value;

@@ -90,7 +90,7 @@ class Device extends Tntity
 
         throw_if(
             ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'deviceId'])),
         );
 
         $device = $this->api()->get("device/{$id}")->json();
@@ -115,7 +115,7 @@ class Device extends Tntity
         foreach ($ids as $id) {
             throw_if(
                 ! Str::isUuid($id),
-                $this->exception('method "ids" argument must be a valid array of uuid.'),
+                $this->exception(__("thingsboard::validation.array_of", ['attribute' => 'ids', 'struct' => 'uuid'])),
             );
         }
 
@@ -145,7 +145,7 @@ class Device extends Tntity
 
         throw_if(
             ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'deviceId'])),
         );
 
         $device = $this->api()->get("device/info/{$id}")->json();
@@ -233,7 +233,7 @@ class Device extends Tntity
 
         throw_if(
             ! Str::isUuid($id) || ! Str::isUuid($customerId),
-            $this->exception('method "id", "customerId" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'customerId and deviceId'])),
         );
 
         $device = $this->api()->post("customer/{$customerId}/device/{$id}")->json();
@@ -260,7 +260,7 @@ class Device extends Tntity
 
         throw_if(
             ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'deviceId'])),
         );
 
         return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("customer/device/{$id}")->successful();
@@ -285,7 +285,7 @@ class Device extends Tntity
 
         throw_if(
             ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'deviceId'])),
         );
 
         return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("device/{$id}")->successful();
@@ -344,7 +344,7 @@ class Device extends Tntity
 
         throw_if(
             ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'deviceId'])),
         );
 
         return new DeviceCredentials($this->api()->get("device/{$id}/credentials")->json());

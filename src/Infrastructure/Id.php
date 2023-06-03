@@ -16,7 +16,7 @@ class Id
     {
         throw_if(
             ! Str::isUuid($id),
-            new Exception('Id must be a valid uuid.')
+            new Exception(__('thingsboard::validation.uuid', ['attribute' => 'id']))
         );
         $this->id = $id;
         $this->entityType = EnumEntityType::from($entityType);

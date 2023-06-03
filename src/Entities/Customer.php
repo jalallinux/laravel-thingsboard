@@ -120,7 +120,7 @@ class Customer extends Tntity
 
         throw_if(
             ! Str::isUuid($id),
-            $this->exception('method argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'customerId'])),
         );
 
         $customer = $this->api()->get("customer/{$id}")->json();
@@ -148,7 +148,7 @@ class Customer extends Tntity
 
         throw_if(
             ! Str::isUuid($id),
-            $this->exception('method argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'customerId'])),
         );
 
         return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("customer/{$id}")->successful();

@@ -113,7 +113,7 @@ class DeviceProfile extends Tntity
 
         throw_if(
             ! Str::isUuid($id),
-            $this->exception('method argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'deviceProfileId'])),
         );
 
         $deviceProfile = $this->api()->get("deviceProfile/{$id}")->json();
@@ -206,7 +206,7 @@ class DeviceProfile extends Tntity
 
         throw_if(
             ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'deviceProfileId'])),
         );
 
         return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("deviceProfile/{$id}")->successful();
@@ -230,7 +230,7 @@ class DeviceProfile extends Tntity
 
         throw_if(
             ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'deviceProfileId'])),
         );
 
         $deviceProfile = $this->api()->post("deviceProfile/{$id}/default", $this->attributes)->json();
@@ -303,7 +303,7 @@ class DeviceProfile extends Tntity
 
         throw_if(
             ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'deviceProfileId'])),
         );
 
         $deviceProfile = $this->api()->get("deviceProfileInfo/{$id}")->json();

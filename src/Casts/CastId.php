@@ -21,7 +21,7 @@ class CastId extends CustomCastBase
         }
 
         throw_if(! is_array($value) || ! array_key_exists('id', $value) || ! array_key_exists('entityType', $value), new Exception('Attribute must have id, entityType key in a array.'));
-        throw_if(! Str::isUuid($value['id']), new Exception('Id must be a valid uuid.'));
+        throw_if(! Str::isUuid($value['id']), new Exception(__('thingsboard::validation.uuid', ['attribute' => 'id'])));
 
         return [
             'id' => $value['id'],

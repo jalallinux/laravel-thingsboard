@@ -131,7 +131,7 @@ class TenantProfile extends Tntity
 
         throw_if(
             ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'tenantProfileId'])),
         );
 
         return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("tenantProfile/{$id}")->successful();
@@ -155,7 +155,7 @@ class TenantProfile extends Tntity
 
         throw_if(
             ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'tenantProfileId'])),
         );
 
         $tenantProfile = $this->api()->get("tenantProfile/{$id}")->json();
@@ -206,7 +206,7 @@ class TenantProfile extends Tntity
 
         throw_if(
             ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'tenantProfileId'])),
         );
 
         $tenantProfile = $this->api()->get("tenantProfileInfo/{$id}")->json();
@@ -257,7 +257,7 @@ class TenantProfile extends Tntity
 
         throw_if(
             ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'tenantProfileId'])),
         );
 
         $tenantProfile = $this->api()->post("tenantProfile/{$id}/default", $this->attributes)->json();
@@ -308,7 +308,7 @@ class TenantProfile extends Tntity
         foreach ($ids as $id) {
             throw_if(
                 ! Str::isUuid($id),
-                $this->exception('method "ids" argument must be a valid array of uuid.'),
+                $this->exception(__("thingsboard::validation.array_of", ['attribute' => 'ids', 'struct' => 'uuid'])),
             );
         }
 

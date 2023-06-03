@@ -98,7 +98,7 @@ class User extends Tntity
 
         throw_if(
             ! Str::isUuid($customerId),
-            $this->exception('method "customerId" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'customerId'])),
         );
 
         $paginationArguments->validateSortProperty(EnumUserSortProperty::class);
@@ -130,7 +130,7 @@ class User extends Tntity
 
         throw_if(
             ! Str::isUuid($tenantId),
-            $this->exception('method "tenantId" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'tenantId'])),
         );
 
         $paginationArguments->validateSortProperty(EnumUserSortProperty::class);
@@ -187,7 +187,7 @@ class User extends Tntity
 
         throw_if(
             ! Str::isUuid($id),
-            $this->exception('method argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'userId'])),
         );
 
         return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("user/{$id}")->successful();
@@ -214,7 +214,7 @@ class User extends Tntity
 
         throw_if(
             ! Str::isUuid($id),
-            $this->exception('method argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'userId'])),
         );
 
         $user = $this->api()->get("user/{$id}")->json();
@@ -241,7 +241,7 @@ class User extends Tntity
 
         throw_if(
             ! Str::isUuid($id),
-            $this->exception('method argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'userId'])),
         );
 
         return $this->api()->get("user/{$id}/activationLink")->body();

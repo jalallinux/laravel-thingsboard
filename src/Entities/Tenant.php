@@ -127,7 +127,7 @@ class Tenant extends Tntity
 
         throw_if(
             ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'tenantId'])),
         );
 
         $tenant = $this->api()->get("tenant/info/{$id}")->json();
@@ -154,7 +154,7 @@ class Tenant extends Tntity
 
         throw_if(
             ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
+            $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'tenantId'])),
         );
 
         return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("tenant/{$id}")->successful();

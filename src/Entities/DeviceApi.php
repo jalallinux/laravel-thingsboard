@@ -36,14 +36,15 @@ class DeviceApi extends Tntity
      */
     public function postTelemetry(array $payload, string $deviceToken = null): bool
     {
-        if (empty($payload)) {
-            throw $this->exception('method argument must be array of ["ts" => in millisecond-timestamp, "values" => in associative array]');
-        }
+        throw_if(
+            empty($payload),
+            $this->exception(__("thingsboard::validation.array_of", ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']))
+        );
 
         foreach ($payload as $row) {
             throw_if(
                 ! array_key_exists('ts', $row) || strlen($row['ts']) != 13 || ! array_key_exists('values', $row) || ! isArrayAssoc($row['values']),
-                $this->exception('method argument must be array of "ts" in millisecond-timestamp, "values" in associative array.')
+                $this->exception(__("thingsboard::validation.array_of", ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']))
             );
         }
 
@@ -83,7 +84,7 @@ class DeviceApi extends Tntity
     {
         throw_if(
             ! isArrayAssoc($payload),
-            $this->exception('method argument must be associative array.')
+            $this->exception(__("thingsboard::validation.assoc_array", ['attribute' => 'payload']))
         );
 
         $deviceToken = $deviceToken ?? $this->forceAttribute('deviceToken');
