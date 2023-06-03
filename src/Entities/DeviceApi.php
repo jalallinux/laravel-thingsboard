@@ -2,7 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
-use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
@@ -38,7 +37,7 @@ class DeviceApi extends Tntity
      */
     public function postTelemetry(array $payload, string $deviceToken = null): bool
     {
-        Thingsboard::validation(empty($payload),'array_of', ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']);
+        Thingsboard::validation(empty($payload), 'array_of', ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']);
 
         foreach ($payload as $row) {
             Thingsboard::validation(

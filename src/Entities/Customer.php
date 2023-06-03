@@ -119,7 +119,7 @@ class Customer extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        Thingsboard::validation(! Str::isUuid($id),'uuid', ['attribute' => 'customerId']);
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'customerId']);
 
         $customer = $this->api()->get("customer/{$id}")->json();
 
@@ -144,7 +144,7 @@ class Customer extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        Thingsboard::validation(! Str::isUuid($id),'uuid', ['attribute' => 'customerId']);
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'customerId']);
 
         return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("customer/{$id}")->successful();
     }
