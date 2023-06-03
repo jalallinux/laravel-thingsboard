@@ -34,6 +34,7 @@ class GetAuditLogsTest extends TestCase
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         try {
+            thingsboard()->auth()->login($tenantUser->getThingsboardEmailAttribute(), $tenantUser->getThingsboardPasswordAttribute());
             thingsboard()->auth()->login($tenantUser->getThingsboardEmailAttribute(), $this->faker->password);
         } catch (\Exception $exception) {
         }
