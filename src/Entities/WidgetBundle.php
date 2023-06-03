@@ -55,15 +55,19 @@ class WidgetBundle extends Tntity
      * You can specify parameters to filter the results.
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
-     * @param PaginationArguments $paginationArguments
+     *
+     * @param  PaginationArguments  $paginationArguments
      * @return PaginatedResponse
+     *
      * @author JalalLinuX
+     *
      * @group *
      */
     public function getWidgetsBundles(PaginationArguments $paginationArguments): PaginatedResponse
     {
         $paginationArguments->validateSortProperty(EnumWidgetBundleSortProperty::class);
-        $response = $this->api()->get("widgetsBundles", $paginationArguments->queryParams());
+        $response = $this->api()->get('widgetsBundles', $paginationArguments->queryParams());
+
         return $this->paginatedResponse($response, $paginationArguments);
     }
 
@@ -74,24 +78,32 @@ class WidgetBundle extends Tntity
      * You can specify parameters to filter the results.
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
+     *
      * @return self[]
+     *
      * @author JalalLinuX
+     *
      * @group *
      */
     public function getAllWidgetsBundles(): array
     {
-        $widgetBundles = $this->api()->get("widgetsBundles")->json();
-        return array_map(fn($widgetBundle) => new self($widgetBundle), $widgetBundles);
+        $widgetBundles = $this->api()->get('widgetsBundles')->json();
+
+        return array_map(fn ($widgetBundle) => new self($widgetBundle), $widgetBundles);
     }
 
     /**
      * Get the Widget Bundle based on the provided Widget Bundle ID.
      * Widget Bundle represents a group(bundle) of widgets.
      * Widgets are grouped into bundle by type or use case.
-     * @param string|null $id
+     *
+     * @param  string|null  $id
      * @return self
+     *
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group *
      */
     public function getWidgetsBundleById(string $id = null): static
@@ -111,10 +123,14 @@ class WidgetBundle extends Tntity
     /**
      * Deletes the widget bundle.
      * Referencing non-existing Widget Bundle ID will cause an error.
-     * @param string|null $id
+     *
+     * @param  string|null  $id
      * @return bool
+     *
      * @throws \Throwable
+     *
      * @author JalalLinuX
+     *
      * @group SYS_ADMIN | TENANT_ADMIN
      */
     public function deleteWidgetsBundle(string $id = null): bool
@@ -140,9 +156,12 @@ class WidgetBundle extends Tntity
      * Widget Bundle alias is unique in the scope of tenant.
      * Special Tenant ID '13814000-1dd2-11b2-8080-808080808080' is automatically used if the create bundle request is sent by user with 'SYS_ADMIN' authority.
      * Remove 'id', 'tenantId' from the request body example (below) to create new Widgets Bundle entity.
-     * @param string|null $title
+     *
+     * @param  string|null  $title
      * @return self
+     *
      * @author JalalLinuX
+     *
      * @group SYS_ADMIN | TENANT_ADMIN
      */
     public function saveWidgetsBundle(string $title = null): static
@@ -151,7 +170,7 @@ class WidgetBundle extends Tntity
             'title' => $title ?? $this->forceAttribute('title'),
         ]);
 
-        $widgetBundle = $this->api()->post("widgetsBundle", $payload)->json();
+        $widgetBundle = $this->api()->post('widgetsBundle', $payload)->json();
 
         return tap($this, fn () => $this->fill($widgetBundle));
     }

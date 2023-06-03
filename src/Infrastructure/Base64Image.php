@@ -15,7 +15,7 @@ class Base64Image
 
     public function download(): BinaryFileResponse
     {
-        $path = config('thingsboard.temp_path') . ".{$this->extension()}";
+        $path = config('thingsboard.temp_path').".{$this->extension()}";
 
         file_put_contents($path, base64_decode($this->data()));
 

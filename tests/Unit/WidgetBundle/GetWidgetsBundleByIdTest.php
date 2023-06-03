@@ -5,7 +5,6 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\WidgetBundle;
 use JalalLinuX\Thingsboard\Entities\WidgetBundle;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Infrastructure\Base64Image;
-use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class GetWidgetsBundleByIdTest extends TestCase
