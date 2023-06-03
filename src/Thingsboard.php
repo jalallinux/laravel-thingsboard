@@ -25,6 +25,7 @@ use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
  * @method Entities\AdminUpdates adminUpdates(array $attributes = [])
  * @method Entities\Telemetry telemetry(array $attributes = [])
  * @method Entities\WidgetBundle widgetBundle(array $attributes = [])
+ * @method Entities\WidgetType widgetType(array $attributes = [])
  */
 class Thingsboard
 {
