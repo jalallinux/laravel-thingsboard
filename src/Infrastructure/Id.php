@@ -4,6 +4,7 @@ namespace JalalLinuX\Thingsboard\Infrastructure;
 
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
+use JalalLinuX\Thingsboard\Exceptions\Exception;
 
 class Id
 {
@@ -15,7 +16,7 @@ class Id
     {
         throw_if(
             ! Str::isUuid($id),
-            new \Exception('Id must be a valid uuid.')
+            new Exception('Id must be a valid uuid.')
         );
         $this->id = $id;
         $this->entityType = EnumEntityType::from($entityType);

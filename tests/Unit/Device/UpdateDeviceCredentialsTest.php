@@ -16,7 +16,12 @@ class UpdateDeviceCredentialsTest extends TestCase
         $deviceCredentials = thingsboard($tenantUser)->device()->getDeviceCredentialsByDeviceId($device->id->id);
 
         $originalId = $deviceCredentials->credentialsId();
-        $newId = $this->faker->slug(2);
+
+        $this->expectExceptionCode(500);
+        $this->expectExceptionMessageMatches("/32 character/");
+        $deviceCredentials->setCredentialsId($this->faker->slug(30));
+
+        $newId = substr($this->faker->slug, 0, 32);
         $deviceCredentials = $deviceCredentials->setCredentialsId($newId);
 
         $deviceCredentials = thingsboard($tenantUser)->device()->updateDeviceCredentials($deviceCredentials);
