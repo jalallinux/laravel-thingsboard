@@ -30,9 +30,7 @@ composer require jalallinux/laravel-thingsboard
 
 
 ## Usage with Tntity classes
-You can use Tntity classes to integrate with thingsboard.
 
-#### Tntity Examples
 ```php
 use JalalLinuX\Thingsboard\Entities\DeviceApi;
 
@@ -49,8 +47,6 @@ Device::instance(['id' => 'ca3b8fc0-dcf6-11ed-a299-0f591673a2d6'])->withUser($te
 
 
 ## Usage with Helper function
-
-#### Facade Examples
 
 ```php
 /** Without Authentication */
