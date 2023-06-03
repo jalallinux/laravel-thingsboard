@@ -204,7 +204,7 @@ class DeviceProfile extends Tntity
 
         Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'deviceProfileId']);
 
-        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("deviceProfile/{$id}")->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("deviceProfile/{$id}")->successful();
     }
 
     /**

@@ -48,7 +48,7 @@ class DeviceApi extends Tntity
 
         $deviceToken = $deviceToken ?? $this->forceAttribute('deviceToken');
 
-        return $this->api(false, self::config('rest.exception.throw_bool_methods'))->post("v1/{$deviceToken}/telemetry", $payload)->successful();
+        return $this->api(false, config('thingsboard.rest.exception.throw_bool_methods'))->post("v1/{$deviceToken}/telemetry", $payload)->successful();
     }
 
     /**
@@ -84,7 +84,7 @@ class DeviceApi extends Tntity
 
         $deviceToken = $deviceToken ?? $this->forceAttribute('deviceToken');
 
-        return $this->api(false, self::config('rest.exception.throw_bool_methods'))->post("v1/{$deviceToken}/attributes", $payload)->successful();
+        return $this->api(false, config('thingsboard.rest.exception.throw_bool_methods'))->post("v1/{$deviceToken}/attributes", $payload)->successful();
     }
 
     /**

@@ -52,7 +52,7 @@ class WidgetBundle extends Tntity
 
     public function getSystematicAttribute(): bool
     {
-        return $this->tenantId->id == self::config('default.tenant_id');
+        return $this->tenantId->id == config('thingsboard.default.tenant_id');
     }
 
     /**
@@ -143,7 +143,7 @@ class WidgetBundle extends Tntity
 
         Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'widgetBundleId']);
 
-        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("widgetsBundle/{$id}")->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("widgetsBundle/{$id}")->successful();
     }
 
     /**

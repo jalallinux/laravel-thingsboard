@@ -25,14 +25,13 @@ abstract class Tntity extends Model
 
     protected function api(bool $auth = true, bool $handleException = true): PendingRequest
     {
-        $baseUri = self::config('rest.base_uri');
-        $baseUri = str_ends_with($baseUri, '/') ? substr($baseUri, 0, -1) : $baseUri;
+        $baseUri = config('thingsboard.rest.schema') . '://' . config('thingsboard.rest.host') . ':' . config('thingsboard.rest.port');
         $request = Http::baseUrl("{$baseUri}/api");
 
         if ($auth) {
             Thingsboard::exception(! isset($this->_thingsboardUser), 'with_token', 401);
             $request = $request->withHeaders([
-                self::config('rest.authorization.header_key') => self::config('rest.authorization.token_type').' '.Thingsboard::fetchUserToken($this->_thingsboardUser),
+                config('thingsboard.rest.authorization.header_key') => config('thingsboard.rest.authorization.token_type').' '.Thingsboard::fetchUserToken($this->_thingsboardUser),
             ]);
         }
 
@@ -89,10 +88,5 @@ abstract class Tntity extends Model
     public function paginatedResponse(Response $response, PaginationArguments $arguments, Tntity $tntity = null): PaginatedResponse
     {
         return new PaginatedResponse($tntity ?? $this, $response, $arguments);
-    }
-
-    public static function config(string $key = null, $default = null)
-    {
-        return is_null($key) ? config('thingsboard') : config("thingsboard.{$key}", $default);
     }
 }

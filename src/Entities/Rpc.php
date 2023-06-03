@@ -69,7 +69,7 @@ class Rpc extends Tntity
 
     public function defaultAttributes(): array
     {
-        return self::config('rest.rpc.default_attributes');
+        return config('thingsboard.rest.rpc.default_attributes');
     }
 
     /**
@@ -115,7 +115,7 @@ class Rpc extends Tntity
 
         $payload = $this->fill(['method' => $method, 'params' => $params])->toArray();
 
-        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->post("rpc/oneway/{$deviceId}", $payload)->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("rpc/oneway/{$deviceId}", $payload)->successful();
     }
 
     /**
@@ -163,7 +163,7 @@ class Rpc extends Tntity
 
         $payload = $this->fill(['method' => $method, 'params' => $params])->toArray();
 
-        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->post("rpc/twoway/{$deviceId}", $payload)->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("rpc/twoway/{$deviceId}", $payload)->successful();
     }
 
     /**
@@ -207,7 +207,7 @@ class Rpc extends Tntity
 
         Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'id']);
 
-        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("rpc/persistent/{$id}")->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("rpc/persistent/{$id}")->successful();
     }
 
     /**

@@ -24,7 +24,7 @@
         "illuminate/http": "^9.0|^10.0",
         "illuminate/support": "^9.0|^10.0",
         "jenssegers/model": "^1.5",
-        "php-mqtt/laravel-client": "^1.3",
+        "php-mqtt/client": "^1.8",
         "spatie/laravel-enum": "^3.0",
         "vkovic/laravel-custom-casts": "^1.4"
     },

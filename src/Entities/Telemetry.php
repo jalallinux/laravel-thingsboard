@@ -62,7 +62,7 @@ class Telemetry extends Tntity
 
         Thingsboard::validation(! Str::isUuid($deviceId), 'uuid', ['attribute' => 'deviceId']);
 
-        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$deviceId}/{$scope}", $payload)->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$deviceId}/{$scope}", $payload)->successful();
     }
 
     /**
@@ -88,7 +88,7 @@ class Telemetry extends Tntity
 
         $keys = implode(',', $keys);
 
-        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->bodyFormat('query')
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->bodyFormat('query')
             ->delete("plugins/telemetry/{$deviceId}/{$scope}", ['keys' => $keys])->successful();
     }
 
@@ -137,7 +137,7 @@ class Telemetry extends Tntity
 
         Thingsboard::validation(! Str::isUuid($entityId), 'uuid', ['attribute' => 'entityId']);
 
-        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$entityType}/{$entityId}/{$scope}", $payload)->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$entityType}/{$entityId}/{$scope}", $payload)->successful();
     }
 
     /**
@@ -156,7 +156,7 @@ class Telemetry extends Tntity
 
         $keys = implode(',', $keys);
 
-        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->bodyFormat('query')
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->bodyFormat('query')
             ->delete("plugins/telemetry/{$entityType}/{$entityId}/{$scope}", ['keys' => $keys])->successful();
     }
 
@@ -204,7 +204,7 @@ class Telemetry extends Tntity
             ['attribute' => 'scope', 'values' => implode(', ', array_diff(EnumTelemetryScope::cases(), [EnumTelemetryScope::CLIENT_SCOPE()]))],
         );
 
-        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$entityType}/{$entityId}/attributes/{$scope}", $payload)->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$entityType}/{$entityId}/attributes/{$scope}", $payload)->successful();
 
     }
 
@@ -321,7 +321,7 @@ class Telemetry extends Tntity
 
         Thingsboard::validation(! Str::isUuid($entityId), 'uuid', ['attribute' => 'entityId']);
 
-        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$entityType}/{$entityId}/timeseries/ANY?scope=ANY", $payload)->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$entityType}/{$entityId}/timeseries/ANY?scope=ANY", $payload)->successful();
     }
 
     /**
@@ -363,7 +363,7 @@ class Telemetry extends Tntity
 
         Thingsboard::validation(! Str::isUuid($entityId), 'uuid', ['attribute' => 'entityId']);
 
-        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$entityType}/{$entityId}/timeseries/ANY/{$ttl}?scope=ANY", $payload)->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$entityType}/{$entityId}/timeseries/ANY/{$ttl}?scope=ANY", $payload)->successful();
     }
 
     /**
@@ -416,7 +416,7 @@ class Telemetry extends Tntity
             ]);
         }
 
-        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->bodyFormat('query')
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->bodyFormat('query')
             ->delete("plugins/telemetry/{$entityType}/{$entityId}/timeseries/delete", $queryParams)->successful();
     }
 

@@ -27,7 +27,13 @@
         <env name="APP_KEY" value="base64:2fl+Ktvkfl+Fuz4Qp/A75G2RTiWVA/ZoKZvp6fiiM10="/>
         <env name="DB_CONNECTION" value="testing"/>
 
-        <env name="THINGSBOARD_BASE_URI" value="localhost:9090"/>
+        <env name="THINGSBOARD_REST_SCHEMA" value="http"/>
+        <env name="THINGSBOARD_REST_HOST" value="localhost"/>
+        <env name="THINGSBOARD_REST_PORT" value="9090"/>
+
+        <env name="THINGSBOARD_MQTT_HOST" value="localhost"/>
+        <env name="THINGSBOARD_MQTT_PORT" value="1883"/>
+
         <env name="THINGSBOARD_CACHE_DRIVER" value="file"/>
         <env name="THINGSBOARD_EXCEPTION_THROW_BOOL_METHOD" value="true"/>
 

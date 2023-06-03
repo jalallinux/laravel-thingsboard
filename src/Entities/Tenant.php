@@ -152,7 +152,7 @@ class Tenant extends Tntity
 
         Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'tenantId']);
 
-        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("tenant/{$id}")->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("tenant/{$id}")->successful();
     }
 
     /**
