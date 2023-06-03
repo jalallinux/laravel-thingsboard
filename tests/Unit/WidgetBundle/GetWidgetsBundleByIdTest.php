@@ -18,7 +18,7 @@ class GetWidgetsBundleByIdTest extends TestCase
 
         $this->assertInstanceOf(WidgetBundle::class, $widgetBundle);
         $this->assertInstanceOf(Base64Image::class, $widgetBundle->image);
-        $this->assertInstanceOf(Base64Image::class, $widgetBundle->image);
+        $this->assertTrue($widgetBundle->systematic);
         $this->assertEquals('png', $widgetBundle->image->extension());
     }
 }

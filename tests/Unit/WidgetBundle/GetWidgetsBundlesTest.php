@@ -16,6 +16,7 @@ class GetWidgetsBundlesTest extends TestCase
         $widgetBundles = thingsboard($tenantUser)->widgetBundle()->getWidgetsBundles(PaginationArguments::make(textSearch: "gauges"))->data();
 
         $this->assertCount(2, $widgetBundles);
+        $this->assertTrue($widgetBundles->first()->systematic);
         $this->assertInstanceOf(Base64Image::class, $widgetBundles->first()->image);
         $this->assertEquals('png', $widgetBundles->first()->image->extension());
         $this->assertInstanceOf(Id::class, $widgetBundles->first()->id);

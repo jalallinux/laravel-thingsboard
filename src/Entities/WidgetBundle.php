@@ -20,6 +20,7 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property string $name
  * @property string $alias
  * @property string $title
+ * @property bool $systematic
  * @property Base64Image $image
  * @property string $description
  */
@@ -46,6 +47,11 @@ class WidgetBundle extends Tntity
     public function entityType(): ?EnumEntityType
     {
         return EnumEntityType::WIDGETS_BUNDLE();
+    }
+
+    public function getSystematicAttribute(): bool
+    {
+        return $this->tenantId->id == '13814000-1dd2-11b2-8080-808080808080';
     }
 
     /**
