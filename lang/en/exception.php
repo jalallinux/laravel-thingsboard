@@ -1,5 +1,5 @@
 <?php
 
 return [
-    "default" => "Something went wrong !",
+    'default' => 'Something went wrong !',
 ];
