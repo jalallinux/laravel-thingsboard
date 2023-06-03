@@ -1,7 +1,7 @@
 # Laravel [ThingsBoard.io](https://thingsboard.io/) Client
 
 <a href="https://github.com/jalallinux/laravel-thingsboard">  
-    <p align="center"><img src="resources/asset/thingsboard-laravel.png" width="100%"></p>    
+    <p align="center"><img src="cover.png" width="100%"></p>    
 </a>
 
 
