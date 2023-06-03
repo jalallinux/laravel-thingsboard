@@ -56,7 +56,7 @@ abstract class Tntity extends Model
     {
         throw_if(
             is_null($value = @$this->{$key}),
-            $this->exception(__("thingsboard::validation.required", ['attribute' => $key]))
+            $this->exception(__('thingsboard::validation.required', ['attribute' => $key]))
         );
 
         return $value;

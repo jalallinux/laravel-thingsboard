@@ -115,7 +115,7 @@ class Device extends Tntity
         foreach ($ids as $id) {
             throw_if(
                 ! Str::isUuid($id),
-                $this->exception(__("thingsboard::validation.array_of", ['attribute' => 'ids', 'struct' => 'uuid'])),
+                $this->exception(__('thingsboard::validation.array_of', ['attribute' => 'ids', 'struct' => 'uuid'])),
             );
         }
 

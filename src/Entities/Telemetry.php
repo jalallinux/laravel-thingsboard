@@ -38,9 +38,9 @@ class Telemetry extends Tntity
      * }
      * }
      *
-     * @param array $payload
-     * @param EnumTelemetryScope $scope
-     * @param string $deviceId
+     * @param  array  $payload
+     * @param  EnumTelemetryScope  $scope
+     * @param  string  $deviceId
      * @return bool
      *
      * @throws \Throwable
@@ -53,16 +53,16 @@ class Telemetry extends Tntity
     {
         throw_if(
             $scope->equals(EnumTelemetryScope::CLIENT_SCOPE()),
-            $this->exception(__("thingsboard::validation.in", ['attribute' => 'scope', 'values' => implode(', ', array_diff(EnumTelemetryScope::cases(), [EnumTelemetryScope::CLIENT_SCOPE()]))])),
+            $this->exception(__('thingsboard::validation.in', ['attribute' => 'scope', 'values' => implode(', ', array_diff(EnumTelemetryScope::cases(), [EnumTelemetryScope::CLIENT_SCOPE()]))])),
         );
 
         throw_if(
             empty($payload),
-            $this->exception(__("thingsboard::validation.required", ['attribute' => 'payload']))
+            $this->exception(__('thingsboard::validation.required', ['attribute' => 'payload']))
         );
 
         throw_if(
-            !Str::isUuid($deviceId),
+            ! Str::isUuid($deviceId),
             $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'deviceId'])),
         );
 
@@ -73,9 +73,9 @@ class Telemetry extends Tntity
      * Delete device attributes using provided Device Id, scope and a list of keys.
      * Referencing a non-existing Device Id will cause an error
      *
-     * @param EnumTelemetryScope $scope
-     * @param array $keys
-     * @param string $deviceId
+     * @param  EnumTelemetryScope  $scope
+     * @param  array  $keys
+     * @param  string  $deviceId
      * @return bool
      *
      * @throws \Throwable
@@ -88,11 +88,11 @@ class Telemetry extends Tntity
     {
         throw_if(
             empty($keys),
-            $this->exception(__("thingsboard::validation.required", ['attribute' => 'keys']))
+            $this->exception(__('thingsboard::validation.required', ['attribute' => 'keys']))
         );
 
         throw_if(
-            !Str::isUuid($deviceId),
+            ! Str::isUuid($deviceId),
             $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'deviceId'])),
         );
 
@@ -123,10 +123,10 @@ class Telemetry extends Tntity
      * }
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param array $payload
-     * @param EnumEntityType $entityType
-     * @param EnumTelemetryScope $scope
-     * @param string $entityId
+     * @param  array  $payload
+     * @param  EnumEntityType  $entityType
+     * @param  EnumTelemetryScope  $scope
+     * @param  string  $entityId
      * @return bool
      *
      * @throws \Throwable
@@ -139,16 +139,16 @@ class Telemetry extends Tntity
     {
         throw_if(
             empty($payload),
-            $this->exception(__("thingsboard::validation.required", ['attribute' => 'payload']))
+            $this->exception(__('thingsboard::validation.required', ['attribute' => 'payload']))
         );
 
         throw_if(
             $scope->equals(EnumTelemetryScope::CLIENT_SCOPE()),
-            $this->exception(__("thingsboard::validation.in", ['attribute' => 'scope', 'values' => implode(', ', array_diff(EnumTelemetryScope::cases(), [EnumTelemetryScope::CLIENT_SCOPE()]))])),
+            $this->exception(__('thingsboard::validation.in', ['attribute' => 'scope', 'values' => implode(', ', array_diff(EnumTelemetryScope::cases(), [EnumTelemetryScope::CLIENT_SCOPE()]))])),
         );
 
         throw_if(
-            !Str::isUuid($entityId),
+            ! Str::isUuid($entityId),
             $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'entityId'])),
         );
 
@@ -167,11 +167,11 @@ class Telemetry extends Tntity
     {
         throw_if(
             empty($keys),
-            $this->exception(__("thingsboard::validation.required", ['attribute' => 'keys']))
+            $this->exception(__('thingsboard::validation.required', ['attribute' => 'keys']))
         );
 
         throw_if(
-            !Str::isUuid($entityId),
+            ! Str::isUuid($entityId),
             $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'entityId'])),
         );
 
@@ -201,10 +201,10 @@ class Telemetry extends Tntity
      * }
      * }
      *
-     * @param array $payload
-     * @param EnumEntityType $entityType
-     * @param string $entityId
-     * @param EnumTelemetryScope $scope
+     * @param  array  $payload
+     * @param  EnumEntityType  $entityType
+     * @param  string  $entityId
+     * @param  EnumTelemetryScope  $scope
      * @return bool
      *
      * @throws \Throwable
@@ -217,17 +217,17 @@ class Telemetry extends Tntity
     {
         throw_if(
             empty($payload),
-            $this->exception(__("thingsboard::validation.required", ['attribute' => 'payload']))
+            $this->exception(__('thingsboard::validation.required', ['attribute' => 'payload']))
         );
 
         throw_if(
-            !Str::isUuid($entityId),
+            ! Str::isUuid($entityId),
             $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'entityId'])),
         );
 
         throw_if(
             $scope->equals(EnumTelemetryScope::CLIENT_SCOPE()),
-            $this->exception(__("thingsboard::validation.in", ['attribute' => 'scope', 'values' => implode(', ', array_diff(EnumTelemetryScope::cases(), [EnumTelemetryScope::CLIENT_SCOPE()]))])),
+            $this->exception(__('thingsboard::validation.in', ['attribute' => 'scope', 'values' => implode(', ', array_diff(EnumTelemetryScope::cases(), [EnumTelemetryScope::CLIENT_SCOPE()]))])),
         );
 
         return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$entityType}/{$entityId}/attributes/{$scope}", $payload)->successful();
@@ -243,8 +243,8 @@ class Telemetry extends Tntity
      * SHARED_SCOPE - supported for devices.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param EnumEntityType $entityType
-     * @param string $entityId
+     * @param  EnumEntityType  $entityType
+     * @param  string  $entityId
      * @return array
      *
      * @throws \Throwable
@@ -256,7 +256,7 @@ class Telemetry extends Tntity
     public function getAttributeKeys(EnumEntityType $entityType, string $entityId): array
     {
         throw_if(
-            !Str::isUuid($entityId),
+            ! Str::isUuid($entityId),
             $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'entityId'])),
         );
 
@@ -270,9 +270,9 @@ class Telemetry extends Tntity
      * SHARED_SCOPE - supported for devices.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param EnumEntityType $entityType
-     * @param string $entityId
-     * @param EnumTelemetryScope $scope
+     * @param  EnumEntityType  $entityType
+     * @param  string  $entityId
+     * @param  EnumTelemetryScope  $scope
      * @return array
      *
      * @throws \Throwable
@@ -284,7 +284,7 @@ class Telemetry extends Tntity
     public function getAttributeKeysByScope(EnumEntityType $entityType, string $entityId, EnumTelemetryScope $scope): array
     {
         throw_if(
-            !Str::isUuid($entityId),
+            ! Str::isUuid($entityId),
             $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'entityId'])),
         );
 
@@ -295,8 +295,8 @@ class Telemetry extends Tntity
      * Returns a set of unique time-series key names for the selected entity.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param EnumEntityType $entityType
-     * @param string $entityId
+     * @param  EnumEntityType  $entityType
+     * @param  string  $entityId
      * @return array
      *
      * @throws \Throwable
@@ -308,7 +308,7 @@ class Telemetry extends Tntity
     public function getTimeseriesKeys(EnumEntityType $entityType, string $entityId): array
     {
         throw_if(
-            !Str::isUuid($entityId),
+            ! Str::isUuid($entityId),
             $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'entityId'])),
         );
 
@@ -327,9 +327,9 @@ class Telemetry extends Tntity
      * The scope parameter is not used in the API call implementation but should be specified whatever value because it is used as a path variable.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param array $payload
-     * @param EnumEntityType $entityType
-     * @param string $entityId
+     * @param  array  $payload
+     * @param  EnumEntityType  $entityType
+     * @param  string  $entityId
      * @return bool
      *
      * @throws \Throwable
@@ -342,18 +342,18 @@ class Telemetry extends Tntity
     {
         throw_if(
             empty($payload),
-            $this->exception(__("thingsboard::validation.array_of", ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']))
+            $this->exception(__('thingsboard::validation.array_of', ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']))
         );
 
         foreach ($payload as $row) {
             throw_if(
-                !array_key_exists('ts', $row) || strlen($row['ts']) != 13 || !array_key_exists('values', $row) || !isArrayAssoc($row['values']),
-                $this->exception(__("thingsboard::validation.array_of", ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']))
+                ! array_key_exists('ts', $row) || strlen($row['ts']) != 13 || ! array_key_exists('values', $row) || ! isArrayAssoc($row['values']),
+                $this->exception(__('thingsboard::validation.array_of', ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']))
             );
         }
 
         throw_if(
-            !Str::isUuid($entityId),
+            ! Str::isUuid($entityId),
             $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'entityId'])),
         );
 
@@ -385,18 +385,18 @@ class Telemetry extends Tntity
     {
         throw_if(
             empty($payload),
-            $this->exception(__("thingsboard::validation.array_of", ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']))
+            $this->exception(__('thingsboard::validation.array_of', ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']))
         );
 
         foreach ($payload as $row) {
             throw_if(
-                !array_key_exists('ts', $row) || strlen($row['ts']) != 13 || !array_key_exists('values', $row) || !isArrayAssoc($row['values']),
-                $this->exception(__("thingsboard::validation.array_of", ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']))
+                ! array_key_exists('ts', $row) || strlen($row['ts']) != 13 || ! array_key_exists('values', $row) || ! isArrayAssoc($row['values']),
+                $this->exception(__('thingsboard::validation.array_of', ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']))
             );
         }
 
         throw_if(
-            !Str::isUuid($entityId),
+            ! Str::isUuid($entityId),
             $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'entityId'])),
         );
 
@@ -408,13 +408,13 @@ class Telemetry extends Tntity
      * Use 'deleteAllDataForKeys' to delete all time-series data. Use 'startTs' and 'endTs' to specify time-range instead.
      * Use 'rewriteLatestIfDeleted' to rewrite latest value (stored in separate table for performance) after deletion of the time range.
      *
-     * @param EnumEntityType $entityType
-     * @param string $entityId
-     * @param array $keys
-     * @param bool $deleteAllDataForKeys
-     * @param int|null $startTs
-     * @param int|null $endTs
-     * @param bool|null $rewriteLatestIfDeleted
+     * @param  EnumEntityType  $entityType
+     * @param  string  $entityId
+     * @param  array  $keys
+     * @param  bool  $deleteAllDataForKeys
+     * @param  int|null  $startTs
+     * @param  int|null  $endTs
+     * @param  bool|null  $rewriteLatestIfDeleted
      * @return bool
      *
      * @throws \Throwable
@@ -424,28 +424,28 @@ class Telemetry extends Tntity
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function deleteEntityTimeseries(EnumEntityType $entityType, string $entityId, array $keys,
-                                           bool           $deleteAllDataForKeys = false, int $startTs = null, int $endTs = null,
-                                           bool           $rewriteLatestIfDeleted = null)
+        bool $deleteAllDataForKeys = false, int $startTs = null, int $endTs = null,
+        bool $rewriteLatestIfDeleted = null)
     {
         throw_if(
-            !Str::isUuid($entityId),
+            ! Str::isUuid($entityId),
             $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'entityId'])),
         );
 
         throw_if(
             empty($keys),
-            $this->exception(__("thingsboard::validation.required", ['attribute' => 'keys']))
+            $this->exception(__('thingsboard::validation.required', ['attribute' => 'keys']))
         );
 
         $keys = implode(',', $keys);
-        if (!$deleteAllDataForKeys) {
+        if (! $deleteAllDataForKeys) {
             throw_if(
                 is_null($startTs),
-                $this->exception(__("thingsboard::validation.required_if", ['attribute' => 'startTs', 'other' => 'deleteAllDataForKeys', 'value' => 'false'])),
+                $this->exception(__('thingsboard::validation.required_if', ['attribute' => 'startTs', 'other' => 'deleteAllDataForKeys', 'value' => 'false'])),
             );
             throw_if(
                 is_null($endTs),
-                $this->exception(__("thingsboard::validation.required_if", ['attribute' => 'endTs', 'other' => 'deleteAllDataForKeys', 'value' => 'false'])),
+                $this->exception(__('thingsboard::validation.required_if', ['attribute' => 'endTs', 'other' => 'deleteAllDataForKeys', 'value' => 'false'])),
             );
         }
 
@@ -454,14 +454,14 @@ class Telemetry extends Tntity
             'keys' => $keys,
         ];
 
-        if (!is_null($startTs) && !is_null($endTs)) {
+        if (! is_null($startTs) && ! is_null($endTs)) {
             $queryParams = array_merge($queryParams, [
                 'startTs' => $startTs,
                 'endTs' => $endTs,
             ]);
         }
 
-        if (!is_null($rewriteLatestIfDeleted)) {
+        if (! is_null($rewriteLatestIfDeleted)) {
             $queryParams = array_merge($queryParams, [
                 'rewriteLatestIfDeleted' => $rewriteLatestIfDeleted,
             ]);
@@ -496,10 +496,10 @@ class Telemetry extends Tntity
      * ]
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param EnumEntityType $entityType
-     * @param string $entityId
-     * @param EnumTelemetryScope $scope
-     * @param array $keys
+     * @param  EnumEntityType  $entityType
+     * @param  string  $entityId
+     * @param  EnumTelemetryScope  $scope
+     * @param  array  $keys
      * @return array|mixed
      *
      * @throws \Throwable
@@ -511,13 +511,13 @@ class Telemetry extends Tntity
     public function getAttributesByScope(EnumEntityType $entityType, string $entityId, EnumTelemetryScope $scope, array $keys)
     {
         throw_if(
-            !Str::isUuid($entityId),
+            ! Str::isUuid($entityId),
             $this->exception(__('thingsboard::validation.uuid', ['attribute' => 'entityId'])),
         );
 
         throw_if(
             empty($keys),
-            $this->exception(__("thingsboard::validation.required", ['attribute' => 'keys']))
+            $this->exception(__('thingsboard::validation.required', ['attribute' => 'keys']))
         );
 
         $keys = implode(',', $keys);

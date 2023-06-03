@@ -38,13 +38,13 @@ class DeviceApi extends Tntity
     {
         throw_if(
             empty($payload),
-            $this->exception(__("thingsboard::validation.array_of", ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']))
+            $this->exception(__('thingsboard::validation.array_of', ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']))
         );
 
         foreach ($payload as $row) {
             throw_if(
                 ! array_key_exists('ts', $row) || strlen($row['ts']) != 13 || ! array_key_exists('values', $row) || ! isArrayAssoc($row['values']),
-                $this->exception(__("thingsboard::validation.array_of", ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']))
+                $this->exception(__('thingsboard::validation.array_of', ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']))
             );
         }
 
@@ -84,7 +84,7 @@ class DeviceApi extends Tntity
     {
         throw_if(
             ! isArrayAssoc($payload),
-            $this->exception(__("thingsboard::validation.assoc_array", ['attribute' => 'payload']))
+            $this->exception(__('thingsboard::validation.assoc_array', ['attribute' => 'payload']))
         );
 
         $deviceToken = $deviceToken ?? $this->forceAttribute('deviceToken');
