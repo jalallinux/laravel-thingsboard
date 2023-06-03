@@ -80,5 +80,5 @@ return [
 
     'countries' => json_decode(file_get_contents(__DIR__.'/countries.json'), true),
 
-    'temp_path' => storage_path("app/public/" . uniqid()),
+    'temp_path' => storage_path('app/public/'.uniqid()),
 ];
