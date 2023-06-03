@@ -40,7 +40,7 @@ class Thingsboard
 
     public function __call(string $name, array $arguments)
     {
-        $class = __NAMESPACE__ . '\\Entities\\' . ucfirst($name);
+        $class = __NAMESPACE__.'\\Entities\\'.ucfirst($name);
 
         if (isset($this->withUser)) {
             return $class::instance(...$arguments)->withUser($this->withUser);
@@ -56,7 +56,7 @@ class Thingsboard
 
     public static function cache(string $key, $value = null, DateTimeInterface $ttl = null)
     {
-        $key = config('thingsboard.cache.prefix') . $key;
+        $key = config('thingsboard.cache.prefix').$key;
         $cache = cache()->driver(config('thingsboard.cache.driver'));
 
         if (is_null($value)) {
@@ -97,7 +97,7 @@ class Thingsboard
 
     public static function connectionSetting(string $username): ConnectionSettings
     {
-        return (new ConnectionSettings())
+        return (new ConnectionSettings)
 
             // The username used for authentication when connecting to the broker.
             ->setUsername($username)
