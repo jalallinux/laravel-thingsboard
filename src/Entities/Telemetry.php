@@ -364,7 +364,7 @@ class Telemetry extends Tntity
             );
         }
 
-        Thingsboard::validation(!Str::isUuid($entityId), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($entityId), 'uuid', ['attribute' => 'entityId']);
 
         return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$entityType}/{$entityId}/timeseries/ANY/{$ttl}?scope=ANY", $payload)->successful();
     }
@@ -448,10 +448,10 @@ class Telemetry extends Tntity
      * ]
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param EnumEntityType $entityType
-     * @param string $entityId
-     * @param EnumTelemetryScope $scope
-     * @param array $keys
+     * @param  EnumEntityType  $entityType
+     * @param  string  $entityId
+     * @param  EnumTelemetryScope  $scope
+     * @param  array  $keys
      * @return array
      *
      * @throws \Throwable
@@ -487,33 +487,26 @@ class Telemetry extends Tntity
      * ]
      * }
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
-     * @param Id $id
-     * @param array $keys
      *
-     * @param \DateTime $startTs
-     *
-     * @param \DateTime|null $endTs
-     *
-     * @param int|null $interval
-     *
-     * @param int|null $limit
-     *
-     * @param EnumTelemetryAggregation|null $agg
-     *
-     * @param EnumSortOrder|null $orderBy
-     *
-     * @param bool $useStrictDataTypes
-     *
+     * @param  Id  $id
+     * @param  array  $keys
+     * @param  \DateTime  $startTs
+     * @param  \DateTime|null  $endTs
+     * @param  int|null  $interval
+     * @param  int|null  $limit
+     * @param  EnumTelemetryAggregation|null  $agg
+     * @param  EnumSortOrder|null  $orderBy
+     * @param  bool  $useStrictDataTypes
      * @return array
      *
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getTimeseries(Id            $id, array $keys, \DateTime $startTs, \DateTime $endTs = null, int $interval = null, int $limit = null, EnumTelemetryAggregation $agg = null,
-                                  EnumSortOrder $orderBy = null, bool $useStrictDataTypes = null): array
+    public function getTimeseries(Id $id, array $keys, \DateTime $startTs, \DateTime $endTs = null, int $interval = null, int $limit = null, EnumTelemetryAggregation $agg = null,
+        EnumSortOrder $orderBy = null, bool $useStrictDataTypes = null): array
     {
-        Thingsboard::validation(!Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
         Thingsboard::validation(empty($keys), 'required', ['attribute' => 'keys']);
 
@@ -565,12 +558,10 @@ class Telemetry extends Tntity
      * }
      *
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
-     * @param Id $id
      *
-     * @param array|null $keys
-     *
-     * @param bool $useStrictDataTypes
-     *
+     * @param  Id  $id
+     * @param  array|null  $keys
+     * @param  bool  $useStrictDataTypes
      * @return array
      *
      * @author Sabiee
@@ -579,11 +570,11 @@ class Telemetry extends Tntity
      */
     public function getLatestTimeseries(Id $id, array $keys = null, bool $useStrictDataTypes): array
     {
-        Thingsboard::validation(!Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
         $queryParams = array_filter([
             'keys' => implode(',', $keys),
-            'useStrictDataTypes' => $useStrictDataTypes
+            'useStrictDataTypes' => $useStrictDataTypes,
         ]);
 
         return $this->api()->get("plugins/telemetry/{$id->entityType}/{$id->id}/values/timeseries", $queryParams)->json();
