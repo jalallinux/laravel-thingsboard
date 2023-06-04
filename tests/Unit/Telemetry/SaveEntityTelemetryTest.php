@@ -5,6 +5,7 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\Telemetry;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumTelemetryScope;
+use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
@@ -26,8 +27,8 @@ class SaveEntityTelemetryTest extends TestCase
                 ],
             ],
         ];
-        $result = thingsboard($tenantUser)->telemetry()->saveEntityTelemetry($payload, EnumEntityType::DEVICE(), $deviceId);
-        thingsboard($tenantUser)->telemetry()->deleteEntityTimeseries(EnumEntityType::DEVICE(), $deviceId, $payload[0]['values'], true);
+        $result = thingsboard($tenantUser)->telemetry()->saveEntityTelemetry(new Id($deviceId, EnumEntityType::DEVICE()),$payload);
+        thingsboard($tenantUser)->telemetry()->deleteEntityTimeseries(new Id($deviceId, EnumEntityType::DEVICE()), $payload[0]['values'], true);
         $this->assertTrue($result);
     }
 
@@ -36,7 +37,7 @@ class SaveEntityTelemetryTest extends TestCase
             $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
             $this->expectExceptionCode(500);
             $this->expectExceptionMessageMatches('/ts/');
-            thingsboard($tenantUser)->telemetry()->saveEntityTelemetry([], EnumEntityType::DEVICE(), $this->faker->uuid);
+            thingsboard($tenantUser)->telemetry()->saveEntityTelemetry(new Id($this->faker->uuid, EnumEntityType::DEVICE()), []);
         }
 
         public function testInvalidUuid()
@@ -52,7 +53,7 @@ class SaveEntityTelemetryTest extends TestCase
                 ],
             ];
             $this->expectExceptionCode(500);
-            $this->expectExceptionMessageMatches('/entityId/');
-            thingsboard($tenantUser)->telemetry()->saveEntityTelemetry($payload, EnumEntityType::DEVICE(), substr_replace($this->faker->uuid, 'z', -1), EnumTelemetryScope::SHARED_SCOPE());
+            $this->expectExceptionMessageMatches('/id/');
+            thingsboard($tenantUser)->telemetry()->saveEntityTelemetry(new Id(substr_replace($this->faker->uuid, 'z', -1), EnumEntityType::DEVICE()), $payload, EnumTelemetryScope::SHARED_SCOPE());
         }
 }

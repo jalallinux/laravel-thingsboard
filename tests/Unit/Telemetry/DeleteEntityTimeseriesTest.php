@@ -4,6 +4,7 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\Telemetry;
 
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
+use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
@@ -26,8 +27,8 @@ class DeleteEntityTimeseriesTest extends TestCase
             ],
         ];
         $ttl = (int) now()->getPreciseTimestamp(3);
-        thingsboard($tenantUser)->telemetry()->saveEntityTelemetryWithTTL($payload, EnumEntityType::DEVICE(), $deviceId, $ttl);
-        $result = thingsboard($tenantUser)->telemetry()->deleteEntityTimeseries(EnumEntityType::DEVICE(), $deviceId, $payload[0]['values'], true);
+        thingsboard($tenantUser)->telemetry()->saveEntityTelemetryWithTTL(new Id($deviceId, EnumEntityType::DEVICE()), $payload, $ttl);
+        $result = thingsboard($tenantUser)->telemetry()->deleteEntityTimeseries(new Id($deviceId, EnumEntityType::DEVICE()), $payload[0]['values'], true);
         $this->assertTrue($result);
     }
 
@@ -44,8 +45,8 @@ class DeleteEntityTimeseriesTest extends TestCase
                 ],
             ];
             $this->expectExceptionCode(500);
-            $this->expectExceptionMessageMatches('/entityId/');
-            thingsboard($tenantUser)->telemetry()->deleteEntityTimeseries(EnumEntityType::DEVICE(), substr_replace($this->faker->uuid, 'z', -1), $payload[0]['values'], true);
+            $this->expectExceptionMessageMatches('/id/');
+            thingsboard($tenantUser)->telemetry()->deleteEntityTimeseries(new Id(substr_replace($this->faker->uuid, 'z', -1), EnumEntityType::DEVICE()), $payload[0]['values'], true);
         }
 
         public function testIfStartAndEndTimestampWasNull()
@@ -62,6 +63,6 @@ class DeleteEntityTimeseriesTest extends TestCase
             ];
             $this->expectExceptionCode(500);
             $this->expectExceptionMessageMatches('/startTs/');
-            thingsboard($tenantUser)->telemetry()->deleteEntityTimeseries(EnumEntityType::DEVICE(), $this->faker->uuid, $payload[0]['values'], false);
+            thingsboard($tenantUser)->telemetry()->deleteEntityTimeseries(new Id($this->faker->uuid, EnumEntityType::DEVICE()), $payload[0]['values'], false);
         }
 }

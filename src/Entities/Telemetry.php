@@ -116,19 +116,16 @@ class Telemetry extends Tntity
      * }
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param  array  $payload
-     * @param  EnumEntityType  $entityType
-     * @param  EnumTelemetryScope  $scope
-     * @param  string  $entityId
+     * @param Id $id
+     * @param array $payload
+     * @param EnumTelemetryScope $scope
      * @return bool
-     *
-     * @throws \Throwable
      *
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function saveEntityAttributesV1(array $payload, EnumEntityType $entityType, string $entityId, EnumTelemetryScope $scope): bool
+    public function saveEntityAttributesV1(Id $id, array $payload, EnumTelemetryScope $scope): bool
     {
         Thingsboard::validation(empty($payload), 'required', ['attribute' => 'payload']);
 
@@ -138,9 +135,9 @@ class Telemetry extends Tntity
             ['attribute' => 'scope', 'values' => implode(', ', array_diff(EnumTelemetryScope::cases(), [EnumTelemetryScope::CLIENT_SCOPE()]))]
         );
 
-        Thingsboard::validation(! Str::isUuid($entityId), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
-        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$entityType}/{$entityId}/{$scope}", $payload)->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$id->entityType}/{$id->id}/{$scope}", $payload)->successful();
     }
 
     /**
@@ -151,16 +148,16 @@ class Telemetry extends Tntity
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function deleteEntityAttributes(EnumEntityType $entityType, string $entityId, EnumTelemetryScope $scope, array $keys): bool
+    public function deleteEntityAttributes(Id $id, EnumTelemetryScope $scope, array $keys): bool
     {
         Thingsboard::validation(empty($keys), 'required', ['attribute' => 'keys']);
 
-        Thingsboard::validation(! Str::isUuid($entityId), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
         $keys = implode(',', $keys);
 
         return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->bodyFormat('query')
-            ->delete("plugins/telemetry/{$entityType}/{$entityId}/{$scope}", ['keys' => $keys])->successful();
+            ->delete("plugins/telemetry/{$id->entityType}/{$id->id}/{$scope}", ['keys' => $keys])->successful();
     }
 
     /**
@@ -183,23 +180,20 @@ class Telemetry extends Tntity
      * }
      * }
      *
-     * @param  array  $payload
-     * @param  EnumEntityType  $entityType
-     * @param  string  $entityId
-     * @param  EnumTelemetryScope  $scope
+     * @param Id $id
+     * @param array $payload
+     * @param EnumTelemetryScope $scope
      * @return bool
-     *
-     * @throws \Throwable
      *
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function saveEntityAttributesV2(array $payload, EnumEntityType $entityType, string $entityId, EnumTelemetryScope $scope): bool
+    public function saveEntityAttributesV2(Id $id, array $payload, EnumTelemetryScope $scope): bool
     {
         Thingsboard::validation(empty($payload), 'required', ['attribute' => 'payload']);
 
-        Thingsboard::validation(! Str::isUuid($entityId), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
         Thingsboard::validation(
             $scope->equals(EnumTelemetryScope::CLIENT_SCOPE()),
@@ -207,7 +201,7 @@ class Telemetry extends Tntity
             ['attribute' => 'scope', 'values' => implode(', ', array_diff(EnumTelemetryScope::cases(), [EnumTelemetryScope::CLIENT_SCOPE()]))],
         );
 
-        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$entityType}/{$entityId}/attributes/{$scope}", $payload)->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$id->entityType}/{$id->id}/attributes/{$scope}", $payload)->successful();
 
     }
 
@@ -220,21 +214,18 @@ class Telemetry extends Tntity
      * SHARED_SCOPE - supported for devices.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param  EnumEntityType  $entityType
-     * @param  string  $entityId
+     * @param Id $id
      * @return array
-     *
-     * @throws \Throwable
      *
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getAttributeKeys(EnumEntityType $entityType, string $entityId): array
+    public function getAttributeKeys(Id $id): array
     {
-        Thingsboard::validation(! Str::isUuid($entityId), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
-        return $this->api()->get("plugins/telemetry/{$entityType}/{$entityId}/keys/attributes")->json();
+        return $this->api()->get("plugins/telemetry/{$id->entityType}/{$id->id}/keys/attributes")->json();
     }
 
     /**
@@ -244,43 +235,37 @@ class Telemetry extends Tntity
      * SHARED_SCOPE - supported for devices.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param  EnumEntityType  $entityType
-     * @param  string  $entityId
-     * @param  EnumTelemetryScope  $scope
+     * @param Id $id
+     * @param EnumTelemetryScope $scope
      * @return array
-     *
-     * @throws \Throwable
      *
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER
      */
-    public function getAttributeKeysByScope(EnumEntityType $entityType, string $entityId, EnumTelemetryScope $scope): array
+    public function getAttributeKeysByScope(Id $id, EnumTelemetryScope $scope): array
     {
-        Thingsboard::validation(! Str::isUuid($entityId), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
-        return $this->api()->get("plugins/telemetry/{$entityType}/{$entityId}/keys/attributes/{$scope}")->json();
+        return $this->api()->get("plugins/telemetry/{$id->entityType}/{$id->id}/keys/attributes/{$scope}")->json();
     }
 
     /**
      * Returns a set of unique time-series key names for the selected entity.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param  EnumEntityType  $entityType
-     * @param  string  $entityId
+     * @param Id $id
      * @return array
-     *
-     * @throws \Throwable
      *
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER
      */
-    public function getTimeseriesKeys(EnumEntityType $entityType, string $entityId): array
+    public function getTimeseriesKeys(Id $id): array
     {
-        Thingsboard::validation(! Str::isUuid($entityId), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
-        return $this->api()->get("plugins/telemetry/{$entityType}/{$entityId}/keys/timeseries")->json();
+        return $this->api()->get("plugins/telemetry/{$id->entityType}/{$id->id}/keys/timeseries")->json();
     }
 
     /**
@@ -295,18 +280,15 @@ class Telemetry extends Tntity
      * The scope parameter is not used in the API call implementation but should be specified whatever value because it is used as a path variable.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param  array  $payload
-     * @param  EnumEntityType  $entityType
-     * @param  string  $entityId
+     * @param Id $id
+     * @param array $payload
      * @return bool
-     *
-     * @throws \Throwable
      *
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function saveEntityTelemetry(array $payload, EnumEntityType $entityType, string $entityId): bool
+    public function saveEntityTelemetry(Id $id, array $payload): bool
     {
         Thingsboard::validation(
             empty($payload),
@@ -322,9 +304,9 @@ class Telemetry extends Tntity
             );
         }
 
-        Thingsboard::validation(! Str::isUuid($entityId), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
-        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$entityType}/{$entityId}/timeseries/ANY?scope=ANY", $payload)->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$id->entityType}/{$id->id}/timeseries/ANY?scope=ANY", $payload)->successful();
     }
 
     /**
@@ -348,7 +330,7 @@ class Telemetry extends Tntity
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function saveEntityTelemetryWithTTL(array $payload, EnumEntityType $entityType, string $entityId, int $ttl): bool
+    public function saveEntityTelemetryWithTTL(Id $id, array $payload, int $ttl): bool
     {
         Thingsboard::validation(
             empty($payload),
@@ -364,9 +346,9 @@ class Telemetry extends Tntity
             );
         }
 
-        Thingsboard::validation(! Str::isUuid($entityId), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(!Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
-        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$entityType}/{$entityId}/timeseries/ANY/{$ttl}?scope=ANY", $payload)->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$id->entityType}/{$id->id}/timeseries/ANY/{$ttl}?scope=ANY", $payload)->successful();
     }
 
     /**
@@ -374,24 +356,21 @@ class Telemetry extends Tntity
      * Use 'deleteAllDataForKeys' to delete all time-series data. Use 'startTs' and 'endTs' to specify time-range instead.
      * Use 'rewriteLatestIfDeleted' to rewrite latest value (stored in separate table for performance) after deletion of the time range.
      *
-     * @param  EnumEntityType  $entityType
-     * @param  string  $entityId
-     * @param  array  $keys
-     * @param  bool  $deleteAllDataForKeys
-     * @param  int|null  $startTs
-     * @param  int|null  $endTs
-     * @param  bool|null  $rewriteLatestIfDeleted
+     * @param Id $id
+     * @param array $keys
+     * @param bool $deleteAllDataForKeys
+     * @param int|null $startTs
+     * @param int|null $endTs
+     * @param bool|null $rewriteLatestIfDeleted
      * @return bool
-     *
-     * @throws \Throwable
      *
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function deleteEntityTimeseries(EnumEntityType $entityType, string $entityId, array $keys, bool $deleteAllDataForKeys = false, int $startTs = null, int $endTs = null, bool $rewriteLatestIfDeleted = null)
+    public function deleteEntityTimeseries(Id $id, array $keys, bool $deleteAllDataForKeys = false, int $startTs = null, int $endTs = null, bool $rewriteLatestIfDeleted = null)
     {
-        Thingsboard::validation(! Str::isUuid($entityId), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
         Thingsboard::validation(empty($keys), 'required', ['attribute' => 'keys']);
 
@@ -420,7 +399,7 @@ class Telemetry extends Tntity
         }
 
         return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->bodyFormat('query')
-            ->delete("plugins/telemetry/{$entityType}/{$entityId}/timeseries/delete", $queryParams)->successful();
+            ->delete("plugins/telemetry/{$id->entityType}/{$id->id}/timeseries/delete", $queryParams)->successful();
     }
 
     /**
@@ -448,10 +427,9 @@ class Telemetry extends Tntity
      * ]
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param  EnumEntityType  $entityType
-     * @param  string  $entityId
-     * @param  EnumTelemetryScope  $scope
-     * @param  array  $keys
+     * @param Id $id
+     * @param EnumTelemetryScope $scope
+     * @param array $keys
      * @return array
      *
      * @throws \Throwable
@@ -460,15 +438,15 @@ class Telemetry extends Tntity
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getAttributesByScope(EnumEntityType $entityType, string $entityId, EnumTelemetryScope $scope, array $keys)
+    public function getAttributesByScope(Id $id, EnumTelemetryScope $scope, array $keys)
     {
-        Thingsboard::validation(! Str::isUuid($entityId), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
         Thingsboard::validation(empty($keys), 'required', ['attribute' => 'keys']);
 
         $keys = implode(',', $keys);
 
-        return $this->api()->get("plugins/telemetry/{$entityType}/{$entityId}/values/attributes/{$scope}", ['keys' => $keys])->json();
+        return $this->api()->get("plugins/telemetry/{$id->entityType}/{$id->id}/values/attributes/{$scope}", ['keys' => $keys])->json();
     }
 
     /**
