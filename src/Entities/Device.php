@@ -93,7 +93,7 @@ class Device extends Tntity
 
         $device = $this->api()->get("device/{$id}")->json();
 
-        return tap($this, fn () => $this->fill($device));
+        return $this->fill($device);
     }
 
     /**
@@ -142,7 +142,7 @@ class Device extends Tntity
 
         $device = $this->api()->get("device/info/{$id}")->json();
 
-        return tap($this, fn () => $this->fill($device));
+        return $this->fill($device);
     }
 
     /**
@@ -227,7 +227,7 @@ class Device extends Tntity
 
         $device = $this->api()->post("customer/{$customerId}/device/{$id}")->json();
 
-        return tap($this, fn () => $this->fill($device));
+        return $this->fill($device);
     }
 
     /**
@@ -306,7 +306,7 @@ class Device extends Tntity
 
         $device = $this->api()->post('device'.(! is_null($accessToken) ? "?accessToken={$accessToken}" : ''), $payload)->json();
 
-        return tap($this, fn () => $this->fill($device));
+        return $this->fill($device);
     }
 
     /**

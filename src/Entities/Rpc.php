@@ -186,7 +186,7 @@ class Rpc extends Tntity
 
         $rpc = $this->api()->get("rpc/persistent/{$id}")->json();
 
-        return tap($this, fn () => new self($rpc));
+        return new self($rpc);
     }
 
     /**

@@ -130,7 +130,7 @@ class Tenant extends Tntity
 
         $tenant = $this->api()->get("tenant/info/{$id}")->json();
 
-        return tap($this, fn () => $this->fill($tenant));
+        return $this->fill($tenant);
     }
 
     /**
@@ -184,6 +184,6 @@ class Tenant extends Tntity
 
         $tenant = $this->api()->post('tenant', $payload)->json();
 
-        return tap($this, fn () => $this->fill($tenant));
+        return $this->fill($tenant);
     }
 }

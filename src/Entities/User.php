@@ -160,7 +160,7 @@ class User extends Tntity
 
         $user = $this->api()->post('user?sendActivationMail='.($sendActivationMail ? 'true' : 'false'), $payload)->json();
 
-        return tap($this, fn () => $this->fill($user));
+        return $this->fill($user);
     }
 
     /**
@@ -208,7 +208,7 @@ class User extends Tntity
 
         $user = $this->api()->get("user/{$id}")->json();
 
-        return tap($this, fn () => $this->fill($user));
+        return $this->fill($user);
     }
 
     /**

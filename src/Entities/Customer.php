@@ -101,7 +101,7 @@ class Customer extends Tntity
 
         $customer = $this->api()->post('customer', $payload)->json();
 
-        return tap($this, fn () => $this->fill($customer));
+        return $this->fill($customer);
     }
 
     /**
@@ -123,7 +123,7 @@ class Customer extends Tntity
 
         $customer = $this->api()->get("customer/{$id}")->json();
 
-        return tap($this, fn () => $this->fill($customer));
+        return $this->fill($customer);
     }
 
     /**

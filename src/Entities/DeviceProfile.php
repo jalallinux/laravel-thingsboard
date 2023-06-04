@@ -116,7 +116,7 @@ class DeviceProfile extends Tntity
 
         $deviceProfile = $this->api()->get("deviceProfile/{$id}")->json();
 
-        return tap($this, fn () => $this->fill($deviceProfile));
+        return $this->fill($deviceProfile);
     }
 
     /**
@@ -140,7 +140,7 @@ class DeviceProfile extends Tntity
             return $this->getDeviceProfileById($deviceProfile['id']['id']);
         }
 
-        return tap($this, fn () => $this->fill($deviceProfile));
+        return $this->fill($deviceProfile);
     }
 
     /**
@@ -181,7 +181,7 @@ class DeviceProfile extends Tntity
 
         $deviceProfile = $this->api()->post('deviceProfile', $payload)->json();
 
-        return tap($this, fn () => $this->fill($deviceProfile));
+        return $this->fill($deviceProfile);
     }
 
     /**
@@ -227,7 +227,7 @@ class DeviceProfile extends Tntity
 
         $deviceProfile = $this->api()->post("deviceProfile/{$id}/default", $this->attributes)->json();
 
-        return tap($this, fn () => $this->fill($deviceProfile));
+        return $this->fill($deviceProfile);
     }
 
     /**
@@ -297,7 +297,7 @@ class DeviceProfile extends Tntity
 
         $deviceProfile = $this->api()->get("deviceProfileInfo/{$id}")->json();
 
-        return tap($this, fn () => $this->fill($deviceProfile));
+        return $this->fill($deviceProfile);
     }
 
     /**

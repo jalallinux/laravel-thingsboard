@@ -121,7 +121,7 @@ class WidgetBundle extends Tntity
 
         $widgetBundle = $this->api()->get("widgetsBundle/{$id}")->json();
 
-        return tap($this, fn () => $this->fill($widgetBundle));
+        return $this->fill($widgetBundle);
     }
 
     /**
@@ -173,6 +173,6 @@ class WidgetBundle extends Tntity
 
         $widgetBundle = $this->api()->post('widgetsBundle', $payload)->json();
 
-        return tap($this, fn () => $this->fill($widgetBundle));
+        return $this->fill($widgetBundle);
     }
 }
