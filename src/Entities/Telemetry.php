@@ -368,7 +368,7 @@ class Telemetry extends Tntity
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function deleteEntityTimeseries(Id $id, array $keys, bool $deleteAllDataForKeys = false, int $startTs = null, int $endTs = null, bool $rewriteLatestIfDeleted = null)
+    public function deleteEntityTimeseries(Id $id, array $keys, bool $deleteAllDataForKeys = false, int $startTs = null, int $endTs = null, bool $rewriteLatestIfDeleted = null): bool
     {
         Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
@@ -438,7 +438,7 @@ class Telemetry extends Tntity
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getAttributesByScope(Id $id, EnumTelemetryScope $scope, array $keys)
+    public function getAttributesByScope(Id $id, EnumTelemetryScope $scope, array $keys): array
     {
         Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
