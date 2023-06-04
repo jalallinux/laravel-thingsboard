@@ -5,6 +5,7 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\Telemetry;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumTelemetryScope;
+use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
@@ -21,8 +22,8 @@ class DeleteEntityAttributesTest extends TestCase
         $payload = [$key => $value];
         $scope = $this->faker->randomElement(array_diff(EnumTelemetryScope::cases(), [EnumTelemetryScope::CLIENT_SCOPE()]));
         $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->first()->id->id;
-        thingsboard($tenantUser)->telemetry()->saveEntityAttributesV1($payload, EnumEntityType::DEVICE(), $deviceId, EnumTelemetryScope::SHARED_SCOPE());
-        $result = thingsboard($tenantUser)->telemetry()->deleteEntityAttributes(EnumEntityType::DEVICE(), $deviceId, $scope, [$key]);
+        thingsboard($tenantUser)->telemetry()->saveEntityAttributesV1(new Id($deviceId, EnumEntityType::DEVICE()), $payload, EnumTelemetryScope::SHARED_SCOPE());
+        $result = thingsboard($tenantUser)->telemetry()->deleteEntityAttributes(new Id($deviceId, EnumEntityType::DEVICE()), $scope, [$key]);
         self::assertTrue($result);
     }
 
@@ -38,6 +39,6 @@ class DeleteEntityAttributesTest extends TestCase
         $scope = $this->faker->randomElement(array_diff(EnumTelemetryScope::cases(), [EnumTelemetryScope::CLIENT_SCOPE()]));
         $this->expectExceptionCode(404);
         $this->expectExceptionMessageMatches('/id/');
-        thingsboard($tenantUser)->telemetry()->deleteEntityAttributes(EnumEntityType::DEVICE(), $uuid, $scope, [$key]);
+        thingsboard($tenantUser)->telemetry()->deleteEntityAttributes(new Id($uuid, EnumEntityType::DEVICE()), $scope, [$key]);
     }
 }

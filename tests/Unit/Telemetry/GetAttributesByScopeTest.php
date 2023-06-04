@@ -5,6 +5,7 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\Telemetry;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumTelemetryScope;
+use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
@@ -20,7 +21,7 @@ class GetAttributesByScopeTest extends TestCase
         $scope = $this->faker->randomElement(EnumTelemetryScope::cases());
         $key = $this->faker->word();
         $value = $this->faker->word();
-        $result = thingsboard($tenantUser)->telemetry()->getAttributesByScope(EnumEntityType::DEVICE(), $deviceId, $scope, [$key => $value]);
+        $result = thingsboard($tenantUser)->telemetry()->getAttributesByScope(new Id($deviceId, EnumEntityType::DEVICE()), $scope, [$key => $value]);
         self::assertIsArray($result);
     }
 
@@ -36,6 +37,6 @@ class GetAttributesByScopeTest extends TestCase
         $value = $this->faker->word();
         $this->expectExceptionCode(404);
         $this->expectExceptionMessageMatches('/id/');
-        thingsboard($tenantUser)->telemetry()->getAttributesByScope(EnumEntityType::DEVICE(), $uuid, $scope, [$key => $value]);
+        thingsboard($tenantUser)->telemetry()->getAttributesByScope(new Id($uuid, EnumEntityType::DEVICE()), $scope, [$key => $value]);
     }
 }
