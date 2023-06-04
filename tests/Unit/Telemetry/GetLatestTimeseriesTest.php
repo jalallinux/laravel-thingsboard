@@ -10,18 +10,18 @@ use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
-class GetTimeseriesTest extends TestCase
+class GetLatestTimeseriesTest extends TestCase
 {
     /**
      * @throws \Throwable
      */
-    public function testGetTimeseriesSuccess()
+    public function testGetLatestTimeseriesSuccess()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->first()->id->id;
         $keys = thingsboard($tenantUser)->telemetry()->getTimeseriesKeys(EnumEntityType::DEVICE(), $deviceId);
-        $result = thingsboard($tenantUser)->telemetry()->getTimeseries(new Id($deviceId, EnumEntityType::DEVICE()), $keys,
-            now()->subDay()
+        $result = thingsboard($tenantUser)->telemetry()->getLatestTimeseries(new Id($deviceId, EnumEntityType::DEVICE()), $keys,
+            $this->faker->boolean()
         );
         self::assertIsArray($result);
     }
@@ -33,8 +33,8 @@ class GetTimeseriesTest extends TestCase
         $keys = ['key1', 'key2'];
         $this->expectExceptionCode(404);
         $this->expectExceptionMessageMatches('/id/');
-        thingsboard($tenantUser)->telemetry()->getTimeseries(new Id($uuid, EnumEntityType::DEVICE()), $keys,
-            now()->subDay()
+        thingsboard($tenantUser)->telemetry()->getLatestTimeseries(new Id($uuid, EnumEntityType::DEVICE()), $keys,
+            $this->faker->boolean()
         );
     }
 }

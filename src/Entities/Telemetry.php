@@ -7,6 +7,7 @@ use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumSortOrder;
 use JalalLinuX\Thingsboard\Enums\EnumTelemetryAggregation;
 use JalalLinuX\Thingsboard\Enums\EnumTelemetryScope;
+use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
@@ -451,7 +452,7 @@ class Telemetry extends Tntity
      * @param string $entityId
      * @param EnumTelemetryScope $scope
      * @param array $keys
-     * @return array|mixed
+     * @return array
      *
      * @throws \Throwable
      *
@@ -459,7 +460,7 @@ class Telemetry extends Tntity
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getAttributesByScope(EnumEntityType $entityType, string $entityId, EnumTelemetryScope $scope, array $keys)
+    public function getAttributesByScope(EnumEntityType $entityType, string $entityId, EnumTelemetryScope $scope, array $keys): array
     {
         Thingsboard::validation(!Str::isUuid($entityId), 'uuid', ['attribute' => 'entityId']);
 
@@ -486,51 +487,105 @@ class Telemetry extends Tntity
      * ]
      * }
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
-     * @param EnumEntityType $entityType
-     *
-     * @param string $entityId
-     *
+     * @param Id $id
      * @param array $keys
      *
-     * @param int $startTs
+     * @param \DateTime $startTs
      *
-     * @param int $endTs
+     * @param \DateTime|null $endTs
      *
-     * @param int $interval
+     * @param int|null $interval
      *
-     * @param int $limit
+     * @param int|null $limit
      *
-     * @param EnumTelemetryAggregation $agg
+     * @param EnumTelemetryAggregation|null $agg
      *
-     * @param EnumSortOrder $orderBy
+     * @param EnumSortOrder|null $orderBy
      *
      * @param bool $useStrictDataTypes
      *
-     * @return array|mixed
+     * @return array
      *
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getTimeseries(EnumEntityType $entityType, string $entityId, array $keys,
-                                  int            $startTs, int $endTs, int $interval, int $limit, EnumTelemetryAggregation $agg,
-                                  EnumSortOrder  $orderBy, bool $useStrictDataTypes)
+    public function getTimeseries(Id            $id, array $keys, \DateTime $startTs, \DateTime $endTs = null, int $interval = null, int $limit = null, EnumTelemetryAggregation $agg = null,
+                                  EnumSortOrder $orderBy = null, bool $useStrictDataTypes = null): array
     {
-        Thingsboard::validation(!Str::isUuid($entityId), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(!Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
         Thingsboard::validation(empty($keys), 'required', ['attribute' => 'keys']);
 
+        if (is_null($endTs)) {
+            $endTs = now();
+        }
+
         $keys = implode(',', $keys);
 
-        return $this->api()->get("plugins/telemetry/{$entityType}/{$entityId}/values/timeseries", [
+        $queryParams = array_filter([
             'keys' => $keys,
-            'startTs' => $startTs,
-            'endTs' => $endTs,
+            'startTs' => $startTs->getTimestamp() * 1000,
+            'endTs' => $endTs->getTimestamp() * 1000,
             'interval' => $interval,
             'limit' => $limit,
             'agg' => $agg,
             'orderBy' => $orderBy,
             'useStrictDataTypes' => $useStrictDataTypes,
-        ])->json();
+        ]);
+
+        return $this->api()->get("plugins/telemetry/{$id->entityType}/{$id->id}/values/timeseries", $queryParams)->json();
+    }
+
+    /**
+     * Returns all time-series that belong to specified entity. Use optional 'keys' parameter to return specific time-series. The result is a JSON object. The format of the values depends on the 'useStrictDataTypes' parameter. By default, all time-series values are converted to strings:
+     *
+     * {
+     * "stringTsKey": [{ "value": "value", "ts": 1609459200000}],
+     * "booleanTsKey": [{ "value": "false", "ts": 1609459200000}],
+     * "doubleTsKey": [{ "value": "42.2", "ts": 1609459200000}],
+     * "longTsKey": [{ "value": "73", "ts": 1609459200000}],
+     * "jsonTsKey": [{ "value": "{\"someNumber\": 42,\"someArray\": [1,2,3],\"someNestedObject\": {\"key\": \"value\"}}", "ts": 1609459200000}]
+     * }
+     *
+     * However, it is possible to request the values without conversion ('useStrictDataTypes'=true):
+     *
+     * {
+     * "stringTsKey": [{ "value": "value", "ts": 1609459200000}],
+     * "booleanTsKey": [{ "value": false, "ts": 1609459200000}],
+     * "doubleTsKey": [{ "value": 42.2, "ts": 1609459200000}],
+     * "longTsKey": [{ "value": 73, "ts": 1609459200000}],
+     * "jsonTsKey": [{
+     * "value": {
+     * "someNumber": 42,
+     * "someArray": [1,2,3],
+     * "someNestedObject": {"key": "value"}
+     * },
+     * "ts": 1609459200000}]
+     * }
+     *
+     * Referencing a non-existing entity Id or invalid entity type will cause an error.
+     * @param Id $id
+     *
+     * @param array|null $keys
+     *
+     * @param bool $useStrictDataTypes
+     *
+     * @return array
+     *
+     * @author Sabiee
+     *
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function getLatestTimeseries(Id $id, array $keys = null, bool $useStrictDataTypes): array
+    {
+        Thingsboard::validation(!Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
+
+        $queryParams = array_filter([
+            'keys' => implode(',', $keys),
+            'useStrictDataTypes' => $useStrictDataTypes
+        ]);
+
+        return $this->api()->get("plugins/telemetry/{$id->entityType}/{$id->id}/values/timeseries", $queryParams)->json();
     }
 }
