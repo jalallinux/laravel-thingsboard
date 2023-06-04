@@ -10,7 +10,7 @@ class Base64Image
 
     public function __construct(string $base64string)
     {
-        $this->base64string = $base64string;
+        $this->setBase64string($base64string);
     }
 
     public function download(): BinaryFileResponse
@@ -35,5 +35,10 @@ class Base64Image
     public function __toString(): string
     {
         return $this->base64string;
+    }
+
+    public function setBase64string(string $base64string): void
+    {
+        $this->base64string = $base64string;
     }
 }

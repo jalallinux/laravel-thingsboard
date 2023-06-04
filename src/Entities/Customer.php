@@ -95,7 +95,7 @@ class Customer extends Tntity
      */
     public function saveCustomer(): static
     {
-        $payload = array_merge($this->getAttributes(), [
+        $payload = array_merge($this->attributes, [
             'title' => $this->forceAttribute('title'),
         ]);
 

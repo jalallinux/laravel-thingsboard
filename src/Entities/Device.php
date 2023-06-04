@@ -299,7 +299,7 @@ class Device extends Tntity
     {
         $deviceProfileId = $deviceProfileId ?? $this->deviceProfileId->id ?? DeviceProfile::instance()->withUser($this->_thingsboardUser)->getDefaultDeviceProfileInfo()->id->id;
 
-        $payload = array_merge($this->getAttributes(), [
+        $payload = array_merge($this->attributes, [
             'name' => $this->forceAttribute('name'),
             'deviceProfileId' => new Id($deviceProfileId, EnumEntityType::DEVICE_PROFILE()),
         ]);

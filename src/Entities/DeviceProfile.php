@@ -160,7 +160,7 @@ class DeviceProfile extends Tntity
      */
     public function saveDeviceProfile(): static
     {
-        $payload = array_merge($this->getAttributes(), [
+        $payload = array_merge($this->attributes, [
             'name' => $this->forceAttribute('name'),
             'type' => 'DEFAULT',
             'provisionType' => $this->forceAttribute('provisionType'),
