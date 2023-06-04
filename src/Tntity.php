@@ -47,7 +47,7 @@ abstract class Tntity extends Model
 
     public function get($key = null, $default = null)
     {
-        return data_get($this->castAttributes(), $key, $default);
+        return data_get($this->getCastAttributes(), $key, $default);
     }
 
     public function forceAttribute($key)
@@ -57,7 +57,7 @@ abstract class Tntity extends Model
         return $value;
     }
 
-    public function castAttributes(): array
+    public function getCastAttributes(): array
     {
         foreach ($this->attributes as $k => $v) {
             $this->attributes[$k] = $this->hasCast($k) ? $this->castAttribute($k, $v) : $v;
