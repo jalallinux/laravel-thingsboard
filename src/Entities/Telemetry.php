@@ -42,9 +42,9 @@ class Telemetry extends Tntity
      * }
      * }
      *
-     * @param array $payload
-     * @param EnumTelemetryScope $scope
-     * @param string $deviceId
+     * @param  array  $payload
+     * @param  EnumTelemetryScope  $scope
+     * @param  string  $deviceId
      * @return bool
      *
      * @throws \Throwable
@@ -63,7 +63,7 @@ class Telemetry extends Tntity
 
         Thingsboard::validation(empty($payload), 'required', ['attribute' => 'payload']);
 
-        Thingsboard::validation(!Str::isUuid($deviceId), 'uuid', ['attribute' => 'deviceId']);
+        Thingsboard::validation(! Str::isUuid($deviceId), 'uuid', ['attribute' => 'deviceId']);
 
         return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$deviceId}/{$scope}", $payload)->successful();
     }
@@ -72,9 +72,9 @@ class Telemetry extends Tntity
      * Delete device attributes using provided Device Id, scope and a list of keys.
      * Referencing a non-existing Device Id will cause an error
      *
-     * @param EnumTelemetryScope $scope
-     * @param array $keys
-     * @param string $deviceId
+     * @param  EnumTelemetryScope  $scope
+     * @param  array  $keys
+     * @param  string  $deviceId
      * @return bool
      *
      * @throws \Throwable
@@ -87,7 +87,7 @@ class Telemetry extends Tntity
     {
         Thingsboard::validation(empty($keys), 'required', ['attribute' => 'keys']);
 
-        Thingsboard::validation(!Str::isUuid($deviceId), 'uuid', ['attribute' => 'deviceId']);
+        Thingsboard::validation(! Str::isUuid($deviceId), 'uuid', ['attribute' => 'deviceId']);
 
         $keys = implode(',', $keys);
 
@@ -116,9 +116,9 @@ class Telemetry extends Tntity
      * }
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param Id $id
-     * @param array $payload
-     * @param EnumTelemetryScope $scope
+     * @param  Id  $id
+     * @param  array  $payload
+     * @param  EnumTelemetryScope  $scope
      * @return bool
      *
      * @author Sabiee
@@ -135,7 +135,7 @@ class Telemetry extends Tntity
             ['attribute' => 'scope', 'values' => implode(', ', array_diff(EnumTelemetryScope::cases(), [EnumTelemetryScope::CLIENT_SCOPE()]))]
         );
 
-        Thingsboard::validation(!Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
         return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$id->entityType}/{$id->id}/{$scope}", $payload)->successful();
     }
@@ -152,7 +152,7 @@ class Telemetry extends Tntity
     {
         Thingsboard::validation(empty($keys), 'required', ['attribute' => 'keys']);
 
-        Thingsboard::validation(!Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
         $keys = implode(',', $keys);
 
@@ -180,9 +180,9 @@ class Telemetry extends Tntity
      * }
      * }
      *
-     * @param Id $id
-     * @param array $payload
-     * @param EnumTelemetryScope $scope
+     * @param  Id  $id
+     * @param  array  $payload
+     * @param  EnumTelemetryScope  $scope
      * @return bool
      *
      * @author Sabiee
@@ -193,7 +193,7 @@ class Telemetry extends Tntity
     {
         Thingsboard::validation(empty($payload), 'required', ['attribute' => 'payload']);
 
-        Thingsboard::validation(!Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
         Thingsboard::validation(
             $scope->equals(EnumTelemetryScope::CLIENT_SCOPE()),
@@ -214,7 +214,7 @@ class Telemetry extends Tntity
      * SHARED_SCOPE - supported for devices.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param Id $id
+     * @param  Id  $id
      * @return array
      *
      * @author Sabiee
@@ -223,7 +223,7 @@ class Telemetry extends Tntity
      */
     public function getAttributeKeys(Id $id): array
     {
-        Thingsboard::validation(!Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
         return $this->api()->get("plugins/telemetry/{$id->entityType}/{$id->id}/keys/attributes")->json();
     }
@@ -235,8 +235,8 @@ class Telemetry extends Tntity
      * SHARED_SCOPE - supported for devices.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param Id $id
-     * @param EnumTelemetryScope $scope
+     * @param  Id  $id
+     * @param  EnumTelemetryScope  $scope
      * @return array
      *
      * @author Sabiee
@@ -245,7 +245,7 @@ class Telemetry extends Tntity
      */
     public function getAttributeKeysByScope(Id $id, EnumTelemetryScope $scope): array
     {
-        Thingsboard::validation(!Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
         return $this->api()->get("plugins/telemetry/{$id->entityType}/{$id->id}/keys/attributes/{$scope}")->json();
     }
@@ -254,7 +254,7 @@ class Telemetry extends Tntity
      * Returns a set of unique time-series key names for the selected entity.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param Id $id
+     * @param  Id  $id
      * @return array
      *
      * @author Sabiee
@@ -263,7 +263,7 @@ class Telemetry extends Tntity
      */
     public function getTimeseriesKeys(Id $id): array
     {
-        Thingsboard::validation(!Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
         return $this->api()->get("plugins/telemetry/{$id->entityType}/{$id->id}/keys/timeseries")->json();
     }
@@ -280,8 +280,8 @@ class Telemetry extends Tntity
      * The scope parameter is not used in the API call implementation but should be specified whatever value because it is used as a path variable.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param Id $id
-     * @param array $payload
+     * @param  Id  $id
+     * @param  array  $payload
      * @return bool
      *
      * @author Sabiee
@@ -298,13 +298,13 @@ class Telemetry extends Tntity
 
         foreach ($payload as $row) {
             Thingsboard::validation(
-                !array_key_exists('ts', $row) || strlen($row['ts']) != 13 || !array_key_exists('values', $row) || !isArrayAssoc($row['values']),
+                ! array_key_exists('ts', $row) || strlen($row['ts']) != 13 || ! array_key_exists('values', $row) || ! isArrayAssoc($row['values']),
                 'array_of',
                 ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']
             );
         }
 
-        Thingsboard::validation(!Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
         return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$id->entityType}/{$id->id}/timeseries/ANY?scope=ANY", $payload)->successful();
     }
@@ -340,13 +340,13 @@ class Telemetry extends Tntity
 
         foreach ($payload as $row) {
             Thingsboard::validation(
-                !array_key_exists('ts', $row) || strlen($row['ts']) != 13 || !array_key_exists('values', $row) || !isArrayAssoc($row['values']),
+                ! array_key_exists('ts', $row) || strlen($row['ts']) != 13 || ! array_key_exists('values', $row) || ! isArrayAssoc($row['values']),
                 'array_of',
                 ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']
             );
         }
 
-        Thingsboard::validation(!Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
         return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$id->entityType}/{$id->id}/timeseries/ANY/{$ttl}?scope=ANY", $payload)->successful();
     }
@@ -356,12 +356,12 @@ class Telemetry extends Tntity
      * Use 'deleteAllDataForKeys' to delete all time-series data. Use 'startTs' and 'endTs' to specify time-range instead.
      * Use 'rewriteLatestIfDeleted' to rewrite latest value (stored in separate table for performance) after deletion of the time range.
      *
-     * @param Id $id
-     * @param array $keys
-     * @param bool $deleteAllDataForKeys
-     * @param int|null $startTs
-     * @param int|null $endTs
-     * @param bool|null $rewriteLatestIfDeleted
+     * @param  Id  $id
+     * @param  array  $keys
+     * @param  bool  $deleteAllDataForKeys
+     * @param  int|null  $startTs
+     * @param  int|null  $endTs
+     * @param  bool|null  $rewriteLatestIfDeleted
      * @return bool
      *
      * @author Sabiee
@@ -370,12 +370,12 @@ class Telemetry extends Tntity
      */
     public function deleteEntityTimeseries(Id $id, array $keys, bool $deleteAllDataForKeys = false, int $startTs = null, int $endTs = null, bool $rewriteLatestIfDeleted = null): bool
     {
-        Thingsboard::validation(!Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
         Thingsboard::validation(empty($keys), 'required', ['attribute' => 'keys']);
 
         $keys = implode(',', $keys);
-        if (!$deleteAllDataForKeys) {
+        if (! $deleteAllDataForKeys) {
             Thingsboard::validation(is_null($startTs), 'required_if', ['attribute' => 'startTs', 'other' => 'deleteAllDataForKeys', 'value' => 'false']);
             Thingsboard::validation(is_null($endTs), 'required_if', ['attribute' => 'endTs', 'other' => 'deleteAllDataForKeys', 'value' => 'false']);
         }
@@ -385,14 +385,14 @@ class Telemetry extends Tntity
             'keys' => $keys,
         ];
 
-        if (!is_null($startTs) && !is_null($endTs)) {
+        if (! is_null($startTs) && ! is_null($endTs)) {
             $queryParams = array_merge($queryParams, [
                 'startTs' => $startTs,
                 'endTs' => $endTs,
             ]);
         }
 
-        if (!is_null($rewriteLatestIfDeleted)) {
+        if (! is_null($rewriteLatestIfDeleted)) {
             $queryParams = array_merge($queryParams, [
                 'rewriteLatestIfDeleted' => $rewriteLatestIfDeleted,
             ]);
@@ -427,9 +427,9 @@ class Telemetry extends Tntity
      * ]
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param Id $id
-     * @param EnumTelemetryScope $scope
-     * @param array $keys
+     * @param  Id  $id
+     * @param  EnumTelemetryScope  $scope
+     * @param  array  $keys
      * @return array
      *
      * @throws \Throwable
@@ -440,7 +440,7 @@ class Telemetry extends Tntity
      */
     public function getAttributesByScope(Id $id, EnumTelemetryScope $scope, array $keys): array
     {
-        Thingsboard::validation(!Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
         Thingsboard::validation(empty($keys), 'required', ['attribute' => 'keys']);
 
@@ -466,25 +466,25 @@ class Telemetry extends Tntity
      * }
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param Id $id
-     * @param array $keys
-     * @param \DateTime $startTs
-     * @param \DateTime|null $endTs
-     * @param int|null $interval
-     * @param int|null $limit
-     * @param EnumTelemetryAggregation|null $agg
-     * @param EnumSortOrder|null $orderBy
-     * @param bool $useStrictDataTypes
+     * @param  Id  $id
+     * @param  array  $keys
+     * @param  \DateTime  $startTs
+     * @param  \DateTime|null  $endTs
+     * @param  int|null  $interval
+     * @param  int|null  $limit
+     * @param  EnumTelemetryAggregation|null  $agg
+     * @param  EnumSortOrder|null  $orderBy
+     * @param  bool  $useStrictDataTypes
      * @return array
      *
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getTimeseries(Id            $id, array $keys, \DateTime $startTs, \DateTime $endTs = null, int $interval = null, int $limit = null, EnumTelemetryAggregation $agg = null,
-                                  EnumSortOrder $orderBy = null, bool $useStrictDataTypes = null): array
+    public function getTimeseries(Id $id, array $keys, \DateTime $startTs, \DateTime $endTs = null, int $interval = null, int $limit = null, EnumTelemetryAggregation $agg = null,
+        EnumSortOrder $orderBy = null, bool $useStrictDataTypes = null): array
     {
-        Thingsboard::validation(!Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
         Thingsboard::validation(empty($keys), 'required', ['attribute' => 'keys']);
 
@@ -537,9 +537,9 @@ class Telemetry extends Tntity
      *
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param Id $id
-     * @param array|null $keys
-     * @param bool $useStrictDataTypes
+     * @param  Id  $id
+     * @param  array|null  $keys
+     * @param  bool  $useStrictDataTypes
      * @return array
      *
      * @author Sabiee
@@ -548,7 +548,7 @@ class Telemetry extends Tntity
      */
     public function getLatestTimeseries(Id $id, array $keys = null, bool $useStrictDataTypes): array
     {
-        Thingsboard::validation(!Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
         $queryParams = array_filter([
             'keys' => implode(',', $keys),
@@ -577,10 +577,8 @@ class Telemetry extends Tntity
      * ]
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param Id $id
-     *
-     * @param array|null $keys
-     *
+     * @param  Id  $id
+     * @param  array|null  $keys
      * @return array|mixed
      *
      * @author sabiee
@@ -589,7 +587,7 @@ class Telemetry extends Tntity
      */
     public function getEntityAttributes(Id $id, array $keys = null)
     {
-        Thingsboard::validation(!Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
         return $this->api()->get("plugins/telemetry/{$id->entityType}/{$id->id}/values/attributes{?keys}", is_null($keys) ? [] : implode(',', $keys))->json();
     }
