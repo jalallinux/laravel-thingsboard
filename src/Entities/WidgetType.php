@@ -108,9 +108,9 @@ class WidgetType extends Tntity
      * Special Tenant ID '13814000-1dd2-11b2-8080-808080808080' is automatically used if the create request is sent by user with 'SYS_ADMIN' authority.
      * Remove 'id', 'tenantId' rom the request body example (below) to create new Widget Type entity.
      *
-     * @param string|null $name
-     * @param string|null $bundleAlias
-     * @param Descriptor|null $descriptor
+     * @param  string|null  $name
+     * @param  string|null  $bundleAlias
+     * @param  Descriptor|null  $descriptor
      * @return self
      *
      * @author JalalLinuX
@@ -125,7 +125,7 @@ class WidgetType extends Tntity
             'descriptor' => ($descriptor ?? $this->forceAttribute('descriptor'))->toArray(),
         ]);
 
-        $widgetType = $this->api()->post("widgetType", $payload)->json();
+        $widgetType = $this->api()->post('widgetType', $payload)->json();
 
         return $this->fill($widgetType);
     }
@@ -135,7 +135,7 @@ class WidgetType extends Tntity
      * Widget Type represents the template for widget creation.
      * Widget Type and Widget are similar to class and object in OOP theory.
      *
-     * @param string $defaultWidgetTypesDescriptor
+     * @param  string  $defaultWidgetTypesDescriptor
      * @return Descriptor
      *
      * @author JalalLinuX
@@ -145,7 +145,7 @@ class WidgetType extends Tntity
     public function getDefaultWidgetTypeDescriptor(string $defaultWidgetTypesDescriptor): Descriptor
     {
         Thingsboard::validation(is_null($params = config("thingsboard.default_widget_type_descriptors.{$defaultWidgetTypesDescriptor}")), 'in', [
-            'attribute' => 'defaultWidgetTypes', 'values' => implode(', ', array_keys(config('thingsboard.default_widget_type_descriptors')))
+            'attribute' => 'defaultWidgetTypes', 'values' => implode(', ', array_keys(config('thingsboard.default_widget_type_descriptors'))),
         ]);
 
         return $this->getWidgetType($params['bundleAlias'], $params['alias'], $params['isSystem'])->descriptor;
