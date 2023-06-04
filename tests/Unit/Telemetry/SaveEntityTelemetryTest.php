@@ -27,7 +27,7 @@ class SaveEntityTelemetryTest extends TestCase
                 ],
             ],
         ];
-        $result = thingsboard($tenantUser)->telemetry()->saveEntityTelemetry(new Id($deviceId, EnumEntityType::DEVICE()),$payload);
+        $result = thingsboard($tenantUser)->telemetry()->saveEntityTelemetry(new Id($deviceId, EnumEntityType::DEVICE()), $payload);
         thingsboard($tenantUser)->telemetry()->deleteEntityTimeseries(new Id($deviceId, EnumEntityType::DEVICE()), $payload[0]['values'], true);
         $this->assertTrue($result);
     }
