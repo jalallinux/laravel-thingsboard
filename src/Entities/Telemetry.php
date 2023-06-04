@@ -116,9 +116,9 @@ class Telemetry extends Tntity
      * }
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param Id $id
-     * @param array $payload
-     * @param EnumTelemetryScope $scope
+     * @param  Id  $id
+     * @param  array  $payload
+     * @param  EnumTelemetryScope  $scope
      * @return bool
      *
      * @author Sabiee
@@ -180,9 +180,9 @@ class Telemetry extends Tntity
      * }
      * }
      *
-     * @param Id $id
-     * @param array $payload
-     * @param EnumTelemetryScope $scope
+     * @param  Id  $id
+     * @param  array  $payload
+     * @param  EnumTelemetryScope  $scope
      * @return bool
      *
      * @author Sabiee
@@ -214,7 +214,7 @@ class Telemetry extends Tntity
      * SHARED_SCOPE - supported for devices.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param Id $id
+     * @param  Id  $id
      * @return array
      *
      * @author Sabiee
@@ -235,8 +235,8 @@ class Telemetry extends Tntity
      * SHARED_SCOPE - supported for devices.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param Id $id
-     * @param EnumTelemetryScope $scope
+     * @param  Id  $id
+     * @param  EnumTelemetryScope  $scope
      * @return array
      *
      * @author Sabiee
@@ -254,7 +254,7 @@ class Telemetry extends Tntity
      * Returns a set of unique time-series key names for the selected entity.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param Id $id
+     * @param  Id  $id
      * @return array
      *
      * @author Sabiee
@@ -280,8 +280,8 @@ class Telemetry extends Tntity
      * The scope parameter is not used in the API call implementation but should be specified whatever value because it is used as a path variable.
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param Id $id
-     * @param array $payload
+     * @param  Id  $id
+     * @param  array  $payload
      * @return bool
      *
      * @author Sabiee
@@ -346,7 +346,7 @@ class Telemetry extends Tntity
             );
         }
 
-        Thingsboard::validation(!Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
         return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("plugins/telemetry/{$id->entityType}/{$id->id}/timeseries/ANY/{$ttl}?scope=ANY", $payload)->successful();
     }
@@ -356,12 +356,12 @@ class Telemetry extends Tntity
      * Use 'deleteAllDataForKeys' to delete all time-series data. Use 'startTs' and 'endTs' to specify time-range instead.
      * Use 'rewriteLatestIfDeleted' to rewrite latest value (stored in separate table for performance) after deletion of the time range.
      *
-     * @param Id $id
-     * @param array $keys
-     * @param bool $deleteAllDataForKeys
-     * @param int|null $startTs
-     * @param int|null $endTs
-     * @param bool|null $rewriteLatestIfDeleted
+     * @param  Id  $id
+     * @param  array  $keys
+     * @param  bool  $deleteAllDataForKeys
+     * @param  int|null  $startTs
+     * @param  int|null  $endTs
+     * @param  bool|null  $rewriteLatestIfDeleted
      * @return bool
      *
      * @author Sabiee
@@ -427,9 +427,9 @@ class Telemetry extends Tntity
      * ]
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
-     * @param Id $id
-     * @param EnumTelemetryScope $scope
-     * @param array $keys
+     * @param  Id  $id
+     * @param  EnumTelemetryScope  $scope
+     * @param  array  $keys
      * @return array
      *
      * @throws \Throwable
