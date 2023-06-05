@@ -205,17 +205,19 @@ class Asset extends Tntity
      * Creates assignment of the asset to customer.
      * Customer will be able to query asset afterwards.
      *
-     * @param  string  $customerId
-     * @param  string|null  $id
+     * @param string|null $customerId
+     * @param string|null $id
      * @return self
      *
      * @author Sabiee
      *
      * @group TENANT_ADMIN
      */
-    public function assignAssetToCustomer(string $customerId, string $id = null): static
+    public function assignAssetToCustomer(string $customerId = null, string $id = null): static
     {
         $id = $id ?? $this->forceAttribute('id')->id;
+
+        $customerId = $customerId ?? $this->forceAttribute('customerId')->id;
 
         Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'assetId']);
 
@@ -241,5 +243,31 @@ class Asset extends Tntity
         Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'deviceId']);
 
         return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("customer/asset/{$id}")->successful();
+    }
+
+    /**
+     * Returns a page of assets info objects assigned to customer.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details.
+     * Asset Info is an extension of the default Asset object that contains information about the assigned customer name.
+     *
+     * @param PaginationArguments $paginationArguments
+     * @param string|null $customerId
+     * @param string|null $type
+     * @param string|null $assetProfileId
+     * @return PaginatedResponse
+     * @author  Sabiee
+     */
+    public function getCustomerAssetInfos(PaginationArguments $paginationArguments, string $customerId = null, string $type = null, string $assetProfileId = null): PaginatedResponse
+    {
+        $paginationArguments->validateSortProperty(EnumAssetSortProperty::class);
+
+        $response = $this->api()->get("customer/{$customerId}/assetInfos", $paginationArguments->queryParams([
+            'type' => $type ?? @$this->type,
+            'assetProfileId' => $assetProfileId ?? @$this->assetProfileId->id,
+        ]));
+
+        return $this->paginatedResponse($response, $paginationArguments);
     }
 }
