@@ -557,4 +557,38 @@ class Telemetry extends Tntity
 
         return $this->api()->get("plugins/telemetry/{$id->entityType}/{$id->id}/values/timeseries", $queryParams)->json();
     }
+
+    /**
+     * Returns all attributes that belong to specified entity. Use optional 'keys' parameter to return specific attributes. Example of the result:
+     *
+     * [
+     * {"key": "stringAttributeKey", "value": "value", "lastUpdateTs": 1609459200000},
+     * {"key": "booleanAttributeKey", "value": false, "lastUpdateTs": 1609459200001},
+     * {"key": "doubleAttributeKey", "value": 42.2, "lastUpdateTs": 1609459200002},
+     * {"key": "longKeyExample", "value": 73, "lastUpdateTs": 1609459200003},
+     * {"key": "jsonKeyExample",
+     * "value": {
+     * "someNumber": 42,
+     * "someArray": [1,2,3],
+     * "someNestedObject": {"key": "value"}
+     * },
+     * "lastUpdateTs": 1609459200004
+     * }
+     * ]
+     * Referencing a non-existing entity Id or invalid entity type will cause an error.
+     *
+     * @param  Id  $id
+     * @param  array|null  $keys
+     * @return array|mixed
+     *
+     * @author sabiee
+     *
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function getEntityAttributes(Id $id, array $keys = null)
+    {
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
+
+        return $this->api()->get("plugins/telemetry/{$id->entityType}/{$id->id}/values/attributes{?keys}", is_null($keys) ? [] : implode(',', $keys))->json();
+    }
 }
