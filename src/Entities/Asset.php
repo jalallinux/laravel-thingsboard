@@ -200,4 +200,44 @@ class Asset extends Tntity
 
         return array_map(fn ($asset) => new Asset($asset), $assets);
     }
+
+    /**
+     * Creates assignment of the asset to customer.
+     * Customer will be able to query asset afterwards.
+     *
+     * @param string $customerId
+     * @param string|null $id
+     * @return self
+     * @author Sabiee
+     *
+     * @group TENANT_ADMIN
+     */
+    public function assignAssetToCustomer(string $customerId, string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'assetId']);
+
+        $asset = $this->api()->post("customer/{$customerId}/asset/{$id}")->json();
+
+        return $this->fill($asset);
+    }
+
+    /**
+     * Clears assignment of the asset to customer. Customer will not be able to query asset afterwards.
+     *
+     * @param string|null $id
+     * @return bool
+     * @author Sabiee
+     *
+     * @group TENANT_ADMIN
+     */
+    public function unassignAssetFromCustomer(string $id = null): bool
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'deviceId']);
+
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("customer/asset/{$id}")->successful();
+    }
 }
