@@ -80,7 +80,7 @@ class Asset extends Tntity
      * Deletes the asset and all the relations (from and to the asset).
      * Referencing non-existing asset Id will cause an error.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return bool
      *
      * @author  Sabiee

@@ -3,7 +3,6 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\Asset;
 
 use JalalLinuX\Thingsboard\Entities\Asset;
-use JalalLinuX\Thingsboard\Entities\Tenant;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
