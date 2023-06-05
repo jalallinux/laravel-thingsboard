@@ -15,6 +15,6 @@ class GetAssetTypesTest extends TestCase
 
         $this->assertIsArray($types);
 
-        array_map(fn($type) => $this->assertArrayHasKey('type', $type), $types);
+        array_map(fn ($type) => $this->assertArrayHasKey('type', $type), $types);
     }
 }

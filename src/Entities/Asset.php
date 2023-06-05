@@ -67,8 +67,9 @@ class Asset extends Tntity
      * 'customerId' from the request body example (below) to create new Asset entity.
      *
      *
-     * @param string|null $assetProfileId
+     * @param  string|null  $assetProfileId
      * @return self
+     *
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
@@ -152,8 +153,9 @@ class Asset extends Tntity
      * If the user has the authority of 'Customer User', the server checks that the asset is assigned to the same customer.
      * Asset Info is an extension of the default Asset object that contains information about the assigned customer name.
      *
-     * @param string $id
+     * @param  string  $id
      * @return self
+     *
      * @author  Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
@@ -172,10 +174,11 @@ class Asset extends Tntity
      * to the customer which user is performing the request.
      *
      * @return array
+     *
      * @author Sabiee
      */
     public function getAssetTypes(): array
     {
-        return $this->api()->get("asset/types")->json();
+        return $this->api()->get('asset/types')->json();
     }
 }
