@@ -181,4 +181,21 @@ class Asset extends Tntity
     {
         return $this->api()->get('asset/types')->json();
     }
+
+    /**
+     * Requested assets must be owned by tenant or assigned to customer which user is performing the request.
+     * @param array $ids
+     * @return Asset[]
+     * @author Sabiee
+     */
+    public function getAssetsByIds(array $ids): array
+    {
+        foreach ($ids as $id) {
+            Thingsboard::validation(! Str::isUuid($id), 'array_of', ['attribute' => 'ids', 'struct' => 'uuid']);
+        }
+
+        $assets = $this->api()->get('assets', ['assetIds' => implode(',', $ids)])->json();
+
+        return array_map(fn ($asset) => new Asset($asset), $assets);
+    }
 }
