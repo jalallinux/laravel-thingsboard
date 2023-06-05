@@ -4,7 +4,9 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\Asset;
 
 use JalalLinuX\Thingsboard\Entities\Asset;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
+use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Exceptions\Exception;
+use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
@@ -13,13 +15,18 @@ class GetAssetInfoByIdTest extends TestCase
     public function testExistUuid()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $assetId = thingsboard($tenantUser)->asset()->getTenantAssets(
-            PaginationArguments::make()
-        )->data()->first()->id->id;
+        $assetProfileId = thingsboard($tenantUser)->assetProfile()->getAssetProfiles(PaginationArguments::make(textSearch: 'default'))->data()->first()->id->id;
+        $attributes = [
+            'name' => $this->faker->sentence(3),
+            'assetProfileId' => new Id($assetProfileId, EnumEntityType::ASSET_PROFILE()),
+        ];
+        $newAsset = thingsboard($tenantUser)->asset($attributes)->saveAsset();
 
-        $asset = thingsboard($tenantUser)->asset()->getAssetInfoById($assetId);
-        $this->assertEquals($assetId, $asset->id->id);
+        $asset = thingsboard($tenantUser)->asset()->getAssetInfoById($newAsset->id->id);
+        $this->assertEquals($newAsset->id->id, $asset->id->id);
         $this->assertInstanceOf(Asset::class, $asset);
+        $result = $newAsset->deleteAsset();
+        $this->assertTrue($result);
     }
 
     public function testInvalidUuid()
