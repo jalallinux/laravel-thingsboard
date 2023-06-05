@@ -301,7 +301,7 @@ class Asset extends Tntity
      * This is useful to create dashboards that you plan to share/embed on a publicly available website.
      * However, users that are logged-in and belong to different tenant will not be able to access the asset.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return self
      *
      * @author  Sabiee
@@ -346,8 +346,9 @@ class Asset extends Tntity
      * Requested asset must be owned by tenant that the user belongs to.
      * Asset name is an unique property of asset. So it can be used to identify the asset.
      *
-     * @param string|null $name
+     * @param  string|null  $name
      * @return self
+     *
      * @author  Sabiee
      *
      * @group TENANT_ADMIN
@@ -357,6 +358,7 @@ class Asset extends Tntity
         $name = $name ?? $this->forceAttribute('name');
 
         $asset = $this->api()->get('tenant/assets', ['assetName' => $name])->json();
+
         return $this->fill($asset);
     }
 }
