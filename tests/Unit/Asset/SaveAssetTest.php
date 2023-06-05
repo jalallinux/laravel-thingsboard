@@ -21,7 +21,7 @@ class SaveAssetTest extends TestCase
         ];
         $asset = thingsboard($tenantUser)->asset($attributes)->saveAsset();
 
-        $asset->deleteAsset($asset->id->id);
+        $asset->deleteAsset();
 
         $this->assertInstanceOf(Asset::class, $asset);
         $this->assertInstanceOf(Id::class, $asset->id);
@@ -43,7 +43,13 @@ class SaveAssetTest extends TestCase
     public function testExistsName()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $asset = thingsboard($tenantUser)->asset()->getTenantAssets(PaginationArguments::make())->data()->first();
+        $assetProfileId = thingsboard($tenantUser)->assetProfile()->getAssetProfiles(PaginationArguments::make(textSearch: 'default'))->data()->first()->id->id;
+        $attributes = [
+            'name' => $this->faker->sentence(3),
+            'assetProfileId' => new Id($assetProfileId, EnumEntityType::ASSET_PROFILE()),
+        ];
+        $asset = thingsboard($tenantUser)->asset($attributes)->saveAsset();
+
         $assetProfileId = thingsboard($tenantUser)->assetProfile()->getAssetProfiles(PaginationArguments::make(textSearch: 'default'))->data()->first()->id->id;
         $attributes = [
             'name' => $asset->name,
@@ -52,5 +58,8 @@ class SaveAssetTest extends TestCase
         $this->expectExceptionCode(400);
         $this->expectExceptionMessageMatches('/name/');
         thingsboard($tenantUser)->asset($attributes)->saveAsset();
+
+        $result = $asset->deleteAsset();
+        $this->assertTrue($result);
     }
 }
