@@ -20,14 +20,14 @@ class GetTenantAssetInfosTest extends TestCase
             'name' => $this->faker->sentence(3),
             'assetProfileId' => new Id($assetProfileId, EnumEntityType::ASSET_PROFILE()),
         ];
-        $asset = thingsboard($tenantUser)->asset($attributes)->saveAsset();
+        $newAsset = thingsboard($tenantUser)->asset($attributes)->saveAsset();
         $sortProperty = $this->faker->randomElement(array_diff(EnumAssetSortProperty::cases(), [EnumAssetSortProperty::CUSTOMER_TITLE()]));
         $assets = thingsboard($tenantUser)->asset()->getTenantAssetInfos(
             PaginationArguments::make(sortProperty: $sortProperty), assetProfileId: $assetProfileId
         );
 
         $assets->data()->each(fn ($asset) => $this->assertInstanceOf(Asset::class, $asset));
-        $result = $asset->deleteAsset();
+        $result = $newAsset->deleteAsset();
         $this->assertTrue($result);
 
     }
