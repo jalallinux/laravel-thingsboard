@@ -23,7 +23,7 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property string $createdTime
  * @property array $additionalInfo
  * @property string $customerTitle
- * @property boolean $customerIsPublic
+ * @property bool $customerIsPublic
  * @property string $assetProfileName
  */
 class Asset extends Tntity
