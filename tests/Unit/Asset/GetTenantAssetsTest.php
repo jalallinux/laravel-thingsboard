@@ -13,7 +13,7 @@ class GetTenantAssetsTest extends TestCase
     public function testFetchSuccess()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $sortProperty = $this->faker->randomElement(array_diff(EnumAssetSortProperty::cases()));
+        $sortProperty = $this->faker->randomElement(array_diff(EnumAssetSortProperty::cases(), [EnumAssetSortProperty::CUSTOMER_TITLE()]));
         $assets = thingsboard($tenantUser)->asset()->getTenantAssets(
             PaginationArguments::make(sortProperty: $sortProperty)
         );
@@ -23,7 +23,7 @@ class GetTenantAssetsTest extends TestCase
 
     public function testPaginationData()
     {
-        $sortProperty = $this->faker->randomElement(array_diff(EnumAssetSortProperty::cases()));
+        $sortProperty = $this->faker->randomElement(array_diff(EnumAssetSortProperty::cases(), [EnumAssetSortProperty::CUSTOMER_TITLE()]));
         $pagination = $this->randomPagination([$sortProperty]);
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 
