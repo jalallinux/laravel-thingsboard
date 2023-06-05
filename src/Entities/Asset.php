@@ -22,6 +22,9 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property Id $assetProfileId
  * @property string $createdTime
  * @property array $additionalInfo
+ * @property string $customerTitle
+ * @property boolean $customerIsPublic
+ * @property string $assetProfileName
  */
 class Asset extends Tntity
 {
@@ -35,6 +38,9 @@ class Asset extends Tntity
         'assetProfileId',
         'createdTime',
         'additionalInfo',
+        'customerTitle',
+        'customerIsPublic',
+        'assetProfileName',
     ];
 
     protected $casts = [
@@ -44,6 +50,7 @@ class Asset extends Tntity
         'assetProfileId' => CastId::class,
         'additionalInfo' => 'array',
         'createdTime' => 'timestamp',
+        'customerIsPublic' => 'boolean',
     ];
 
     public function entityType(): ?EnumEntityType
@@ -135,5 +142,24 @@ class Asset extends Tntity
         Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'assetId']);
 
         return $this->fill($this->api()->get("asset/{$id}")->json());
+    }
+
+    /**
+     * Fetch the Asset Info object based on the provided Asset Id.
+     * If the user has the authority of 'Tenant Administrator', the server checks that the asset is owned by the same tenant.
+     * If the user has the authority of 'Customer User', the server checks that the asset is assigned to the same customer.
+     * Asset Info is an extension of the default Asset object that contains information about the assigned customer name.
+     *
+     * @author  Sabiee
+     *
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function getAssetInfoById(string $id)
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'assetId']);
+
+        return $this->fill($this->api()->get("asset/info/{$id}")->json());
     }
 }
