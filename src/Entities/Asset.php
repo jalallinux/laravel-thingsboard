@@ -80,14 +80,14 @@ class Asset extends Tntity
      * Deletes the asset and all the relations (from and to the asset).
      * Referencing non-existing asset Id will cause an error.
      *
-     * @param  string  $id
+     * @param string|null $id
      * @return bool
      *
      * @author  Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function deleteAsset(string $id): bool
+    public function deleteAsset(string $id = null): bool
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
