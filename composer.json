@@ -2,8 +2,10 @@
     "name": "jalallinux/laravel-thingsboard",
     "description": "ThingsBoard laravel client",
     "keywords": [
+        "HiDevs",
         "JalalLinuX",
-        "thingsboard"
+        "thingsboard",
+        "laravel"
     ],
     "homepage": "https://github.com/jalallinux/laravel-thingsboard",
     "license": "MIT",
