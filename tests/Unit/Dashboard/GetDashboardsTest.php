@@ -5,7 +5,6 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\Dashboard;
 use JalalLinuX\Thingsboard\Entities\Dashboard;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumDashboardSortProperty;
-use JalalLinuX\Thingsboard\Enums\EnumDeviceSortProperty;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
