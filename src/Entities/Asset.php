@@ -184,8 +184,10 @@ class Asset extends Tntity
 
     /**
      * Requested assets must be owned by tenant or assigned to customer which user is performing the request.
-     * @param array $ids
+     *
+     * @param  array  $ids
      * @return Asset[]
+     *
      * @author Sabiee
      */
     public function getAssetsByIds(array $ids): array
