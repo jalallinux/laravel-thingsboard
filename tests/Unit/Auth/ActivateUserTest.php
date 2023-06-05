@@ -9,7 +9,7 @@ use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class ActivateUserTest extends TestCase
 {
-    public function testSuccess()
+    public function testStructure()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->first()->id;

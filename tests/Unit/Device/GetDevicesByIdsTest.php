@@ -9,7 +9,7 @@ use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class GetDevicesByIdsTest extends TestCase
 {
-    public function testSuccess()
+    public function testStructure()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $deviceIds = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->pluck('id.id')->toArray();

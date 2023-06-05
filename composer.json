@@ -16,6 +16,7 @@
     ],
     "require": {
         "php": "^8.0|^8.1|^8.2",
+        "ext-fileinfo": "*",
         "ext-json": "*",
         "guzzlehttp/guzzle": "^7.0",
         "illuminate/container": "^9.0|^10.0",
@@ -23,6 +24,7 @@
         "illuminate/http": "^9.0|^10.0",
         "illuminate/support": "^9.0|^10.0",
         "jenssegers/model": "^1.5",
+        "php-mqtt/client": "^1.8",
         "spatie/laravel-enum": "^3.0",
         "vkovic/laravel-custom-casts": "^1.4"
     },

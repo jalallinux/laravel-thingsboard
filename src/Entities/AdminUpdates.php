@@ -39,6 +39,6 @@ class AdminUpdates extends Tntity
     {
         $systemInfo = $this->api()->get('admin/updates')->json();
 
-        return tap($this, fn () => $this->fill($systemInfo));
+        return $this->fill($systemInfo);
     }
 }

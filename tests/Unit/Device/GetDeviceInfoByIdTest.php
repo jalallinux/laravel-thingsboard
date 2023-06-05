@@ -4,6 +4,7 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\Device;
 
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
+use JalalLinuX\Thingsboard\Exceptions\Exception;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
@@ -28,7 +29,7 @@ class GetDeviceInfoByIdTest extends TestCase
     {
         $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionCode(500);
         thingsboard($user)->device()->getDeviceInfoById(substr_replace($this->faker->uuid, 'z', -1));
     }

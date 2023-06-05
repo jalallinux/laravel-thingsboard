@@ -9,6 +9,7 @@ use JalalLinuX\Thingsboard\Enums\EnumTenantSortProperty;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -125,14 +126,11 @@ class Tenant extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'tenantId']);
 
         $tenant = $this->api()->get("tenant/info/{$id}")->json();
 
-        return tap($this, fn () => $this->fill($tenant));
+        return $this->fill($tenant);
     }
 
     /**
@@ -152,12 +150,9 @@ class Tenant extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'tenantId']);
 
-        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("tenant/{$id}")->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("tenant/{$id}")->successful();
     }
 
     /**
@@ -182,13 +177,13 @@ class Tenant extends Tntity
     {
         $tenantProfileId = $tenantProfileId ?? $this->tenantProfileId->id ?? TenantProfile::instance()->withUser($this->_thingsboardUser)->getDefaultTenantProfileInfo()->id->id;
 
-        $payload = array_merge($this->getAttributes(), [
+        $payload = array_merge($this->attributes, [
             'title' => $this->forceAttribute('title'),
             'tenantProfileId' => new Id($tenantProfileId, EnumEntityType::TENANT_PROFILE()),
         ]);
 
         $tenant = $this->api()->post('tenant', $payload)->json();
 
-        return tap($this, fn () => $this->fill($tenant));
+        return $this->fill($tenant);
     }
 }

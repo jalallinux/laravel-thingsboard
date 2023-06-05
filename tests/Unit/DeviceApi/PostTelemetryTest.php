@@ -20,10 +20,10 @@ class PostTelemetryTest extends TestCase
 
     public function testInvalidDeviceToken()
     {
-        $this->expectExceptionCode(401);
+        $this->expectExceptionCode(500);
         thingsboard()->deviceApi()->postTelemetry([
-            ['ts' => $this->faker->dateTimeBetween('-5 years')->getTimestamp() * 1000, 'values' => ['test-temperature' => $this->faker->numerify('##')]],
-            ['ts' => $this->faker->dateTimeBetween('-5 years')->getTimestamp() * 1000, 'values' => ['test-humidity' => $this->faker->numerify('##')]],
+            ['test-temperature' => $this->faker->numerify('##')],
+            ['test-humidity' => $this->faker->numerify('##')],
         ], $this->faker->slug);
     }
 

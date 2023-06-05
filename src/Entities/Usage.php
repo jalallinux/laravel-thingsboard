@@ -93,6 +93,6 @@ class Usage extends Tntity
     {
         $usage = $this->api()->get('usage')->json();
 
-        return tap($this, fn () => $this->fill($usage));
+        return $this->fill($usage);
     }
 }

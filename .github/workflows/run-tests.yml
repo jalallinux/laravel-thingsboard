@@ -1,4 +1,4 @@
-name: "Run Tests - Current"
+name: "Tests"
 
 on: [push, pull_request]
 #on:
@@ -36,6 +36,7 @@ jobs:
         image: thingsboard/tb-postgres:3.5.0
         ports:
           - 9090:9090
+          - 1883:1883
 
     steps:
       - name: Checkout code

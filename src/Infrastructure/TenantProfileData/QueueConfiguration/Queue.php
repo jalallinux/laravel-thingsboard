@@ -2,6 +2,8 @@
 
 namespace JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\QueueConfiguration;
 
+use JalalLinuX\Thingsboard\Exceptions\Exception;
+
 class Queue
 {
     private ?array $additionalInfo = null;
@@ -24,7 +26,7 @@ class Queue
 
     public function __construct(array $configuration = [])
     {
-        throw_if(! array_key_exists('name', $configuration), new \Exception('Queue configuration must have name key.'));
+        throw_if(! array_key_exists('name', $configuration), new Exception('Queue configuration must have name key.'));
 
         $this->setProcessingStrategy(ProcessingStrategy::make())->setSubmitStrategy(SubmitStrategy::make());
 
@@ -44,15 +46,15 @@ class Queue
     public function toArray(): array
     {
         return [
-            'additionalInfo' => $this->additionalInfo,
-            'consumerPerPartition' => $this->consumerPerPartition,
-            'name' => $this->name,
-            'packProcessingTimeout' => $this->packProcessingTimeout,
-            'partitions' => $this->partitions,
-            'pollInterval' => $this->pollInterval,
-            'processingStrategy' => $this->processingStrategy->toArray(),
-            'submitStrategy' => $this->submitStrategy->toArray(),
-            'topic' => $this->topic,
+            'additionalInfo' => $this->getAdditionalInfo(),
+            'consumerPerPartition' => $this->getConsumerPerPartition(),
+            'name' => $this->getName(),
+            'packProcessingTimeout' => $this->getPackProcessingTimeout(),
+            'partitions' => $this->getPartitions(),
+            'pollInterval' => $this->getPollInterval(),
+            'processingStrategy' => $this->getProcessingStrategy()->toArray(),
+            'submitStrategy' => $this->getSubmitStrategy()->toArray(),
+            'topic' => $this->getTopic(),
         ];
     }
 
@@ -66,7 +68,7 @@ class Queue
         return tap($this, fn () => $this->additionalInfo = $additionalInfo);
     }
 
-    public function isConsumerPerPartition(): bool
+    public function getConsumerPerPartition(): bool
     {
         return $this->consumerPerPartition;
     }

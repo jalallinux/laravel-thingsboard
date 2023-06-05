@@ -9,7 +9,7 @@ use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class GetTenantProfilesByIdsTest extends TestCase
 {
-    public function testSuccess()
+    public function testStructure()
     {
         $adminUser = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
         $tenantProfilesIds = thingsboard($adminUser)->tenantProfile()->getTenantProfileInfos(PaginationArguments::make())->data()->pluck('id.id')->toArray();

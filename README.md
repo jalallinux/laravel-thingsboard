@@ -1,12 +1,12 @@
 # Laravel [ThingsBoard.io](https://thingsboard.io/) Client
 
 <a href="https://github.com/jalallinux/laravel-thingsboard">  
-    <p align="center"><img src="resources/asset/thingsboard-laravel.png" width="100%"></p>    
+    <p align="center"><img src="cover.png" width="100%"></p>    
 </a>
 
 
 
-
+[![Latest Stable Version](https://poser.pugx.org/jalallinux/laravel-thingsboard/v)](https://packagist.org/packages/jalallinux/laravel-thingsboard)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/jalallinux/laravel-thingsboard.svg?style=flat-square)](https://packagist.org/packages/jalallinux/laravel-thingsboard)
 [![Tests](https://github.com/jalallinux/laravel-thingsboard/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/jalallinux/laravel-thingsboard/actions/workflows/run-tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/jalallinux/laravel-thingsboard.svg?style=flat-square)](https://packagist.org/packages/jalallinux/laravel-thingsboard)
@@ -30,9 +30,7 @@ composer require jalallinux/laravel-thingsboard
 
 
 ## Usage with Tntity classes
-You can use Tntity classes to integrate with thingsboard.
 
-#### Tntity Examples
 ```php
 use JalalLinuX\Thingsboard\Entities\DeviceApi;
 
@@ -49,8 +47,6 @@ Device::instance(['id' => 'ca3b8fc0-dcf6-11ed-a299-0f591673a2d6'])->withUser($te
 
 
 ## Usage with Helper function
-
-#### Facade Examples
 
 ```php
 /** Without Authentication */

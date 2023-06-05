@@ -10,6 +10,7 @@ use JalalLinuX\Thingsboard\Enums\EnumUserSortProperty;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -96,10 +97,7 @@ class User extends Tntity
     {
         $customerId = $customerId ?? $this->forceAttribute('customerId')->id;
 
-        throw_if(
-            ! Str::isUuid($customerId),
-            $this->exception('method "customerId" argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($customerId), 'uuid', ['attribute' => 'customerId']);
 
         $paginationArguments->validateSortProperty(EnumUserSortProperty::class);
 
@@ -128,10 +126,7 @@ class User extends Tntity
     {
         $tenantId = $tenantId ?? $this->forceAttribute('tenantId')->id;
 
-        throw_if(
-            ! Str::isUuid($tenantId),
-            $this->exception('method "tenantId" argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($tenantId), 'uuid', ['attribute' => 'tenantId']);
 
         $paginationArguments->validateSortProperty(EnumUserSortProperty::class);
 
@@ -158,14 +153,14 @@ class User extends Tntity
      */
     public function saveUser(bool $sendActivationMail = false): static
     {
-        $payload = array_merge($this->getAttributes(), [
+        $payload = array_merge($this->attributes, [
             'email' => $this->forceAttribute('email'),
             'authority' => $this->forceAttribute('authority'),
         ]);
 
         $user = $this->api()->post('user?sendActivationMail='.($sendActivationMail ? 'true' : 'false'), $payload)->json();
 
-        return tap($this, fn () => $this->fill($user));
+        return $this->fill($user);
     }
 
     /**
@@ -185,12 +180,9 @@ class User extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception('method argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'userId']);
 
-        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("user/{$id}")->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("user/{$id}")->successful();
     }
 
     /**
@@ -212,14 +204,11 @@ class User extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception('method argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'userId']);
 
         $user = $this->api()->get("user/{$id}")->json();
 
-        return tap($this, fn () => $this->fill($user));
+        return $this->fill($user);
     }
 
     /**
@@ -239,10 +228,7 @@ class User extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception('method argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'userId']);
 
         return $this->api()->get("user/{$id}/activationLink")->body();
     }

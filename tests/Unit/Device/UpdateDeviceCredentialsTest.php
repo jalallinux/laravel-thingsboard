@@ -9,14 +9,19 @@ use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class UpdateDeviceCredentialsTest extends TestCase
 {
-    public function testSuccess()
+    public function testStructure()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $device = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->random();
         $deviceCredentials = thingsboard($tenantUser)->device()->getDeviceCredentialsByDeviceId($device->id->id);
 
         $originalId = $deviceCredentials->credentialsId();
-        $newId = $this->faker->slug(2);
+
+        $this->expectExceptionCode(500);
+        $this->expectExceptionMessageMatches('/32 character/');
+        $deviceCredentials->setCredentialsId($this->faker->slug(30));
+
+        $newId = substr($this->faker->slug, 0, 32);
         $deviceCredentials = $deviceCredentials->setCredentialsId($newId);
 
         $deviceCredentials = thingsboard($tenantUser)->device()->updateDeviceCredentials($deviceCredentials);

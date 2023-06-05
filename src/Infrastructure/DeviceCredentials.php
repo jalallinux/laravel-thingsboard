@@ -5,6 +5,7 @@ namespace JalalLinuX\Thingsboard\Infrastructure;
 use Illuminate\Support\Carbon;
 use JalalLinuX\Thingsboard\Enums\EnumDeviceCredentialsType;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
+use JalalLinuX\Thingsboard\Exceptions\Exception;
 
 class DeviceCredentials
 {
@@ -78,7 +79,7 @@ class DeviceCredentials
     public function setCredentialsId(string $credentialsId): self
     {
         if ($this->credentialsType->equals(EnumDeviceCredentialsType::ACCESS_TOKEN()) && strlen($credentialsId) > 32) {
-            throw new \Exception('CredentialsId must be less than 32 character when CredentialsType is '.EnumDeviceCredentialsType::ACCESS_TOKEN()->value);
+            throw new Exception('CredentialsId must be less than 32 character when CredentialsType is '.EnumDeviceCredentialsType::ACCESS_TOKEN()->value);
         }
 
         return tap($this, fn () => $this->credentialsId = $credentialsId);

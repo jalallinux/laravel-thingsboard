@@ -10,6 +10,7 @@ use JalalLinuX\Thingsboard\Enums\EnumRpcStatus;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -68,7 +69,7 @@ class Rpc extends Tntity
 
     public function defaultAttributes(): array
     {
-        return self::config('rest.rpc.default_attributes');
+        return config('thingsboard.rest.rpc.default_attributes');
     }
 
     /**
@@ -110,14 +111,11 @@ class Rpc extends Tntity
      */
     public function sendOneWay(string $deviceId, string $method, array $params): bool
     {
-        throw_if(
-            ! Str::isUuid($deviceId),
-            $this->exception('method "deviceId" argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($deviceId), 'uuid', ['attribute' => 'deviceId']);
 
         $payload = $this->fill(['method' => $method, 'params' => $params])->toArray();
 
-        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->post("rpc/oneway/{$deviceId}", $payload)->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("rpc/oneway/{$deviceId}", $payload)->successful();
     }
 
     /**
@@ -161,14 +159,11 @@ class Rpc extends Tntity
     {
         $deviceId = $deviceId ?? $this->forceAttribute('deviceId');
 
-        throw_if(
-            ! Str::isUuid($deviceId),
-            $this->exception('method "deviceId" argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($deviceId), 'uuid', ['attribute' => 'deviceId']);
 
         $payload = $this->fill(['method' => $method, 'params' => $params])->toArray();
 
-        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->post("rpc/twoway/{$deviceId}", $payload)->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("rpc/twoway/{$deviceId}", $payload)->successful();
     }
 
     /**
@@ -187,14 +182,11 @@ class Rpc extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id');
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'id']);
 
         $rpc = $this->api()->get("rpc/persistent/{$id}")->json();
 
-        return tap($this, fn () => new self($rpc));
+        return new self($rpc);
     }
 
     /**
@@ -213,12 +205,9 @@ class Rpc extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id');
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'id']);
 
-        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("rpc/persistent/{$id}")->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("rpc/persistent/{$id}")->successful();
     }
 
     /**
@@ -241,10 +230,7 @@ class Rpc extends Tntity
 
         $deviceId = $deviceId ?? $this->forceAttribute('deviceId');
 
-        throw_if(
-            ! Str::isUuid($deviceId),
-            $this->exception('method "deviceId" argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($deviceId), 'uuid', ['attribute' => 'deviceId']);
 
         $response = $this->api()->get("rpc/persistent/device/{$deviceId}", $paginationArguments->queryParams([
             'rpcStatus' => $rpcStatus,

@@ -34,6 +34,6 @@ class SaveTenantProfileTest extends TestCase
 
         $this->expectExceptionCode(500);
         $this->expectExceptionMessageMatches('/name/');
-        thingsboard($adminUser)->tenantProfile([])->saveTenantProfile();
+        thingsboard($adminUser)->tenantProfile()->saveTenantProfile();
     }
 }

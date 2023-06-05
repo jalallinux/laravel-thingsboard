@@ -2,7 +2,6 @@
 
 namespace JalalLinuX\Thingsboard;
 
-use Exception;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
@@ -26,14 +25,13 @@ abstract class Tntity extends Model
 
     protected function api(bool $auth = true, bool $handleException = true): PendingRequest
     {
-        $baseUri = self::config('rest.base_uri');
-        $baseUri = str_ends_with($baseUri, '/') ? substr($baseUri, 0, -1) : $baseUri;
+        $baseUri = config('thingsboard.rest.schema').'://'.config('thingsboard.rest.host').':'.config('thingsboard.rest.port');
         $request = Http::baseUrl("{$baseUri}/api");
 
         if ($auth) {
-            throw_if(! isset($this->_thingsboardUser), $this->exception('method need authentication token.', 401));
+            Thingsboard::exception(! isset($this->_thingsboardUser), 'with_token', code: 401);
             $request = $request->withHeaders([
-                self::config('rest.authorization.header_key') => self::config('rest.authorization.token_type').' '.Thingsboard::fetchUserToken($this->_thingsboardUser),
+                config('thingsboard.rest.authorization.header_key') => config('thingsboard.rest.authorization.token_type').' '.Thingsboard::fetchUserToken($this->_thingsboardUser),
             ]);
         }
 
@@ -49,33 +47,23 @@ abstract class Tntity extends Model
 
     public function get($key = null, $default = null)
     {
-        return data_get($this->getAttributes(), $key, $default);
+        return data_get($this->getCastAttributes(), $key, $default);
     }
 
     public function forceAttribute($key)
     {
-        throw_if(
-            is_null($value = @$this->{$key}),
-            $this->exception("{$key} attribute is required.")
-        );
+        Thingsboard::validation(is_null($value = @$this->{$key}), 'required', ['attribute' => $key]);
 
         return $value;
     }
 
-    public function getAttributes(): array
+    public function getCastAttributes(): array
     {
         foreach ($this->attributes as $k => $v) {
             $this->attributes[$k] = $this->hasCast($k) ? $this->castAttribute($k, $v) : $v;
         }
 
         return $this->attributes;
-    }
-
-    protected function exception(string $message, $code = 500): Exception
-    {
-        $message = debug_backtrace()[1]['class'].'@'.debug_backtrace()[1]['function'].": {$message}";
-
-        return new Exception($message, $code);
     }
 
     public function toResource(string $class): JsonResource
@@ -100,10 +88,5 @@ abstract class Tntity extends Model
     public function paginatedResponse(Response $response, PaginationArguments $arguments, Tntity $tntity = null): PaginatedResponse
     {
         return new PaginatedResponse($tntity ?? $this, $response, $arguments);
-    }
-
-    public static function config(string $key = null, $default = null)
-    {
-        return is_null($key) ? config('thingsboard') : config("thingsboard.{$key}", $default);
     }
 }

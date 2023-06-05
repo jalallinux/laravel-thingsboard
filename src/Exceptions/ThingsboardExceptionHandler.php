@@ -39,12 +39,12 @@ class ThingsboardExceptionHandler
         if (self::$response->serverError()) {
             logger()->critical("({$this->getStatus()}) {$this->getMessage()}", self::$response->json() ?? []);
             if (! is_null($this->getMessage())) {
-                throw new \Exception($this->getMessage(), $this->getStatus());
+                throw new Exception($this->getMessage(), $this->getStatus());
             }
         }
 
         if (self::$response->clientError()) {
-            throw new \Exception($this->getMessage(), $this->getStatus());
+            throw new Exception($this->getMessage(), $this->getStatus());
         }
     }
 

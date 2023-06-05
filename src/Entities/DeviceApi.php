@@ -3,6 +3,7 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
+use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 class DeviceApi extends Tntity
@@ -36,20 +37,18 @@ class DeviceApi extends Tntity
      */
     public function postTelemetry(array $payload, string $deviceToken = null): bool
     {
-        if (empty($payload)) {
-            throw $this->exception('method argument must be array of ["ts" => in millisecond-timestamp, "values" => in associative array]');
-        }
+        Thingsboard::validation(empty($payload), 'array_of', ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']);
 
         foreach ($payload as $row) {
-            throw_if(
+            Thingsboard::validation(
                 ! array_key_exists('ts', $row) || strlen($row['ts']) != 13 || ! array_key_exists('values', $row) || ! isArrayAssoc($row['values']),
-                $this->exception('method argument must be array of "ts" in millisecond-timestamp, "values" in associative array.')
+                'array_of', ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']
             );
         }
 
         $deviceToken = $deviceToken ?? $this->forceAttribute('deviceToken');
 
-        return $this->api(false, self::config('rest.exception.throw_bool_methods'))->post("v1/{$deviceToken}/telemetry", $payload)->successful();
+        return $this->api(false, config('thingsboard.rest.exception.throw_bool_methods'))->post("v1/{$deviceToken}/telemetry", $payload)->successful();
     }
 
     /**
@@ -81,14 +80,11 @@ class DeviceApi extends Tntity
      */
     public function postDeviceAttributes(array $payload, string $deviceToken = null): bool
     {
-        throw_if(
-            ! isArrayAssoc($payload),
-            $this->exception('method argument must be associative array.')
-        );
+        Thingsboard::validation(! isArrayAssoc($payload), 'assoc_array', ['attribute' => 'payload']);
 
         $deviceToken = $deviceToken ?? $this->forceAttribute('deviceToken');
 
-        return $this->api(false, self::config('rest.exception.throw_bool_methods'))->post("v1/{$deviceToken}/attributes", $payload)->successful();
+        return $this->api(false, config('thingsboard.rest.exception.throw_bool_methods'))->post("v1/{$deviceToken}/attributes", $payload)->successful();
     }
 
     /**

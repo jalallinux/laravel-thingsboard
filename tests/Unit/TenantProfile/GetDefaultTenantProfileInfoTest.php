@@ -9,7 +9,7 @@ use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class GetDefaultTenantProfileInfoTest extends TestCase
 {
-    public function testSuccess()
+    public function testStructure()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
 

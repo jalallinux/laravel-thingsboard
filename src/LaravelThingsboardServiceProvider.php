@@ -15,7 +15,8 @@ class LaravelThingsboardServiceProvider extends ServiceProvider
     {
         $this->registerCommands();
         $this->registerPublishing();
-        $this->registerFacades();
+        $this->registerBindings();
+        $this->registerTranslations();
     }
 
     protected function registerPublishing(): void
@@ -23,7 +24,11 @@ class LaravelThingsboardServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__.'/../config/thingsboard.php' => config_path('thingsboard.php'),
-            ]);
+            ], 'config');
+
+            $this->publishes([
+                __DIR__.'/../lang' => lang_path('vendor/laravel-thingsboard'),
+            ], 'lang');
         }
     }
 
@@ -36,9 +41,14 @@ class LaravelThingsboardServiceProvider extends ServiceProvider
         }
     }
 
-    public function registerFacades(): void
+    public function registerBindings(): void
     {
         /** Register Helper function class */
-        $this->app->singleton(Thingsboard::class, Thingsboard::class);
+        $this->app->singleton(Thingsboard::class);
+    }
+
+    public function registerTranslations(): void
+    {
+        $this->loadTranslationsFrom(__DIR__.'/../lang', 'thingsboard');
     }
 }

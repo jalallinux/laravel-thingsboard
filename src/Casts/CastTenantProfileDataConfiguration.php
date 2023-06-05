@@ -2,6 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Casts;
 
+use JalalLinuX\Thingsboard\Exceptions\Exception;
 use JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\Configuration\Configuration;
 use JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\ProfileData;
 use JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\QueueConfiguration\QueueConfiguration;
@@ -19,7 +20,7 @@ class CastTenantProfileDataConfiguration extends CustomCastBase
             return $value->toArray();
         }
 
-        throw_if(! is_array($value) || ! array_key_exists('configuration', $value), new \Exception('Attribute must have configuration key in array.'));
+        throw_if(! is_array($value) || ! array_key_exists('configuration', $value), new Exception('Attribute must have configuration key in array.'));
 
         return $value;
     }

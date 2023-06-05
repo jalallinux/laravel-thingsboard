@@ -9,6 +9,7 @@ use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -107,10 +108,7 @@ class AuditLog extends Tntity
      */
     public function getAuditLogsByCustomerId(string $customerId, PaginationArguments $paginationArguments, \DateTime $startTime = null, \DateTime $endTime = null, EnumAuditLogActionType $actionType = null): PaginatedResponse
     {
-        throw_if(
-            ! Str::isUuid($customerId),
-            $this->exception('method "customerId" argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($customerId), 'uuid', ['attribute' => 'customerId']);
 
         $payload = $paginationArguments->queryParams([
             'actionType' => $actionType, 'startTime' => ! is_null($startTime) ? $startTime->getTimestamp() * 1000 : null, 'endTime' => ! is_null($endTime) ? $endTime->getTimestamp() * 1000 : null,
@@ -141,10 +139,7 @@ class AuditLog extends Tntity
      */
     public function getAuditLogsByUserId(string $userId, PaginationArguments $paginationArguments, \DateTime $startTime = null, \DateTime $endTime = null, EnumAuditLogActionType $actionType = null): PaginatedResponse
     {
-        throw_if(
-            ! Str::isUuid($userId),
-            $this->exception('method "userId" argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($userId), 'uuid', ['attribute' => 'userId']);
 
         $payload = $paginationArguments->queryParams([
             'actionType' => $actionType, 'startTime' => ! is_null($startTime) ? $startTime->getTimestamp() * 1000 : null, 'endTime' => ! is_null($endTime) ? $endTime->getTimestamp() * 1000 : null,

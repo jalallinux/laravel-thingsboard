@@ -3,6 +3,7 @@
 namespace JalalLinuX\Thingsboard\Infrastructure;
 
 use JalalLinuX\Thingsboard\Enums\EnumSortOrder;
+use JalalLinuX\Thingsboard\Exceptions\Exception;
 use Spatie\Enum\Laravel\Enum;
 
 class PaginationArguments
@@ -65,7 +66,7 @@ class PaginationArguments
     {
         $validValues = array_diff($sortPropertyEnum::toValues(), array_map(fn ($v) => (string) $v, $exceptKeys));
         $validated = in_array($this->sortProperty, $validValues);
-        throw_if($throw && ! $validated, new \Exception("Sort property must be a instance of {$sortPropertyEnum}: ".implode(', ', $validValues)));
+        throw_if($throw && ! $validated, new Exception("Sort property must be a instance of {$sortPropertyEnum}: ".implode(', ', $validValues)));
 
         return $validated;
     }

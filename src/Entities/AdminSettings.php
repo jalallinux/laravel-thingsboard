@@ -45,6 +45,6 @@ class AdminSettings extends Tntity
     {
         $adminSettings = $this->api()->get("admin/settings/{$key}")->json();
 
-        return tap($this, fn () => $this->fill($adminSettings));
+        return $this->fill($adminSettings);
     }
 }

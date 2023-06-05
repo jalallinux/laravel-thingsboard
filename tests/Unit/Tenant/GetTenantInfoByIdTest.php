@@ -4,6 +4,7 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\Tenant;
 
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
+use JalalLinuX\Thingsboard\Exceptions\Exception;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
@@ -28,7 +29,7 @@ class GetTenantInfoByIdTest extends TestCase
     {
         $user = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
 
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionCode(500);
         thingsboard($user)->tenant()->getTenantInfoById(substr_replace($this->faker->uuid, 'z', -1));
     }

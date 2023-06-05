@@ -4,6 +4,7 @@ namespace JalalLinuX\Thingsboard\Infrastructure;
 
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
+use JalalLinuX\Thingsboard\Thingsboard;
 
 class Id
 {
@@ -13,10 +14,8 @@ class Id
 
     public function __construct(string $id, string $entityType)
     {
-        throw_if(
-            ! Str::isUuid($id),
-            new \Exception('Id must be a valid uuid.')
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'id']);
+
         $this->id = $id;
         $this->entityType = EnumEntityType::from($entityType);
     }

@@ -5,6 +5,7 @@ namespace JalalLinuX\Thingsboard\Casts;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
+use JalalLinuX\Thingsboard\Thingsboard;
 use Vkovic\LaravelCustomCasts\CustomCastBase;
 
 class CastId extends CustomCastBase
@@ -19,8 +20,12 @@ class CastId extends CustomCastBase
             return $value->toArray();
         }
 
-        throw_if(! is_array($value) || ! array_key_exists('id', $value) || ! array_key_exists('entityType', $value), new \Exception('Attribute must have id, entityType key in a array.'));
-        throw_if(! Str::isUuid($value['id']), new \Exception('Id must be a valid uuid.'));
+        Thingsboard::validation(
+            ! is_array($value) || ! array_key_exists('id', $value) || ! array_key_exists('entityType', $value),
+            'assoc_array_of', ['attribute' => 'attribute', 'struct' => "['' => 'uuid', 'entityType' => 'EnumEntityType']"]
+        );
+
+        Thingsboard::validation(! Str::isUuid($value['id']), 'uuid', ['attribute' => 'id']);
 
         return [
             'id' => $value['id'],

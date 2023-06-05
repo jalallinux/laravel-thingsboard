@@ -9,6 +9,7 @@ use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -94,13 +95,13 @@ class Customer extends Tntity
      */
     public function saveCustomer(): static
     {
-        $payload = array_merge($this->getAttributes(), [
+        $payload = array_merge($this->attributes, [
             'title' => $this->forceAttribute('title'),
         ]);
 
         $customer = $this->api()->post('customer', $payload)->json();
 
-        return tap($this, fn () => $this->fill($customer));
+        return $this->fill($customer);
     }
 
     /**
@@ -118,14 +119,11 @@ class Customer extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception('method argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'customerId']);
 
         $customer = $this->api()->get("customer/{$id}")->json();
 
-        return tap($this, fn () => $this->fill($customer));
+        return $this->fill($customer);
     }
 
     /**
@@ -146,11 +144,8 @@ class Customer extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception('method argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'customerId']);
 
-        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("customer/{$id}")->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("customer/{$id}")->successful();
     }
 }

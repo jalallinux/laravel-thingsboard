@@ -7,7 +7,7 @@ use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class ChangePasswordTest extends TestCase
 {
-    public function testSuccess()
+    public function testStructure()
     {
         [$targetRole, $newPassword] = [EnumAuthority::CUSTOMER_USER(), '123456789'];
 

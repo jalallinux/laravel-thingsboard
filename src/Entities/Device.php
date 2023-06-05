@@ -12,6 +12,7 @@ use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Infrastructure\Type;
+use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -88,14 +89,11 @@ class Device extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'deviceId']);
 
         $device = $this->api()->get("device/{$id}")->json();
 
-        return tap($this, fn () => $this->fill($device));
+        return $this->fill($device);
     }
 
     /**
@@ -113,10 +111,7 @@ class Device extends Tntity
     public function getDevicesByIds(array $ids): array
     {
         foreach ($ids as $id) {
-            throw_if(
-                ! Str::isUuid($id),
-                $this->exception('method "ids" argument must be a valid array of uuid.'),
-            );
+            Thingsboard::validation(! Str::isUuid($id), 'array_of', ['attribute' => 'ids', 'struct' => 'uuid']);
         }
 
         $devices = $this->api()->get('/devices', ['deviceIds' => implode(',', $ids)])->json();
@@ -143,14 +138,11 @@ class Device extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'deviceId']);
 
         $device = $this->api()->get("device/info/{$id}")->json();
 
-        return tap($this, fn () => $this->fill($device));
+        return $this->fill($device);
     }
 
     /**
@@ -231,14 +223,11 @@ class Device extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id) || ! Str::isUuid($customerId),
-            $this->exception('method "id", "customerId" argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'deviceId']);
 
         $device = $this->api()->post("customer/{$customerId}/device/{$id}")->json();
 
-        return tap($this, fn () => $this->fill($device));
+        return $this->fill($device);
     }
 
     /**
@@ -258,12 +247,9 @@ class Device extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'deviceId']);
 
-        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("customer/device/{$id}")->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("customer/device/{$id}")->successful();
     }
 
     /**
@@ -283,12 +269,9 @@ class Device extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'deviceId']);
 
-        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("device/{$id}")->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("device/{$id}")->successful();
     }
 
     /**
@@ -316,14 +299,14 @@ class Device extends Tntity
     {
         $deviceProfileId = $deviceProfileId ?? $this->deviceProfileId->id ?? DeviceProfile::instance()->withUser($this->_thingsboardUser)->getDefaultDeviceProfileInfo()->id->id;
 
-        $payload = array_merge($this->getAttributes(), [
+        $payload = array_merge($this->attributes, [
             'name' => $this->forceAttribute('name'),
             'deviceProfileId' => new Id($deviceProfileId, EnumEntityType::DEVICE_PROFILE()),
         ]);
 
         $device = $this->api()->post('device'.(! is_null($accessToken) ? "?accessToken={$accessToken}" : ''), $payload)->json();
 
-        return tap($this, fn () => $this->fill($device));
+        return $this->fill($device);
     }
 
     /**
@@ -342,10 +325,7 @@ class Device extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'deviceId']);
 
         return new DeviceCredentials($this->api()->get("device/{$id}/credentials")->json());
     }

@@ -11,6 +11,7 @@ use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\ProfileData;
+use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -102,13 +103,13 @@ class TenantProfile extends Tntity
      */
     public function saveTenantProfile(): TenantProfile
     {
-        $payload = array_merge($this->getAttributes(), [
+        $payload = array_merge($this->attributes, [
             'name' => $this->forceAttribute('name'),
         ]);
 
         $tenantProfile = $this->api()->post('tenantProfile', $payload)->json();
 
-        return tap($this, fn () => $this->fill($tenantProfile));
+        return $this->fill($tenantProfile);
     }
 
     /**
@@ -129,12 +130,9 @@ class TenantProfile extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'tenantProfileId']);
 
-        return $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->delete("tenantProfile/{$id}")->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("tenantProfile/{$id}")->successful();
     }
 
     /**
@@ -153,14 +151,11 @@ class TenantProfile extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'tenantProfileId']);
 
         $tenantProfile = $this->api()->get("tenantProfile/{$id}")->json();
 
-        return tap($this, fn () => $this->fill($tenantProfile));
+        return $this->fill($tenantProfile);
     }
 
     /**
@@ -184,7 +179,7 @@ class TenantProfile extends Tntity
             return $this->getTenantProfileById($tenantProfile['id']['id']);
         }
 
-        return tap($this, fn () => $this->fill($tenantProfile));
+        return $this->fill($tenantProfile);
     }
 
     /**
@@ -204,14 +199,11 @@ class TenantProfile extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'tenantProfileId']);
 
         $tenantProfile = $this->api()->get("tenantProfileInfo/{$id}")->json();
 
-        return tap($this, fn () => $this->fill($tenantProfile));
+        return $this->fill($tenantProfile);
     }
 
     /**
@@ -255,17 +247,14 @@ class TenantProfile extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        throw_if(
-            ! Str::isUuid($id),
-            $this->exception('method "id" argument must be a valid uuid.'),
-        );
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'tenantProfileId']);
 
         $tenantProfile = $this->api()->post("tenantProfile/{$id}/default", $this->attributes)->json();
         if ($sync) {
             return $this->getTenantProfileById($id);
         }
 
-        return tap($this, fn () => $this->fill($tenantProfile));
+        return $this->fill($tenantProfile);
 
     }
 
@@ -306,10 +295,7 @@ class TenantProfile extends Tntity
     public function getTenantProfilesByIds(array $ids): array
     {
         foreach ($ids as $id) {
-            throw_if(
-                ! Str::isUuid($id),
-                $this->exception('method "ids" argument must be a valid array of uuid.'),
-            );
+            Thingsboard::validation(! Str::isUuid($id), 'array_of', ['attribute' => 'ids', 'struct' => 'uuid']);
         }
 
         $tenantProfiles = $this->api()->get('/tenantProfiles', ['ids' => implode(',', $ids)])->json();

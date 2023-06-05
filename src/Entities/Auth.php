@@ -68,7 +68,7 @@ class Auth extends Tntity
      */
     public function changePassword(string $current, $new): bool
     {
-        $changed = $this->api(handleException: self::config('rest.exception.throw_bool_methods'))->post('auth/changePassword', [
+        $changed = $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post('auth/changePassword', [
             'currentPassword' => $current, 'newPassword' => $new,
         ])->successful();
 
