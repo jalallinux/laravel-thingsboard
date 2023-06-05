@@ -2,6 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastBase64Image;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumDashboardSortProperty;
@@ -10,9 +11,11 @@ use JalalLinuX\Thingsboard\Infrastructure\Base64Image;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
+ * @property Id $id
  * @property \DateTime $createdTime
  * @property Id $tenantId
  * @property string $name
@@ -26,6 +29,7 @@ use JalalLinuX\Thingsboard\Tntity;
 class Dashboard extends Tntity
 {
     protected $fillable = [
+        'id',
         'createdTime',
         'tenantId',
         'name',
@@ -38,6 +42,7 @@ class Dashboard extends Tntity
     ];
 
     protected $casts = [
+        'id' => CastId::class,
         'createdTime' => 'timestamp',
         'tenantId' => CastId::class,
         'assignedCustomers' => 'arrayy',
@@ -99,7 +104,26 @@ class Dashboard extends Tntity
         $paginationArguments->validateSortProperty(EnumDashboardSortProperty::class);
 
         $response = $this->api()->get("tenant/{$tenantId}/dashboards", $paginationArguments->queryParams());
-
         return $this->paginatedResponse($response, $paginationArguments);
+    }
+
+    /**
+     * Get the dashboard based on 'dashboardId' parameter.
+     * The Dashboard object is a heavyweight object that contains information about the dashboard (e.g. title, image, assigned customers)
+     * and also configuration JSON (e.g. layouts, widgets, entity aliases).
+     * @param string|null $id
+     * @return $this
+     * @author JalalLinuX
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function getDashboardById(string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'dashboardId']);
+
+        $dashboard = $this->api()->get("dashboard/{$id}")->json();
+
+        return $this->fill($dashboard);
     }
 }
