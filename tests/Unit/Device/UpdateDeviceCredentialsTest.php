@@ -9,7 +9,7 @@ use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class UpdateDeviceCredentialsTest extends TestCase
 {
-    public function testSuccess()
+    public function testStructure()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $device = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->random();

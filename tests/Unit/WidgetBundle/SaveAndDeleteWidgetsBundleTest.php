@@ -9,7 +9,7 @@ use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class SaveAndDeleteWidgetsBundleTest extends TestCase
 {
-    public function testSuccess()
+    public function testStructure()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $widgetBundle = thingsboard($tenantUser)->widgetBundle()->saveWidgetsBundle($title = rtrim($this->faker->sentence(3), '.'));

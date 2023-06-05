@@ -6,7 +6,7 @@ use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class TelemetryTest extends TestCase
 {
-    public function testSuccess()
+    public function testStructure()
     {
         $deviceToken = $this->faker->randomElement([
             'A1_TEST_TOKEN', 'A2_TEST_TOKEN', 'A3_TEST_TOKEN', 'B1_TEST_TOKEN', 'C1_TEST_TOKEN',

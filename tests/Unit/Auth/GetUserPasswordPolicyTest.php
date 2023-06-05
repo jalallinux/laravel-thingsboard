@@ -7,7 +7,7 @@ use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class GetUserPasswordPolicyTest extends TestCase
 {
-    public function testSuccess()
+    public function testStructure()
     {
         $policies = thingsboard()->auth()->getUserPasswordPolicy();
         $this->assertInstanceOf(PasswordPolicy::class, $policies);

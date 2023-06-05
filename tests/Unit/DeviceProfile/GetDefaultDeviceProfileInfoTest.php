@@ -8,7 +8,7 @@ use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class GetDefaultDeviceProfileInfoTest extends TestCase
 {
-    public function testSuccess()
+    public function testStructure()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 

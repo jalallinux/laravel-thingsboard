@@ -8,7 +8,7 @@ use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class GetTenantUsageInfoTest extends TestCase
 {
-    public function testSuccess()
+    public function testStructure()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $usage = thingsboard($tenantUser)->usage()->getTenantUsageInfo();
