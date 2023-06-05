@@ -117,19 +117,18 @@ class WidgetType extends Tntity
      *
      * @group SYS_ADMIN | TENANT_ADMIN
      */
-    public function saveWidgetType(string $name = null, string $bundleAlias = null, Descriptor $descriptor = null): static
-    {
-        $payload = array_merge($this->attributes, [
-            'name' => $name ?? $this->forceAttribute('name'),
-            'bundleAlias' => $bundleAlias ?? $this->forceAttribute('bundleAlias'),
-            'descriptor' => ($descriptor ?? $this->forceAttribute('descriptor'))->toArray(),
-        ]);
-
-        dd($payload);
-        $widgetType = $this->api()->post('widgetType', $payload)->json();
-
-        return $this->fill($widgetType);
-    }
+//    public function saveWidgetType(string $name = null, string $bundleAlias = null, Descriptor $descriptor = null): static
+//    {
+//        $payload = array_merge($this->attributes, [
+//            'name' => $name ?? $this->forceAttribute('name'),
+//            'bundleAlias' => $bundleAlias ?? $this->forceAttribute('bundleAlias'),
+//            'descriptor' => ($descriptor ?? $this->forceAttribute('descriptor'))->toArray(),
+//        ]);
+//
+//        $widgetType = $this->api()->post('widgetType', $payload)->json();
+//
+//        return $this->fill($widgetType);
+//    }
 
     /**
      * Get the Widget Type based on the provided parameters.
