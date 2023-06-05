@@ -29,7 +29,7 @@ abstract class Tntity extends Model
         $request = Http::baseUrl("{$baseUri}/api");
 
         if ($auth) {
-            Thingsboard::exception(! isset($this->_thingsboardUser), 'with_token', 401);
+            Thingsboard::exception(! isset($this->_thingsboardUser), 'with_token', code: 401);
             $request = $request->withHeaders([
                 config('thingsboard.rest.authorization.header_key') => config('thingsboard.rest.authorization.token_type').' '.Thingsboard::fetchUserToken($this->_thingsboardUser),
             ]);

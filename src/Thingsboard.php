@@ -88,7 +88,7 @@ class Thingsboard
         );
     }
 
-    public static function exception(bool $condition, string $messageKey, int $code, array $replaces = []): void
+    public static function exception(bool $condition, string $messageKey, array $replaces = [], int $code = 500): void
     {
         throw_if(
             $condition, new Exception(__("thingsboard::exception.{$messageKey}", $replaces), $code)

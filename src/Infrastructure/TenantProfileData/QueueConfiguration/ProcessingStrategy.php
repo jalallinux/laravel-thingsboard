@@ -79,11 +79,11 @@ class ProcessingStrategy
     public function toArray(): array
     {
         return [
-            'failurePercentage' => $this->failurePercentage,
-            'maxPauseBetweenRetries' => $this->maxPauseBetweenRetries,
-            'pauseBetweenRetries' => $this->pauseBetweenRetries,
-            'retries' => $this->retries,
-            'type' => $this->type,
+            'failurePercentage' => $this->getFailurePercentage(),
+            'maxPauseBetweenRetries' => $this->getMaxPauseBetweenRetries(),
+            'pauseBetweenRetries' => $this->getPauseBetweenRetries(),
+            'retries' => $this->getRetries(),
+            'type' => $this->getType(),
         ];
     }
 }

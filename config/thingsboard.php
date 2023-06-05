@@ -2,6 +2,7 @@
 
 use PhpMqtt\Client\MqttClient;
 use PhpMqtt\Client\Repositories\MemoryRepository;
+use JalalLinuX\Thingsboard\Enums\EnumDefaultWidgetTypeDescriptor;
 
 return [
 
@@ -22,9 +23,42 @@ return [
         'driver' => env('THINGSBOARD_CACHE_DRIVER', 'redis'),
     ],
 
-    'countries' => json_decode(file_get_contents(__DIR__.'/countries.json'), true),
+    'countries' => json_decode(file_get_contents(__DIR__ . '/countries.json'), true),
 
-    'temp_path' => storage_path('app/public/'.uniqid()),
+    'temp_path' => storage_path('app/public/' . uniqid()),
+
+    'default_widget_type_descriptors' => [
+        [
+            'enum' => EnumDefaultWidgetTypeDescriptor::TIME_SERIES(),
+            'isSystem' => true,
+            'bundleAlias' => 'charts',
+            'alias' => 'basic_timeseries',
+        ],
+        [
+            'enum' => EnumDefaultWidgetTypeDescriptor::ATTRIBUTES_CARD(),
+            'isSystem' => true,
+            'bundleAlias' => 'cards',
+            'alias' => 'attributes_card',
+        ],
+        [
+            'enum' => EnumDefaultWidgetTypeDescriptor::GPIO_CONTROL(),
+            'isSystem' => true,
+            'bundleAlias' => 'gpio_widgets',
+            'alias' => 'basic_gpio_control',
+        ],
+        [
+            'enum' => EnumDefaultWidgetTypeDescriptor::ALARMS_TABLE(),
+            'isSystem' => true,
+            'bundleAlias' => 'alarm_widgets',
+            'alias' => 'alarms_table',
+        ],
+        [
+            'enum' => EnumDefaultWidgetTypeDescriptor::HTML_CARD(),
+            'isSystem' => true,
+            'bundleAlias' => 'cards',
+            'alias' => 'html_card',
+        ],
+    ],
 
     'rest' => [
         'schema' => env('THINGSBOARD_REST_SCHEMA', 'http'),

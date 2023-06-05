@@ -26,7 +26,7 @@ class ProfileData
         return tap($this, fn () => $this->configuration = $configuration);
     }
 
-    public function getQueueConfiguration(): QueueConfiguration
+    public function getQueueConfiguration(): ?QueueConfiguration
     {
         return $this->queueConfiguration;
     }
@@ -39,8 +39,8 @@ class ProfileData
     public function toArray(): array
     {
         return [
-            'configuration' => $this->configuration->toArray(),
-            'queueConfiguration' => is_null($this->queueConfiguration) ? null : $this->queueConfiguration->toArray(),
+            'configuration' => $this->getConfiguration()->toArray(),
+            'queueConfiguration' => is_null($this->getQueueConfiguration()) ? null : $this->queueConfiguration->toArray(),
         ];
     }
 }
