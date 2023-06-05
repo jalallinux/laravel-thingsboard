@@ -205,9 +205,10 @@ class Asset extends Tntity
      * Creates assignment of the asset to customer.
      * Customer will be able to query asset afterwards.
      *
-     * @param string $customerId
-     * @param string|null $id
+     * @param  string  $customerId
+     * @param  string|null  $id
      * @return self
+     *
      * @author Sabiee
      *
      * @group TENANT_ADMIN
@@ -226,8 +227,9 @@ class Asset extends Tntity
     /**
      * Clears assignment of the asset to customer. Customer will not be able to query asset afterwards.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return bool
+     *
      * @author Sabiee
      *
      * @group TENANT_ADMIN

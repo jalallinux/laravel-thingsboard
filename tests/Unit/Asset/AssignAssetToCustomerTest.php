@@ -3,7 +3,6 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\Asset;
 
 use JalalLinuX\Thingsboard\Entities\Asset;
-use JalalLinuX\Thingsboard\Entities\Device;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
