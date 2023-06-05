@@ -4,7 +4,6 @@ namespace JalalLinuX\Thingsboard\Entities;
 
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
-use JalalLinuX\Thingsboard\Enums\EnumAssetProfileSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumAssetSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
@@ -74,15 +73,16 @@ class Asset extends Tntity
             'assetProfileId' => new Id($assetProfileId, EnumEntityType::ASSET_PROFILE()),
         ]);
 
-        return tap($this, fn() => $this->fill($this->api()->post('asset', $payload)->json()));
+        return tap($this, fn () => $this->fill($this->api()->post('asset', $payload)->json()));
     }
 
     /**
      * Deletes the asset and all the relations (from and to the asset).
      * Referencing non-existing asset Id will cause an error.
      *
-     * @param string $id
+     * @param  string  $id
      * @return bool
+     *
      * @author  Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
@@ -91,7 +91,7 @@ class Asset extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        Thingsboard::validation(!Str::isUuid($id), 'uuid', ['attribute' => 'assetId']);
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'assetId']);
 
         return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("asset/{$id}")->successful();
     }

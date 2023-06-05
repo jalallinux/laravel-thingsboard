@@ -2,9 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Tests\Unit\Asset;
 
-use Illuminate\Support\Arr;
 use JalalLinuX\Thingsboard\Entities\Asset;
-use JalalLinuX\Thingsboard\Entities\Device;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
@@ -16,10 +14,10 @@ class SaveAssetTest extends TestCase
     public function testCreateAssetSuccess()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $assetProfileId = thingsboard($tenantUser)->assetProfile()->getAssetProfiles(PaginationArguments::make(textSearch: "default"))->data()->first()->id->id;
+        $assetProfileId = thingsboard($tenantUser)->assetProfile()->getAssetProfiles(PaginationArguments::make(textSearch: 'default'))->data()->first()->id->id;
         $attributes = [
             'name' => $this->faker->sentence(3),
-            'assetProfileId' => new Id($assetProfileId, EnumEntityType::ASSET_PROFILE())
+            'assetProfileId' => new Id($assetProfileId, EnumEntityType::ASSET_PROFILE()),
         ];
         $asset = thingsboard($tenantUser)->asset($attributes)->saveAsset();
 
@@ -35,7 +33,7 @@ class SaveAssetTest extends TestCase
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $attributes = [
-            'assetProfileId' => new Id($this->faker->uuid, EnumEntityType::ASSET_PROFILE())
+            'assetProfileId' => new Id($this->faker->uuid, EnumEntityType::ASSET_PROFILE()),
         ];
         $this->expectExceptionCode(500);
         $this->expectExceptionMessageMatches('/name/');
@@ -46,10 +44,10 @@ class SaveAssetTest extends TestCase
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $asset = thingsboard($tenantUser)->asset()->getTenantAssets(PaginationArguments::make())->data()->first();
-        $assetProfileId = thingsboard($tenantUser)->assetProfile()->getAssetProfiles(PaginationArguments::make(textSearch: "default"))->data()->first()->id->id;
+        $assetProfileId = thingsboard($tenantUser)->assetProfile()->getAssetProfiles(PaginationArguments::make(textSearch: 'default'))->data()->first()->id->id;
         $attributes = [
             'name' => $asset->name,
-            'assetProfileId' => new Id($assetProfileId, EnumEntityType::ASSET_PROFILE())
+            'assetProfileId' => new Id($assetProfileId, EnumEntityType::ASSET_PROFILE()),
         ];
         $this->expectExceptionCode(400);
         $this->expectExceptionMessageMatches('/name/');

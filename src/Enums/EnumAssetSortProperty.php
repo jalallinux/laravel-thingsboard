@@ -20,7 +20,7 @@ class EnumAssetSortProperty extends Enum
             'CUSTOMER_TITLE' => 'customerTitle',
             'LABEL' => 'label',
             'NAME' => 'name',
-            'TYPE' => 'type'
+            'TYPE' => 'type',
         ];
     }
 
