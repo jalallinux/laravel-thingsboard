@@ -318,4 +318,27 @@ class Asset extends Tntity
 
         return $this->fill($asset);
     }
+
+    /**
+     * Returns a page of assets info objects owned by tenant.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details. Asset Info is an extension of
+     * the default Asset object that contains information about the assigned customer name.
+     *
+     * @author  Sabiee
+     *
+     * @group TENANT_ADMIN
+     */
+    public function getTenantAssetInfos(PaginationArguments $paginationArguments, string $type = null, string $assetProfileId = null): PaginatedResponse
+    {
+        $paginationArguments->validateSortProperty(EnumAssetSortProperty::class);
+
+        $response = $this->api()->get("tenant/assetInfos", $paginationArguments->queryParams([
+            'type' => $type ?? @$this->type,
+            'assetProfileId' => $assetProfileId ?? @$this->assetProfileId->id,
+        ]));
+
+        return $this->paginatedResponse($response, $paginationArguments);
+    }
 }
