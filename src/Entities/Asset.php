@@ -121,8 +121,9 @@ class Asset extends Tntity
      * If the user has the authority of 'Customer User', the server checks that the asset is assigned to the same customer.
      *
      *
-     * @param string $id
+     * @param  string  $id
      * @return Asset
+     *
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
