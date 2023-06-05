@@ -301,9 +301,11 @@ class Asset extends Tntity
      * This is useful to create dashboards that you plan to share/embed on a publicly available website.
      * However, users that are logged-in and belong to different tenant will not be able to access the asset.
      *
-     * @param string $id
+     * @param  string  $id
      * @return self
+     *
      * @author  Sabiee
+     *
      * @group TENANT_ADMIN
      */
     public function assignAssetToPublicCustomer(string $id): static
