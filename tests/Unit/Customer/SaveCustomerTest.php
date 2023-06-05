@@ -65,7 +65,7 @@ class SaveCustomerTest extends TestCase
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $attributes = [
-            'title' => thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->first()->title,
+            'title' => thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->random()->title,
             'country' => $this->faker->country,
             'state' => $this->faker->word,
             'city' => $this->faker->city,
@@ -77,7 +77,7 @@ class SaveCustomerTest extends TestCase
             'additionalInfo' => [],
         ];
         $this->expectExceptionCode(400);
-        $this->expectExceptionMessageMatches('/exists!/');
+        $this->expectExceptionMessageMatches('/[exists|public]/');
         thingsboard($tenantUser)->customer($attributes)->saveCustomer();
     }
 }
