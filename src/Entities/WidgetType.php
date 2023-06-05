@@ -2,6 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastBase64Image;
 use JalalLinuX\Thingsboard\Casts\CastDescriptor;
 use JalalLinuX\Thingsboard\Casts\CastId;
@@ -10,6 +11,7 @@ use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Base64Image;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\WidgetType\Descriptor;
+use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -148,5 +150,27 @@ class WidgetType extends Tntity
         $descriptorParams = $defaultWidgetTypesDescriptors->firstWhere('enum', $defaultWidgetTypesDescriptor);
 
         return $this->getWidgetType($descriptorParams['bundleAlias'], $descriptorParams['alias'], $descriptorParams['isSystem'])->descriptor;
+    }
+
+    /**
+     * Get the Widget Type Details based on the provided Widget Type ID.
+     * Widget Type Details extend Widget Type and add image and description properties.
+     * Those properties are useful to edit the Widget Type, but they are not required for Dashboard rendering.
+     *
+     * @param string|null $id
+     * @return WidgetType
+     *
+     * @author JalalLinuX
+     * @group SYS_ADMIN | TENANT_ADMIN
+     */
+    public function getWidgetTypeById(string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'widgetTypeId']);
+
+        $widgetType = $this->api()->get("widgetType/{$id}")->json();
+
+        return $this->fill($widgetType);
     }
 }
