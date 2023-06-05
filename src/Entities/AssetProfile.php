@@ -14,7 +14,7 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property Id $id
  * @property Id $tenantId
  * @property string $name
- * @property boolean $default
+ * @property bool $default
  * @property Id $defaultDashboardId
  * @property Id $defaultRuleChainId
  * @property string $defaultQueueName

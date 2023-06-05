@@ -18,7 +18,7 @@ class EnumAssetProfileSortProperty extends Enum
             'CREATED_TIME' => 'createdTime',
             'DESCRIPTION' => 'description',
             'IS_DEFAULT' => 'isDefault',
-            'NAME' => 'name'
+            'NAME' => 'name',
         ];
     }
 
