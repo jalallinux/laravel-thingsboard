@@ -271,4 +271,27 @@ class Asset extends Tntity
 
         return $this->paginatedResponse($response, $paginationArguments);
     }
+
+    /**
+     * Returns a page of assets objects assigned to customer.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details.
+     *
+     * @param PaginationArguments $paginationArguments
+     * @param string|null $customerId
+     * @param string|null $type
+     * @return PaginatedResponse
+     * @author  Sabiee
+     */
+    public function getCustomerAssets(PaginationArguments $paginationArguments, string $customerId = null, string $type = null): PaginatedResponse
+    {
+        $paginationArguments->validateSortProperty(EnumAssetSortProperty::class);
+
+        $response = $this->api()->get("/api/customer/{$customerId}/assets", $paginationArguments->queryParams([
+            'type' => $type ?? @$this->type
+        ]));
+
+        return $this->paginatedResponse($response, $paginationArguments);
+    }
 }
