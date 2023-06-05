@@ -5,11 +5,11 @@ namespace JalalLinuX\Thingsboard\Entities;
 use JalalLinuX\Thingsboard\Casts\CastBase64Image;
 use JalalLinuX\Thingsboard\Casts\CastDescriptor;
 use JalalLinuX\Thingsboard\Casts\CastId;
+use JalalLinuX\Thingsboard\Enums\EnumDefaultWidgetTypeDescriptor;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Base64Image;
-use JalalLinuX\Thingsboard\Infrastructure\Descriptor;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
-use JalalLinuX\Thingsboard\Thingsboard;
+use JalalLinuX\Thingsboard\Infrastructure\WidgetType\Descriptor;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
@@ -125,6 +125,7 @@ class WidgetType extends Tntity
             'descriptor' => ($descriptor ?? $this->forceAttribute('descriptor'))->toArray(),
         ]);
 
+        dd($payload);
         $widgetType = $this->api()->post('widgetType', $payload)->json();
 
         return $this->fill($widgetType);
@@ -135,19 +136,18 @@ class WidgetType extends Tntity
      * Widget Type represents the template for widget creation.
      * Widget Type and Widget are similar to class and object in OOP theory.
      *
-     * @param  string  $defaultWidgetTypesDescriptor
+     * @param  EnumDefaultWidgetTypeDescriptor  $defaultWidgetTypesDescriptor
      * @return Descriptor
      *
      * @author JalalLinuX
      *
      * @group SYS_ADMIN | TENANT_ADMIN
      */
-    public function getDefaultWidgetTypeDescriptor(string $defaultWidgetTypesDescriptor): Descriptor
+    public function getDefaultWidgetTypeDescriptor(EnumDefaultWidgetTypeDescriptor $defaultWidgetTypesDescriptor): Descriptor
     {
-        Thingsboard::validation(is_null($params = config("thingsboard.default_widget_type_descriptors.{$defaultWidgetTypesDescriptor}")), 'in', [
-            'attribute' => 'defaultWidgetTypes', 'values' => implode(', ', array_keys(config('thingsboard.default_widget_type_descriptors'))),
-        ]);
+        $defaultWidgetTypesDescriptors = collect(config('thingsboard.default_widget_type_descriptors'));
+        $descriptorParams = $defaultWidgetTypesDescriptors->firstWhere('enum', $defaultWidgetTypesDescriptor);
 
-        return $this->getWidgetType($params['bundleAlias'], $params['alias'], $params['isSystem'])->descriptor;
+        return $this->getWidgetType($descriptorParams['bundleAlias'], $descriptorParams['alias'], $descriptorParams['isSystem'])->descriptor;
     }
 }
