@@ -205,8 +205,8 @@ class Asset extends Tntity
      * Creates assignment of the asset to customer.
      * Customer will be able to query asset afterwards.
      *
-     * @param string|null $customerId
-     * @param string|null $id
+     * @param  string|null  $customerId
+     * @param  string|null  $id
      * @return self
      *
      * @author Sabiee
@@ -252,11 +252,12 @@ class Asset extends Tntity
      * See the 'Model' tab of the Response Class for more details.
      * Asset Info is an extension of the default Asset object that contains information about the assigned customer name.
      *
-     * @param PaginationArguments $paginationArguments
-     * @param string|null $customerId
-     * @param string|null $type
-     * @param string|null $assetProfileId
+     * @param  PaginationArguments  $paginationArguments
+     * @param  string|null  $customerId
+     * @param  string|null  $type
+     * @param  string|null  $assetProfileId
      * @return PaginatedResponse
+     *
      * @author  Sabiee
      */
     public function getCustomerAssetInfos(PaginationArguments $paginationArguments, string $customerId = null, string $type = null, string $assetProfileId = null): PaginatedResponse
