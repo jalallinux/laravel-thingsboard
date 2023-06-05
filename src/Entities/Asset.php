@@ -334,7 +334,7 @@ class Asset extends Tntity
     {
         $paginationArguments->validateSortProperty(EnumAssetSortProperty::class);
 
-        $response = $this->api()->get("tenant/assetInfos", $paginationArguments->queryParams([
+        $response = $this->api()->get('tenant/assetInfos', $paginationArguments->queryParams([
             'type' => $type ?? @$this->type,
             'assetProfileId' => $assetProfileId ?? @$this->assetProfileId->id,
         ]));
