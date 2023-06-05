@@ -125,10 +125,11 @@ class WidgetType extends Tntity
      * Widget Type Details extend Widget Type and add image and description properties.
      * Those properties are useful to edit the Widget Type, but they are not required for Dashboard rendering.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return WidgetType
      *
      * @author JalalLinuX
+     *
      * @group SYS_ADMIN | TENANT_ADMIN
      */
     public function getWidgetTypeById(string $id = null): static
@@ -147,11 +148,12 @@ class WidgetType extends Tntity
      * Widget Type represents the template for widget creation.
      * Widget Type and Widget are similar to class and object in OOP theory.
      *
-     * @param string|null $bundleAlias
-     * @param bool $isSystem
+     * @param  string|null  $bundleAlias
+     * @param  bool  $isSystem
      * @return array
      *
      * @author JalalLinuX
+     *
      * @group SYS_ADMIN | TENANT_ADMIN
      */
     public function getBundleWidgetTypes(string $bundleAlias = null, bool $isSystem = true): array
@@ -168,11 +170,12 @@ class WidgetType extends Tntity
      * Widget Type Details extend Widget Type and add image and description properties.
      * Those properties are useful to edit the Widget Type, but they are not required for Dashboard rendering.
      *
-     * @param string|null $bundleAlias
-     * @param bool $isSystem
+     * @param  string|null  $bundleAlias
+     * @param  bool  $isSystem
      * @return array
      *
      * @author JalalLinuX
+     *
      * @group SYS_ADMIN | TENANT_ADMIN
      */
     public function getBundleWidgetTypesDetails(string $bundleAlias = null, bool $isSystem = true): array
