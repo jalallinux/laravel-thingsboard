@@ -67,6 +67,8 @@ class Asset extends Tntity
      * 'customerId' from the request body example (below) to create new Asset entity.
      *
      *
+     * @param string|null $assetProfileId
+     * @return self
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
@@ -129,7 +131,7 @@ class Asset extends Tntity
      *
      *
      * @param  string  $id
-     * @return Asset
+     * @return self
      *
      * @author Sabiee
      *
@@ -150,16 +152,30 @@ class Asset extends Tntity
      * If the user has the authority of 'Customer User', the server checks that the asset is assigned to the same customer.
      * Asset Info is an extension of the default Asset object that contains information about the assigned customer name.
      *
+     * @param string $id
+     * @return self
      * @author  Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getAssetInfoById(string $id)
+    public function getAssetInfoById(string $id): static
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
         Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'assetId']);
 
         return $this->fill($this->api()->get("asset/info/{$id}")->json());
+    }
+
+    /**
+     * Returns a set of unique asset types based on assets that are either owned by the tenant or assigned
+     * to the customer which user is performing the request.
+     *
+     * @return array
+     * @author Sabiee
+     */
+    public function getAssetTypes(): array
+    {
+        return $this->api()->get("asset/types")->json();
     }
 }
