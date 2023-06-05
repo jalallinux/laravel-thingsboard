@@ -106,6 +106,7 @@ class Dashboard extends Tntity
         $paginationArguments->validateSortProperty(EnumDashboardSortProperty::class);
 
         $response = $this->api()->get("tenant/{$tenantId}/dashboards", $paginationArguments->queryParams());
+
         return $this->paginatedResponse($response, $paginationArguments);
     }
 
@@ -113,9 +114,12 @@ class Dashboard extends Tntity
      * Get the dashboard based on 'dashboardId' parameter.
      * The Dashboard object is a heavyweight object that contains information about the dashboard (e.g. title, image, assigned customers)
      * and also configuration JSON (e.g. layouts, widgets, entity aliases).
-     * @param string|null $id
+     *
+     * @param  string|null  $id
      * @return $this
+     *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function getDashboardById(string $id = null): static
