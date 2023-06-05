@@ -278,10 +278,11 @@ class Asset extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     * @param PaginationArguments $paginationArguments
-     * @param string|null $customerId
-     * @param string|null $type
+     * @param  PaginationArguments  $paginationArguments
+     * @param  string|null  $customerId
+     * @param  string|null  $type
      * @return PaginatedResponse
+     *
      * @author  Sabiee
      */
     public function getCustomerAssets(PaginationArguments $paginationArguments, string $customerId = null, string $type = null): PaginatedResponse
@@ -289,7 +290,7 @@ class Asset extends Tntity
         $paginationArguments->validateSortProperty(EnumAssetSortProperty::class);
 
         $response = $this->api()->get("/api/customer/{$customerId}/assets", $paginationArguments->queryParams([
-            'type' => $type ?? @$this->type
+            'type' => $type ?? @$this->type,
         ]));
 
         return $this->paginatedResponse($response, $paginationArguments);
