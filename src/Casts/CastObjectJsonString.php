@@ -9,12 +9,13 @@ class CastObjectJsonString extends CustomCastBase
     public function setAttribute($value)
     {
         if (empty($value)) {
-            return new \stdClass();
+            return new \stdClass;
         }
 
         if (is_string($value)) {
             $value = json_decode($value, true);
-            return empty($value) ? new \stdClass() : $value;
+
+            return empty($value) ? new \stdClass : $value;
         }
 
         return $value;
@@ -22,6 +23,6 @@ class CastObjectJsonString extends CustomCastBase
 
     public function castAttribute($value)
     {
-        return is_null($value) ? new \stdClass() : $value;
+        return is_null($value) ? new \stdClass : $value;
     }
 }
