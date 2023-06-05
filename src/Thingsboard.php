@@ -28,6 +28,7 @@ use PhpMqtt\Client\ConnectionSettings;
  * @method Entities\Telemetry telemetry(array $attributes = [])
  * @method Entities\WidgetBundle widgetBundle(array $attributes = [])
  * @method Entities\WidgetType widgetType(array $attributes = [])
+ * @method Entities\Dashboard dashboard(array $attributes = [])
  * @method Entities\Asset asset(array $attributes = [])
  * @method Entities\AssetProfile assetProfile(array $attributes = [])
  */
