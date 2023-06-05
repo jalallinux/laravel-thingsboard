@@ -114,4 +114,25 @@ class Asset extends Tntity
 
         return $this->paginatedResponse($response, $paginationArguments);
     }
+
+    /**
+     * Fetch the Asset object based on the provided Asset Id.
+     * If the user has the authority of 'Tenant Administrator', the server checks that the asset is owned by the same tenant.
+     * If the user has the authority of 'Customer User', the server checks that the asset is assigned to the same customer.
+     *
+     *
+     * @param string $id
+     * @return Asset
+     * @author Sabiee
+     *
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function getAssetById(string $id): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'assetId']);
+
+        return $this->fill($this->api()->get("asset/{$id}")->json());
+    }
 }
