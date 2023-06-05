@@ -240,7 +240,7 @@ class Asset extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'deviceId']);
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'assetId']);
 
         return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("customer/asset/{$id}")->successful();
     }
@@ -294,5 +294,26 @@ class Asset extends Tntity
         ]));
 
         return $this->paginatedResponse($response, $paginationArguments);
+    }
+
+    /**
+     * Asset will be available for non-authorized (not logged-in) users.
+     * This is useful to create dashboards that you plan to share/embed on a publicly available website.
+     * However, users that are logged-in and belong to different tenant will not be able to access the asset.
+     *
+     * @param string $id
+     * @return self
+     * @author  Sabiee
+     * @group TENANT_ADMIN
+     */
+    public function assignAssetToPublicCustomer(string $id): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'assetId']);
+
+        $asset = $this->api()->post("customer/public/asset/{$id}")->json();
+
+        return $this->fill($asset);
     }
 }
