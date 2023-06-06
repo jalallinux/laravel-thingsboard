@@ -35,5 +35,4 @@ class SaveRuleChainTest extends TestCase
         $this->expectExceptionMessageMatches('/name/');
         thingsboard($user)->ruleChain(Arr::except($attributes, 'name'))->saveRuleChain();
     }
-
 }

@@ -20,8 +20,8 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property Id $firstRuleNodeId
  * @property \DateTime $createdTime
  * @property array $additionalInfo
- * @property boolean $root
- * @property boolean $debugMode
+ * @property bool $root
+ * @property bool $debugMode
  * @property array $configuration
  */
 class RuleChain extends Tntity
@@ -66,8 +66,9 @@ class RuleChain extends Tntity
      * List of rule nodes and their connection is stored in a separate 'metadata' object.Remove 'id', 'tenantId' from
      * the request body example (below) to create new Rule Chain entity.
      *
-     * @param string|null $name
+     * @param  string|null  $name
      * @return self
+     *
      * @author  Sabiee
      *
      * @group TENANT_ADMIN
@@ -75,7 +76,7 @@ class RuleChain extends Tntity
     public function saveRuleChain(string $name = null): static
     {
         $payload = array_merge($this->attributes, [
-            'name' => $name ?? $this->forceAttribute('name')
+            'name' => $name ?? $this->forceAttribute('name'),
         ]);
 
         return tap($this, fn () => $this->fill($this->api()->post('ruleChain', $payload)->json()));
@@ -86,8 +87,9 @@ class RuleChain extends Tntity
      * Referencing non-existing rule chain Id will cause an error.
      * Referencing rule chain that is used in the device profiles will cause an error.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return bool
+     *
      * @author  Sabiee
      *
      * @group TENANT_ADMIN
@@ -108,9 +110,10 @@ class RuleChain extends Tntity
      * to filter the results. The result is wrapped with PageData object that allows you to iterate over result set
      * using pagination. See the 'Model' tab of the Response Class for more details.
      *
-     * @param PaginationArguments $paginationArguments
-     * @param string|null $type
+     * @param  PaginationArguments  $paginationArguments
+     * @param  string|null  $type
      * @return PaginatedResponse
+     *
      * @author  Sabiee
      *
      * @group TENANT_ADMIN
