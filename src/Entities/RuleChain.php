@@ -164,8 +164,9 @@ class RuleChain extends Tntity
      * Fetch the Rule Chain Metadata object based on the provided Rule Chain Id.
      * The metadata object contains information about the rule nodes and their connections.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return self
+     *
      * @author  Sabiee
      *
      * @group TENANT_ADMIN

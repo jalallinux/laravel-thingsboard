@@ -22,6 +22,6 @@ class Connection extends Model
 
     protected $casts = [
         'fromIndex' => 'integer',
-        'toIndex' => 'integer'
+        'toIndex' => 'integer',
     ];
 }

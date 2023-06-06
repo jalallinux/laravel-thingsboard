@@ -14,8 +14,8 @@ use Vkovic\LaravelCustomCasts\HasCustomCasts;
  * @property Id $ruleChainId
  * @property string $type
  * @property string $name
- * @property boolean $debugMode
- * @property boolean $singletonMode
+ * @property bool $debugMode
+ * @property bool $singletonMode
  * @property array $additionalInfo
  * @property array $configuration
  */
