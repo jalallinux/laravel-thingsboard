@@ -1,6 +1,6 @@
 <?php
 
-namespace JalalLinuX\Thingsboard\Casts;
+namespace JalalLinuX\Thingsboard\Casts\WidgetType;
 
 use JalalLinuX\Thingsboard\Infrastructure\WidgetType\Descriptor;
 use Vkovic\LaravelCustomCasts\CustomCastBase;

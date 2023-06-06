@@ -4,8 +4,8 @@ namespace JalalLinuX\Thingsboard\Entities;
 
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastBase64Image;
-use JalalLinuX\Thingsboard\Casts\CastDescriptor;
 use JalalLinuX\Thingsboard\Casts\CastId;
+use JalalLinuX\Thingsboard\Casts\WidgetType\CastDescriptor;
 use JalalLinuX\Thingsboard\Enums\EnumDefaultWidgetTypeDescriptor;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Base64Image;

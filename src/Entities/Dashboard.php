@@ -6,9 +6,11 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastBase64Image;
 use JalalLinuX\Thingsboard\Casts\CastId;
+use JalalLinuX\Thingsboard\Casts\Dashboard\CastConfiguration;
 use JalalLinuX\Thingsboard\Enums\EnumDashboardSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Base64Image;
+use JalalLinuX\Thingsboard\Infrastructure\Dashboard\Configuration;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
@@ -25,7 +27,7 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property bool $mobileHide
  * @property int $mobileOrder
  * @property Base64Image $image
- * @property array $configuration
+ * @property Configuration $configuration
  */
 class Dashboard extends Tntity
 {
@@ -46,11 +48,11 @@ class Dashboard extends Tntity
         'id' => CastId::class,
         'createdTime' => 'timestamp',
         'tenantId' => CastId::class,
-        'assignedCustomers' => 'arrayy',
+        'assignedCustomers' => 'array',
         'mobileHide' => 'bool',
         'mobileOrder' => 'int',
         'image' => CastBase64Image::class,
-        'configuration' => 'array',
+        'configuration' => CastConfiguration::class,
     ];
 
     public function entityType(): ?EnumEntityType
@@ -290,5 +292,41 @@ class Dashboard extends Tntity
         ]));
 
         return $this->paginatedResponse($response, $paginationArguments);
+    }
+
+    /**
+     * Create or update the Dashboard.
+     * When creating dashboard, platform generates Dashboard ID as time-based UUID.
+     * The newly created Dashboard id will be present in the response.
+     * Specify existing Dashboard id to update the dashboard.
+     * Referencing non-existing dashboard ID will cause 'Not Found' error.
+     * Remove 'id', 'tenantId' and optionally 'customerId' from the request body example (below) to create new Dashboard entity.
+     *
+     * @param string|null $title
+     * @param array|null $configuration
+     * @return $this
+     *
+     * @author JalalLinuX
+     * @group TENANT_ADMIN
+     */
+    public function saveDashboard(string $title = null, array $configuration = null): static
+    {
+        $payload = array_merge($this->attributes, [
+            'title' => $title ?? $this->forceAttribute('title'),
+            'configuration' => $configuration ?? $this->forceAttribute('configuration'),
+        ]);
+
+        $dashboard = $this->api()->post('dashboard', $payload)->json();
+
+        return $this->fill($dashboard);
+    }
+
+    public function deleteDashboard(string $id = null): bool
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'dashboardId']);
+
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("dashboard/{$id}")->successful();
     }
 }
