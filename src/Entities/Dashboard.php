@@ -306,7 +306,7 @@ class Dashboard extends Tntity
      *
      * @param  string|null  $title
      * @param  array|null  $configuration
-     * @return $this
+     * @return self
      *
      * @author JalalLinuX
      *
@@ -324,6 +324,16 @@ class Dashboard extends Tntity
         return $this->fill($dashboard);
     }
 
+    /**
+     * Delete the Dashboard.
+     *
+     * @param  string|null  $id
+     * @return bool
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
     public function deleteDashboard(string $id = null): bool
     {
         $id = $id ?? $this->forceAttribute('id')->id;
@@ -331,5 +341,29 @@ class Dashboard extends Tntity
         Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'dashboardId']);
 
         return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("dashboard/{$id}")->successful();
+    }
+
+    /**
+     * @param  array  $customerIds
+     * @param  string|null  $id
+     * @return self
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function updateDashboardCustomers(array $customerIds, string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'dashboardId']);
+
+        foreach ($customerIds as $customerId) {
+            Thingsboard::validation(! Str::isUuid($customerId), 'uuid', ['attribute' => 'customerId']);
+        }
+
+        $dashboard = $this->api()->post("dashboard/{$id}/customers", $customerIds)->json();
+
+        return $this->fill($dashboard);
     }
 }
