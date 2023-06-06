@@ -126,4 +126,24 @@ class RuleChain extends Tntity
 
         return $this->paginatedResponse($response, $paginationArguments);
     }
+
+    /**
+     * Fetch the Rule Chain object based on the provided Rule Chain Id.
+     * The rule chain object is lightweight and contains general information about the rule chain.
+     * List of rule nodes and their connection is stored in a separate 'metadata' object.
+     *
+     * @param string|null $id
+     * @return self
+     * @author  Sabiee
+     *
+     * @group TENANT_ADMIN
+     */
+    public function getRuleChainById(string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'ruleChainId']);
+
+        return $this->fill($this->api()->get("ruleChain/{$id}")->json());
+    }
 }
