@@ -132,8 +132,9 @@ class RuleChain extends Tntity
      * The rule chain object is lightweight and contains general information about the rule chain.
      * List of rule nodes and their connection is stored in a separate 'metadata' object.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return self
+     *
      * @author  Sabiee
      *
      * @group TENANT_ADMIN
