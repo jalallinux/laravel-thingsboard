@@ -2,13 +2,9 @@
 
 namespace JalalLinuX\Thingsboard\Tests\Unit\RuleChain;
 
-use JalalLinuX\Thingsboard\Entities\Asset;
 use JalalLinuX\Thingsboard\Entities\RuleChain;
-use JalalLinuX\Thingsboard\Enums\EnumAssetSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
-use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumRuleChainSortProperty;
-use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
