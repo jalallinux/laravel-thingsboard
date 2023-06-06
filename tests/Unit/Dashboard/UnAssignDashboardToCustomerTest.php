@@ -18,7 +18,7 @@ class UnAssignDashboardToCustomerTest extends TestCase
         $dashboard = thingsboard($tenantUser)->dashboard()->assignDashboardToCustomer($customerId, $dashboardId);
 
         $this->assertEquals($dashboardId, $dashboard->id->id);
-        collect($dashboard->assignedCustomers)->each(function ($customer) use ($dashboardId, $customerId) {
+        collect($dashboard->assignedCustomers)->each(function ($customer) use ($customerId) {
             $this->assertEquals(EnumEntityType::CUSTOMER()->value, $customer['customerId']['entityType']);
             $this->assertEquals($customerId, $customer['customerId']['id']);
         });
