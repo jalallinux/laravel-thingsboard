@@ -259,12 +259,13 @@ class Dashboard extends Tntity
      * @return Carbon
      *
      * @author JalalLinuX
+     *
      * @group *
      */
     public function getServerTime(): Carbon
     {
         return Carbon::createFromTimestampMs(
-            $this->api()->get("dashboard/serverTime")->body()
+            $this->api()->get('dashboard/serverTime')->body()
         );
     }
 
@@ -275,12 +276,13 @@ class Dashboard extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     * @param string $customerId
-     * @param PaginationArguments $paginationArguments
-     * @param bool|null $mobileHide
+     * @param  string  $customerId
+     * @param  PaginationArguments  $paginationArguments
+     * @param  bool|null  $mobileHide
      * @return PaginatedResponse
      *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function getCustomerDashboards(string $customerId, PaginationArguments $paginationArguments, bool $mobileHide = null): PaginatedResponse
