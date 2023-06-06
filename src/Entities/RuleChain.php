@@ -3,17 +3,21 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use Illuminate\Support\Str;
+use JalalLinuX\Thingsboard\Casts\CastConnection;
 use JalalLinuX\Thingsboard\Casts\CastId;
+use JalalLinuX\Thingsboard\Casts\CastNode;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumRuleChainSortProperty;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Infrastructure\RuleChain\Node;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
  * @property Id $id
+ * @property Id $ruleChainId
  * @property string $name
  * @property string $type
  * @property Id $tenantId
@@ -23,11 +27,13 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property bool $root
  * @property bool $debugMode
  * @property array $configuration
+ * @property Node $node
  */
 class RuleChain extends Tntity
 {
     protected $fillable = [
         'id',
+        'ruleChainId',
         'name',
         'type',
         'tenantId',
@@ -37,17 +43,23 @@ class RuleChain extends Tntity
         'root',
         'debugMode',
         'configuration',
+        'nodes',
+        'connections',
     ];
 
     protected $casts = [
         'id' => CastId::class,
+        'ruleChainId' => CastId::class,
         'tenantId' => CastId::class,
         'firstRuleNodeId' => CastId::class,
         'additionalInfo' => 'array',
         'configuration' => 'array',
+        'firstNodeIndex' => 'integer',
         'createdTime' => 'timestamp',
         'root' => 'boolean',
         'debugMode' => 'boolean',
+        'nodes' => CastNode::class,
+        'connections' => CastConnection::class,
     ];
 
     public function entityType(): ?EnumEntityType
@@ -96,7 +108,7 @@ class RuleChain extends Tntity
      */
     public function deleteRuleChain(string $id = null): bool
     {
-        $id = $id ?? $this->forceAttribute('id')->id;
+        $id = $id ?? $this->forceAttribute('id')->id ?? $this->forceAttribute('ruleChainId')->id;
 
         Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'ruleChainId']);
 
@@ -141,10 +153,29 @@ class RuleChain extends Tntity
      */
     public function getRuleChainById(string $id = null): static
     {
-        $id = $id ?? $this->forceAttribute('id')->id;
+        $id = $id ?? $this->forceAttribute('id')->id ?? $this->forceAttribute('ruleChainId')->id;
 
         Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'ruleChainId']);
 
         return $this->fill($this->api()->get("ruleChain/{$id}")->json());
+    }
+
+    /**
+     * Fetch the Rule Chain Metadata object based on the provided Rule Chain Id.
+     * The metadata object contains information about the rule nodes and their connections.
+     *
+     * @param string|null $id
+     * @return self
+     * @author  Sabiee
+     *
+     * @group TENANT_ADMIN
+     */
+    public function getRuleChainMetadataById(string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id ?? $this->forceAttribute('ruleChainId')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'ruleChainId']);
+
+        return $this->fill($this->api()->get("ruleChain/{$id}/metadata/")->json());
     }
 }
