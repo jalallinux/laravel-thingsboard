@@ -80,7 +80,7 @@ class RuleChain extends Tntity
      * List of rule nodes and their connection is stored in a separate 'metadata' object.Remove 'id', 'tenantId' from
      * the request body example (below) to create new Rule Chain entity.
      *
-     * @param string|null $name
+     * @param  string|null  $name
      * @return self
      *
      * @author  Sabiee
@@ -93,7 +93,7 @@ class RuleChain extends Tntity
             'name' => $name ?? $this->forceAttribute('name'),
         ]);
 
-        return tap($this, fn() => $this->fill($this->api()->post('ruleChain', $payload)->json()));
+        return tap($this, fn () => $this->fill($this->api()->post('ruleChain', $payload)->json()));
     }
 
     /**
@@ -101,7 +101,7 @@ class RuleChain extends Tntity
      * Referencing non-existing rule chain Id will cause an error.
      * Referencing rule chain that is used in the device profiles will cause an error.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return bool
      *
      * @author  Sabiee
@@ -112,7 +112,7 @@ class RuleChain extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id ?? $this->forceAttribute('ruleChainId')->id;
 
-        Thingsboard::validation(!Str::isUuid($id), 'uuid', ['attribute' => 'ruleChainId']);
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'ruleChainId']);
 
         return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("ruleChain/{$id}")->successful();
     }
@@ -124,8 +124,8 @@ class RuleChain extends Tntity
      * to filter the results. The result is wrapped with PageData object that allows you to iterate over result set
      * using pagination. See the 'Model' tab of the Response Class for more details.
      *
-     * @param PaginationArguments $paginationArguments
-     * @param string|null $type
+     * @param  PaginationArguments  $paginationArguments
+     * @param  string|null  $type
      * @return PaginatedResponse
      *
      * @author  Sabiee
@@ -146,7 +146,7 @@ class RuleChain extends Tntity
      * The rule chain object is lightweight and contains general information about the rule chain.
      * List of rule nodes and their connection is stored in a separate 'metadata' object.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return self
      *
      * @author  Sabiee
@@ -157,7 +157,7 @@ class RuleChain extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id ?? $this->forceAttribute('ruleChainId')->id;
 
-        Thingsboard::validation(!Str::isUuid($id), 'uuid', ['attribute' => 'ruleChainId']);
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'ruleChainId']);
 
         return $this->fill($this->api()->get("ruleChain/{$id}")->json());
     }
@@ -166,7 +166,7 @@ class RuleChain extends Tntity
      * Fetch the Rule Chain Metadata object based on the provided Rule Chain Id.
      * The metadata object contains information about the rule nodes and their connections.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return self
      *
      * @author  Sabiee
@@ -177,7 +177,7 @@ class RuleChain extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id ?? $this->forceAttribute('ruleChainId')->id;
 
-        Thingsboard::validation(!Str::isUuid($id), 'uuid', ['attribute' => 'ruleChainId']);
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'ruleChainId']);
 
         return $this->fill($this->api()->get("ruleChain/{$id}/metadata/")->json());
     }
@@ -185,7 +185,7 @@ class RuleChain extends Tntity
     /**
      * Makes the rule chain to be root rule chain. Updates previous root rule chain as well.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return self
      *
      * @author  Sabiee
@@ -196,7 +196,7 @@ class RuleChain extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id ?? $this->forceAttribute('ruleChainId')->id;
 
-        Thingsboard::validation(!Str::isUuid($id), 'uuid', ['attribute' => 'ruleChainId']);
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'ruleChainId']);
 
         return $this->fill($this->api()->post("ruleChain/{$id}/root")->json());
     }
@@ -215,19 +215,21 @@ class RuleChain extends Tntity
             'name' => $name ?? $this->forceAttribute('name'),
         ];
 
-        return tap($this, fn() => $this->fill($this->api()->post('ruleChain/device/default', $payload)->json()));
+        return tap($this, fn () => $this->fill($this->api()->post('ruleChain/device/default', $payload)->json()));
     }
 
     /**
      * Returns 'True' if the TBEL script execution is enabled
+     *
      * @return bool
+     *
      * @author  Sabiee
      *
      * @group TENANT_ADMIN
      */
     public function isTBELScriptExecutorEnabled(): bool
     {
-        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->get("ruleChain/tbelEnabled")->successful();
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->get('ruleChain/tbelEnabled')->successful();
     }
 
     /**
@@ -245,15 +247,16 @@ class RuleChain extends Tntity
      * }
      * Expected result JSON contains "output" and "error".
      *
-     * @param array $script
-     * @param EnumRuleChainScriptLang|null $scriptLang
+     * @param  array  $script
+     * @param  EnumRuleChainScriptLang|null  $scriptLang
      * @return array
+     *
      * @author  Sabiee
      *
      * @group TENANT_ADMIN
      */
-    public function testScriptFunction(array $script, EnumRuleChainScriptLang $scriptLang = null):array
+    public function testScriptFunction(array $script, EnumRuleChainScriptLang $scriptLang = null): array
     {
-        return $this->api()->post("ruleChain/testScript" . (!is_null($scriptLang) ? "?scriptLang={$scriptLang}" : ""), $script)->json();
+        return $this->api()->post('ruleChain/testScript'.(! is_null($scriptLang) ? "?scriptLang={$scriptLang}" : ''), $script)->json();
     }
 }

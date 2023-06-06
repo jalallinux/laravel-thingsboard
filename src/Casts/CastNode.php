@@ -18,12 +18,13 @@ class CastNode extends CustomCastBase
             foreach ($value as $ruleNode) {
                 $nodes[] = $this->castAttribute($ruleNode)->toArray();
             }
+
             return $nodes;
         }
 
-//        if ($value instanceof RuleNode) {
-//            return $value->toArray();
-//        }
+        //        if ($value instanceof RuleNode) {
+        //            return $value->toArray();
+        //        }
 
         return $value;
     }

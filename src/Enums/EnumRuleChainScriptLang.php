@@ -14,7 +14,7 @@ class EnumRuleChainScriptLang extends Enum
     {
         return [
             'JS' => 'JS',
-            'TBEL' => 'TBEL'
+            'TBEL' => 'TBEL',
         ];
     }
 
@@ -22,7 +22,7 @@ class EnumRuleChainScriptLang extends Enum
     {
         return [
             'JS' => 'Js',
-            'TBEL' => 'Tbel'
+            'TBEL' => 'Tbel',
         ];
     }
 }
