@@ -3,15 +3,13 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use Illuminate\Support\Str;
-use JalalLinuX\Thingsboard\Casts\CastConnection;
 use JalalLinuX\Thingsboard\Casts\CastId;
-use JalalLinuX\Thingsboard\Casts\CastNode;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
+use JalalLinuX\Thingsboard\Enums\EnumRuleChainScriptLang;
 use JalalLinuX\Thingsboard\Enums\EnumRuleChainSortProperty;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
-use JalalLinuX\Thingsboard\Infrastructure\RuleChain\Node;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
@@ -27,7 +25,9 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property bool $root
  * @property bool $debugMode
  * @property array $configuration
- * @property Node $node
+ * @property array $nodes
+ * @property array $connections
+ * @property array $ruleChainConnections
  */
 class RuleChain extends Tntity
 {
@@ -45,6 +45,7 @@ class RuleChain extends Tntity
         'configuration',
         'nodes',
         'connections',
+        'ruleChainConnections',
     ];
 
     protected $casts = [
@@ -58,8 +59,9 @@ class RuleChain extends Tntity
         'createdTime' => 'timestamp',
         'root' => 'boolean',
         'debugMode' => 'boolean',
-        'nodes' => CastNode::class,
-        'connections' => CastConnection::class,
+        'nodes' => 'array',
+        'connections' => 'array',
+        'ruleChainConnections' => 'array',
     ];
 
     public function entityType(): ?EnumEntityType
@@ -214,5 +216,47 @@ class RuleChain extends Tntity
         ];
 
         return tap($this, fn () => $this->fill($this->api()->post('ruleChain/device/default', $payload)->json()));
+    }
+
+    /**
+     * Returns 'True' if the TBEL script execution is enabled
+     *
+     * @return bool
+     *
+     * @author  Sabiee
+     *
+     * @group TENANT_ADMIN
+     */
+    public function isTBELScriptExecutorEnabled(): bool
+    {
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->get('ruleChain/tbelEnabled')->successful();
+    }
+
+    /**
+     * Execute the Script function and return the result. The format of request:
+     * {
+     * "script": "Your Function as String",
+     * "scriptType": "One of: update, generate, filter, switch, json, string",
+     * "argNames": ["msg", "metadata", "type"],
+     * "msg": "{\"temperature\": 42}",
+     * "metadata": {
+     * "deviceName": "Device A",
+     * "deviceType": "Thermometer"
+     * },
+     * "msgType": "POST_TELEMETRY_REQUEST"
+     * }
+     * Expected result JSON contains "output" and "error".
+     *
+     * @param  array  $script
+     * @param  EnumRuleChainScriptLang|null  $scriptLang
+     * @return array
+     *
+     * @author  Sabiee
+     *
+     * @group TENANT_ADMIN
+     */
+    public function testScriptFunction(array $script, EnumRuleChainScriptLang $scriptLang = null): array
+    {
+        return $this->api()->post('ruleChain/testScript'.(! is_null($scriptLang) ? "?scriptLang={$scriptLang}" : ''), $script)->json();
     }
 }

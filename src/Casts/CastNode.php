@@ -2,7 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Casts;
 
-use JalalLinuX\Thingsboard\Infrastructure\RuleChain\Node;
+use JalalLinuX\Thingsboard\Infrastructure\RuleChain\RuleNode;
 use Vkovic\LaravelCustomCasts\CustomCastBase;
 
 class CastNode extends CustomCastBase
@@ -13,15 +13,24 @@ class CastNode extends CustomCastBase
             return null;
         }
 
-        if ($value instanceof Node) {
-            return $value->toArray();
+        if (is_array($value)) {
+            $nodes = [];
+            foreach ($value as $ruleNode) {
+                $nodes[] = $this->castAttribute($ruleNode)->toArray();
+            }
+
+            return $nodes;
         }
+
+        //        if ($value instanceof RuleNode) {
+        //            return $value->toArray();
+        //        }
 
         return $value;
     }
 
-    public function castAttribute($value): ?Node
+    public function castAttribute($value): ?RuleNode
     {
-        return is_null($value) ? null : new Node($value);
+        return is_null($value) ? null : new RuleNode($value);
     }
 }
