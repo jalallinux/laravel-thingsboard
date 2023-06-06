@@ -183,8 +183,9 @@ class RuleChain extends Tntity
     /**
      * Makes the rule chain to be root rule chain. Updates previous root rule chain as well.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return self
+     *
      * @author  Sabiee
      *
      * @group TENANT_ADMIN

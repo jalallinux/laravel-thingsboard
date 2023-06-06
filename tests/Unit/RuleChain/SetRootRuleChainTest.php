@@ -12,7 +12,7 @@ class SetRootRuleChainTest extends TestCase
     public function testExistUuid()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $rootRuleChainId = thingsboard($tenantUser)->ruleChain()->getRuleChains(PaginationArguments::make())->data()->filter(fn($ruleChain) => $ruleChain->root )->first()->id->id;
+        $rootRuleChainId = thingsboard($tenantUser)->ruleChain()->getRuleChains(PaginationArguments::make())->data()->filter(fn ($ruleChain) => $ruleChain->root)->first()->id->id;
         $attributes = [
             'name' => $this->faker->sentence(3),
         ];
