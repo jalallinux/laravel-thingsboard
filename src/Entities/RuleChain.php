@@ -179,4 +179,22 @@ class RuleChain extends Tntity
 
         return $this->fill($this->api()->get("ruleChain/{$id}/metadata/")->json());
     }
+
+    /**
+     * Makes the rule chain to be root rule chain. Updates previous root rule chain as well.
+     *
+     * @param string|null $id
+     * @return self
+     * @author  Sabiee
+     *
+     * @group TENANT_ADMIN
+     */
+    public function setRootRuleChain(string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id ?? $this->forceAttribute('ruleChainId')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'ruleChainId']);
+
+        return $this->fill($this->api()->post("ruleChain/{$id}/root")->json());
+    }
 }
