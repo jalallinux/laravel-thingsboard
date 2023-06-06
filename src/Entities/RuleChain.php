@@ -198,4 +198,21 @@ class RuleChain extends Tntity
 
         return $this->fill($this->api()->post("ruleChain/{$id}/root")->json());
     }
+
+    /**
+     * Create rule chain from template, based on the specified name in the request.
+     * Creates the rule chain based on the template that is used to create root rule chain.
+     *
+     * @author  Sabiee
+     *
+     * @group TENANT_ADMIN
+     */
+    public function createDefaultRuleChain(string $name = null)
+    {
+        $payload = [
+            'name' => $name ?? $this->forceAttribute('name'),
+        ];
+
+        return tap($this, fn () => $this->fill($this->api()->post('ruleChain/device/default', $payload)->json()));
+    }
 }
