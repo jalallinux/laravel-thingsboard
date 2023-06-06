@@ -304,11 +304,12 @@ class Dashboard extends Tntity
      * Referencing non-existing dashboard ID will cause 'Not Found' error.
      * Remove 'id', 'tenantId' and optionally 'customerId' from the request body example (below) to create new Dashboard entity.
      *
-     * @param string|null $title
-     * @param array|null $configuration
+     * @param  string|null  $title
+     * @param  array|null  $configuration
      * @return $this
      *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN
      */
     public function saveDashboard(string $title = null, array $configuration = null): static

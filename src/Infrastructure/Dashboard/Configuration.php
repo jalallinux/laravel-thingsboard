@@ -2,12 +2,10 @@
 
 namespace JalalLinuX\Thingsboard\Infrastructure\Dashboard;
 
-use JalalLinuX\Thingsboard\Entities\WidgetType;
 use Jenssegers\Model\Model;
 use Vkovic\LaravelCustomCasts\HasCustomCasts;
 
 /**
- *
  * @property string $description
  * @property array $widgets
  * @property array $states
@@ -29,7 +27,6 @@ class Configuration extends Model
         'timewindow',
         'settings',
     ];
-
 
     protected $casts = [
         'widgets' => 'array',
