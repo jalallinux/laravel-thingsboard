@@ -6,7 +6,7 @@ use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
- * @property boolean $updateAvailable
+ * @property bool $updateAvailable
  * @property string $currentVersion
  * @property string $latestVersion
  * @property string $upgradeInstructionsUrl
