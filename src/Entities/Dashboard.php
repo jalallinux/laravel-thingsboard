@@ -116,7 +116,7 @@ class Dashboard extends Tntity
      * and also configuration JSON (e.g. layouts, widgets, entity aliases).
      *
      * @param  string|null  $id
-     * @return $this
+     * @return self
      *
      * @author JalalLinuX
      *
@@ -129,6 +129,122 @@ class Dashboard extends Tntity
         Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'dashboardId']);
 
         $dashboard = $this->api()->get("dashboard/{$id}")->json();
+
+        return $this->fill($dashboard);
+    }
+
+    /**
+     * Get the dashboard based on 'dashboardId' parameter.
+     * The Dashboard object is a heavyweight object that contains information about the dashboard (e.g. title, image, assigned customers)
+     * and also configuration JSON (e.g. layouts, widgets, entity aliases).
+     *
+     * @param  string|null  $id
+     * @return self
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function getDashboardInfoById(string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'dashboardId']);
+
+        $dashboard = $this->api()->get("dashboard/info/{$id}")->json();
+
+        return $this->fill($dashboard);
+    }
+
+    /**
+     * Assign the Dashboard to specified Customer or do nothing if the Dashboard is already assigned to that Customer.
+     *
+     * @param  string  $customerId
+     * @param  string|null  $id
+     * @return self
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function assignDashboardToCustomer(string $customerId, string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'dashboardId']);
+        Thingsboard::validation(! Str::isUuid($customerId), 'uuid', ['attribute' => 'customerId']);
+
+        $dashboard = $this->api()->post("customer/{$customerId}/dashboard/{$id}")->json();
+
+        return $this->fill($dashboard);
+    }
+
+    /**
+     * Unassign the Dashboard from specified Customer or do nothing if the Dashboard is already assigned to that Customer.
+     *
+     * @param  string  $customerId
+     * @param  string|null  $id
+     * @return self
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function unassignDashboardFromCustomer(string $customerId, string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'dashboardId']);
+        Thingsboard::validation(! Str::isUuid($customerId), 'uuid', ['attribute' => 'customerId']);
+
+        $dashboard = $this->api()->delete("customer/{$customerId}/dashboard/{$id}")->json();
+
+        return $this->fill($dashboard);
+    }
+
+    /**
+     * Assigns the dashboard to a special, auto-generated 'Public' Customer.
+     * Once assigned, unauthenticated users may browse the dashboard.
+     * This method is useful if you like to embed the dashboard on public web pages to be available for users that are not logged in.
+     * Be aware that making the dashboard public does not mean that it automatically makes all devices and assets you use in the dashboard to be public.
+     * Use assign Asset to Public Customer and assign Device to Public Customer for this purpose.
+     *
+     * @param  string|null  $id
+     * @return self
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function assignDashboardToPublicCustomer(string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'dashboardId']);
+
+        $dashboard = $this->api()->post("customer/public/dashboard/{$id}")->json();
+
+        return $this->fill($dashboard);
+    }
+
+    /**
+     * Unassigns the dashboard from a special, auto-generated 'Public' Customer.
+     * Once unassigned, unauthenticated users may no longer browse the dashboard.
+     *
+     * @param  string|null  $id
+     * @return self
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function unassignDashboardFromPublicCustomer(string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'dashboardId']);
+
+        $dashboard = $this->api()->delete("customer/public/dashboard/{$id}")->json();
 
         return $this->fill($dashboard);
     }
