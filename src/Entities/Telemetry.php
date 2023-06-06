@@ -11,6 +11,9 @@ use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
+/**
+ * @property EnumTelemetryScope $scope
+ */
 class Telemetry extends Tntity
 {
     public function entityType(): ?EnumEntityType
