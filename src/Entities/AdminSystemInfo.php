@@ -3,8 +3,14 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
+use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Tntity;
 
+/**
+ *
+ * @property array $systemData
+ * @property boolean $monolith
+ */
 class AdminSystemInfo extends Tntity
 {
     protected $fillable = [

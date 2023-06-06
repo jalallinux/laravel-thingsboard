@@ -5,6 +5,14 @@ namespace JalalLinuX\Thingsboard\Entities;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Tntity;
 
+/**
+ * @property boolean $updateAvailable
+ * @property string $currentVersion
+ * @property string $latestVersion
+ * @property string $upgradeInstructionsUrl
+ * @property string $currentVersionReleaseNotesUrl
+ * @property string $latestVersionReleaseNotesUrl
+ */
 class AdminUpdates extends Tntity
 {
     protected $fillable = [
