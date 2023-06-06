@@ -52,7 +52,7 @@ class AssetProfile extends Tntity
 
     public function entityType(): ?EnumEntityType
     {
-        return null;
+        return EnumEntityType::ASSET_PROFILE();
     }
 
     /**

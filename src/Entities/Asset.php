@@ -20,7 +20,7 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property Id $tenantId
  * @property Id $customerId
  * @property Id $assetProfileId
- * @property string $createdTime
+ * @property \DateTime $createdTime
  * @property array $additionalInfo
  * @property string $customerTitle
  * @property bool $customerIsPublic
@@ -55,7 +55,7 @@ class Asset extends Tntity
 
     public function entityType(): ?EnumEntityType
     {
-        return null;
+        return EnumEntityType::ASSET();
     }
 
     /**
