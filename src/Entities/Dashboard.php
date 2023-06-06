@@ -2,6 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastBase64Image;
 use JalalLinuX\Thingsboard\Casts\CastId;
@@ -247,5 +248,47 @@ class Dashboard extends Tntity
         $dashboard = $this->api()->delete("customer/public/dashboard/{$id}")->json();
 
         return $this->fill($dashboard);
+    }
+
+    /**
+     * Get the server time (milliseconds since January 1, 1970, UTC).
+     * Used to adjust view of the dashboards according to the difference between browser and server time.
+     *
+     * @return Carbon
+     *
+     * @author JalalLinuX
+     * @group *
+     */
+    public function getServerTime(): Carbon
+    {
+        return Carbon::createFromTimestampMs(
+            $this->api()->get("dashboard/serverTime")->body()
+        );
+    }
+
+    /**
+     * Returns a page of dashboard info objects owned by the specified customer.
+     * The Dashboard Info object contains lightweight information about the dashboard (e.g. title, image, assigned customers) but does not contain the heavyweight configuration JSON.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details.
+     *
+     * @param string $customerId
+     * @param PaginationArguments $paginationArguments
+     * @param bool|null $mobileHide
+     * @return PaginatedResponse
+     *
+     * @author JalalLinuX
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function getCustomerDashboards(string $customerId, PaginationArguments $paginationArguments, bool $mobileHide = null): PaginatedResponse
+    {
+        $paginationArguments->validateSortProperty(EnumDashboardSortProperty::class);
+
+        $response = $this->api()->get("customer/{$customerId}/dashboards", $paginationArguments->queryParams([
+            'mobile' => $mobileHide,
+        ]));
+
+        return $this->paginatedResponse($response, $paginationArguments);
     }
 }
