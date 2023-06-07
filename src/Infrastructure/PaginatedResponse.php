@@ -25,7 +25,7 @@ class PaginatedResponse
     public function paginator(): LengthAwarePaginator
     {
         return new LengthAwarePaginator(
-            array_map(fn ($row) => new $this->tntity($row), $this->response->json('data')),
+            array_map(fn ($row) => $this->tntity->fill($row), $this->response->json('data')),
             $this->response->json('totalElements'), $this->arguments->pageSize, $this->arguments->page, [
                 'sortOrder' => $this->arguments->sortOrder,
                 'sortProperty' => $this->arguments->sortProperty,
