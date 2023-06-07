@@ -181,7 +181,9 @@ class RuleChain extends Tntity
 
         Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'ruleChainId']);
 
-        return $this->fill($this->api()->get("ruleChain/{$id}/metadata/")->json());
+        $ruleChain = $this->api()->get("ruleChain/{$id}/metadata/")->json();
+
+        return $this->fill($ruleChain);
     }
 
     /**
@@ -312,4 +314,24 @@ class RuleChain extends Tntity
         return $this->api()
             ->post('ruleChains/import'.(! is_null($overwrite) ? "?overwrite={$overwrite}" : ''), $importStructure->toArray())->json();
     }
+
+    /**
+     * Gets the input message from the debug events for specified Rule Chain Id.
+     * Referencing non-existing rule chain Id will cause an error.
+     *
+     * @param string|null $id
+     * @return ?array
+     * @author Sabiee
+     *
+     * @group TENANT_ADMIN
+     */
+    public function getLatestRuleNodeDebugInput(string $id = null): ?array
+    {
+        $id = $id ?? $this->forceAttribute('id')->id ?? $this->forceAttribute('ruleNodeId')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'ruleNodeId']);
+
+        return $this->api()->get("ruleNode/{$id}/debugIn")->json();
+    }
+
 }
