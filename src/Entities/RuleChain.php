@@ -299,9 +299,10 @@ class RuleChain extends Tntity
     /**
      * Imports all tenant rule chains as one JSON.
      *
-     * @param ImportStructure $importStructure
-     * @param bool|null $overwrite
+     * @param  ImportStructure  $importStructure
+     * @param  bool|null  $overwrite
      * @return array
+     *
      * @author  Sabiee
      *
      * @group TENANT_ADMIN
@@ -311,5 +312,4 @@ class RuleChain extends Tntity
         return $this->api()
             ->post('ruleChains/import'.(! is_null($overwrite) ? "?overwrite={$overwrite}" : ''), $importStructure->toArray())->json();
     }
-
 }
