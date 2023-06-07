@@ -106,11 +106,11 @@ class Event extends Tntity
      * 'msgType' - string value representing the message type;
      * 'isError' - boolean value to filter the errors.
      *
-     * @param  PaginationArguments  $paginationArguments
-     * @param  Id  $id
-     * @param  string|null  $tenantId
-     * @param  \DateTime|null  $startTime
-     * @param  \DateTime|null  $endTime
+     * @param PaginationArguments $paginationArguments
+     * @param Id $id
+     * @param string|null $tenantId
+     * @param \DateTime|null $startTime
+     * @param \DateTime|null $endTime
      * @return array
      *
      * @author  Sabiee
@@ -121,8 +121,7 @@ class Event extends Tntity
     {
         $paginationArguments->validateSortProperty(EnumEventSortProperty::class);
 
-        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
-        Thingsboard::validation(! Str::isUuid($tenantId), 'uuid', ['attribute' => 'tenantId']);
+        Thingsboard::validation(!Str::isUuid($tenantId), 'uuid', ['attribute' => 'tenantId']);
 
         $queryParams = array_filter([
             'tenantId' => $tenantId,
@@ -130,7 +129,7 @@ class Event extends Tntity
 
         $queryParams = array_merge($queryParams, $paginationArguments->queryParams());
 
-        if (! is_null($startTime)) {
+        if (!is_null($startTime)) {
             $endTime = @$endTime ?? now();
             Thingsboard::exception($startTime->getTimestamp() > $endTime->getTimestamp(), 'start_bigger_then_end');
             $queryParams = array_merge($queryParams, [
@@ -156,8 +155,7 @@ class Event extends Tntity
     {
         $paginationArguments->validateSortProperty(EnumEventSortProperty::class);
 
-        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
-        Thingsboard::validation(! Str::isUuid($tenantId), 'uuid', ['attribute' => 'tenantId']);
+        Thingsboard::validation(!Str::isUuid($tenantId), 'uuid', ['attribute' => 'tenantId']);
 
         $queryParams = array_filter([
             'tenantId' => $tenantId,
@@ -178,4 +176,32 @@ class Event extends Tntity
 
         return $this->api()->get("events/{$id->entityType}/{$id->id}/{$eventType}?{$queryParams}")->json();
     }
+
+    /**
+     * Clears events by filter for specified entity.
+     *
+     * @param Id $id
+     * @param \DateTime|null $startTime
+     * @param \DateTime|null $endTime
+     * @return bool
+     * @author  Sabiee
+     */
+    public function clearEvents(Id $id, \DateTime $startTime = null, \DateTime $endTime = null): bool
+    {
+        $queryParams = null;
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
+
+        if (!is_null($startTime)) {
+            $endTime = @$endTime ?? now();
+            Thingsboard::exception($startTime->getTimestamp() > $endTime->getTimestamp(), 'start_bigger_then_end');
+            $queryParams = [
+                'startTime' => $startTime->getTimestamp() * 1000,
+                'endTime' => $endTime->getTimestamp() * 1000
+            ];
+            $queryParams = http_build_query($queryParams);
+        }
+
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->post("events/{$id->entityType}/{$id->id}/clear" . (!is_null($queryParams) ? "?{$queryParams}" : ""), $this->getAttribute('body'))->successful();
+    }
+
 }
