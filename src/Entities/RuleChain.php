@@ -319,8 +319,9 @@ class RuleChain extends Tntity
      * Gets the input message from the debug events for specified Rule Chain Id.
      * Referencing non-existing rule chain Id will cause an error.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return ?array
+     *
      * @author Sabiee
      *
      * @group TENANT_ADMIN
@@ -333,5 +334,4 @@ class RuleChain extends Tntity
 
         return $this->api()->get("ruleNode/{$id}/debugIn")->json();
     }
-
 }

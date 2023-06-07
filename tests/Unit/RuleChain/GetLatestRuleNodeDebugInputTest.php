@@ -13,14 +13,14 @@ class GetLatestRuleNodeDebugInputTest extends TestCase
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         /** @var RuleChain $rootRuleChain */
-        $rootRuleChain = thingsboard($tenantUser)->ruleChain()->getRuleChains(PaginationArguments::make(textSearch: "Root Rule Chain"))->data()->first();
+        $rootRuleChain = thingsboard($tenantUser)->ruleChain()->getRuleChains(PaginationArguments::make(textSearch: 'Root Rule Chain'))->data()->first();
         $metadata = $rootRuleChain->getRuleChainMetadataById();
         $result = thingsboard($tenantUser)->ruleChain()->getLatestRuleNodeDebugInput($metadata->getAttribute('nodes')[0]['id']['id']);
-        if(! is_null($result)){
+        if (! is_null($result)) {
             $this->assertIsArray($result);
             $this->assertArrayHasKey('type', $result);
             $this->assertEquals('IN', $result['type']);
-        }else{
+        } else {
             $this->assertNull($result);
         }
     }
