@@ -5,10 +5,12 @@ namespace JalalLinuX\Thingsboard\Entities;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumEventSortProperty;
+use JalalLinuX\Thingsboard\Enums\EnumEventType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
+
 
 /**
  * @property array $data
@@ -116,12 +118,12 @@ class Event extends Tntity
      *
      * @group
      */
-    public function getEventsByEventFilter(PaginationArguments $paginationArguments, Id $id, string $tenantId = null, \DateTime $startTime = null, \DateTime $endTime = null): array
+    public function getEventsByEventFilter(PaginationArguments $paginationArguments, Id $id, string $tenantId, \DateTime $startTime = null, \DateTime $endTime = null): array
     {
         $paginationArguments->validateSortProperty(EnumEventSortProperty::class);
 
         Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
-        Thingsboard::validation(! is_null($tenantId) && ! Str::isUuid($tenantId), 'uuid', ['attribute' => 'tenantId']);
+        Thingsboard::validation(! Str::isUuid($tenantId), 'uuid', ['attribute' => 'tenantId']);
 
         $queryParams = array_filter([
             'tenantId' => $tenantId,
@@ -142,4 +144,40 @@ class Event extends Tntity
 
         return $this->api()->post("events/{$id->entityType}/{$id->id}?{$queryParams}", $this->getAttribute('body'))->json();
     }
+
+    /**
+     * Returns a page of events for specified entity by specifying event type.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details.
+     *
+     * @author  Sabiee
+     */
+    public function getEventsByType(PaginationArguments $paginationArguments, Id $id, EnumEventType $eventType, string $tenantId, \DateTime $startTime = null, \DateTime $endTime = null): array
+    {
+        $paginationArguments->validateSortProperty(EnumEventSortProperty::class);
+
+        Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
+        Thingsboard::validation(! Str::isUuid($tenantId), 'uuid', ['attribute' => 'tenantId']);
+
+        $queryParams = array_filter([
+            'tenantId' => $tenantId
+        ]);
+
+        $queryParams = array_merge($queryParams, $paginationArguments->queryParams());
+
+        if(! is_null($startTime)){
+            $endTime = @$endTime ?? now();
+            Thingsboard::exception($startTime->getTimestamp() > $endTime->getTimestamp(), 'start_bigger_then_end');
+            $queryParams = array_merge($queryParams, [
+                'startTime' => $startTime->getTimestamp() * 1000,
+                'endTime' => $endTime->getTimestamp() * 1000
+            ]);
+        }
+
+        $queryParams = http_build_query($queryParams);
+
+        return $this->api()->get("events/{$id->entityType}/{$id->id}/{$eventType}?{$queryParams}")->json();
+    }
+
 }
