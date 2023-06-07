@@ -280,8 +280,10 @@ class RuleChain extends Tntity
 
     /**
      * Exports all tenant rule chains as one JSON.
-     * @param int $limit
+     *
+     * @param  int  $limit
      * @return array
+     *
      * @author  Sabiee
      *
      * @group TENANT_ADMIN
@@ -292,5 +294,4 @@ class RuleChain extends Tntity
 
         return array_map(fn ($ruleChain) => new RuleChain($ruleChain), $ruleChains);
     }
-
 }

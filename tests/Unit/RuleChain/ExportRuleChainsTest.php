@@ -16,9 +16,9 @@ class ExportRuleChainsTest extends TestCase
         ];
         $newRuleChain = thingsboard($tenantUser)->ruleChain($attributes)->saveRuleChain();
 
-        $ruleChains = thingsboard($tenantUser)->ruleChain()->exportRuleChains($this->faker->numberBetween(1,10));
+        $ruleChains = thingsboard($tenantUser)->ruleChain()->exportRuleChains($this->faker->numberBetween(1, 10));
 
-        foreach ($ruleChains as $ruleChain){
+        foreach ($ruleChains as $ruleChain) {
             $this->assertInstanceOf(RuleChain::class, $ruleChain);
         }
 
