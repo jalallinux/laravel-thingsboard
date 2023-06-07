@@ -10,7 +10,6 @@ use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
-
 /**
  * @property array $data
  * @property array $body
@@ -19,7 +18,7 @@ class Event extends Tntity
 {
     protected $fillable = [
         'data',
-        'body'
+        'body',
     ];
 
     protected $casts = [
@@ -106,12 +105,13 @@ class Event extends Tntity
      * 'msgType' - string value representing the message type;
      * 'isError' - boolean value to filter the errors.
      *
-     * @param PaginationArguments $paginationArguments
-     * @param Id $id
-     * @param string|null $tenantId
-     * @param \DateTime|null $startTime
-     * @param \DateTime|null $endTime
+     * @param  PaginationArguments  $paginationArguments
+     * @param  Id  $id
+     * @param  string|null  $tenantId
+     * @param  \DateTime|null  $startTime
+     * @param  \DateTime|null  $endTime
      * @return array
+     *
      * @author  Sabiee
      *
      * @group
@@ -124,17 +124,17 @@ class Event extends Tntity
         Thingsboard::validation(! is_null($tenantId) && ! Str::isUuid($tenantId), 'uuid', ['attribute' => 'tenantId']);
 
         $queryParams = array_filter([
-            'tenantId' => $tenantId
+            'tenantId' => $tenantId,
         ]);
 
         $queryParams = array_merge($queryParams, $paginationArguments->queryParams());
 
-        if(! is_null($startTime)){
+        if (! is_null($startTime)) {
             $endTime = @$endTime ?? now();
             Thingsboard::exception($startTime->getTimestamp() > $endTime->getTimestamp(), 'start_bigger_then_end');
             $queryParams = array_merge($queryParams, [
                 'startTime' => $startTime->getTimestamp() * 1000,
-                'endTime' => $endTime->getTimestamp() * 1000
+                'endTime' => $endTime->getTimestamp() * 1000,
             ]);
         }
 
@@ -142,5 +142,4 @@ class Event extends Tntity
 
         return $this->api()->post("events/{$id->entityType}/{$id->id}?{$queryParams}", $this->getAttribute('body'))->json();
     }
-
 }

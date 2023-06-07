@@ -14,7 +14,7 @@ class EnumEventSortProperty extends Enum
     {
         return [
             'ID' => 'id',
-            'TS' => 'ts'
+            'TS' => 'ts',
         ];
     }
 
@@ -22,7 +22,7 @@ class EnumEventSortProperty extends Enum
     {
         return [
             'ID' => 'Id',
-            'TS' => 'Ts'
+            'TS' => 'Ts',
         ];
     }
 }
