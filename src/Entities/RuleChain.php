@@ -277,4 +277,20 @@ class RuleChain extends Tntity
         return tap($this, fn () => $this->fill($this->api()
             ->post('ruleChain/metadata'.(! is_null($updateRelated) ? "?updateRelated={$updateRelated}" : ''), $this->getCastAttributes())->json()));
     }
+
+    /**
+     * Exports all tenant rule chains as one JSON.
+     * @param int $limit
+     * @return array
+     * @author  Sabiee
+     *
+     * @group TENANT_ADMIN
+     */
+    public function exportRuleChains(int $limit): array
+    {
+        $ruleChains = $this->api()->get('/ruleChains/export', ['limit' => $limit])->json();
+
+        return array_map(fn ($ruleChain) => new RuleChain($ruleChain), $ruleChains);
+    }
+
 }
