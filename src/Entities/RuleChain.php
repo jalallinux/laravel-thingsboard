@@ -265,16 +265,16 @@ class RuleChain extends Tntity
      * Updates the rule chain metadata.
      * The metadata object contains information about the rule nodes and their connections.
      *
-     * @param bool|null $updateRelated
+     * @param  bool|null  $updateRelated
      * @return self
+     *
      * @author  Sabiee
      *
      * @group TENANT_ADMIN
      */
     public function updateRuleChainMetadata(bool $updateRelated = null): static
     {
-        return tap($this, fn() => $this->fill($this->api()
-            ->post("ruleChain/metadata" . (!is_null($updateRelated) ? "?updateRelated={$updateRelated}" : ""), $this->getCastAttributes())->json()));
+        return tap($this, fn () => $this->fill($this->api()
+            ->post('ruleChain/metadata'.(! is_null($updateRelated) ? "?updateRelated={$updateRelated}" : ''), $this->getCastAttributes())->json()));
     }
-
 }
