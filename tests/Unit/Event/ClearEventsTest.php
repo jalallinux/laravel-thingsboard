@@ -4,7 +4,6 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\Event;
 
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
-use JalalLinuX\Thingsboard\Enums\EnumEventSortProperty;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
@@ -30,7 +29,7 @@ class ClearEventsTest extends TestCase
      {
          $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
          $this->expectExceptionCode(500);
-         $this->expectExceptionMessageMatches("/id/");
+         $this->expectExceptionMessageMatches('/id/');
          thingsboard($tenantUser)->event([
              'body' => [
                  'notEmpty' => false,
