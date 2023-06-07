@@ -10,6 +10,7 @@ use JalalLinuX\Thingsboard\Enums\EnumRuleChainSortProperty;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Infrastructure\RuleChain\ImportStructure;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
@@ -294,4 +295,21 @@ class RuleChain extends Tntity
 
         return array_map(fn ($ruleChain) => new RuleChain($ruleChain), $ruleChains);
     }
+
+    /**
+     * Imports all tenant rule chains as one JSON.
+     *
+     * @param ImportStructure $importStructure
+     * @param bool|null $overwrite
+     * @return array
+     * @author  Sabiee
+     *
+     * @group TENANT_ADMIN
+     */
+    public function importRuleChains(ImportStructure $importStructure, bool $overwrite = null): array
+    {
+        return $this->api()
+            ->post('ruleChains/import'.(! is_null($overwrite) ? "?overwrite={$overwrite}" : ''), $importStructure->toArray())->json();
+    }
+
 }
