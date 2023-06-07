@@ -32,6 +32,7 @@ use PhpMqtt\Client\ConnectionSettings;
  * @method Entities\Asset asset(array $attributes = [])
  * @method Entities\AssetProfile assetProfile(array $attributes = [])
  * @method Entities\RuleChain ruleChain(array $attributes = [])
+ * @method Entities\Event event(array $attributes = [])
  */
 class Thingsboard
 {
