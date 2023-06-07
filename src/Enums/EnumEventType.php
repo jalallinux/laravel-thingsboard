@@ -21,7 +21,7 @@ class EnumEventType extends Enum
             'DEBUG_RULE_NODE' => 'DEBUG_RULE_NODE',
             'ERROR' => 'ERROR',
             'LC_EVENT' => 'LC_EVENT',
-            'STATS' => 'STATS'
+            'STATS' => 'STATS',
         ];
     }
 
@@ -32,7 +32,7 @@ class EnumEventType extends Enum
             'DEBUG_RULE_NODE' => 'Debug Rule Node',
             'ERROR' => 'Error',
             'LC_EVENT' => 'Lc Event',
-            'STATS' => 'Stats'
+            'STATS' => 'Stats',
         ];
     }
 }

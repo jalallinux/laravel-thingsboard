@@ -11,7 +11,6 @@ use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
-
 /**
  * @property array $data
  * @property array $body
@@ -161,17 +160,17 @@ class Event extends Tntity
         Thingsboard::validation(! Str::isUuid($tenantId), 'uuid', ['attribute' => 'tenantId']);
 
         $queryParams = array_filter([
-            'tenantId' => $tenantId
+            'tenantId' => $tenantId,
         ]);
 
         $queryParams = array_merge($queryParams, $paginationArguments->queryParams());
 
-        if(! is_null($startTime)){
+        if (! is_null($startTime)) {
             $endTime = @$endTime ?? now();
             Thingsboard::exception($startTime->getTimestamp() > $endTime->getTimestamp(), 'start_bigger_then_end');
             $queryParams = array_merge($queryParams, [
                 'startTime' => $startTime->getTimestamp() * 1000,
-                'endTime' => $endTime->getTimestamp() * 1000
+                'endTime' => $endTime->getTimestamp() * 1000,
             ]);
         }
 
@@ -179,5 +178,4 @@ class Event extends Tntity
 
         return $this->api()->get("events/{$id->entityType}/{$id->id}/{$eventType}?{$queryParams}")->json();
     }
-
 }

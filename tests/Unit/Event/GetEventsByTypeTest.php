@@ -18,9 +18,9 @@ class GetEventsByTypeTest extends TestCase
 
         $events = thingsboard($tenantUser)->event([
             'body' => [
-                "notEmpty" => false,
-                "eventType" => "STATS"
-            ]
+                'notEmpty' => false,
+                'eventType' => 'STATS',
+            ],
         ])->getEventsByType(PaginationArguments::make(sortProperty: $sortProperty), $device->id, EnumEventType::ERROR(), $device->tenantId->id);
 
         $this->assertIsArray($events);
@@ -34,12 +34,12 @@ class GetEventsByTypeTest extends TestCase
          $device = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->first();
 
          $this->expectExceptionCode(500);
-         $this->expectExceptionMessageMatches("/tenantId/");
+         $this->expectExceptionMessageMatches('/tenantId/');
          thingsboard($tenantUser)->event([
              'body' => [
-                 "notEmpty" => false,
-                 "eventType" => "STATS"
-             ]
+                 'notEmpty' => false,
+                 'eventType' => 'STATS',
+             ],
          ])->getEventsByType(PaginationArguments::make(sortProperty: $sortProperty), $device->id, EnumEventType::LC_EVENT(), substr_replace($this->faker->uuid, 'z', -1));
      }
 }
