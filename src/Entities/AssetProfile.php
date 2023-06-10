@@ -163,4 +163,27 @@ class AssetProfile extends Tntity
 
         return $this->paginatedResponse($response, $paginationArguments);
     }
+
+    /**
+     * Fetch the Asset Profile Info object based on the provided Asset Profile ID.
+     * Asset Profile Info is a lightweight object that includes main information about Asset Profile.
+     *
+     * @param string|null $id
+     * @return self
+     *
+     * @author JalalLinuX
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function getAssetProfileInfoById(string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'assetProfileId']);
+
+        $device = $this->api()->get("assetProfileInfo/{$id}")->json();
+
+        return $this->fill($device);
+    }
+
+
 }
