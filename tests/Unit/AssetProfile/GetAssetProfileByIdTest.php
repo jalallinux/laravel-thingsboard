@@ -1,8 +1,8 @@
 <?php
 
-namespace JalalLinuX\Thingsboard\Tests\Unit\Device;
+namespace JalalLinuX\Thingsboard\Tests\Unit\AssetProfile;
 
-use JalalLinuX\Thingsboard\Entities\Device;
+use JalalLinuX\Thingsboard\Entities\AssetProfile;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Exceptions\Exception;
@@ -10,21 +10,21 @@ use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
-class GetDeviceByIdTest extends TestCase
+class GetAssetProfileByIdTest extends TestCase
 {
     public function testExistUuid()
     {
         $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $deviceId = thingsboard($user)->device()->getTenantDeviceInfos(
+        $assetProfileId = thingsboard($user)->assetProfile()->getAssetProfiles(
             PaginationArguments::make()
         )->data()->first()->id->id;
 
-        $device = thingsboard($user)->device()->getDeviceById($deviceId);
-        $this->assertEquals($deviceId, $device->id->id);
+        $assetProfile = thingsboard($user)->assetProfile()->getAssetProfileById($assetProfileId);
+        $this->assertEquals($assetProfileId, $assetProfile->id->id);
 
-        $device = thingsboard($user)->device(['id' => new Id($deviceId, EnumEntityType::DEVICE())])->getDeviceById();
-        $this->assertEquals($deviceId, $device->id->id);
-        $this->assertInstanceOf(Device::class, $device);
+        $assetProfile = thingsboard($user)->assetProfile(['id' => new Id($assetProfileId, EnumEntityType::DEVICE())])->getAssetProfileById();
+        $this->assertEquals($assetProfileId, $assetProfile->id->id);
+        $this->assertInstanceOf(AssetProfile::class, $assetProfile);
     }
 
     public function testInvalidUuid()
@@ -33,7 +33,7 @@ class GetDeviceByIdTest extends TestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionCode(500);
-        thingsboard($user)->device()->getDeviceById(substr_replace($this->faker->uuid, 'z', -1));
+        thingsboard($user)->assetProfile()->getAssetProfileById(substr_replace($this->faker->uuid, 'z', -1));
     }
 
     public function testNonExistUuid()
@@ -41,6 +41,6 @@ class GetDeviceByIdTest extends TestCase
         $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 
         $this->expectExceptionCode(404);
-        thingsboard($user)->device()->getDeviceById($this->faker->uuid);
+        thingsboard($user)->assetProfile()->getAssetProfileById($this->faker->uuid);
     }
 }

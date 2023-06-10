@@ -206,6 +206,7 @@ class WidgetType extends Tntity
      *
      * @group SYS_ADMIN | TENANT_ADMIN
      */
+
 //    public function saveWidgetType(string $name = null, string $bundleAlias = null, Descriptor $descriptor = null): static
 //    {
 //        $payload = array_merge($this->attributes, [
