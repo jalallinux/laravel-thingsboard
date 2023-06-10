@@ -106,11 +106,11 @@ class Event extends Tntity
      * 'msgType' - string value representing the message type;
      * 'isError' - boolean value to filter the errors.
      *
-     * @param  PaginationArguments  $paginationArguments
-     * @param  Id  $id
-     * @param  string|null  $tenantId
-     * @param  \DateTime|null  $startTime
-     * @param  \DateTime|null  $endTime
+     * @param PaginationArguments $paginationArguments
+     * @param Id $id
+     * @param string $tenantId
+     * @param \DateTime|null $startTime
+     * @param \DateTime|null $endTime
      * @return array
      *
      * @author  Sabiee
@@ -165,7 +165,9 @@ class Event extends Tntity
 
         if (! is_null($startTime)) {
             $endTime = @$endTime ?? now();
+
             Thingsboard::exception($startTime->getTimestamp() > $endTime->getTimestamp(), 'start_bigger_then_end');
+
             $queryParams = array_merge($queryParams, [
                 'startTime' => $startTime->getTimestamp() * 1000,
                 'endTime' => $endTime->getTimestamp() * 1000,

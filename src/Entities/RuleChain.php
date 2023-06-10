@@ -239,15 +239,15 @@ class RuleChain extends Tntity
     /**
      * Execute the Script function and return the result. The format of request:
      * {
-     * "script": "Your Function as String",
-     * "scriptType": "One of: update, generate, filter, switch, json, string",
-     * "argNames": ["msg", "metadata", "type"],
-     * "msg": "{\"temperature\": 42}",
-     * "metadata": {
-     * "deviceName": "Device A",
-     * "deviceType": "Thermometer"
+     *  "script": "Your Function as String",
+     *  "scriptType": "One of: update, generate, filter, switch, json, string",
+     *  "argNames": ["msg", "metadata", "type"],
+     *  "msg": "{\"temperature\": 42}",
+     *  "metadata": {
+     *      "deviceName": "Device A",
+     *      "deviceType": "Thermometer"
      * },
-     * "msgType": "POST_TELEMETRY_REQUEST"
+     *  "msgType": "POST_TELEMETRY_REQUEST"
      * }
      * Expected result JSON contains "output" and "error".
      *
