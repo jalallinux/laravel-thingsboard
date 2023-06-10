@@ -6,7 +6,6 @@ use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumAssetProfileSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
-use JalalLinuX\Thingsboard\Infrastructure\Base64Image;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
@@ -65,10 +64,11 @@ class AssetProfile extends Tntity
      * See the 'Model' tab of the Response Class for more details.
      * Asset Profile Info is a lightweight object that includes main information about Asset Profile.
      *
-     * @param PaginationArguments $paginationArguments
+     * @param  PaginationArguments  $paginationArguments
      * @return PaginatedResponse
      *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function getAssetProfileInfos(PaginationArguments $paginationArguments): PaginatedResponse
@@ -84,10 +84,11 @@ class AssetProfile extends Tntity
      * Fetch the Asset Profile object based on the provided Asset Profile ID.
      * The server checks that the asset profile is owned by the same tenant.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return self
      *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN
      */
     public function getAssetProfileById(string $id = null): static
@@ -111,8 +112,9 @@ class AssetProfile extends Tntity
      * Only one 'default' asset profile may exist in scope of tenant.
      * Remove 'id', 'tenantId' from the request body example (below) to create new Asset Profile entity.
      *
-     * @param string|null $name
+     * @param  string|null  $name
      * @return self
+     *
      * @author JalalLinuX
      */
     public function saveAssetProfile(string $name = null): static
@@ -131,7 +133,7 @@ class AssetProfile extends Tntity
      * Referencing non-existing asset profile ID will cause an error.
      * Can't delete the asset profile if it is referenced by existing assets.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return bool
      *
      * @author JalalLinuX
