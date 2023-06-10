@@ -170,10 +170,11 @@ class AssetProfile extends Tntity
      * Fetch the Asset Profile Info object based on the provided Asset Profile ID.
      * Asset Profile Info is a lightweight object that includes main information about Asset Profile.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return self
      *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function getAssetProfileInfoById(string $id = null): static
@@ -194,11 +195,12 @@ class AssetProfile extends Tntity
      * @return self
      *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
     public function getDefaultAssetProfileInfo(): static
     {
-        $assetProfile = $this->api()->get("assetProfileInfo/default")->json();
+        $assetProfile = $this->api()->get('assetProfileInfo/default')->json();
 
         return $this->fill($assetProfile);
     }
@@ -206,10 +208,11 @@ class AssetProfile extends Tntity
     /**
      * Marks asset profile as default within a tenant scope.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return self
      *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN
      */
     public function setDefaultAssetProfile(string $id = null): static
