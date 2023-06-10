@@ -200,4 +200,24 @@ class AssetProfile extends Tntity
 
         return $this->fill($assetProfile);
     }
+
+    /**
+     * Marks asset profile as default within a tenant scope.
+     *
+     * @param string|null $id
+     * @return self
+     *
+     * @author JalalLinuX
+     * @group TENANT_ADMIN
+     */
+    public function setDefaultAssetProfile(string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'assetProfileId']);
+
+        $device = $this->api()->post("assetProfile/{$id}/default")->json();
+
+        return $this->fill($device);
+    }
 }
