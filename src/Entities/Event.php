@@ -106,11 +106,11 @@ class Event extends Tntity
      * 'msgType' - string value representing the message type;
      * 'isError' - boolean value to filter the errors.
      *
-     * @param PaginationArguments $paginationArguments
-     * @param Id $id
-     * @param string $tenantId
-     * @param \DateTime|null $startTime
-     * @param \DateTime|null $endTime
+     * @param  PaginationArguments  $paginationArguments
+     * @param  Id  $id
+     * @param  string  $tenantId
+     * @param  \DateTime|null  $startTime
+     * @param  \DateTime|null  $endTime
      * @return array
      *
      * @author  Sabiee
