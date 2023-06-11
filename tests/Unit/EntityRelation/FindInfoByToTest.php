@@ -26,7 +26,7 @@ class FindInfoByToTest extends TestCase
 
         $this->assertTrue($result);
 
-        $findEntities = thingsboard($tenantUser)->entityRelation()->findInfoByTo( new Id($device2Id, EnumEntityType::DEVICE()), 'COMMON');
+        $findEntities = thingsboard($tenantUser)->entityRelation()->findInfoByTo(new Id($device2Id, EnumEntityType::DEVICE()), 'COMMON');
 
         foreach ($findEntities as $entity) {
             $this->assertInstanceOf(EntityRelation::class, $entity);
