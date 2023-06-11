@@ -53,8 +53,8 @@ class EntityRelation extends Tntity
      * Relation Info is an extension of the default Relation object that contains information about
      * the 'from' and 'to' entity names.
      *
-     * @param  array|null  $filters
-     * @param  array|null  $parameters
+     * @param array|null $filters
+     * @param array|null $parameters
      * @return array
      *
      * @author Sabiee
@@ -82,11 +82,11 @@ class EntityRelation extends Tntity
      * If the user has the authority of 'Tenant Administrator', the server checks that 'from' and 'to' entities are owned by the same tenant.
      * If the user has the authority of 'Customer User', the server checks that the 'from' and 'to' entities are assigned to the same customer.
      *
-     * @param  Id|null  $from
-     * @param  Id|null  $to
-     * @param  string|null  $type
-     * @param  string|null  $typeGroup
-     * @param  array|null  $additionalInfo
+     * @param Id|null $from
+     * @param Id|null $to
+     * @param string|null $type
+     * @param string|null $typeGroup
+     * @param array|null $additionalInfo
      * @return bool
      *
      * @author  Sabiee
@@ -140,10 +140,10 @@ class EntityRelation extends Tntity
      * 'to' entities are owned by the same tenant. If the user has the authority of 'Customer User',
      * the server checks that the 'from' and 'to' entities are assigned to the same customer.
      *
-     * @param  Id|null  $from
-     * @param  string|null  $relationType
-     * @param  Id|null  $to
-     * @param  string|null  $relationTypeGroup
+     * @param Id|null $from
+     * @param string|null $relationType
+     * @param Id|null $to
+     * @param string|null $relationTypeGroup
      * @return EntityRelation
      *
      * @author Sabiee
@@ -170,7 +170,7 @@ class EntityRelation extends Tntity
      * If the user has the authority of 'Tenant Administrator', the server checks that the entity is owned by the same tenant.
      * If the user has the authority of 'Customer User', the server checks that the entity is assigned to the same customer.
      *
-     * @param  Id|null  $entity
+     * @param Id|null $entity
      * @return bool
      *
      * @author Sabiee
@@ -188,6 +188,7 @@ class EntityRelation extends Tntity
         return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->bodyFormat('query')
             ->delete('relations', $queryParams)->successful();
     }
+
 
     /**
      * Returns list of relation info objects for the specified entity by the 'from' direction.
@@ -208,6 +209,32 @@ class EntityRelation extends Tntity
             'fromId' => @$fromType->id ?? @$this->forceAttribute('from')->id,
             'fromType' => @$fromType->entityType->value ?? @$this->forceAttribute('from')->entityType->value,
             'relationTypeGroup' => @$relationTypeGroup ?? @$this->getAttribute('relationTypeGroup'),
+        ];
+
+        $relations = $this->api()->get('relations/info', $queryParams)->json();
+
+        return array_map(fn($relation) => new EntityRelation($relation), $relations);
+    }
+
+    /**
+     * Returns list of relation info objects for the specified entity by the 'to' direction.
+     * If the user has the authority of 'System Administrator', the server checks that the entity is owned by the sysadmin.
+     * If the user has the authority of 'Tenant Administrator', the server checks that the entity is owned by the same tenant.
+     * If the user has the authority of 'Customer User', the server checks that the entity is assigned to the same customer.
+     * Relation Info is an extension of the default Relation object that contains information about the 'from' and 'to' entity names.
+     *
+     * @param Id|null $to
+     * @param string|null $relationTypeGroup
+     * @return array
+     *
+     * @author Sabiee
+     */
+    public function findInfoByTo(Id $to = null, string $relationTypeGroup = null): array
+    {
+        $queryParams = [
+            'toId' => @$to->id ?? @$this->forceAttribute('to')->id,
+            'toType' => @$to->entityType->value ?? @$this->forceAttribute('to')->entityType->value,
+            'relationTypeGroup' => @$relationTypeGroup ?? @$this->getAttribute('relationTypeGroup')
         ];
 
         $relations = $this->api()->get('relations/info', $queryParams)->json();

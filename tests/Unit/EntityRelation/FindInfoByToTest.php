@@ -9,7 +9,7 @@ use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
-class FindInfoByFromTest extends TestCase
+class FindInfoByToTest extends TestCase
 {
     public function testFetchSuccess()
     {
@@ -26,25 +26,25 @@ class FindInfoByFromTest extends TestCase
 
         $this->assertTrue($result);
 
-        $findEntities = thingsboard($tenantUser)->entityRelation()->findInfoByFrom(new Id($device1Id, EnumEntityType::DEVICE()), 'COMMON');
+        $findEntities = thingsboard($tenantUser)->entityRelation()->findInfoByTo( new Id($device2Id, EnumEntityType::DEVICE()), 'COMMON');
 
         foreach ($findEntities as $entity) {
             $this->assertInstanceOf(EntityRelation::class, $entity);
         }
 
         $result = thingsboard($tenantUser)->entityRelation()->deleteRelations(
-            new Id($device1Id, EnumEntityType::DEVICE())
+            new Id($device2Id, EnumEntityType::DEVICE())
         );
 
         $this->assertTrue($result);
     }
 
-    public function testWhenFromIsNull()
+    public function testWhenToIsNull()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 
         $this->expectExceptionCode(500);
-        $this->expectExceptionMessageMatches('/to/');
-        thingsboard($tenantUser)->entityRelation()->findInfoByTo();
+        $this->expectExceptionMessageMatches('/from/');
+        thingsboard($tenantUser)->entityRelation()->findInfoByFrom();
     }
 }
