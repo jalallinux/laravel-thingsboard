@@ -2,7 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Tests\Unit\EntityRelation;
 
-use JalalLinuX\Thingsboard\Entities\EntityRelation;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
@@ -40,7 +39,6 @@ class SaveRelationTest extends TestCase
     public function testWhenSortKeyFilterTypesIsNull()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-
 
         $this->expectExceptionCode(500);
         $this->expectExceptionMessageMatches('/from/');
