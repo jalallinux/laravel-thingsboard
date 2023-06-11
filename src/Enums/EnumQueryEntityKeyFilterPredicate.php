@@ -19,7 +19,7 @@ class EnumQueryEntityKeyFilterPredicate extends Enum
             'BOOLEAN' => 'BOOLEAN',
             'DATE_TIME' => 'DATE_TIME',
             'NUMERIC' => 'NUMERIC',
-            'STRING' => 'STRING'
+            'STRING' => 'STRING',
         ];
     }
 
@@ -29,7 +29,7 @@ class EnumQueryEntityKeyFilterPredicate extends Enum
             'BOOLEAN' => 'Boolean',
             'DATE_TIME' => 'Date Time',
             'NUMERIC' => 'Numeric',
-            'STRING' => 'String'
+            'STRING' => 'String',
         ];
     }
 }

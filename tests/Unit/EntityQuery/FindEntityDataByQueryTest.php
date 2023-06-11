@@ -18,29 +18,29 @@ class FindEntityDataByQueryTest extends TestCase
         $sortProperty = $this->faker->randomElement($randEnum::cases());
         $entityFields = [
             [
-                "type" => "ENTITY_FIELD",
-                "key" => "name"
-            ]
+                'type' => 'ENTITY_FIELD',
+                'key' => 'name',
+            ],
         ];
         $entityFilter = [
-            "type" => "apiUsageState"
+            'type' => 'apiUsageState',
         ];
         $keyFilters = [
             [
-                "key" => [
-                    "type" => "TIME_SERIES",
-                    "key" => "temperature"
+                'key' => [
+                    'type' => 'TIME_SERIES',
+                    'key' => 'temperature',
                 ],
-                "predicate" => [
-                    "operation" => "GREATER",
-                    "value" => [
-                        "defaultValue" => 20,
-                        "dynamicValue" => null
+                'predicate' => [
+                    'operation' => 'GREATER',
+                    'value' => [
+                        'defaultValue' => 20,
+                        'dynamicValue' => null,
                     ],
-                    "type" => "NUMERIC"
+                    'type' => 'NUMERIC',
                 ],
-                "valueType" => "NUMERIC"
-            ]
+                'valueType' => 'NUMERIC',
+            ],
         ];
         $findEntities = thingsboard($tenantUser)->entityQuery()->findEntityDataByQuery(PaginationArguments::make(sortProperty: $sortProperty), $entityFields, $entityFilter, $keyFilters, EnumQueryEntitySortKeyFilterTypes::ENTITY_FIELD());
 
@@ -55,29 +55,29 @@ class FindEntityDataByQueryTest extends TestCase
         $sortProperty = $this->faker->randomElement($randEnum::cases());
         $entityFields = [
             [
-                "type" => "ENTITY_FIELD",
-                "key" => "name"
-            ]
+                'type' => 'ENTITY_FIELD',
+                'key' => 'name',
+            ],
         ];
         $entityFilter = [
-            "type" => "apiUsageState"
+            'type' => 'apiUsageState',
         ];
         $keyFilters = [
             [
-                "key" => [
-                    "type" => "TIME_SERIES",
-                    "key" => "temperature"
+                'key' => [
+                    'type' => 'TIME_SERIES',
+                    'key' => 'temperature',
                 ],
-                "predicate" => [
-                    "operation" => "GREATER",
-                    "value" => [
-                        "defaultValue" => 20,
-                        "dynamicValue" => null
+                'predicate' => [
+                    'operation' => 'GREATER',
+                    'value' => [
+                        'defaultValue' => 20,
+                        'dynamicValue' => null,
                     ],
-                    "type" => "NUMERIC"
+                    'type' => 'NUMERIC',
                 ],
-                "valueType" => "NUMERIC"
-            ]
+                'valueType' => 'NUMERIC',
+            ],
         ];
         $this->expectExceptionCode(500);
         $this->expectExceptionMessageMatches('/sortOrderKeyType/');

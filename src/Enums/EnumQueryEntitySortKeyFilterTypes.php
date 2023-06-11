@@ -24,7 +24,7 @@ class EnumQueryEntitySortKeyFilterTypes extends Enum
             'ENTITY_FIELD' => 'ENTITY_FIELD',
             'SERVER_ATTRIBUTE' => 'SERVER_ATTRIBUTE',
             'SHARED_ATTRIBUTE' => 'SHARED_ATTRIBUTE',
-            'TIME_SERIES' => 'TIME_SERIES'
+            'TIME_SERIES' => 'TIME_SERIES',
         ];
     }
 
@@ -37,7 +37,7 @@ class EnumQueryEntitySortKeyFilterTypes extends Enum
             'ENTITY_FIELD' => 'Entity Filed',
             'SERVER_ATTRIBUTE' => 'Server Attribute',
             'SHARED_ATTRIBUTE' => 'Shared Attribute',
-            'TIME_SERIES' => 'Time Series'
+            'TIME_SERIES' => 'Time Series',
         ];
     }
 }

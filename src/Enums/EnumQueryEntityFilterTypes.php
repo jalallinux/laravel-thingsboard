@@ -38,7 +38,7 @@ class EnumQueryEntityFilterTypes extends Enum
             'ENTITY_VIEW_SEARCH_QUERY' => 'entityViewSearchQuery',
             'ENTITY_VIEW_TYPE' => 'entityViewType',
             'RELATIONS_QUERY' => 'relationsQuery',
-            'SINGLE_ENTITY' => 'singleEntity'
+            'SINGLE_ENTITY' => 'singleEntity',
         ];
     }
 
@@ -58,7 +58,7 @@ class EnumQueryEntityFilterTypes extends Enum
             'ENTITY_VIEW_SEARCH_QUERY' => 'Entity View Search Query',
             'ENTITY_VIEW_TYPE' => 'Entity View Type',
             'RELATIONS_QUERY' => 'Relations Query',
-            'SINGLE_ENTITY' => 'Single Entity'
+            'SINGLE_ENTITY' => 'Single Entity',
         ];
     }
 }

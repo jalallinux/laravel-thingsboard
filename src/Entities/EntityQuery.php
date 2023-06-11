@@ -10,9 +10,9 @@ use JalalLinuX\Thingsboard\Tntity;
 
 /**
  * @property array $data
- * @property integer $totalPages
- * @property integer $totalElements
- * @property boolean $hasNext
+ * @property int $totalPages
+ * @property int $totalElements
+ * @property bool $hasNext
  * @property array $entityFields
  * @property array $entityFilter
  * @property array $keyFilters
@@ -30,7 +30,7 @@ class EntityQuery extends Tntity
         'entityFilter',
         'keyFilters',
         'latestValues',
-        'pageLink'
+        'pageLink',
     ];
 
     protected $casts = [
@@ -42,7 +42,7 @@ class EntityQuery extends Tntity
         'entityFilter' => 'array',
         'keyFilters' => 'array',
         'latestValues' => 'array',
-        'pageLink' => 'array'
+        'pageLink' => 'array',
     ];
 
     public function entityType(): ?EnumEntityType
@@ -499,13 +499,15 @@ class EntityQuery extends Tntity
      * }
      * Note that you may use 'CURRENT_USER', 'CURRENT_CUSTOMER' and 'CURRENT_TENANT' as a 'sourceType'. The 'defaultValue'
      * is used when the attribute with such a name is not defined for the chosen source.
-     * @param PaginationArguments $paginationArguments
-     * @param array $entityFields
-     * @param array $entityFilter
-     * @param array $keyFilters
-     * @param EnumQueryEntitySortKeyFilterTypes|null $sortOrderKeyType
-     * @param bool $dynamic
+     *
+     * @param  PaginationArguments  $paginationArguments
+     * @param  array  $entityFields
+     * @param  array  $entityFilter
+     * @param  array  $keyFilters
+     * @param  EnumQueryEntitySortKeyFilterTypes|null  $sortOrderKeyType
+     * @param  bool  $dynamic
      * @return array
+     *
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
@@ -522,14 +524,14 @@ class EntityQuery extends Tntity
         $payload['entityFilter'] = $entityFilter;
         $payload['keyFilters'] = $keyFilters;
 
-        $payload['pageLink'] = array_merge($paginationArguments->queryParams(),[
+        $payload['pageLink'] = array_merge($paginationArguments->queryParams(), [
             'sortOrder' => [
                 'direction' => @$paginationArguments->sortOrder,
                 'key' => [
                     'key' => $paginationArguments->sortProperty,
-                    'type' => $sortOrderKeyType->value
-                ]
-            ]
+                    'type' => $sortOrderKeyType->value,
+                ],
+            ],
         ]);
 
         return $this->api()->post('entitiesQuery/find', $payload)->json();
