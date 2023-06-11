@@ -2,13 +2,14 @@
 
 namespace JalalLinuX\Thingsboard\Tests\Unit\EntityRelation;
 
+use JalalLinuX\Thingsboard\Entities\EntityRelation;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
-class SaveRelationTest extends TestCase
+class GetRelationTest extends TestCase
 {
     public function testFetchSuccess()
     {
@@ -26,6 +27,15 @@ class SaveRelationTest extends TestCase
 
         $this->assertTrue($relation);
 
+        $getRelation = thingsboard($tenantUser)->entityRelation()->getRelation(
+            new Id($device1Id, EnumEntityType::DEVICE()),
+            'Contains',
+            new Id($device2Id, EnumEntityType::DEVICE()),
+            'COMMON'
+        );
+
+        $this->assertInstanceOf(EntityRelation::class, $getRelation);
+
         $result = thingsboard($tenantUser)->entityRelation()->deleteRelation(
             new Id($device1Id, EnumEntityType::DEVICE()),
             'Contains',
@@ -42,10 +52,10 @@ class SaveRelationTest extends TestCase
 
         $this->expectExceptionCode(500);
         $this->expectExceptionMessageMatches('/from/');
-        thingsboard($tenantUser)->entityRelation()->saveRelation(
-            null,
+        thingsboard($tenantUser)->entityRelation()->getRelation(
             null,
             'Contains',
+            null,
             'COMMON'
         );
     }
