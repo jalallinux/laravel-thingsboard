@@ -189,7 +189,6 @@ class EntityRelation extends Tntity
             ->delete('relations', $queryParams)->successful();
     }
 
-
     /**
      * Returns list of relation info objects for the specified entity by the 'from' direction.
      * If the user has the authority of 'System Administrator', the server checks that the entity is owned by the sysadmin.
@@ -197,9 +196,10 @@ class EntityRelation extends Tntity
      * If the user has the authority of 'Customer User', the server checks that the entity is assigned to the same customer.
      * Relation Info is an extension of the default Relation object that contains information about the 'from' and 'to' entity names.
      *
-     * @param Id|null $fromType
-     * @param string|null $relationTypeGroup
+     * @param  Id|null  $fromType
+     * @param  string|null  $relationTypeGroup
      * @return array
+     *
      * @author Sabiee
      */
     public function findInfoByFrom(Id $fromType = null, string $relationTypeGroup = null): array
@@ -207,11 +207,11 @@ class EntityRelation extends Tntity
         $queryParams = [
             'fromId' => @$fromType->id ?? @$this->forceAttribute('from')->id,
             'fromType' => @$fromType->entityType->value ?? @$this->forceAttribute('from')->entityType->value,
-            'relationTypeGroup' => @$relationTypeGroup ?? @$this->getAttribute('relationTypeGroup')
+            'relationTypeGroup' => @$relationTypeGroup ?? @$this->getAttribute('relationTypeGroup'),
         ];
 
         $relations = $this->api()->get('relations/info', $queryParams)->json();
 
-        return array_map(fn($relation) => new EntityRelation($relation), $relations);
+        return array_map(fn ($relation) => new EntityRelation($relation), $relations);
     }
 }
