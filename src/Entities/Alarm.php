@@ -21,8 +21,8 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property string $type
  * @property Id $originator
  * @property EnumAlarmSeverityList $severity
- * @property boolean $acknowledged
- * @property boolean $cleared
+ * @property bool $acknowledged
+ * @property bool $cleared
  * @property Id $assigneeId
  * @property \DateTime $startTs
  * @property \DateTime $endTs
@@ -30,9 +30,9 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property \DateTime $clearTs
  * @property \DateTime $assignTs
  * @property array $details
- * @property boolean $propagate
- * @property boolean $propagateToOwner
- * @property boolean $propagateToTenant
+ * @property bool $propagate
+ * @property bool $propagateToOwner
+ * @property bool $propagateToTenant
  * @property array $propagateRelationTypes
  */
 class Alarm extends Tntity
@@ -104,30 +104,31 @@ class Alarm extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     * @param PaginationArguments $paginationArguments
-     * @param Id|null $id
-     * @param EnumAlarmSearchStatus|null $searchStatus
-     * @param EnumAlarmStatus|null $status
-     * @param string|null $assigneeId
-     * @param \DateTime|null $startTime
-     * @param \DateTime|null $endTime
-     * @param bool|null $fetchOriginator
+     * @param  PaginationArguments  $paginationArguments
+     * @param  Id|null  $id
+     * @param  EnumAlarmSearchStatus|null  $searchStatus
+     * @param  EnumAlarmStatus|null  $status
+     * @param  string|null  $assigneeId
+     * @param  \DateTime|null  $startTime
+     * @param  \DateTime|null  $endTime
+     * @param  bool|null  $fetchOriginator
      * @return array
+     *
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getAlarms(PaginationArguments   $paginationArguments, Id $id = null,
-                              EnumAlarmSearchStatus $searchStatus = null, EnumAlarmStatus $status = null,
-                              string                $assigneeId = null, \DateTime $startTime = null, \DateTime $endTime = null,
-                              bool                  $fetchOriginator = null): array
+    public function getAlarms(PaginationArguments $paginationArguments, Id $id = null,
+        EnumAlarmSearchStatus $searchStatus = null, EnumAlarmStatus $status = null,
+        string $assigneeId = null, \DateTime $startTime = null, \DateTime $endTime = null,
+        bool $fetchOriginator = null): array
     {
         $id = $id ?? $this->forceAttribute('id');
 
         $queryParams = array_merge($paginationArguments->queryParams(), array_filter([
             'assigneeId' => $assigneeId ?? $this->getAttribute('assigneeId'),
-            'startTime' => !is_null($startTime) ? $startTime->getTimestamp() * 1000 : (! is_null($this->startTs) ? $startTime = $this->getAttribute('startTime') * 1000 : null),
-            'endTime' => (!is_null($startTime) && is_null($endTime)) ? $this->forceAttribute('endTime') * 1000 : (!is_null($endTime) ? $endTime->getTimestamp() * 1000 : null),
+            'startTime' => ! is_null($startTime) ? $startTime->getTimestamp() * 1000 : (! is_null($this->startTs) ? $startTime = $this->getAttribute('startTime') * 1000 : null),
+            'endTime' => (! is_null($startTime) && is_null($endTime)) ? $this->forceAttribute('endTime') * 1000 : (! is_null($endTime) ? $endTime->getTimestamp() * 1000 : null),
             'fetchOriginator' => $fetchOriginator ?? $this->getAttribute('fetchOriginator'),
             'searchStatus' => $searchStatus ?? $this->getAttribute('searchStatus'),
             'status' => $status ?? $this->getAttribute('status'),
@@ -148,10 +149,11 @@ class Alarm extends Tntity
      * than new alarm with the same type and same device may be created.
      * Remove 'id', 'tenantId' and optionally 'customerId' from the request body example (below) to create new Alarm entity.
      *
-     * @param string|null $type
-     * @param Id|null $originator
-     * @param EnumAlarmSeverityList|null $severity
+     * @param  string|null  $type
+     * @param  Id|null  $originator
+     * @param  EnumAlarmSeverityList|null  $severity
      * @return self
+     *
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
@@ -171,8 +173,10 @@ class Alarm extends Tntity
 
     /**
      * Deletes the Alarm. Referencing non-existing Alarm Id will cause an error.
-     * @param string|null $id
+     *
+     * @param  string|null  $id
      * @return bool
+     *
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
@@ -181,7 +185,7 @@ class Alarm extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        Thingsboard::validation(!Str::isUuid($id), 'uuid', ['attribute' => 'alarmId']);
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'alarmId']);
 
         return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("alarm/{$id}")->successful();
     }

@@ -20,7 +20,7 @@ class EnumAlarmSearchStatus extends Enum
             'ACTIVE' => 'ACTIVE',
             'ANY' => 'ANY',
             'CLEARED' => 'CLEARED',
-            'UNACK' => 'UNACK'
+            'UNACK' => 'UNACK',
         ];
     }
 
@@ -31,7 +31,7 @@ class EnumAlarmSearchStatus extends Enum
             'ACTIVE' => 'Active',
             'ANY' => 'Any',
             'CLEARED' => 'Cleared',
-            'UNACK' => 'Unack'
+            'UNACK' => 'Unack',
         ];
     }
 }

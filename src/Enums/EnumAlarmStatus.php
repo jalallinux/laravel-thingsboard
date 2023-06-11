@@ -18,7 +18,7 @@ class EnumAlarmStatus extends Enum
             'ACTIVE_ACK' => 'ACTIVE_ACK',
             'ACTIVE_UNACK' => 'ACTIVE_UNACK',
             'CLEARED_ACK' => 'CLEARED_ACK',
-            'CLEARED_UNACK' => 'CLEARED_UNACK'
+            'CLEARED_UNACK' => 'CLEARED_UNACK',
         ];
     }
 
@@ -28,7 +28,7 @@ class EnumAlarmStatus extends Enum
             'ACTIVE_ACK' => 'Active Ack',
             'ACTIVE_UNACK' => 'Active Unack',
             'CLEARED_ACK' => 'Cleared Ack',
-            'CLEARED_UNACK' => 'Cleared Unack'
+            'CLEARED_UNACK' => 'Cleared Unack',
         ];
     }
 }
