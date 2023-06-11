@@ -47,7 +47,7 @@ class EntityQuery extends Tntity
 
     public function entityType(): ?EnumEntityType
     {
-        return EnumEntityType::ASSET();
+        return null;
     }
 
     /**
