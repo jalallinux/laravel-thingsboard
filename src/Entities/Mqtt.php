@@ -43,10 +43,12 @@ class Mqtt
 
         try {
             $this->mqtt()->publish($topic ?? config('thingsboard.mqtt.topics.telemetry'), json_encode($payload));
+
             return true;
         } catch (DataTransferException|RepositoryException $e) {
             throw_if($throw, $e);
             logger()->error($e->getMessage(), $e->getTrace());
+
             return false;
         }
     }
@@ -57,10 +59,12 @@ class Mqtt
 
         try {
             $this->mqtt()->publish($topic ?? config('thingsboard.mqtt.topics.attribute'), json_encode($payload));
+
             return true;
         } catch (DataTransferException|RepositoryException $e) {
             throw_if($throw, $e);
             logger()->error($e->getMessage(), $e->getTrace());
+
             return false;
         }
     }
