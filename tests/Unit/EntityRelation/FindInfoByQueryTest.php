@@ -26,20 +26,20 @@ class FindInfoByQueryTest extends TestCase
 
         $filters = [
             [
-                "relationType" => "ENTITY_FIELD",
-                "entityTypes" => [
-                    EnumEntityType::DEVICE()
-                ]
-            ]
+                'relationType' => 'ENTITY_FIELD',
+                'entityTypes' => [
+                    EnumEntityType::DEVICE(),
+                ],
+            ],
         ];
 
         $parameters = [
-            "rootId" => $device1Id,
-            "rootType" => EnumEntityType::DEVICE(),
-            "direction" => "FROM",
-            "relationTypeGroup" => "COMMON",
-            "maxLevel" => 0,
-            "fetchLastLevelOnly" => false,
+            'rootId' => $device1Id,
+            'rootType' => EnumEntityType::DEVICE(),
+            'direction' => 'FROM',
+            'relationTypeGroup' => 'COMMON',
+            'maxLevel' => 0,
+            'fetchLastLevelOnly' => false,
         ];
 
         $findEntities = thingsboard($tenantUser)->entityRelation()->findInfoByQuery($filters, $parameters);
@@ -66,12 +66,12 @@ class FindInfoByQueryTest extends TestCase
         $filters = [];
 
         $parameters = [
-            "rootId" => $this->faker->uuid,
-            "rootType" => EnumEntityType::DEVICE(),
-            "direction" => "FROM",
-            "relationTypeGroup" => "COMMON",
-            "maxLevel" => 0,
-            "fetchLastLevelOnly" => false,
+            'rootId' => $this->faker->uuid,
+            'rootType' => EnumEntityType::DEVICE(),
+            'direction' => 'FROM',
+            'relationTypeGroup' => 'COMMON',
+            'maxLevel' => 0,
+            'fetchLastLevelOnly' => false,
         ];
         $this->expectExceptionCode(500);
         $this->expectExceptionMessageMatches('/filters/');
