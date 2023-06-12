@@ -62,7 +62,7 @@ class Rpc extends Tntity
     {
         $defaultAttributes = self::defaultAttributes();
         parent::__construct(array_merge($defaultAttributes, [
-            'expirationTime' => (new Carbon($defaultAttributes['expirationTime']))->getPreciseTimestamp(3)
+            'expirationTime' => (new Carbon($defaultAttributes['expirationTime']))->getPreciseTimestamp(3),
         ], $attributes));
     }
 
