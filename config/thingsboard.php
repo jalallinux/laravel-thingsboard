@@ -23,8 +23,6 @@ return [
         'driver' => env('THINGSBOARD_CACHE_DRIVER', 'redis'),
     ],
 
-    'countries' => json_decode(file_get_contents(__DIR__.'/countries.json'), true),
-
     'temp_path' => storage_path('app/public/'.uniqid()),
 
     'default_widget_type_descriptors' => [
