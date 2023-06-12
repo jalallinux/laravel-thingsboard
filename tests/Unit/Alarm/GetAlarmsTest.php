@@ -15,15 +15,10 @@ class GetAlarmsTest extends TestCase
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->first()->id->id;
-        $attributes = [
-            'type' => 'High-Temperature Alarm',
-            'originator' => [
-                'id' => $deviceId,
-                'entityType' => EnumEntityType::DEVICE(),
-            ],
-            'severity' => EnumAlarmSeverityList::CRITICAL(),
-        ];
-        $newAlarm = thingsboard($tenantUser)->alarm($attributes)->saveAlarm();
+        $type = 'High-Temperature Alarm';
+        $originator = new Id($deviceId, EnumEntityType::DEVICE());
+        $severity = EnumAlarmSeverityList::CRITICAL();
+        $newAlarm = thingsboard($tenantUser)->alarm()->saveAlarm($type, $originator, $severity);
         $alarms = thingsboard($tenantUser)->alarm()->getAlarms(PaginationArguments::make(), new Id($deviceId, EnumEntityType::DEVICE()));
         $this->assertIsArray($alarms);
         $this->assertArrayHasKey('data', $alarms);
