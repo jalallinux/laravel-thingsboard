@@ -23,7 +23,7 @@ return [
         'driver' => env('THINGSBOARD_CACHE_DRIVER', 'redis'),
     ],
 
-    'temp_path' => storage_path('app/public/'.uniqid()),
+    'temp_path' => storage_path('app/public/thingsboard'),
 
     'default_widget_type_descriptors' => [
         [
@@ -106,7 +106,7 @@ return [
                  * expirationTime - optional, value of the epoch time (in milliseconds, UTC timezone).
                  * Overrides timeout if present.
                  */
-                'expirationTime' => now()->addMinute()->getPreciseTimestamp(3),
+                'expirationTime' => 'now + 1 minute',
 
                 /**
                  * persistent - optional, indicates persistent RPC. The default value is "false".
