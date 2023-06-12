@@ -27,31 +27,31 @@ return [
 
     'default_widget_type_descriptors' => [
         [
-            'enum' => EnumDefaultWidgetTypeDescriptor::TIME_SERIES(),
+            'enum' => EnumDefaultWidgetTypeDescriptor::TIME_SERIES()->value,
             'isSystem' => true,
             'bundleAlias' => 'charts',
             'alias' => 'basic_timeseries',
         ],
         [
-            'enum' => EnumDefaultWidgetTypeDescriptor::ATTRIBUTES_CARD(),
+            'enum' => EnumDefaultWidgetTypeDescriptor::ATTRIBUTES_CARD()->value,
             'isSystem' => true,
             'bundleAlias' => 'cards',
             'alias' => 'attributes_card',
         ],
         [
-            'enum' => EnumDefaultWidgetTypeDescriptor::GPIO_CONTROL(),
+            'enum' => EnumDefaultWidgetTypeDescriptor::GPIO_CONTROL()->value,
             'isSystem' => true,
             'bundleAlias' => 'gpio_widgets',
             'alias' => 'basic_gpio_control',
         ],
         [
-            'enum' => EnumDefaultWidgetTypeDescriptor::ALARMS_TABLE(),
+            'enum' => EnumDefaultWidgetTypeDescriptor::ALARMS_TABLE()->value,
             'isSystem' => true,
             'bundleAlias' => 'alarm_widgets',
             'alias' => 'alarms_table',
         ],
         [
-            'enum' => EnumDefaultWidgetTypeDescriptor::HTML_CARD(),
+            'enum' => EnumDefaultWidgetTypeDescriptor::HTML_CARD()->value,
             'isSystem' => true,
             'bundleAlias' => 'cards',
             'alias' => 'html_card',
@@ -70,17 +70,17 @@ return [
 
         'users' => [
             [
-                'role' => \JalalLinuX\Thingsboard\Enums\EnumAuthority::SYS_ADMIN(),
+                'role' => \JalalLinuX\Thingsboard\Enums\EnumAuthority::SYS_ADMIN()->value,
                 'mail' => env('THINGSBOARD_ADMIN_MAIL', 'sysadmin@thingsboard.org'),
                 'pass' => env('THINGSBOARD_ADMIN_PASS', 'sysadmin'),
             ],
             [
-                'role' => \JalalLinuX\Thingsboard\Enums\EnumAuthority::TENANT_ADMIN(),
+                'role' => \JalalLinuX\Thingsboard\Enums\EnumAuthority::TENANT_ADMIN()->value,
                 'mail' => env('THINGSBOARD_TENANT_MAIL', 'tenant@thingsboard.org'),
                 'pass' => env('THINGSBOARD_TENANT_PASS', 'tenant'),
             ],
             [
-                'role' => \JalalLinuX\Thingsboard\Enums\EnumAuthority::CUSTOMER_USER(),
+                'role' => \JalalLinuX\Thingsboard\Enums\EnumAuthority::CUSTOMER_USER()->value,
                 'mail' => env('THINGSBOARD_CUSTOMER_MAIL', 'customer@thingsboard.org'),
                 'pass' => env('THINGSBOARD_CUSTOMER_PASS', 'customer'),
             ],

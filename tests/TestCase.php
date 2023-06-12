@@ -51,7 +51,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
             public function __construct(EnumAuthority $role, string $mail = null, string $pass = null)
             {
-                $this->user = collect(config('thingsboard.rest.users'))->filter(fn ($user) => $role->equals($user['role']))->random();
+                $this->user = collect(config('thingsboard.rest.users'))->filter(fn ($user) => $user['role'] == $role->value)->random();
                 $this->mail = $mail;
                 $this->pass = $pass;
             }
