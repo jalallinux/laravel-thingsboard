@@ -24,6 +24,7 @@ class LaravelThingsboardServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__.'/../config/thingsboard.php' => config_path('thingsboard.php'),
+                __DIR__.'/../config/countries.json' => config_path('countries.json'),
             ], 'config');
 
             $this->publishes([
