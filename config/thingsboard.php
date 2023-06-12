@@ -143,7 +143,7 @@ return [
 
         // Defines which repository implementation shall be used. Currently,
         // only a MemoryRepository is supported.
-        'repository' => new MemoryRepository,
+        'repository' => MemoryRepository::class,
 
         // Additional settings used for the connection to the broker.
         // All of these settings are entirely optional and have sane defaults.

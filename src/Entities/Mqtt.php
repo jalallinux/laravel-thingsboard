@@ -20,9 +20,14 @@ class Mqtt
 
     private function mqtt(string $protocol = MqttClient::MQTT_3_1, Repository $repository = null, LoggerInterface $logger = null): MqttClient
     {
+        $defaultRepositoryClass = config('thingsboard.mqtt.repository');
+        $repository = $repository ?? new $defaultRepositoryClass();
         $mqtt = new MqttClient(
-            config('thingsboard.mqtt.host'), config('thingsboard.mqtt.port'), $this->accessToken,
-            $protocol ?? config('thingsboard.mqtt.protocol'), $repository ?? config('thingsboard.mqtt.repository'), $logger
+            config('thingsboard.mqtt.host'), config('thingsboard.mqtt.port'),
+            $this->accessToken,
+            $protocol ?? config('thingsboard.mqtt.protocol'),
+            $repository,
+            $logger
         );
 
         $mqtt->connect(Thingsboard::connectionSetting($this->accessToken));
