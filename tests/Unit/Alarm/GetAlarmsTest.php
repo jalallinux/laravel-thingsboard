@@ -15,9 +15,6 @@ class GetAlarmsTest extends TestCase
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->first()->id->id;
-//        $type = 'High-Temperature Alarm';
-//        $originator = new Id($deviceId, EnumEntityType::DEVICE());
-//        $severity = EnumAlarmSeverityList::CRITICAL();
         $attributes = [
             'type' => 'High-Temperature Alarm',
             'originator' => new Id($deviceId, EnumEntityType::DEVICE()),
