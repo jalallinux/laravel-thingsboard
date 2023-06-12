@@ -29,6 +29,17 @@ composer require jalallinux/laravel-thingsboard
 
 
 
+## Publish config and lang
+
+You can publish config and lang files:
+
+```bash
+ php artisan vendor:publish --provider JalalLinuX\\Thingsboard\\LaravelThingsboardServiceProvider
+```
+
+
+
+
 ## Usage with Tntity classes
 
 ```php
