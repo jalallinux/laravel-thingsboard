@@ -4,8 +4,15 @@ namespace JalalLinuX\Thingsboard\Entities;
 
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
+use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Tntity;
 
+/**
+ * @property string $key
+ * @property Id $id
+ * @property Id $tenantId
+ * @property array $jsonValue
+ */
 class AdminSettings extends Tntity
 {
     protected $fillable = [

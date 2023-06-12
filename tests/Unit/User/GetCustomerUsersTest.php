@@ -18,10 +18,10 @@ class GetCustomerUsersTest extends TestCase
         $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 
         $customerId = thingsboard()->customer()->withUser($user)->getCustomers(
-            PaginationArguments::make(textSearch: $customerLetter)
+            PaginationArguments::make(textSearch: "Customer {$customerLetter}")
         )->data()->first()->id->id;
         $customerUsers = thingsboard()->user()->withUser($user)->getCustomerUsers(
-            PaginationArguments::make(textSearch: $customerLetter), $customerId
+            PaginationArguments::make(textSearch: "customer{$customerLetter}"), $customerId
         );
 
         $customerUsers->data()->each(fn ($device) => $this->assertInstanceOf(User::class, $device));

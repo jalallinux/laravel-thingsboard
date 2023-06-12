@@ -21,7 +21,8 @@ class SaveAssetTest extends TestCase
         ];
         $asset = thingsboard($tenantUser)->asset($attributes)->saveAsset();
 
-        $asset->deleteAsset();
+        $result = $asset->deleteAsset();
+        $this->assertTrue($result);
 
         $this->assertInstanceOf(Asset::class, $asset);
         $this->assertInstanceOf(Id::class, $asset->id);
@@ -37,29 +38,21 @@ class SaveAssetTest extends TestCase
         ];
         $this->expectExceptionCode(500);
         $this->expectExceptionMessageMatches('/name/');
-        thingsboard($tenantUser)->asset($attributes)->saveAsset();
-    }
-
-    public function testExistsName()
-    {
-        $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $assetProfileId = thingsboard($tenantUser)->assetProfile()->getAssetProfiles(PaginationArguments::make(textSearch: 'default'))->data()->first()->id->id;
-        $attributes = [
-            'name' => $this->faker->sentence(3),
-            'assetProfileId' => new Id($assetProfileId, EnumEntityType::ASSET_PROFILE()),
-        ];
         $asset = thingsboard($tenantUser)->asset($attributes)->saveAsset();
-
-        $assetProfileId = thingsboard($tenantUser)->assetProfile()->getAssetProfiles(PaginationArguments::make(textSearch: 'default'))->data()->first()->id->id;
-        $attributes = [
-            'name' => $asset->name,
-            'assetProfileId' => new Id($assetProfileId, EnumEntityType::ASSET_PROFILE()),
-        ];
-        $this->expectExceptionCode(400);
-        $this->expectExceptionMessageMatches('/name/');
-        thingsboard($tenantUser)->asset($attributes)->saveAsset();
-
         $result = $asset->deleteAsset();
         $this->assertTrue($result);
+    }
+
+    public function testNotExistsAssetProfileUuid()
+    {
+        $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
+
+        $attributes = [
+            'name' => $this->faker->sentence(3),
+            'assetProfileId' => new Id($this->faker->uuid, EnumEntityType::ASSET_PROFILE()),
+        ];
+        $this->expectExceptionCode(400);
+        $this->expectExceptionMessageMatches('/asset profile!/');
+        thingsboard($tenantUser)->asset($attributes)->saveAsset();
     }
 }

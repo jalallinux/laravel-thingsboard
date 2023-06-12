@@ -67,7 +67,7 @@ class EnumEntityType extends Enum
             'OTA_PACKAGE' => 'OTA Pacakge',
             'RPC' => 'RPC',
             'RULE_CHAIN' => 'Rule Chain',
-            'RULE_NODE' => 'Rule Node',
+            'RULE_NODE' => 'Rule RuleNode',
             'TB_RESOURCE' => 'TB Resource',
             'TENANT' => 'Tenant',
             'TENANT_PROFILE' => 'Tenant Profile',

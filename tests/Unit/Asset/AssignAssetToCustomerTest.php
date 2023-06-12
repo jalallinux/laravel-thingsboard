@@ -44,10 +44,12 @@ class AssignAssetToCustomerTest extends TestCase
         ];
         $asset = thingsboard($tenantUser)->asset($attributes)->saveAsset();
 
+        $result = $asset->deleteAsset();
+        $this->assertTrue($result);
+
         $this->expectExceptionCode(404);
         $this->expectExceptionMessageMatches("/{$uuid}/");
         thingsboard($tenantUser)->asset()->assignAssetToCustomer($uuid, $asset->id->id);
-        $result = $asset->deleteAsset();
-        $this->assertTrue($result);
+
     }
 }

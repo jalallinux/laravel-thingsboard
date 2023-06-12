@@ -20,7 +20,7 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property Id $tenantId
  * @property Id $customerId
  * @property Id $assetProfileId
- * @property string $createdTime
+ * @property \DateTime $createdTime
  * @property array $additionalInfo
  * @property string $customerTitle
  * @property bool $customerIsPublic
@@ -55,7 +55,7 @@ class Asset extends Tntity
 
     public function entityType(): ?EnumEntityType
     {
-        return null;
+        return EnumEntityType::ASSET();
     }
 
     /**
@@ -240,7 +240,7 @@ class Asset extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'deviceId']);
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'assetId']);
 
         return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("customer/asset/{$id}")->successful();
     }
@@ -294,5 +294,71 @@ class Asset extends Tntity
         ]));
 
         return $this->paginatedResponse($response, $paginationArguments);
+    }
+
+    /**
+     * Asset will be available for non-authorized (not logged-in) users.
+     * This is useful to create dashboards that you plan to share/embed on a publicly available website.
+     * However, users that are logged-in and belong to different tenant will not be able to access the asset.
+     *
+     * @param  string|null  $id
+     * @return self
+     *
+     * @author  Sabiee
+     *
+     * @group TENANT_ADMIN
+     */
+    public function assignAssetToPublicCustomer(string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'assetId']);
+
+        $asset = $this->api()->post("customer/public/asset/{$id}")->json();
+
+        return $this->fill($asset);
+    }
+
+    /**
+     * Returns a page of assets info objects owned by tenant.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details. Asset Info is an extension of
+     * the default Asset object that contains information about the assigned customer name.
+     *
+     * @author  Sabiee
+     *
+     * @group TENANT_ADMIN
+     */
+    public function getTenantAssetInfos(PaginationArguments $paginationArguments, string $type = null, string $assetProfileId = null): PaginatedResponse
+    {
+        $paginationArguments->validateSortProperty(EnumAssetSortProperty::class);
+
+        $response = $this->api()->get('tenant/assetInfos', $paginationArguments->queryParams([
+            'type' => $type ?? @$this->type,
+            'assetProfileId' => $assetProfileId ?? @$this->assetProfileId->id,
+        ]));
+
+        return $this->paginatedResponse($response, $paginationArguments);
+    }
+
+    /**
+     * Requested asset must be owned by tenant that the user belongs to.
+     * Asset name is an unique property of asset. So it can be used to identify the asset.
+     *
+     * @param  string|null  $name
+     * @return self
+     *
+     * @author  Sabiee
+     *
+     * @group TENANT_ADMIN
+     */
+    public function getTenantAsset(string $name = null): static
+    {
+        $name = $name ?? $this->forceAttribute('name');
+
+        $asset = $this->api()->get('tenant/assets', ['assetName' => $name])->json();
+
+        return $this->fill($asset);
     }
 }

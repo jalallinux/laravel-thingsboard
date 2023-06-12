@@ -20,10 +20,32 @@ This project is a Laravel Package that provides convenient client SDK for both D
 
 ## Installation
 
-You can install the package via composer:
+You can install the package via composer
 
 ```bash
 composer require jalallinux/laravel-thingsboard
+```
+
+
+
+
+## Publish config file
+
+You can publish config file to change default configs
+
+```bash
+ php artisan vendor:publish --provider JalalLinuX\\Thingsboard\\LaravelThingsboardServiceProvider --tag config
+```
+
+
+
+
+## Publish language file
+
+You can publish config file to change default languages
+
+```bash
+ php artisan vendor:publish --provider JalalLinuX\\Thingsboard\\LaravelThingsboardServiceProvider --tag lang
 ```
 
 
