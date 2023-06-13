@@ -65,11 +65,6 @@ class TestCase extends \Orchestra\Testbench\TestCase
             {
                 return $this->pass ?? $this->user['pass'];
             }
-
-            public function getThingsboardAuthorityAttribute(): EnumAuthority
-            {
-                return $this->user['role'];
-            }
         };
     }
 }
