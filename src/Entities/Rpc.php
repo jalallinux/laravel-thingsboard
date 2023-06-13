@@ -3,6 +3,7 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use DateTime;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumRpcSortProperty;
@@ -59,7 +60,10 @@ class Rpc extends Tntity
 
     public function __construct(array $attributes = [])
     {
-        parent::__construct(array_merge(self::defaultAttributes(), $attributes));
+        $defaultAttributes = self::defaultAttributes();
+        parent::__construct(array_merge($defaultAttributes, [
+            'expirationTime' => (new Carbon($defaultAttributes['expirationTime']))->getPreciseTimestamp(3),
+        ], $attributes));
     }
 
     public function entityType(): ?EnumEntityType

@@ -23,7 +23,7 @@ return [
         'driver' => env('THINGSBOARD_CACHE_DRIVER', 'redis'),
     ],
 
-    'temp_path' => storage_path('app/public/'.uniqid()),
+    'temp_path' => storage_path('app/public/thingsboard'),
 
     'default_widget_type_descriptors' => [
         [
@@ -106,7 +106,7 @@ return [
                  * expirationTime - optional, value of the epoch time (in milliseconds, UTC timezone).
                  * Overrides timeout if present.
                  */
-                'expirationTime' => now()->addMinute()->getPreciseTimestamp(3),
+                'expirationTime' => 'now + 1 minute',
 
                 /**
                  * persistent - optional, indicates persistent RPC. The default value is "false".
@@ -143,7 +143,7 @@ return [
 
         // Defines which repository implementation shall be used. Currently,
         // only a MemoryRepository is supported.
-        'repository' => new MemoryRepository,
+        'repository' => MemoryRepository::class,
 
         // Additional settings used for the connection to the broker.
         // All of these settings are entirely optional and have sane defaults.
