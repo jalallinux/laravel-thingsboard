@@ -51,6 +51,33 @@ You can publish config file to change default languages
 
 
 
+## Preparing for usage
+`User` class must implement `JalalLinuX\Thingsboard\Interfaces\ThingsboardUser` like this:
+```php
+use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
+
+class User extends Authenticatable implements ThingsboardUser
+{
+    public function getThingsboardEmailAttribute(): string
+    {
+        return $this->attributes['thingsboard_email'];
+    }
+
+    public function getThingsboardPasswordAttribute(): string
+    {
+        return $this->attributes['thingsboard_password'];
+    }
+
+    public function getThingsboardAuthorityAttribute(): EnumAuthority
+    {
+        return EnumAuthority::from($this->attributes['thingsboard_authority']);
+    }
+...
+```
+
+
+
+
 ## Usage with Tntity classes
 
 ```php
