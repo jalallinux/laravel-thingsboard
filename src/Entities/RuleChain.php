@@ -285,7 +285,7 @@ class RuleChain extends Tntity
      * Exports all tenant rule chains as one JSON.
      *
      * @param  int  $limit
-     * @return array
+     * @return self[]
      *
      * @author  Sabiee
      *
@@ -295,7 +295,7 @@ class RuleChain extends Tntity
     {
         $ruleChains = $this->api()->get('/ruleChains/export', ['limit' => $limit])->json();
 
-        return array_map(fn ($ruleChain) => new RuleChain($ruleChain), $ruleChains);
+        return array_map(fn ($ruleChain) => new self($ruleChain), $ruleChains);
     }
 
     /**
@@ -311,8 +311,7 @@ class RuleChain extends Tntity
      */
     public function importRuleChains(ImportStructure $importStructure, bool $overwrite = null): array
     {
-        return $this->api()
-            ->post('ruleChains/import'.(! is_null($overwrite) ? "?overwrite={$overwrite}" : ''), $importStructure->toArray())->json();
+        return $this->api()->post('ruleChains/import'.(! is_null($overwrite) ? "?overwrite={$overwrite}" : ''), $importStructure->toArray())->json();
     }
 
     /**

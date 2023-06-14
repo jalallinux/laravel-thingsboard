@@ -150,7 +150,7 @@ class WidgetType extends Tntity
      *
      * @param  string|null  $bundleAlias
      * @param  bool  $isSystem
-     * @return array
+     * @return self[]
      *
      * @author JalalLinuX
      *
@@ -172,7 +172,7 @@ class WidgetType extends Tntity
      *
      * @param  string|null  $bundleAlias
      * @param  bool  $isSystem
-     * @return array
+     * @return self[]
      *
      * @author JalalLinuX
      *
