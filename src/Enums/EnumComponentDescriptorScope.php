@@ -12,14 +12,14 @@ class EnumComponentDescriptorScope extends Enum
     protected static function values(): array
     {
         return [
-            'TENANT' => 'TENANT'
+            'TENANT' => 'TENANT',
         ];
     }
 
     protected static function labels(): array
     {
         return [
-            'TENANT' => 'Tenant'
+            'TENANT' => 'Tenant',
         ];
     }
 }

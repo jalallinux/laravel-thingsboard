@@ -21,8 +21,8 @@ class GetComponentDescriptorsByTypesTest extends TestCase
             EnumComponentDescriptorType::FLOW(),
         ]);
 
-        array_map(fn($component) => $this->assertInstanceOf(ComponentDescriptor::class, $component), $components);
-        array_map(function(ComponentDescriptor $component) {
+        array_map(fn ($component) => $this->assertInstanceOf(ComponentDescriptor::class, $component), $components);
+        array_map(function (ComponentDescriptor $component) {
             $this->assertArrayHasKey('clazz', $component->toArray());
         }, $components);
 
@@ -32,7 +32,7 @@ class GetComponentDescriptorsByTypesTest extends TestCase
     {
         $adminUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $this->expectExceptionCode(500);
-        $this->expectExceptionMessageMatches("/componentTypes/");
+        $this->expectExceptionMessageMatches('/componentTypes/');
         thingsboard($adminUser)->componentDescriptor()->getComponentDescriptorsByTypes([]);
     }
 }

@@ -41,7 +41,7 @@ class ComponentDescriptor extends Tntity
         'type' => EnumComponentDescriptorType::class,
         'scope' => EnumComponentDescriptorScope::class,
         'clusteringMode' => EnumComponentDescriptorClusteringMode::class,
-        'configurationDescriptor' => 'array'
+        'configurationDescriptor' => 'array',
     ];
 
     public function entityType(): ?EnumEntityType
@@ -56,9 +56,10 @@ class ComponentDescriptor extends Tntity
      * The Component Descriptors are discovered at runtime by scanning the class path and searching for @RuleNode annotation.
      * Once discovered, the up to date list of descriptors is persisted to the database.
      *
-     * @param EnumComponentDescriptorType[]|null $componentTypes
-     * @param EnumRuleChainType|null $ruleChainType
+     * @param  EnumComponentDescriptorType[]|null  $componentTypes
+     * @param  EnumRuleChainType|null  $ruleChainType
      * @return self[]
+     *
      * @author Sabiee
      *
      * @group SYS_ADMIN | TENANT_ADMIN
@@ -68,17 +69,17 @@ class ComponentDescriptor extends Tntity
         Thingsboard::validation(empty($componentTypes), 'required', ['attribute' => 'componentTypes']);
 
         foreach ($componentTypes as $type) {
-            Thingsboard::validation(!($type instanceof EnumComponentDescriptorType), 'instance_of', [
+            Thingsboard::validation(! ($type instanceof EnumComponentDescriptorType), 'instance_of', [
                 'attribute' => $type,
-                'instance' => EnumComponentDescriptorType::class
+                'instance' => EnumComponentDescriptorType::class,
             ]);
         }
         $queryParams = array_filter([
-            'componentTypes' => implode(',', array_map(fn($componentType) => $componentType->value, $componentTypes)),
+            'componentTypes' => implode(',', array_map(fn ($componentType) => $componentType->value, $componentTypes)),
             'ruleChainType' => @$ruleChainType->value,
         ]);
         $components = $this->api()->get('components', $queryParams)->json();
 
-        return array_map(fn($component) => new self($component), $components);
+        return array_map(fn ($component) => new self($component), $components);
     }
 }

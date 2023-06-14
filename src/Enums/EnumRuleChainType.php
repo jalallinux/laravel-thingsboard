@@ -14,7 +14,7 @@ class EnumRuleChainType extends Enum
     {
         return [
             'CORE' => 'CORE',
-            'EDGE' => 'EDGE'
+            'EDGE' => 'EDGE',
         ];
     }
 
@@ -22,7 +22,7 @@ class EnumRuleChainType extends Enum
     {
         return [
             'CORE' => 'Core',
-            'EDGE' => 'Edge'
+            'EDGE' => 'Edge',
         ];
     }
 }

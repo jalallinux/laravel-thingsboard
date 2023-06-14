@@ -17,7 +17,7 @@ class EnumComponentDescriptorClusteringMode extends Enum
         return [
             'ENABLED' => 'ENABLED',
             'SINGLETON' => 'SINGLETON',
-            'USER_PREFERENCE' => 'USER_PREFERENCE'
+            'USER_PREFERENCE' => 'USER_PREFERENCE',
         ];
     }
 
@@ -26,7 +26,7 @@ class EnumComponentDescriptorClusteringMode extends Enum
         return [
             'ENABLED' => 'Enabled',
             'SINGLETON' => 'Singleton',
-            'USER_PREFERENCE' => 'User Preference'
+            'USER_PREFERENCE' => 'User Preference',
         ];
     }
 }
