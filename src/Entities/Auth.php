@@ -6,6 +6,7 @@ use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\CacheHandler;
 use JalalLinuX\Thingsboard\Infrastructure\PasswordPolicy;
 use JalalLinuX\Thingsboard\Infrastructure\Token;
+use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 class Auth extends Tntity
@@ -19,18 +20,24 @@ class Auth extends Tntity
      * Login method used to authenticate user and get JWT token data.
      * Value of the response token field can be used as X-Authorization header value
      *
-     * @param  string  $mail
-     * @param  string  $password
+     * @param string|null $mail
+     * @param string|null $password
      * @return Token
      *
      * @author JalalLinuX
      *
-     * @group *
+     * @group
      */
-    public function login(string $mail, string $password): Token
+    public function login(string $mail = null, string $password = null): Token
     {
+        Thingsboard::exception((is_null($mail) || is_null($password)) && !isset($this->_thingsboardUser), 'invalid_credentials');
+        [$mail, $password] = [
+            $mail ?? @$this->_thingsboardUser->getThingsboardEmailAttribute(),
+            $password ?? @$this->_thingsboardUser->getThingsboardPasswordAttribute()
+        ];
         $tokens = $this->api(false)->post('auth/login', [
-            'username' => $mail, 'password' => $password,
+            'username' => $mail,
+            'password' => $password,
         ]);
 
         CacheHandler::updateToken($mail, $tokens->json('token'));

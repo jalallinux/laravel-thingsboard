@@ -20,5 +20,10 @@ class LoginTest extends TestCase
         $tokens = thingsboard()->auth()->login($user->getThingsboardEmailAttribute(), $user->getThingsboardPasswordAttribute());
 
         $this->assertInstanceOf(Token::class, $tokens);
+
+        $user = $this->thingsboardUser($this->faker->randomElement(EnumAuthority::cases()));
+        $tokens = thingsboard($user)->auth()->login();
+
+        $this->assertInstanceOf(Token::class, $tokens);
     }
 }
