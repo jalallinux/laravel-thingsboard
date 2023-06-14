@@ -20,8 +20,8 @@ class Auth extends Tntity
      * Login method used to authenticate user and get JWT token data.
      * Value of the response token field can be used as X-Authorization header value
      *
-     * @param string|null $mail
-     * @param string|null $password
+     * @param  string|null  $mail
+     * @param  string|null  $password
      * @return Token
      *
      * @author JalalLinuX
@@ -30,10 +30,10 @@ class Auth extends Tntity
      */
     public function login(string $mail = null, string $password = null): Token
     {
-        Thingsboard::exception((is_null($mail) || is_null($password)) && !isset($this->_thingsboardUser), 'invalid_credentials');
+        Thingsboard::exception((is_null($mail) || is_null($password)) && ! isset($this->_thingsboardUser), 'invalid_credentials');
         [$mail, $password] = [
             $mail ?? @$this->_thingsboardUser->getThingsboardEmailAttribute(),
-            $password ?? @$this->_thingsboardUser->getThingsboardPasswordAttribute()
+            $password ?? @$this->_thingsboardUser->getThingsboardPasswordAttribute(),
         ];
         $tokens = $this->api(false)->post('auth/login', [
             'username' => $mail,
