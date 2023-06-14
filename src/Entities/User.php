@@ -232,4 +232,20 @@ class User extends Tntity
 
         return $this->api()->get("user/{$id}/activationLink")->body();
     }
+
+    /**
+     * Fetch a default user with specific role
+     *
+     * @param EnumAuthority $role
+     * @return array
+     *
+     * @author JalalLinuX
+     * @group *
+     */
+    public function defaultUser(EnumAuthority $role): array
+    {
+        $users = config('thingsboard.rest.users');
+
+        return last(array_filter($users, fn($user) => $role->value == $user['role']));
+    }
 }
