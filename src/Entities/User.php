@@ -237,15 +237,16 @@ class User extends Tntity
     /**
      * Fetch a default user with specific role
      *
-     * @param EnumAuthority $role
+     * @param  EnumAuthority  $role
      * @return ThingsboardUser
      *
      * @author JalalLinuX
+     *
      * @group *
      */
     public function defaultUser(EnumAuthority $role): ThingsboardUser
     {
-        $user = last(array_filter(config('thingsboard.rest.users'), fn($user) => $role->value == $user['role']));
+        $user = last(array_filter(config('thingsboard.rest.users'), fn ($user) => $role->value == $user['role']));
 
         return new class($user) implements ThingsboardUser
         {
