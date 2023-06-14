@@ -10,6 +10,7 @@ use JalalLinuX\Thingsboard\Enums\EnumUserSortProperty;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
@@ -237,15 +238,38 @@ class User extends Tntity
      * Fetch a default user with specific role
      *
      * @param EnumAuthority $role
-     * @return array
+     * @return ThingsboardUser
      *
      * @author JalalLinuX
      * @group *
      */
-    public function defaultUser(EnumAuthority $role): array
+    public function defaultUser(EnumAuthority $role): ThingsboardUser
     {
-        $users = config('thingsboard.rest.users');
+        $user = last(array_filter(config('thingsboard.rest.users'), fn($user) => $role->value == $user['role']));
 
-        return last(array_filter($users, fn($user) => $role->value == $user['role']));
+        return new class($user) implements ThingsboardUser
+        {
+            private array $user;
+
+            public function __construct($user)
+            {
+                $this->user = $user;
+            }
+
+            public function getThingsboardEmailAttribute(): string
+            {
+                return $this->user['mail'];
+            }
+
+            public function getThingsboardPasswordAttribute(): string
+            {
+                return $this->user['pass'];
+            }
+
+            public function getThingsboardAuthorityAttribute(): EnumAuthority
+            {
+                return EnumAuthority::from($this->user['role']);
+            }
+        };
     }
 }
