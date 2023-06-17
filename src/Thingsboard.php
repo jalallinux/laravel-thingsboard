@@ -35,6 +35,7 @@ use PhpMqtt\Client\ConnectionSettings;
  * @method Entities\EntityQuery entityQuery(array $attributes = [])
  * @method Entities\EntityRelation entityRelation(array $attributes = [])
  * @method Entities\Alarm alarm(array $attributes = [])
+ * @method Entities\ComponentDescriptor componentDescriptor(array $attributes = [])
  */
 class Thingsboard
 {

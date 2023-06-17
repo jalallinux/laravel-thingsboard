@@ -13,4 +13,5 @@ return [
     'after_or_equal' => 'The :attribute must be a date after or equal to :date.',
     'before' => 'The :attribute must be a date before :date.',
     'before_or_equal' => 'The :attribute must be a date before or equal to :date.',
+    'instance_of' => 'The :attribute must be a instance of :instance.',
 ];
