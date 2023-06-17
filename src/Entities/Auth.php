@@ -6,6 +6,7 @@ use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\CacheHandler;
 use JalalLinuX\Thingsboard\Infrastructure\PasswordPolicy;
 use JalalLinuX\Thingsboard\Infrastructure\Token;
+use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
@@ -35,14 +36,14 @@ class Auth extends Tntity
             $mail ?? @$this->_thingsboardUser->getThingsboardEmailAttribute(),
             $password ?? @$this->_thingsboardUser->getThingsboardPasswordAttribute(),
         ];
-        $tokens = $this->api(false)->post('auth/login', [
+        $response = $this->api(false)->post('auth/login', [
             'username' => $mail,
             'password' => $password,
         ]);
 
-        CacheHandler::updateToken($mail, $tokens->json('token'));
+        CacheHandler::updateToken($mail, $response->json('token'));
 
-        return new Token($tokens);
+        return new Token($response->json('token'), $response->json('refreshToken'));
     }
 
     /**
@@ -118,11 +119,10 @@ class Auth extends Tntity
      */
     public function activateUser(string $activateToken, string $password, bool $sendActivationMail = false): Token
     {
-        return new Token(
-            $this->api(false)->post('noauth/activate?sendActivationMail='.($sendActivationMail ? 'true' : 'false'), [
-                'activateToken' => $activateToken,
-                'password' => $password,
-            ])
-        );
+        $response = $this->api(false)->post('noauth/activate?sendActivationMail='.($sendActivationMail ? 'true' : 'false'), [
+            'activateToken' => $activateToken,
+            'password' => $password,
+        ]);
+        return new Token($response->json('token'), $response->json('refreshToken'));
     }
 }

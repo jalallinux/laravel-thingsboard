@@ -49,4 +49,9 @@ class CacheHandler
     {
         return self::forget(self::tokenCacheKey($mail));
     }
+
+    public static function getToken(string $mail): ?string
+    {
+        return self::get(self::tokenCacheKey($mail));
+    }
 }

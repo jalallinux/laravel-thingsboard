@@ -79,14 +79,14 @@ class Thingsboard
         $mail = $user->getThingsboardEmailAttribute();
 
         if ($flush) {
-            return Auth::instance()->login($mail, $user->getThingsboardPasswordAttribute())->token;
+            return Auth::instance()->login($mail, $user->getThingsboardPasswordAttribute())->accessToken;
         }
 
         if ($token = CacheHandler::get(CacheHandler::tokenCacheKey($mail))) {
             return $token;
         }
 
-        return Auth::instance()->login($mail, $user->getThingsboardPasswordAttribute())->token;
+        return Auth::instance()->login($mail, $user->getThingsboardPasswordAttribute())->accessToken;
     }
 
     public static function validation(bool $condition, string $messageKey, array $replaces = []): void
