@@ -9,6 +9,7 @@ use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Infrastructure\Token;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
@@ -147,5 +148,25 @@ class Customer extends Tntity
         Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'customerId']);
 
         return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("customer/{$id}")->successful();
+    }
+
+    /**
+     * Fetch token with publicId of customer.
+     *
+     * @param string|null $id
+     * @return Token
+     *
+     * @author JalalLinuX
+     * @group GUEST
+     */
+    public function loginPublic(string $id = null): Token
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'customerId']);
+
+        $response = $this->api(false)->post("auth/login/public", ['publicId' => $id]);
+
+        return new Token($response->json('token'), $response->json('refreshToken'));
     }
 }
