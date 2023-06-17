@@ -3,10 +3,8 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
-use JalalLinuX\Thingsboard\Infrastructure\CacheHandler;
 use JalalLinuX\Thingsboard\Infrastructure\PasswordPolicy;
 use JalalLinuX\Thingsboard\Infrastructure\Token;
-use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
@@ -41,7 +39,7 @@ class Auth extends Tntity
             'password' => $password,
         ]);
 
-        CacheHandler::updateToken($mail, $response->json('token'));
+        Token::update($mail, $response->json('token'), $response->json('refreshToken'));
 
         return new Token($response->json('token'), $response->json('refreshToken'));
     }
@@ -81,7 +79,7 @@ class Auth extends Tntity
         ])->successful();
 
         if ($changed) {
-            CacheHandler::forgetToken($this->_thingsboardUser->getThingsboardEmailAttribute());
+            Token::forget($this->_thingsboardUser->getThingsboardEmailAttribute());
         }
 
         return $changed;
@@ -123,6 +121,7 @@ class Auth extends Tntity
             'activateToken' => $activateToken,
             'password' => $password,
         ]);
+
         return new Token($response->json('token'), $response->json('refreshToken'));
     }
 }
