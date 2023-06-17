@@ -97,7 +97,7 @@ class TenantProfile extends Tntity
      * Remove 'id', from the request body example (below) to create new Tenant Profile entity.
      * Available for users with 'SYS_ADMIN' authority.
      *
-     * @param string|null $name
+     * @param  string|null  $name
      * @return TenantProfile
      *
      * @author Sabiee
