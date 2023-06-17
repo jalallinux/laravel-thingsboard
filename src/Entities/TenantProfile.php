@@ -97,14 +97,15 @@ class TenantProfile extends Tntity
      * Remove 'id', from the request body example (below) to create new Tenant Profile entity.
      * Available for users with 'SYS_ADMIN' authority.
      *
+     * @param string|null $name
      * @return TenantProfile
      *
      * @author Sabiee
      */
-    public function saveTenantProfile(): TenantProfile
+    public function saveTenantProfile(string $name = null): TenantProfile
     {
         $payload = array_merge($this->attributes, [
-            'name' => $this->forceAttribute('name'),
+            'name' => $name ?? $this->forceAttribute('name'),
         ]);
 
         $tenantProfile = $this->api()->post('tenantProfile', $payload)->json();
