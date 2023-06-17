@@ -153,10 +153,11 @@ class Customer extends Tntity
     /**
      * Fetch token with publicId of customer.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return Token
      *
      * @author JalalLinuX
+     *
      * @group GUEST
      */
     public function loginPublic(string $id = null): Token
@@ -165,7 +166,7 @@ class Customer extends Tntity
 
         Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'customerId']);
 
-        $response = $this->api(false)->post("auth/login/public", ['publicId' => $id]);
+        $response = $this->api(false)->post('auth/login/public', ['publicId' => $id]);
 
         return new Token($response->json('token'), $response->json('refreshToken'));
     }
