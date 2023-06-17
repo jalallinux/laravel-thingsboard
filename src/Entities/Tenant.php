@@ -173,12 +173,12 @@ class Tenant extends Tntity
      *
      * @group SYS_ADMIN
      */
-    public function saveTenant(string $accessToken = null, string $tenantProfileId = null): static
+    public function saveTenant(string $title = null, string $tenantProfileId = null): static
     {
         $tenantProfileId = $tenantProfileId ?? $this->tenantProfileId->id ?? TenantProfile::instance()->withUser($this->_thingsboardUser)->getDefaultTenantProfileInfo()->id->id;
 
         $payload = array_merge($this->attributes, [
-            'title' => $this->forceAttribute('title'),
+            'title' => $title ?? $this->forceAttribute('title'),
             'tenantProfileId' => new Id($tenantProfileId, EnumEntityType::TENANT_PROFILE()),
         ]);
 
