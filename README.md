@@ -54,9 +54,7 @@ You can publish config file to change default languages
 ## Preparing for usage
 `User` class must implement `JalalLinuX\Thingsboard\Interfaces\ThingsboardUser` like this:
 ```php
-use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
-
-class User extends Authenticatable implements ThingsboardUser
+class User extends Authenticatable implements JalalLinuX\Thingsboard\Interfaces\ThingsboardUser
 {
     public function getThingsboardEmailAttribute(): string
     {
@@ -72,9 +70,19 @@ class User extends Authenticatable implements ThingsboardUser
     {
         return EnumAuthority::from($this->attributes['thingsboard_authority']);
     }
-...
+    
+    ...
 ```
 
+Then can use trait `JalalLinuX\Thingsboard\Traits\ThingsboardUser` like this:
+```php
+class User extends Authenticatable implements JalalLinuX\Thingsboard\Interfaces\ThingsboardUser
+{
+    use \JalalLinuX\Thingsboard\Traits\ThingsboardUser
+    
+    ...
+}
+```
 
 
 

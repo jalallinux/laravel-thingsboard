@@ -17,14 +17,9 @@ class Token
         $this->refreshToken = $refreshToken;
     }
 
-    public function token(string $key = null, $default = null)
+    public function decode(EnumTokenType $tokenType, string $key = null, $default = null)
     {
-        return data_get(decodeJWTToken($this->accessToken), $key, $default);
-    }
-
-    public function refreshToken(string $key = null, $default = null)
-    {
-        return data_get(decodeJWTToken($this->refreshToken), $key, $default);
+        return data_get(decodeJWTToken($this->{$tokenType->value}), $key, $default);
     }
 
     public function getAccessToken(): string
