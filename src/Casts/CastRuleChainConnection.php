@@ -2,8 +2,8 @@
 
 namespace JalalLinuX\Thingsboard\Casts;
 
+use JalalLinuX\Thingsboard\Infrastructure\CustomCastBase;
 use JalalLinuX\Thingsboard\Infrastructure\RuleChain\RuleChainConnection;
-use Vkovic\LaravelCustomCasts\CustomCastBase;
 
 class CastRuleChainConnection extends CustomCastBase
 {

@@ -3,7 +3,7 @@
 namespace JalalLinuX\Thingsboard\Casts;
 
 use JalalLinuX\Thingsboard\Infrastructure\Base64Image;
-use Vkovic\LaravelCustomCasts\CustomCastBase;
+use JalalLinuX\Thingsboard\Infrastructure\CustomCastBase;
 
 class CastBase64Image extends CustomCastBase
 {

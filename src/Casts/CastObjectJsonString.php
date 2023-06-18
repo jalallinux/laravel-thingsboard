@@ -2,7 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Casts;
 
-use Vkovic\LaravelCustomCasts\CustomCastBase;
+use JalalLinuX\Thingsboard\Infrastructure\CustomCastBase;
 
 class CastObjectJsonString extends CustomCastBase
 {

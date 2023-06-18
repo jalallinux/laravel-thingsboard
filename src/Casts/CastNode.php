@@ -2,8 +2,8 @@
 
 namespace JalalLinuX\Thingsboard\Casts;
 
+use JalalLinuX\Thingsboard\Infrastructure\CustomCastBase;
 use JalalLinuX\Thingsboard\Infrastructure\RuleChain\RuleNode;
-use Vkovic\LaravelCustomCasts\CustomCastBase;
 
 class CastNode extends CustomCastBase
 {

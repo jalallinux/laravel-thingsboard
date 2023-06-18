@@ -13,6 +13,10 @@ class GetUserByIdTest extends TestCase
     {
         $adminUser = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
 
+        dd(
+            thingsboard($adminUser)->user()->getUserById('48efac30-0cfd-11ee-a2fb-411ef9f28c50')->authority
+        );
+
         $tenantId = thingsboard()->tenant()->withUser($adminUser)->getTenants(PaginationArguments::make())->data()->first()->id->id;
         $userId = thingsboard($adminUser)->user()->getTenantAdmins(PaginationArguments::make(), $tenantId)->data()->first()->id->id;
         $user = thingsboard($adminUser)->user()->getUserById($userId);
