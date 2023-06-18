@@ -21,7 +21,7 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property Id $customerId
  * @property string $email
  * @property string $name
- * @property string $authority
+ * @property EnumAuthority $authority
  * @property string $lastName
  * @property string $firstName
  * @property array $additionalInfo
