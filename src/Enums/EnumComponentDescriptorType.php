@@ -2,8 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self ACTION()
  * @method static self ENRICHMENT()
@@ -12,7 +10,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self FLOW()
  * @method static self TRANSFORMATION()
  */
-class EnumComponentDescriptorType extends Enum
+class EnumComponentDescriptorType extends BaseEnum
 {
     protected static function values(): array
     {

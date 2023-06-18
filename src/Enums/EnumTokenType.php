@@ -2,13 +2,11 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self ACCESS_TOKEN()
  * @method static self REFRESH_TOKEN()
  */
-class EnumTokenType extends Enum
+class EnumTokenType extends BaseEnum
 {
     protected static function values(): array
     {

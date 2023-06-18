@@ -29,6 +29,7 @@ class SaveUserTest extends TestCase
 
         $this->assertInstanceOf(User::class, $newUser);
         $this->assertInstanceOf(Id::class, $newUser->id);
+        $this->assertInstanceOf(EnumAuthority::class, $newUser->authority);
 
         $result = thingsboard($adminUser)->user()->deleteUser($newUser->id->id);
         $this->assertTrue($result);

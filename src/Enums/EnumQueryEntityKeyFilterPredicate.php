@@ -2,15 +2,13 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self BOOLEAN()
  * @method static self DATE_TIME()
  * @method static self NUMERIC()
  * @method static self STRING()
  */
-class EnumQueryEntityKeyFilterPredicate extends Enum
+class EnumQueryEntityKeyFilterPredicate extends BaseEnum
 {
     protected static function values(): array
     {

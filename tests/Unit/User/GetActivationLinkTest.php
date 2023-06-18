@@ -24,8 +24,9 @@ class GetActivationLinkTest extends TestCase
         ];
 
         $newUser = thingsboard($tenantUser)->user($attributes)->saveUser();
+        $this->assertInstanceOf(EnumAuthority::class, $newUser->authority);
         $activationLink = thingsboard($tenantUser)->user()->getActivationLink($newUser->id->id);
-        self::assertTrue(Http::get($activationLink)->successful());
+        $this->assertTrue(Http::get($activationLink)->successful());
         $newUser->deleteUser();
     }
 

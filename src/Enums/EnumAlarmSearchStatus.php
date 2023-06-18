@@ -2,8 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self ACK()
  * @method static self ACTIVE()
@@ -11,7 +9,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self CLEARED()
  * @method static self UNACK()
  */
-class EnumAlarmSearchStatus extends Enum
+class EnumAlarmSearchStatus extends BaseEnum
 {
     protected static function values(): array
     {

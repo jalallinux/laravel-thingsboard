@@ -2,14 +2,12 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self ENABLED()
  * @method static self SINGLETON()
  * @method static self USER_PREFERENCE()
  */
-class EnumComponentDescriptorClusteringMode extends Enum
+class EnumComponentDescriptorClusteringMode extends BaseEnum
 {
     protected static function values(): array
     {

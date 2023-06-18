@@ -2,12 +2,10 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self TENANT()
  */
-class EnumComponentDescriptorScope extends Enum
+class EnumComponentDescriptorScope extends BaseEnum
 {
     protected static function values(): array
     {

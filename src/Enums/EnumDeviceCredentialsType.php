@@ -2,14 +2,12 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self ACCESS_TOKEN()
  * @method static self X509_CERTIFICATE()
  * @method static self MQTT_BASIC()
  */
-class EnumDeviceCredentialsType extends Enum
+class EnumDeviceCredentialsType extends BaseEnum
 {
     protected static function values(): array
     {

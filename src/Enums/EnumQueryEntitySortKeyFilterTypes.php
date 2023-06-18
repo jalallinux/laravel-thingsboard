@@ -2,8 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self ALARM_FIELD()
  * @method static self ATTRIBUTE()
@@ -13,7 +11,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self SHARED_ATTRIBUTE()
  * @method static self TIME_SERIES()
  */
-class EnumQueryEntitySortKeyFilterTypes extends Enum
+class EnumQueryEntitySortKeyFilterTypes extends BaseEnum
 {
     protected static function values(): array
     {

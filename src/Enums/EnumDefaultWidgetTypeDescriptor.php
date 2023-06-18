@@ -2,8 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self TIME_SERIES()
  * @method static self ATTRIBUTES_CARD()
@@ -11,7 +9,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self ALARMS_TABLE()
  * @method static self HTML_CARD()
  */
-class EnumDefaultWidgetTypeDescriptor extends Enum
+class EnumDefaultWidgetTypeDescriptor extends BaseEnum
 {
     protected static function values(): array
     {

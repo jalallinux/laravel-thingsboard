@@ -4,8 +4,8 @@ namespace JalalLinuX\Thingsboard\Infrastructure\WidgetType;
 
 use JalalLinuX\Thingsboard\Casts\CastObjectJsonString;
 use JalalLinuX\Thingsboard\Enums\EnumDefaultWidgetTypeDescriptor;
-use Jenssegers\Model\Model;
 use JalalLinuX\Thingsboard\Infrastructure\HasCustomCasts;
+use Jenssegers\Model\Model;
 
 /**
  * @property EnumDefaultWidgetTypeDescriptor $type

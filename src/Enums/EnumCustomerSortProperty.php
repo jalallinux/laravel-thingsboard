@@ -2,8 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self CREATED_TIME()
  * @method static self EMAIL()
@@ -11,7 +9,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self COUNTRY()
  * @method static self CITY()
  */
-class EnumCustomerSortProperty extends Enum
+class EnumCustomerSortProperty extends BaseEnum
 {
     protected static function values(): array
     {

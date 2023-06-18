@@ -2,13 +2,11 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self CORE()
  * @method static self EDGE()
  */
-class EnumRuleChainType extends Enum
+class EnumRuleChainType extends BaseEnum
 {
     protected static function values(): array
     {

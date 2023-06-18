@@ -9,11 +9,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Http;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Exceptions\ThingsboardExceptionHandler;
+use JalalLinuX\Thingsboard\Infrastructure\HasCustomCasts;
 use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use Jenssegers\Model\Model;
-use JalalLinuX\Thingsboard\Infrastructure\HasCustomCasts;
 
 abstract class Tntity extends Model
 {

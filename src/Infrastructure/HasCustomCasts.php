@@ -2,6 +2,9 @@
 
 namespace JalalLinuX\Thingsboard\Infrastructure;
 
+use JalalLinuX\Thingsboard\Enums\BaseEnum;
+use Spatie\Enum\Laravel\Enum;
+
 trait HasCustomCasts
 {
     /**
@@ -109,6 +112,10 @@ trait HasCustomCasts
             if (is_subclass_of($castClass, CustomCastBase::class)) {
                 $customCasts[$attribute] = $castClass;
             }
+
+            if (is_subclass_of($castClass, Enum::class)) {
+                $customCasts[$attribute] = $castClass;
+            }
         }
 
         $this->customCasts = $customCasts;
@@ -155,6 +162,10 @@ trait HasCustomCasts
      */
     protected function setCustomCast($attribute, $value)
     {
+        if (is_subclass_of($this->getCustomCastObject($attribute), BaseEnum::class)) {
+            return $value;
+        }
+
         return $this->getCustomCastObject($attribute)->setAttribute($value);
     }
 
@@ -179,9 +190,13 @@ trait HasCustomCasts
     {
         if (! isset($this->customCastObjects[$attribute])) {
             $customCastClass = $this->getCastClass($this->casts[$attribute]);
-            $customCastObject = new $customCastClass($this, $attribute);
-
-            $this->customCastObjects[$attribute] = $customCastObject;
+            if (is_subclass_of($customCastClass, BaseEnum::class)) {
+                $this->customCastObjects[$attribute] = new $customCastClass;
+            }
+            else {
+                $customCastObject = new $customCastClass($this, $attribute);
+                $this->customCastObjects[$attribute] = $customCastObject;
+            }
         }
 
         return $this->customCastObjects[$attribute];

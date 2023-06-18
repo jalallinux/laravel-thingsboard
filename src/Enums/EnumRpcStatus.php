@@ -2,8 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self DELIVERED()
  * @method static self EXPIRED()
@@ -13,7 +11,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self SUCCESSFUL()
  * @method static self TIMEOUT()
  */
-class EnumRpcStatus extends Enum
+class EnumRpcStatus extends BaseEnum
 {
     protected static function values(): array
     {

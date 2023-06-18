@@ -2,8 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self ACK_TS()
  * @method static self CLEAR_TS()
@@ -14,7 +12,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self STATUS()
  * @method static self TYPE()
  */
-class EnumAlarmSortProperty extends Enum
+class EnumAlarmSortProperty extends BaseEnum
 {
     protected static function values(): array
     {

@@ -2,8 +2,8 @@
 
 namespace JalalLinuX\Thingsboard\Infrastructure\Dashboard;
 
-use Jenssegers\Model\Model;
 use JalalLinuX\Thingsboard\Infrastructure\HasCustomCasts;
+use Jenssegers\Model\Model;
 
 /**
  * @property string $description
