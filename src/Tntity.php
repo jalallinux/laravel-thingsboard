@@ -13,7 +13,7 @@ use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use Jenssegers\Model\Model;
-use Vkovic\LaravelCustomCasts\HasCustomCasts;
+use JalalLinuX\Thingsboard\Infrastructure\HasCustomCasts;
 
 abstract class Tntity extends Model
 {

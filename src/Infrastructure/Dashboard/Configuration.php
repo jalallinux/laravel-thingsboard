@@ -3,7 +3,7 @@
 namespace JalalLinuX\Thingsboard\Infrastructure\Dashboard;
 
 use Jenssegers\Model\Model;
-use Vkovic\LaravelCustomCasts\HasCustomCasts;
+use JalalLinuX\Thingsboard\Infrastructure\HasCustomCasts;
 
 /**
  * @property string $description
