@@ -192,8 +192,7 @@ trait HasCustomCasts
             $customCastClass = $this->getCastClass($this->casts[$attribute]);
             if (is_subclass_of($customCastClass, BaseEnum::class)) {
                 $this->customCastObjects[$attribute] = new $customCastClass;
-            }
-            else {
+            } else {
                 $customCastObject = new $customCastClass($this, $attribute);
                 $this->customCastObjects[$attribute] = $customCastObject;
             }
