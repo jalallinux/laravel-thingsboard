@@ -19,7 +19,7 @@ class LoginPublicTest extends TestCase
             PaginationArguments::make(0, 100, EnumCustomerSortProperty::TITLE(), EnumSortOrder::DESC(), 'Public')
         )->data()->first();
 
-        if (!is_null($publicCustomer)) {
+        if (! is_null($publicCustomer)) {
             $token = thingsboard()->customer()->loginPublic($publicCustomer->id->id);
 
             $this->assertInstanceOf(Token::class, $token);
