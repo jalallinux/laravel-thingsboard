@@ -152,8 +152,8 @@ class DeviceProfile extends Tntity
      * Device profile name is unique in the scope of tenant.
      * Only one 'default' device profile may exist in scope of tenant.
      *
-     * @param string|null $name
-     * @param string $type
+     * @param  string|null  $name
+     * @param  string  $type
      * @return self
      *
      * @author Sabiee
