@@ -152,17 +152,18 @@ class DeviceProfile extends Tntity
      * Device profile name is unique in the scope of tenant.
      * Only one 'default' device profile may exist in scope of tenant.
      *
+     * @param string|null $name
      * @return self
      *
      * @author Sabiee
      *
      * @group TENANT_ADMIN
      */
-    public function saveDeviceProfile(): static
+    public function saveDeviceProfile(string $name = null, string $type = 'DEFAULT'): static
     {
         $payload = array_merge($this->attributes, [
-            'name' => $this->forceAttribute('name'),
-            'type' => 'DEFAULT',
+            'name' => $name ?? $this->forceAttribute('name'),
+            'type' => $type,
             'provisionType' => $this->forceAttribute('provisionType'),
             'transportType' => $this->forceAttribute('transportType'),
         ]);
