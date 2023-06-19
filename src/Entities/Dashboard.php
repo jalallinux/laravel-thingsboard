@@ -314,7 +314,7 @@ class Dashboard extends Tntity
      */
     public function saveDashboard(string $title = null, array $configuration = null): static
     {
-        $payload = array_merge($this->attributes, [
+        $payload = array_merge($this->attributesToArray(), [
             'title' => $title ?? $this->forceAttribute('title'),
             'configuration' => $configuration ?? $this->forceAttribute('configuration'),
         ]);
