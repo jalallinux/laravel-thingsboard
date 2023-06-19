@@ -214,7 +214,7 @@ class TenantProfile extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     * @param PaginationArguments $paginationArguments
+     * @param  PaginationArguments  $paginationArguments
      * @return LengthAwarePaginator
      *
      * @author JalalLinuX
@@ -265,7 +265,7 @@ class TenantProfile extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     * @param PaginationArguments $paginationArguments
+     * @param  PaginationArguments  $paginationArguments
      * @return LengthAwarePaginator
      *
      * @author Sabiee

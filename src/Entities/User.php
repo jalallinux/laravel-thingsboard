@@ -64,7 +64,7 @@ class User extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     * @param PaginationArguments $paginationArguments
+     * @param  PaginationArguments  $paginationArguments
      * @return LengthAwarePaginator
      *
      * @author JalalLinuX
@@ -111,8 +111,8 @@ class User extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     * @param PaginationArguments $paginationArguments
-     * @param string|null $tenantId
+     * @param  PaginationArguments  $paginationArguments
+     * @param  string|null  $tenantId
      * @return LengthAwarePaginator
      *
      * @author JalalLinuX
