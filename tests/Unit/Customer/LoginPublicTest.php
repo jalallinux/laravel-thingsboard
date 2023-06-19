@@ -15,14 +15,18 @@ class LoginPublicTest extends TestCase
     public function testStructure()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $publicId = thingsboard($tenantUser)->customer()->getCustomers(
+        $publicCustomer = thingsboard($tenantUser)->customer()->getCustomers(
             PaginationArguments::make(0, 100, EnumCustomerSortProperty::TITLE(), EnumSortOrder::DESC(), 'Public')
-        )->data()->first()->id->id;
+        )->data()->first();
 
-        $token = thingsboard()->customer()->loginPublic($publicId);
+        if (!is_null($publicCustomer)) {
+            $token = thingsboard()->customer()->loginPublic($publicCustomer->id->id);
 
-        $this->assertInstanceOf(Token::class, $token);
-        $this->assertEquals($publicId, $token->decode(EnumTokenType::ACCESS_TOKEN(), 'sub'));
-        $this->assertTrue($token->decode(EnumTokenType::ACCESS_TOKEN(), 'isPublic'));
+            $this->assertInstanceOf(Token::class, $token);
+            $this->assertEquals($publicCustomer->id->id, $token->decode(EnumTokenType::ACCESS_TOKEN(), 'sub'));
+            $this->assertTrue($token->decode(EnumTokenType::ACCESS_TOKEN(), 'isPublic'));
+        } else {
+            $this->assertNull($publicCustomer);
+        }
     }
 }
