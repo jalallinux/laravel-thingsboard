@@ -12,7 +12,7 @@ class GetDevicesByIdsTest extends TestCase
     public function testStructure()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $deviceIds = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->pluck('id.id')->toArray();
+        $deviceIds = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->collect()->pluck('id.id')->toArray();
         $deviceIds = $this->faker->randomElements($deviceIds, $count = $this->faker->numberBetween(1, 5));
         $devices = thingsboard($tenantUser)->device()->getDevicesByIds($deviceIds);
 

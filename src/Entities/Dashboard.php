@@ -2,6 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastBase64Image;
@@ -12,7 +13,6 @@ use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Base64Image;
 use JalalLinuX\Thingsboard\Infrastructure\Dashboard\Configuration;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
-use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
@@ -70,13 +70,13 @@ class Dashboard extends Tntity
      *
      * @param  PaginationArguments  $paginationArguments
      * @param  bool|null  $mobileHide
-     * @return PaginatedResponse
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN
      */
-    public function getDashboards(PaginationArguments $paginationArguments, bool $mobileHide = null): PaginatedResponse
+    public function getDashboards(PaginationArguments $paginationArguments, bool $mobileHide = null): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumDashboardSortProperty::class);
 
@@ -95,15 +95,15 @@ class Dashboard extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     * @param  PaginationArguments  $paginationArguments
-     * @param  string|null  $tenantId
-     * @return PaginatedResponse
+     * @param PaginationArguments $paginationArguments
+     * @param string|null $tenantId
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group SYS_ADMIN
      */
-    public function getTenantDashboards(PaginationArguments $paginationArguments, string $tenantId = null): PaginatedResponse
+    public function getTenantDashboards(PaginationArguments $paginationArguments, string $tenantId = null): LengthAwarePaginator
     {
         $tenantId = $tenantId ?? $this->forceAttribute('tenantId')->id;
         $paginationArguments->validateSortProperty(EnumDashboardSortProperty::class);
@@ -276,16 +276,16 @@ class Dashboard extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     * @param  string  $customerId
-     * @param  PaginationArguments  $paginationArguments
-     * @param  bool|null  $mobileHide
-     * @return PaginatedResponse
+     * @param string $customerId
+     * @param PaginationArguments $paginationArguments
+     * @param bool|null $mobileHide
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getCustomerDashboards(string $customerId, PaginationArguments $paginationArguments, bool $mobileHide = null): PaginatedResponse
+    public function getCustomerDashboards(string $customerId, PaginationArguments $paginationArguments, bool $mobileHide = null): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumDashboardSortProperty::class);
 

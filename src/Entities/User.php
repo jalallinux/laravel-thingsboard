@@ -2,13 +2,13 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumUserSortProperty;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
-use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use JalalLinuX\Thingsboard\Thingsboard;
@@ -64,14 +64,14 @@ class User extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     * @param  PaginationArguments  $paginationArguments
-     * @return PaginatedResponse
+     * @param PaginationArguments $paginationArguments
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getUsers(PaginationArguments $paginationArguments): PaginatedResponse
+    public function getUsers(PaginationArguments $paginationArguments): LengthAwarePaginator
     {
         $response = $this->api()->get('users', $paginationArguments->queryParams());
 
@@ -86,15 +86,13 @@ class User extends Tntity
      *
      * @param  PaginationArguments  $paginationArguments
      * @param  string|null  $customerId
-     * @return PaginatedResponse
-     *
-     * @throws \Throwable
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN
      */
-    public function getCustomerUsers(PaginationArguments $paginationArguments, string $customerId = null): PaginatedResponse
+    public function getCustomerUsers(PaginationArguments $paginationArguments, string $customerId = null): LengthAwarePaginator
     {
         $customerId = $customerId ?? $this->forceAttribute('customerId')->id;
 
@@ -113,17 +111,15 @@ class User extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     * @param  PaginationArguments  $paginationArguments
-     * @param  string|null  $tenantId
-     * @return PaginatedResponse
-     *
-     * @throws \Throwable
+     * @param PaginationArguments $paginationArguments
+     * @param string|null $tenantId
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group SYS_ADMIN
      */
-    public function getTenantAdmins(PaginationArguments $paginationArguments, string $tenantId = null): PaginatedResponse
+    public function getTenantAdmins(PaginationArguments $paginationArguments, string $tenantId = null): LengthAwarePaginator
     {
         $tenantId = $tenantId ?? $this->forceAttribute('tenantId')->id;
 

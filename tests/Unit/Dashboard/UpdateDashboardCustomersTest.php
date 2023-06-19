@@ -12,10 +12,10 @@ class UpdateDashboardCustomersTest extends TestCase
     public function testStructure()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $customerIds = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->pluck('id.id')
+        $customerIds = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->collect()->pluck('id.id')
             ->take($count = $this->faker->numberBetween(1, 3))->toArray();
 
-        $dashboard = thingsboard($tenantUser)->dashboard()->getDashboards(PaginationArguments::make())->data()->random();
+        $dashboard = thingsboard($tenantUser)->dashboard()->getDashboards(PaginationArguments::make())->collect()->random();
         $dashboard = thingsboard($tenantUser)->dashboard()->updateDashboardCustomers($customerIds, $dashboard->id->id);
 
         $this->assertInstanceOf(Dashboard::class, $dashboard);

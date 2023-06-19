@@ -12,7 +12,7 @@ class GetActivationLinkTest extends TestCase
     public function testCorrectUuid()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->first()->id;
+        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->collect()->first()->id;
         $attributes = [
             'customerId' => $customerId,
             'email' => $this->faker->unique()->safeEmail,

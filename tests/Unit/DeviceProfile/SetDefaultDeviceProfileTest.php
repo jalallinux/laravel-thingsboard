@@ -16,7 +16,7 @@ class SetDefaultDeviceProfileTest extends TestCase
     public function testSetDefaultDeviceProfileSuccess()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $deviceProfileId = thingsboard($tenantUser)->deviceProfile()->getDeviceProfiles(PaginationArguments::make())->data()->first()->id->id;
+        $deviceProfileId = thingsboard($tenantUser)->deviceProfile()->getDeviceProfiles(PaginationArguments::make())->collect()->first()->id->id;
         $defaultDeviceProfileId = thingsboard($tenantUser)->deviceProfile()->getDefaultDeviceProfileInfo()->id->id;
 
         $deviceProfile = thingsboard($tenantUser)->deviceProfile()->setDefaultDeviceProfile($deviceProfileId);

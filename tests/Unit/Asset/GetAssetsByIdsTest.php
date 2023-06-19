@@ -14,7 +14,7 @@ class GetAssetsByIdsTest extends TestCase
     public function testStructure()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $assetProfileId = thingsboard($tenantUser)->assetProfile()->getAssetProfiles(PaginationArguments::make(textSearch: 'default'))->data()->first()->id->id;
+        $assetProfileId = thingsboard($tenantUser)->assetProfile()->getAssetProfiles(PaginationArguments::make(textSearch: 'default'))->collect()->first()->id->id;
         $attributes1 = [
             'name' => $this->faker->sentence(3),
             'assetProfileId' => new Id($assetProfileId, EnumEntityType::ASSET_PROFILE()),

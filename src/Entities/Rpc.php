@@ -3,13 +3,13 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use DateTime;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumRpcSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumRpcStatus;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
-use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
@@ -220,15 +220,13 @@ class Rpc extends Tntity
      * @param  PaginationArguments  $paginationArguments
      * @param  string|null  $deviceId
      * @param  EnumRpcStatus|null  $rpcStatus
-     * @return PaginatedResponse
-     *
-     * @throws \Throwable
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getPersistentRequests(PaginationArguments $paginationArguments, string $deviceId = null, EnumRpcStatus $rpcStatus = null): PaginatedResponse
+    public function getPersistentRequests(PaginationArguments $paginationArguments, string $deviceId = null, EnumRpcStatus $rpcStatus = null): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumRpcSortProperty::class);
 

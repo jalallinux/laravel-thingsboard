@@ -15,7 +15,7 @@ class SaveUserTest extends TestCase
     public function testCreateTenantSuccess()
     {
         $adminUser = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
-        $tenantId = thingsboard($adminUser)->tenant()->getTenants(PaginationArguments::make())->data()->first()->id;
+        $tenantId = thingsboard($adminUser)->tenant()->getTenants(PaginationArguments::make())->collect()->first()->id;
         $attributes = [
             'tenantId' => $tenantId,
             'email' => $this->faker->unique()->safeEmail,
@@ -38,7 +38,7 @@ class SaveUserTest extends TestCase
     public function testCreateCustomerSuccess()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->first()->id;
+        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->collect()->first()->id;
         $attributes = [
             'customerId' => $customerId,
             'email' => $this->faker->unique()->safeEmail,
@@ -65,7 +65,7 @@ class SaveUserTest extends TestCase
 
         switch ($authority) {
             case EnumAuthority::SYS_ADMIN():
-                $tenantId = thingsboard($user)->tenant()->getTenants(PaginationArguments::make())->data()->first()->id;
+                $tenantId = thingsboard($user)->tenant()->getTenants(PaginationArguments::make())->collect()->first()->id;
                 $attributes = [
                     'tenantId' => $tenantId,
                     'email' => $this->faker->unique()->safeEmail,
@@ -80,7 +80,7 @@ class SaveUserTest extends TestCase
                 thingsboard($user)->user(Arr::except($attributes, $exceptKey))->saveUser();
                 break;
             case EnumAuthority::TENANT_ADMIN():
-                $customerId = thingsboard($user)->customer()->getCustomers(PaginationArguments::make())->data()->first()->id;
+                $customerId = thingsboard($user)->customer()->getCustomers(PaginationArguments::make())->collect()->first()->id;
                 $attributes = [
                     'customerId' => $customerId,
                     'email' => $this->faker->unique()->safeEmail,
@@ -100,7 +100,7 @@ class SaveUserTest extends TestCase
     public function testExistsEmail()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->first()->id;
+        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->collect()->first()->id;
         $attributes = [
             'customerId' => $customerId,
             'email' => $this->thingsboardUser(EnumAuthority::CUSTOMER_USER())->getThingsboardEmailAttribute(),

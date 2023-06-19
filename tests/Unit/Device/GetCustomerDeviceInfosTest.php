@@ -15,18 +15,18 @@ class GetCustomerDeviceInfosTest extends TestCase
         $pagination = $this->randomPagination(EnumDeviceSortProperty::class, 1, 20);
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 
-        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->random()->id->id;
-        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->random()->id->id;
+        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->collect()->random()->id->id;
+        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->collect()->random()->id->id;
         $device = thingsboard($tenantUser)->device()->assignDeviceToCustomer($customerId, $deviceId);
 
         $devices = thingsboard($tenantUser)->device()->getCustomerDeviceInfos($pagination, $customerId);
 
-        $devices->data()->each(fn ($device) => $this->assertInstanceOf(Device::class, $device));
+        $devices->collect()->each(fn ($device) => $this->assertInstanceOf(Device::class, $device));
         $device->unAssignDeviceFromCustomer();
 
-        $this->assertEquals($pagination->page, $devices->paginator()->currentPage());
-        $this->assertEquals($pagination->pageSize, $devices->paginator()->perPage());
-        $this->assertEquals($pagination->sortOrder, $devices->paginator()->getOptions()['sortOrder']);
-        $this->assertEquals($pagination->sortProperty, $devices->paginator()->getOptions()['sortProperty']);
+        $this->assertEquals($pagination->page, $devices->currentPage());
+        $this->assertEquals($pagination->pageSize, $devices->perPage());
+        $this->assertEquals($pagination->sortOrder, $devices->getOptions()['sortOrder']);
+        $this->assertEquals($pagination->sortProperty, $devices->getOptions()['sortProperty']);
     }
 }

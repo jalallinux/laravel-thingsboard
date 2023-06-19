@@ -2,12 +2,12 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumAssetSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
-use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
@@ -112,11 +112,14 @@ class Asset extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
+     * @param  PaginationArguments  $paginationArguments
+     * @return LengthAwarePaginator
+     *
      * @author  Sabiee
      *
      * @group TENANT_ADMIN
      */
-    public function getTenantAssets(PaginationArguments $paginationArguments): PaginatedResponse
+    public function getTenantAssets(PaginationArguments $paginationArguments): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumAssetSortProperty::class);
 
@@ -256,11 +259,11 @@ class Asset extends Tntity
      * @param  string|null  $customerId
      * @param  string|null  $type
      * @param  string|null  $assetProfileId
-     * @return PaginatedResponse
+     * @return LengthAwarePaginator
      *
      * @author  Sabiee
      */
-    public function getCustomerAssetInfos(PaginationArguments $paginationArguments, string $customerId = null, string $type = null, string $assetProfileId = null): PaginatedResponse
+    public function getCustomerAssetInfos(PaginationArguments $paginationArguments, string $customerId = null, string $type = null, string $assetProfileId = null): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumAssetSortProperty::class);
 
@@ -281,11 +284,11 @@ class Asset extends Tntity
      * @param  PaginationArguments  $paginationArguments
      * @param  string|null  $customerId
      * @param  string|null  $type
-     * @return PaginatedResponse
+     * @return LengthAwarePaginator
      *
      * @author  Sabiee
      */
-    public function getCustomerAssets(PaginationArguments $paginationArguments, string $customerId = null, string $type = null): PaginatedResponse
+    public function getCustomerAssets(PaginationArguments $paginationArguments, string $customerId = null, string $type = null): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumAssetSortProperty::class);
 
@@ -330,7 +333,7 @@ class Asset extends Tntity
      *
      * @group TENANT_ADMIN
      */
-    public function getTenantAssetInfos(PaginationArguments $paginationArguments, string $type = null, string $assetProfileId = null): PaginatedResponse
+    public function getTenantAssetInfos(PaginationArguments $paginationArguments, string $type = null, string $assetProfileId = null): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumAssetSortProperty::class);
 

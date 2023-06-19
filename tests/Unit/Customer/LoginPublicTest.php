@@ -17,7 +17,7 @@ class LoginPublicTest extends TestCase
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $publicCustomer = thingsboard($tenantUser)->customer()->getCustomers(
             PaginationArguments::make(0, 100, EnumCustomerSortProperty::TITLE(), EnumSortOrder::DESC(), 'Public')
-        )->data()->first();
+        )->collect()->first();
 
         if (! is_null($publicCustomer)) {
             $token = thingsboard()->customer()->loginPublic($publicCustomer->id->id);

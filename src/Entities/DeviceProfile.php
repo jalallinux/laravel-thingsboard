@@ -2,12 +2,12 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumDeviceProfileSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
-use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
@@ -80,13 +80,13 @@ class DeviceProfile extends Tntity
      * See the 'Model' tab of the Response Class for more details.
      *
      * @param  PaginationArguments  $paginationArguments
-     * @return PaginatedResponse
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN
      */
-    public function getDeviceProfiles(PaginationArguments $paginationArguments): PaginatedResponse
+    public function getDeviceProfiles(PaginationArguments $paginationArguments): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumDeviceProfileSortProperty::class);
 
@@ -312,13 +312,13 @@ class DeviceProfile extends Tntity
      *
      *
      * @param  PaginationArguments  $paginationArguments
-     * @return PaginatedResponse
+     * @return LengthAwarePaginator
      *
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getDeviceProfileInfos(PaginationArguments $paginationArguments): PaginatedResponse
+    public function getDeviceProfileInfos(PaginationArguments $paginationArguments): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumDeviceProfileSortProperty::class);
 

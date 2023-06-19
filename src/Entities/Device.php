@@ -3,13 +3,13 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use DateTime;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumDeviceSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\DeviceCredentials;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
-use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Infrastructure\Type;
 use JalalLinuX\Thingsboard\Thingsboard;
@@ -156,13 +156,13 @@ class Device extends Tntity
      * @param  string|null  $deviceProfileId
      * @param  bool|null  $active
      * @param  string|null  $type
-     * @return PaginatedResponse
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN
      */
-    public function getTenantDeviceInfos(PaginationArguments $paginationArguments, string $deviceProfileId = null, bool $active = null, string $type = null): PaginatedResponse
+    public function getTenantDeviceInfos(PaginationArguments $paginationArguments, string $deviceProfileId = null, bool $active = null, string $type = null): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumDeviceSortProperty::class);
 
@@ -186,13 +186,13 @@ class Device extends Tntity
      * @param  string|null  $deviceProfileId
      * @param  bool|null  $active
      * @param  string|null  $type
-     * @return PaginatedResponse
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getCustomerDeviceInfos(PaginationArguments $paginationArguments, string $customerId = null, string $deviceProfileId = null, bool $active = null, string $type = null): PaginatedResponse
+    public function getCustomerDeviceInfos(PaginationArguments $paginationArguments, string $customerId = null, string $deviceProfileId = null, bool $active = null, string $type = null): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumDeviceSortProperty::class);
 

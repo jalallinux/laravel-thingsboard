@@ -16,7 +16,7 @@ class GetCustomerByIdTest extends TestCase
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 
-        $customer = thingsboard()->customer()->withUser($tenantUser)->getCustomers(PaginationArguments::make())->data()->first();
+        $customer = thingsboard()->customer()->withUser($tenantUser)->getCustomers(PaginationArguments::make())->collect()->first();
         $customerId = $customer->id->id;
         $customerTenantId = $customer->tenantId->id;
 

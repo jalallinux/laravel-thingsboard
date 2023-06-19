@@ -17,7 +17,7 @@ class GetTenantProfileInfoByIdTest extends TestCase
         $adminUser = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
         $tenantProfileId = thingsboard($adminUser)->tenantProfile()->getTenantProfileInfos(
             PaginationArguments::make()
-        )->data()->first()->id->id;
+        )->collect()->first()->id->id;
 
         $tenantProfile = thingsboard($adminUser)->tenantProfile()->getTenantProfileInfoById($tenantProfileId);
         $this->assertEquals($tenantProfileId, $tenantProfile->id->id);

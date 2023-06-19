@@ -16,7 +16,7 @@ class GetEntityAttributesTest extends TestCase
     public function testGetAttributeKeysSuccess()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->first()->id->id;
+        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->collect()->first()->id->id;
         $result = thingsboard($tenantUser)->telemetry()->getEntityAttributes(new Id($deviceId, EnumEntityType::DEVICE()));
         self::assertIsArray($result);
     }
@@ -24,7 +24,7 @@ class GetEntityAttributesTest extends TestCase
     public function testGetAttributesWithRealKeysSuccess()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->first()->id->id;
+        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->collect()->first()->id->id;
         $attributesKeys = thingsboard($tenantUser)->telemetry()->getAttributeKeys(new Id($deviceId, EnumEntityType::DEVICE()));
         $result = thingsboard($tenantUser)->telemetry()->getEntityAttributes(new Id($deviceId, EnumEntityType::DEVICE()), $attributesKeys);
         self::assertIsArray($result);

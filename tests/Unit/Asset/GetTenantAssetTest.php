@@ -14,7 +14,7 @@ class GetTenantAssetTest extends TestCase
     public function testExistName()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $assetProfileId = thingsboard($tenantUser)->assetProfile()->getAssetProfiles(PaginationArguments::make(textSearch: 'default'))->data()->first()->id->id;
+        $assetProfileId = thingsboard($tenantUser)->assetProfile()->getAssetProfiles(PaginationArguments::make(textSearch: 'default'))->collect()->first()->id->id;
         $attributes = [
             'name' => $this->faker->sentence(3),
             'assetProfileId' => new Id($assetProfileId, EnumEntityType::ASSET_PROFILE()),

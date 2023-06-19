@@ -21,7 +21,7 @@ class DeleteEntityAttributesTest extends TestCase
         $value = $this->faker->word();
         $payload = [$key => $value];
         $scope = $this->faker->randomElement(array_diff(EnumTelemetryScope::cases(), [EnumTelemetryScope::CLIENT_SCOPE()]));
-        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->first()->id->id;
+        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->collect()->first()->id->id;
         thingsboard($tenantUser)->telemetry()->saveEntityAttributesV1(new Id($deviceId, EnumEntityType::DEVICE()), $payload, EnumTelemetryScope::SHARED_SCOPE());
         $result = thingsboard($tenantUser)->telemetry()->deleteEntityAttributes(new Id($deviceId, EnumEntityType::DEVICE()), $scope, [$key]);
         self::assertTrue($result);

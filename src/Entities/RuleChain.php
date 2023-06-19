@@ -2,13 +2,13 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumRuleChainScriptLang;
 use JalalLinuX\Thingsboard\Enums\EnumRuleChainSortProperty;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
-use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Infrastructure\RuleChain\ImportStructure;
 use JalalLinuX\Thingsboard\Thingsboard;
@@ -128,13 +128,13 @@ class RuleChain extends Tntity
      *
      * @param  PaginationArguments  $paginationArguments
      * @param  string|null  $type
-     * @return PaginatedResponse
+     * @return LengthAwarePaginator
      *
      * @author  Sabiee
      *
      * @group TENANT_ADMIN
      */
-    public function getRuleChains(PaginationArguments $paginationArguments, string $type = null): PaginatedResponse
+    public function getRuleChains(PaginationArguments $paginationArguments, string $type = null): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumRuleChainSortProperty::class);
 

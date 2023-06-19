@@ -12,8 +12,8 @@ class AssignDashboardToCustomerTest extends TestCase
     public function testStructure()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make(textSearch: 'Customer'))->data()->random()->id->id;
-        $dashboardId = thingsboard($tenantUser)->dashboard()->getDashboards(PaginationArguments::make())->data()->random()->id->id;
+        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make(textSearch: 'Customer'))->collect()->random()->id->id;
+        $dashboardId = thingsboard($tenantUser)->dashboard()->getDashboards(PaginationArguments::make())->collect()->random()->id->id;
 
         $dashboard = thingsboard($tenantUser)->dashboard()->assignDashboardToCustomer($customerId, $dashboardId);
         thingsboard($tenantUser)->dashboard()->unassignDashboardFromCustomer($customerId, $dashboardId);

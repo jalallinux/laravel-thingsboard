@@ -2,13 +2,13 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Casts\CastTenantProfileDataConfiguration;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumTenantProfileSortProperty;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
-use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\ProfileData;
 use JalalLinuX\Thingsboard\Thingsboard;
@@ -214,14 +214,14 @@ class TenantProfile extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     * @param  PaginationArguments  $paginationArguments
-     * @return PaginatedResponse
+     * @param PaginationArguments $paginationArguments
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group SYS_ADMIN
      */
-    public function getTenantProfileInfos(PaginationArguments $paginationArguments): PaginatedResponse
+    public function getTenantProfileInfos(PaginationArguments $paginationArguments): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumTenantProfileSortProperty::class);
 
@@ -265,14 +265,14 @@ class TenantProfile extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     * @param  PaginationArguments  $paginationArguments
-     * @return PaginatedResponse
+     * @param PaginationArguments $paginationArguments
+     * @return LengthAwarePaginator
      *
      * @author Sabiee
      *
      * @group SYS_ADMIN
      */
-    public function getTenantProfiles(PaginationArguments $paginationArguments): PaginatedResponse
+    public function getTenantProfiles(PaginationArguments $paginationArguments): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumTenantProfileSortProperty::class);
 

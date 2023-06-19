@@ -16,7 +16,7 @@ class GetLatestTimeseriesTest extends TestCase
     public function testGetLatestTimeseriesSuccess()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->first()->id->id;
+        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->collect()->first()->id->id;
         $keys = thingsboard($tenantUser)->telemetry()->getTimeseriesKeys(new Id($deviceId, EnumEntityType::DEVICE()));
         $result = thingsboard($tenantUser)->telemetry()->getLatestTimeseries(new Id($deviceId, EnumEntityType::DEVICE()), $keys,
             $this->faker->boolean()

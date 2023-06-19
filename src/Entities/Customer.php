@@ -2,12 +2,12 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumCustomerSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
-use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Infrastructure\Token;
 use JalalLinuX\Thingsboard\Thingsboard;
@@ -67,13 +67,13 @@ class Customer extends Tntity
      * See the 'Model' tab of the Response Class for more details.
      *
      * @param  PaginationArguments  $paginationArguments
-     * @return PaginatedResponse
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN
      */
-    public function getCustomers(PaginationArguments $paginationArguments): PaginatedResponse
+    public function getCustomers(PaginationArguments $paginationArguments): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumCustomerSortProperty::class);
 

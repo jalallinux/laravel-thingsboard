@@ -16,7 +16,7 @@ class SaveEntityTelemetryWithTTLTest extends TestCase
     public function testSaveEntityTelemetryWithTllSuccess()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->first()->id->id;
+        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->collect()->first()->id->id;
         $payload = [
             [
                 'ts' => now()->timestamp * 1000,

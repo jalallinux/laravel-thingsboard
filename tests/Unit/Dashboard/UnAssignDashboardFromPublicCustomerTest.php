@@ -12,7 +12,7 @@ class UnAssignDashboardFromPublicCustomerTest extends TestCase
     public function testStructure()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $dashboardId = thingsboard($tenantUser)->dashboard()->getDashboards(PaginationArguments::make())->data()->random()->id->id;
+        $dashboardId = thingsboard($tenantUser)->dashboard()->getDashboards(PaginationArguments::make())->collect()->random()->id->id;
         $dashboard = thingsboard($tenantUser)->dashboard()->assignDashboardToPublicCustomer($dashboardId);
 
         $this->assertEquals($dashboardId, $dashboard->id->id);

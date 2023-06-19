@@ -15,6 +15,16 @@ class PaginatedResponse
 
     private PaginationArguments $arguments;
 
+    public static function make(Tntity $tntity, Response $response, PaginationArguments $arguments): LengthAwarePaginator
+    {
+        return new LengthAwarePaginator(
+            array_map(fn ($row) => (clone $tntity)->fill($row), $response->json('data')),
+            $response->json('totalElements'), $arguments->pageSize, $arguments->page, [
+                'sortOrder' => $arguments->sortOrder, 'sortProperty' => $arguments->sortProperty,
+            ]
+        );
+    }
+
     public function __construct(Tntity $tntity, Response $response, PaginationArguments $arguments)
     {
         $this->tntity = $tntity;
@@ -35,6 +45,6 @@ class PaginatedResponse
 
     public function data(): Collection
     {
-        return collect($this->paginator()->items());
+        return collect($this->items());
     }
 }

@@ -17,7 +17,7 @@ class GetAssetProfileByIdTest extends TestCase
         $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $assetProfileId = thingsboard($user)->assetProfile()->getAssetProfiles(
             PaginationArguments::make()
-        )->data()->first()->id->id;
+        )->collect()->first()->id->id;
 
         $assetProfile = thingsboard($user)->assetProfile()->getAssetProfileById($assetProfileId);
         $this->assertEquals($assetProfileId, $assetProfile->id->id);

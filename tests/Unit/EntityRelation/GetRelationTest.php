@@ -14,7 +14,7 @@ class GetRelationTest extends TestCase
     public function testFetchSuccess()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $deviceCollection = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data();
+        $deviceCollection = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->collect();
         $device1Id = $deviceCollection->first()->id->id;
         $device2Id = $deviceCollection->last()->id->id;
 

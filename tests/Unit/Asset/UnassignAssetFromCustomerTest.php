@@ -14,13 +14,13 @@ class UnassignAssetFromCustomerTest extends TestCase
     public function testAssignAssetToCustomerSuccess()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $assetProfileId = thingsboard($tenantUser)->assetProfile()->getAssetProfiles(PaginationArguments::make(textSearch: 'default'))->data()->first()->id->id;
+        $assetProfileId = thingsboard($tenantUser)->assetProfile()->getAssetProfiles(PaginationArguments::make(textSearch: 'default'))->collect()->first()->id->id;
         $attributes = [
             'name' => $this->faker->sentence(3),
             'assetProfileId' => new Id($assetProfileId, EnumEntityType::ASSET_PROFILE()),
         ];
         $newAsset = thingsboard($tenantUser)->asset($attributes)->saveAsset();
-        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->first()->id->id;
+        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->collect()->first()->id->id;
 
         $asset = thingsboard($tenantUser)->asset()->assignAssetToCustomer($customerId, $newAsset->id->id);
         $this->assertInstanceOf(Asset::class, $asset);

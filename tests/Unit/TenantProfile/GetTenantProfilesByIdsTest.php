@@ -12,7 +12,7 @@ class GetTenantProfilesByIdsTest extends TestCase
     public function testStructure()
     {
         $adminUser = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
-        $tenantProfilesIds = thingsboard($adminUser)->tenantProfile()->getTenantProfileInfos(PaginationArguments::make())->data()->pluck('id.id')->toArray();
+        $tenantProfilesIds = thingsboard($adminUser)->tenantProfile()->getTenantProfileInfos(PaginationArguments::make())->collect()->pluck('id.id')->toArray();
         $tenantProfilesIds = $this->faker->randomElements($tenantProfilesIds, $count = $this->faker->numberBetween(1, 2));
         $tenantProfiles = thingsboard($adminUser)->tenantProfile()->getTenantProfilesByIds($tenantProfilesIds);
 

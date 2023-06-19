@@ -6,11 +6,11 @@ use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Http;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Exceptions\ThingsboardExceptionHandler;
 use JalalLinuX\Thingsboard\Infrastructure\HasCustomCasts;
-use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use Jenssegers\Model\Model;
@@ -86,8 +86,13 @@ abstract class Tntity extends Model
         return new static($attributes);
     }
 
-    public function paginatedResponse(Response $response, PaginationArguments $arguments, Tntity $tntity = null): PaginatedResponse
+    public function paginatedResponse(Response $response, PaginationArguments $arguments, Tntity $tntity = null): LengthAwarePaginator
     {
-        return new PaginatedResponse($tntity ?? $this, $response, $arguments);
+        return new LengthAwarePaginator(
+            array_map(fn ($row) => (clone ($tntity ?? $this))->fill($row), $response->json('data')),
+            $response->json('totalElements'), $arguments->pageSize, $arguments->page, [
+                'sortOrder' => $arguments->sortOrder, 'sortProperty' => $arguments->sortProperty,
+            ]
+        );
     }
 }

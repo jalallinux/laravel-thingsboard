@@ -14,7 +14,7 @@ class GetDashboardByIdTest extends TestCase
     public function testExistUuid()
     {
         $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $dashboardId = thingsboard($user)->dashboard()->getDashboards(PaginationArguments::make())->data()->first()->id->id;
+        $dashboardId = thingsboard($user)->dashboard()->getDashboards(PaginationArguments::make())->collect()->first()->id->id;
 
         $dashboard = thingsboard($user)->dashboard()->getDashboardById($dashboardId);
         $this->assertEquals($dashboardId, $dashboard->id->id);

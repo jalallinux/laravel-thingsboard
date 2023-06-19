@@ -23,7 +23,7 @@ class GetRuleChainsTest extends TestCase
             PaginationArguments::make(sortProperty: $sortProperty)
         );
 
-        $ruleChains->data()->each(fn ($ruleCHain) => $this->assertInstanceOf(RuleChain::class, $ruleCHain));
+        $ruleChains->collect()->each(fn ($ruleCHain) => $this->assertInstanceOf(RuleChain::class, $ruleCHain));
 
         $result = $newRuleChain->deleteRuleChain();
         $this->assertTrue($result);
@@ -38,9 +38,9 @@ class GetRuleChainsTest extends TestCase
 
         $assets = thingsboard($tenantUser)->ruleChain()->getRuleChains($pagination);
 
-        $this->assertEquals($pagination->page, $assets->paginator()->currentPage());
-        $this->assertEquals($pagination->pageSize, $assets->paginator()->perPage());
-        $this->assertEquals($pagination->sortOrder, $assets->paginator()->getOptions()['sortOrder']);
-        $this->assertEquals($pagination->sortProperty, $assets->paginator()->getOptions()['sortProperty']);
+        $this->assertEquals($pagination->page, $assets->currentPage());
+        $this->assertEquals($pagination->pageSize, $assets->perPage());
+        $this->assertEquals($pagination->sortOrder, $assets->getOptions()['sortOrder']);
+        $this->assertEquals($pagination->sortProperty, $assets->getOptions()['sortProperty']);
     }
 }

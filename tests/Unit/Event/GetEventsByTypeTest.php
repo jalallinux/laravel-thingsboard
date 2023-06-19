@@ -14,7 +14,7 @@ class GetEventsByTypeTest extends TestCase
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $sortProperty = $this->faker->randomElement(EnumEventSortProperty::cases());
-        $device = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->first();
+        $device = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->collect()->first();
 
         $events = thingsboard($tenantUser)->event([
             'body' => [
@@ -31,7 +31,7 @@ class GetEventsByTypeTest extends TestCase
      {
          $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
          $sortProperty = $this->faker->randomElement(EnumEventSortProperty::cases());
-         $device = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->first();
+         $device = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->collect()->first();
 
          $this->expectExceptionCode(500);
          $this->expectExceptionMessageMatches('/tenantId/');

@@ -45,7 +45,7 @@ class SaveDeviceTest extends TestCase
     public function testExistsName()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $deviceName = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->first()->name;
+        $deviceName = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->collect()->first()->name;
         $attributes = [
             'name' => $deviceName,
         ];

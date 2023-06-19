@@ -13,7 +13,7 @@ class ClearEventsTest extends TestCase
     public function testFetchSuccess()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $device = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->first();
+        $device = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->collect()->first();
 
         $events = thingsboard($tenantUser)->event([
             'body' => [

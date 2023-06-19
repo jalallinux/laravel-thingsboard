@@ -14,7 +14,7 @@ class GetDeviceProfileInfoByIdTest extends TestCase
         $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $deviceProfileId = thingsboard($user)->deviceProfile()->getDeviceProfiles(
             PaginationArguments::make()
-        )->data()->first()->id->id;
+        )->collect()->first()->id->id;
 
         $deviceProfile = thingsboard($user)->deviceProfile()->getDeviceProfileInfoById($deviceProfileId);
         $this->assertEquals($deviceProfileId, $deviceProfile->id->id);
