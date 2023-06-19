@@ -13,7 +13,7 @@ abstract class BaseEnum extends Enum
         }
     }
 
-    public function setAttribute($value): ?array
+    public function setAttribute($value): ?string
     {
         if (is_null($value)) {
             return null;
@@ -23,11 +23,11 @@ abstract class BaseEnum extends Enum
             return $value->value;
         }
 
-        return $value;
+        return (string) $value;
     }
 
     public function castAttribute($value): ?BaseEnum
     {
-        return is_null($value) ? null : static::from($value);
+        return is_null($value) ? null : static::from((string) $value);
     }
 }
