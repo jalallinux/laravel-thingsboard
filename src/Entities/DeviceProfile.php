@@ -164,9 +164,9 @@ class DeviceProfile extends Tntity
     {
         $payload = array_merge($this->attributes, [
             'name' => $name ?? $this->forceAttribute('name'),
-            'type' => $type ?? 'DEFAULT',
-            'provisionType' => $provisionType ?? $this->forceAttribute('provisionType'),
-            'transportType' => $transportType ?? $this->forceAttribute('transportType'),
+            'type' => $type ?? $this->getAttribute('type') ?? 'DEFAULT',
+            'provisionType' => $provisionType ?? $this->getAttribute('provisionType') ?? 'DISABLED',
+            'transportType' => $transportType ?? $this->getAttribute('transportType') ?? 'DEFAULT',
         ]);
 
         if (is_null($this->get('profileData.configuration.type'))) {
