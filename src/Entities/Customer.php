@@ -88,16 +88,17 @@ class Customer extends Tntity
      * The newly created Customer Id will be present in the response. Specify existing Customer Id to update the Customer.
      * Referencing non-existing Customer Id will cause 'Not Found' error.Remove 'id', 'tenantId' from the request body example (below) to create new Customer entity.
      *
+     * @param  string|null  $title
      * @return Customer
      *
      * @author Sabiee
      *
      * @group  TENANT_ADMIN
      */
-    public function saveCustomer(): static
+    public function saveCustomer(string $title = null): static
     {
         $payload = array_merge($this->attributes, [
-            'title' => $this->forceAttribute('title'),
+            'title' => $title ?? $this->forceAttribute('title'),
         ]);
 
         $customer = $this->api()->post('customer', $payload)->json();
