@@ -209,7 +209,7 @@ class WidgetType extends Tntity
 
 //    public function saveWidgetType(string $name = null, string $bundleAlias = null, Descriptor $descriptor = null): static
 //    {
-//        $payload = array_merge($this->getArrayableAttributes(), [
+//        $payload = array_merge($this->attributesToArray(), [
 //            'name' => $name ?? $this->forceAttribute('name'),
 //            'bundleAlias' => $bundleAlias ?? $this->forceAttribute('bundleAlias'),
 //            'descriptor' => ($descriptor ?? $this->forceAttribute('descriptor'))->toArray(),

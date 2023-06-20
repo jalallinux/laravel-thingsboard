@@ -160,7 +160,7 @@ class Alarm extends Tntity
      */
     public function saveAlarm(string $type = null, Id $originator = null, EnumAlarmSeverityList $severity = null): static
     {
-        $payload = array_merge($this->getArrayableAttributes(), [
+        $payload = array_merge($this->attributesToArray(), [
             'type' => $type ?? $this->forceAttribute('type'),
             'originator' => $originator ?? $this->forceAttribute('originator')->toArray(),
             'severity' => $severity->value ?? $this->forceAttribute('severity')->value,

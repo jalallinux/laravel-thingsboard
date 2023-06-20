@@ -119,7 +119,7 @@ class AssetProfile extends Tntity
      */
     public function saveAssetProfile(string $name = null): static
     {
-        $payload = array_merge($this->getArrayableAttributes(), [
+        $payload = array_merge($this->attributesToArray(), [
             'name' => $name ?? $this->forceAttribute('name'),
         ]);
 

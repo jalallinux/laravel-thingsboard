@@ -60,11 +60,13 @@ abstract class Tntity extends Model
 
     public function getCastAttributes(): array
     {
-        foreach ($this->attributes as $k => $v) {
-            $this->attributes[$k] = $this->hasCast($k) ? $this->castAttribute($k, $v) : $v;
+        $attributes = $this->attributes;
+
+        foreach ($attributes as $k => $v) {
+            $attributes[$k] = $this->hasCast($k) ? $this->castAttribute($k, $v) : $v;
         }
 
-        return $this->attributes;
+        return $attributes;
     }
 
     public function toResource(string $class): JsonResource

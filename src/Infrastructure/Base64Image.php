@@ -2,9 +2,10 @@
 
 namespace JalalLinuX\Thingsboard\Infrastructure;
 
+use Stringable;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
-class Base64Image
+class Base64Image implements Stringable
 {
     private string $base64string;
 

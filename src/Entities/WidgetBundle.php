@@ -167,7 +167,7 @@ class WidgetBundle extends Tntity
      */
     public function saveWidgetsBundle(string $title = null): static
     {
-        $payload = array_merge($this->getArrayableAttributes(), [
+        $payload = array_merge($this->attributesToArray(), [
             'title' => $title ?? $this->forceAttribute('title'),
         ]);
 

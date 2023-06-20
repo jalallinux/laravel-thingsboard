@@ -6,9 +6,9 @@ class QueueConfiguration
 {
     private array $queues = [];
 
-    public function __construct(array $queueConfigurations = [])
+    public function __construct(array $queueConfigurations = null)
     {
-        foreach ($queueConfigurations as $queueConfiguration) {
+        foreach ($queueConfigurations ?? [] as $queueConfiguration) {
             $this->add(new Queue($queueConfiguration));
         }
     }
