@@ -91,7 +91,7 @@ class RuleChain extends Tntity
      */
     public function saveRuleChain(string $name = null): static
     {
-        $payload = array_merge($this->attributesToArray(), [
+        $payload = array_merge($this->getArrayableAttributes(), [
             'name' => $name ?? $this->forceAttribute('name'),
         ]);
 

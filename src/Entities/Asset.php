@@ -78,7 +78,7 @@ class Asset extends Tntity
     {
         $assetProfileId = $assetProfileId ?? $this->forceAttribute('assetProfileId')->id;
 
-        $payload = array_merge($this->attributesToArray(), [
+        $payload = array_merge($this->getArrayableAttributes(), [
             'name' => $this->forceAttribute('name'),
             'assetProfileId' => new Id($assetProfileId, EnumEntityType::ASSET_PROFILE()),
         ]);

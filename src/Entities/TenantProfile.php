@@ -104,7 +104,7 @@ class TenantProfile extends Tntity
      */
     public function saveTenantProfile(string $name = null): TenantProfile
     {
-        $payload = array_merge($this->attributesToArray(), [
+        $payload = array_merge($this->getArrayableAttributes(), [
             'name' => $name ?? $this->forceAttribute('name'),
         ]);
 

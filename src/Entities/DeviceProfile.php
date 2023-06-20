@@ -162,7 +162,7 @@ class DeviceProfile extends Tntity
      */
     public function saveDeviceProfile(string $name = null, string $type = null, string $provisionType = null, string $transportType = null): static
     {
-        $payload = array_merge($this->attributesToArray(), [
+        $payload = array_merge($this->getArrayableAttributes(), [
             'name' => $name ?? $this->forceAttribute('name'),
             'type' => $type ?? $this->getAttribute('type') ?? 'DEFAULT',
             'provisionType' => $provisionType ?? $this->getAttribute('provisionType') ?? 'DISABLED',

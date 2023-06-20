@@ -150,7 +150,7 @@ class User extends Tntity
      */
     public function saveUser(bool $sendActivationMail = false): static
     {
-        $payload = array_merge($this->attributesToArray(), [
+        $payload = array_merge($this->getArrayableAttributes(), [
             'email' => $this->forceAttribute('email'),
             'authority' => $this->forceAttribute('authority'),
         ]);

@@ -177,7 +177,7 @@ class Tenant extends Tntity
     {
         $tenantProfileId = $tenantProfileId ?? $this->tenantProfileId->id ?? TenantProfile::instance()->withUser($this->_thingsboardUser)->getDefaultTenantProfileInfo()->id->id;
 
-        $payload = array_merge($this->attributesToArray(), [
+        $payload = array_merge($this->getArrayableAttributes(), [
             'title' => $title ?? $this->forceAttribute('title'),
             'tenantProfileId' => new Id($tenantProfileId, EnumEntityType::TENANT_PROFILE()),
         ]);
