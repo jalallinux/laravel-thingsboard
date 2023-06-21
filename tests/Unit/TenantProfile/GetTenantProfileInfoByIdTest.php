@@ -28,13 +28,13 @@ class GetTenantProfileInfoByIdTest extends TestCase
         $this->assertInstanceOf(TenantProfile::class, $tenantProfile);
     }
 
-   public function testInvalidUuid()
-   {
-       $adminUser = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
-       $this->expectException(Exception::class);
-       $this->expectExceptionCode(500);
-       thingsboard($adminUser)->tenantProfile()->getTenantProfileInfoById(substr_replace($this->faker->uuid, 'z', -1));
-   }
+    public function testInvalidUuid()
+    {
+        $adminUser = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
+        $this->expectException(Exception::class);
+        $this->expectExceptionCode(500);
+        thingsboard($adminUser)->tenantProfile()->getTenantProfileInfoById(substr_replace($this->faker->uuid, 'z', -1));
+    }
 
     public function testNonExistUuid()
     {
