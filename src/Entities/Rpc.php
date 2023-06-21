@@ -148,21 +148,17 @@ class Rpc extends Tntity
      * In case of persistent RPC, the result of this call is 'rpcId' UUID. In case of lightweight RPC, the result of this call is either 200 OK if the message was sent to device, or 504 Gateway Timeout if device is offline.
      * Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.
      *
-     * @param  string  $method
-     * @param  array  $params
-     * @param  string|null  $deviceId
+     * @param string $deviceId
+     * @param string $method
+     * @param array $params
      * @return bool
-     *
-     * @throws \Throwable
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function sendTwoWay(string $method, array $params, string $deviceId = null): bool
+    public function sendTwoWay(string $deviceId, string $method, array $params): bool
     {
-        $deviceId = $deviceId ?? $this->forceAttribute('deviceId');
-
         Thingsboard::validation(! Str::isUuid($deviceId), 'uuid', ['attribute' => 'deviceId']);
 
         $payload = $this->fill(['method' => $method, 'params' => $params])->toArray();
