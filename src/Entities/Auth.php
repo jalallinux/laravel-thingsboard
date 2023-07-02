@@ -3,9 +3,9 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
-use JalalLinuX\Thingsboard\Infrastructure\CacheHandler;
 use JalalLinuX\Thingsboard\Infrastructure\PasswordPolicy;
 use JalalLinuX\Thingsboard\Infrastructure\Token;
+use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 class Auth extends Tntity
@@ -19,23 +19,29 @@ class Auth extends Tntity
      * Login method used to authenticate user and get JWT token data.
      * Value of the response token field can be used as X-Authorization header value
      *
-     * @param  string  $mail
-     * @param  string  $password
+     * @param  string|null  $mail
+     * @param  string|null  $password
      * @return Token
      *
      * @author JalalLinuX
      *
-     * @group *
+     * @group
      */
-    public function login(string $mail, string $password): Token
+    public function login(string $mail = null, string $password = null): Token
     {
-        $tokens = $this->api(false)->post('auth/login', [
-            'username' => $mail, 'password' => $password,
+        Thingsboard::exception((is_null($mail) || is_null($password)) && ! isset($this->_thingsboardUser), 'invalid_credentials');
+        [$mail, $password] = [
+            $mail ?? @$this->_thingsboardUser->getThingsboardEmailAttribute(),
+            $password ?? @$this->_thingsboardUser->getThingsboardPasswordAttribute(),
+        ];
+        $response = $this->api(false)->post('auth/login', [
+            'username' => $mail,
+            'password' => $password,
         ]);
 
-        CacheHandler::updateToken($mail, $tokens->json('token'));
+        Token::update($mail, $response->json('token'), $response->json('refreshToken'));
 
-        return new Token($tokens);
+        return new Token($response->json('token'), $response->json('refreshToken'));
     }
 
     /**
@@ -73,7 +79,7 @@ class Auth extends Tntity
         ])->successful();
 
         if ($changed) {
-            CacheHandler::forgetToken($this->_thingsboardUser->getThingsboardEmailAttribute());
+            Token::forget($this->_thingsboardUser->getThingsboardEmailAttribute());
         }
 
         return $changed;
@@ -111,11 +117,11 @@ class Auth extends Tntity
      */
     public function activateUser(string $activateToken, string $password, bool $sendActivationMail = false): Token
     {
-        return new Token(
-            $this->api(false)->post('noauth/activate?sendActivationMail='.($sendActivationMail ? 'true' : 'false'), [
-                'activateToken' => $activateToken,
-                'password' => $password,
-            ])
-        );
+        $response = $this->api(false)->post('noauth/activate?sendActivationMail='.($sendActivationMail ? 'true' : 'false'), [
+            'activateToken' => $activateToken,
+            'password' => $password,
+        ]);
+
+        return new Token($response->json('token'), $response->json('refreshToken'));
     }
 }

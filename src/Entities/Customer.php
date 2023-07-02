@@ -2,13 +2,14 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumCustomerSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
-use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Infrastructure\Token;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
@@ -66,13 +67,13 @@ class Customer extends Tntity
      * See the 'Model' tab of the Response Class for more details.
      *
      * @param  PaginationArguments  $paginationArguments
-     * @return PaginatedResponse
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN
      */
-    public function getCustomers(PaginationArguments $paginationArguments): PaginatedResponse
+    public function getCustomers(PaginationArguments $paginationArguments): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumCustomerSortProperty::class);
 
@@ -87,16 +88,17 @@ class Customer extends Tntity
      * The newly created Customer Id will be present in the response. Specify existing Customer Id to update the Customer.
      * Referencing non-existing Customer Id will cause 'Not Found' error.Remove 'id', 'tenantId' from the request body example (below) to create new Customer entity.
      *
+     * @param  string|null  $title
      * @return Customer
      *
      * @author Sabiee
      *
      * @group  TENANT_ADMIN
      */
-    public function saveCustomer(): static
+    public function saveCustomer(string $title = null): static
     {
-        $payload = array_merge($this->attributes, [
-            'title' => $this->forceAttribute('title'),
+        $payload = array_merge($this->attributesToArray(), [
+            'title' => $title ?? $this->forceAttribute('title'),
         ]);
 
         $customer = $this->api()->post('customer', $payload)->json();
@@ -147,5 +149,26 @@ class Customer extends Tntity
         Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'customerId']);
 
         return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("customer/{$id}")->successful();
+    }
+
+    /**
+     * Fetch token with publicId of customer.
+     *
+     * @param  string|null  $id
+     * @return Token
+     *
+     * @author JalalLinuX
+     *
+     * @group GUEST
+     */
+    public function loginPublic(string $id = null): Token
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'customerId']);
+
+        $response = $this->api(false)->post('auth/login/public', ['publicId' => $id]);
+
+        return new Token($response->json('token'), $response->json('refreshToken'));
     }
 }

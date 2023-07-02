@@ -131,7 +131,9 @@ class Event extends Tntity
 
         if (! is_null($startTime)) {
             $endTime = @$endTime ?? now();
-            Thingsboard::exception($startTime->getTimestamp() > $endTime->getTimestamp(), 'start_bigger_then_end');
+            Thingsboard::validation($startTime->getTimestamp() > $endTime->getTimestamp(), 'before', [
+                'attribute' => 'start time', 'date' => 'end time',
+            ]);
             $queryParams = array_merge($queryParams, [
                 'startTime' => $startTime->getTimestamp() * 1000,
                 'endTime' => $endTime->getTimestamp() * 1000,
@@ -165,9 +167,9 @@ class Event extends Tntity
 
         if (! is_null($startTime)) {
             $endTime = @$endTime ?? now();
-
-            Thingsboard::exception($startTime->getTimestamp() > $endTime->getTimestamp(), 'start_bigger_then_end');
-
+            Thingsboard::validation($startTime->getTimestamp() > $endTime->getTimestamp(), 'before', [
+                'attribute' => 'start time', 'date' => 'end time',
+            ]);
             $queryParams = array_merge($queryParams, [
                 'startTime' => $startTime->getTimestamp() * 1000,
                 'endTime' => $endTime->getTimestamp() * 1000,
@@ -196,7 +198,9 @@ class Event extends Tntity
 
         if (! is_null($startTime)) {
             $endTime = @$endTime ?? now();
-            Thingsboard::exception($startTime->getTimestamp() > $endTime->getTimestamp(), 'start_bigger_then_end');
+            Thingsboard::validation($startTime->getTimestamp() > $endTime->getTimestamp(), 'before', [
+                'attribute' => 'start time', 'date' => 'end time',
+            ]);
             $queryParams = [
                 'startTime' => $startTime->getTimestamp() * 1000,
                 'endTime' => $endTime->getTimestamp() * 1000,

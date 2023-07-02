@@ -14,7 +14,7 @@ class GetEventsByTypeTest extends TestCase
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $sortProperty = $this->faker->randomElement(EnumEventSortProperty::cases());
-        $device = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->first();
+        $device = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->collect()->first();
 
         $events = thingsboard($tenantUser)->event([
             'body' => [
@@ -27,19 +27,19 @@ class GetEventsByTypeTest extends TestCase
         $this->assertArrayHasKey('data', $events);
     }
 
-     public function testInvalidUuid()
-     {
-         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-         $sortProperty = $this->faker->randomElement(EnumEventSortProperty::cases());
-         $device = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->first();
+    public function testInvalidUuid()
+    {
+        $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
+        $sortProperty = $this->faker->randomElement(EnumEventSortProperty::cases());
+        $device = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->collect()->first();
 
-         $this->expectExceptionCode(500);
-         $this->expectExceptionMessageMatches('/tenantId/');
-         thingsboard($tenantUser)->event([
-             'body' => [
-                 'notEmpty' => false,
-                 'eventType' => 'STATS',
-             ],
-         ])->getEventsByType(PaginationArguments::make(sortProperty: $sortProperty), $device->id, EnumEventType::LC_EVENT(), substr_replace($this->faker->uuid, 'z', -1));
-     }
+        $this->expectExceptionCode(500);
+        $this->expectExceptionMessageMatches('/tenantId/');
+        thingsboard($tenantUser)->event([
+            'body' => [
+                'notEmpty' => false,
+                'eventType' => 'STATS',
+            ],
+        ])->getEventsByType(PaginationArguments::make(sortProperty: $sortProperty), $device->id, EnumEventType::LC_EVENT(), substr_replace($this->faker->uuid, 'z', -1));
+    }
 }

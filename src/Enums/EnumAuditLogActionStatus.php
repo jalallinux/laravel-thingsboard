@@ -2,13 +2,11 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self SUCCESS()
  * @method static self FAILURE()
  */
-class EnumAuditLogActionStatus extends Enum
+class EnumAuditLogActionStatus extends BaseEnum
 {
     protected static function values(): array
     {

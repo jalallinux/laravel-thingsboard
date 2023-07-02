@@ -2,13 +2,13 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumRuleChainScriptLang;
 use JalalLinuX\Thingsboard\Enums\EnumRuleChainSortProperty;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
-use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Infrastructure\RuleChain\ImportStructure;
 use JalalLinuX\Thingsboard\Thingsboard;
@@ -91,7 +91,7 @@ class RuleChain extends Tntity
      */
     public function saveRuleChain(string $name = null): static
     {
-        $payload = array_merge($this->attributes, [
+        $payload = array_merge($this->attributesToArray(), [
             'name' => $name ?? $this->forceAttribute('name'),
         ]);
 
@@ -128,13 +128,13 @@ class RuleChain extends Tntity
      *
      * @param  PaginationArguments  $paginationArguments
      * @param  string|null  $type
-     * @return PaginatedResponse
+     * @return LengthAwarePaginator
      *
      * @author  Sabiee
      *
      * @group TENANT_ADMIN
      */
-    public function getRuleChains(PaginationArguments $paginationArguments, string $type = null): PaginatedResponse
+    public function getRuleChains(PaginationArguments $paginationArguments, string $type = null): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumRuleChainSortProperty::class);
 
@@ -285,7 +285,7 @@ class RuleChain extends Tntity
      * Exports all tenant rule chains as one JSON.
      *
      * @param  int  $limit
-     * @return array
+     * @return self[]
      *
      * @author  Sabiee
      *
@@ -295,7 +295,7 @@ class RuleChain extends Tntity
     {
         $ruleChains = $this->api()->get('/ruleChains/export', ['limit' => $limit])->json();
 
-        return array_map(fn ($ruleChain) => new RuleChain($ruleChain), $ruleChains);
+        return array_map(fn ($ruleChain) => new self($ruleChain), $ruleChains);
     }
 
     /**
@@ -311,8 +311,7 @@ class RuleChain extends Tntity
      */
     public function importRuleChains(ImportStructure $importStructure, bool $overwrite = null): array
     {
-        return $this->api()
-            ->post('ruleChains/import'.(! is_null($overwrite) ? "?overwrite={$overwrite}" : ''), $importStructure->toArray())->json();
+        return $this->api()->post('ruleChains/import'.(! is_null($overwrite) ? "?overwrite={$overwrite}" : ''), $importStructure->toArray())->json();
     }
 
     /**

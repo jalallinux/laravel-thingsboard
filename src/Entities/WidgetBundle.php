@@ -2,6 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastBase64Image;
 use JalalLinuX\Thingsboard\Casts\CastId;
@@ -9,7 +10,6 @@ use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumWidgetBundleSortProperty;
 use JalalLinuX\Thingsboard\Infrastructure\Base64Image;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
-use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
@@ -64,13 +64,13 @@ class WidgetBundle extends Tntity
      * See the 'Model' tab of the Response Class for more details.
      *
      * @param  PaginationArguments  $paginationArguments
-     * @return PaginatedResponse
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
-     * @group *
+     * @group
      */
-    public function getWidgetsBundles(PaginationArguments $paginationArguments): PaginatedResponse
+    public function getWidgetsBundles(PaginationArguments $paginationArguments): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumWidgetBundleSortProperty::class);
         $response = $this->api()->get('widgetsBundles', $paginationArguments->queryParams());
@@ -167,7 +167,7 @@ class WidgetBundle extends Tntity
      */
     public function saveWidgetsBundle(string $title = null): static
     {
-        $payload = array_merge($this->attributes, [
+        $payload = array_merge($this->attributesToArray(), [
             'title' => $title ?? $this->forceAttribute('title'),
         ]);
 

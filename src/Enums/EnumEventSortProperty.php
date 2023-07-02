@@ -2,13 +2,11 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self ID()
  * @method static self TS()
  */
-class EnumEventSortProperty extends Enum
+class EnumEventSortProperty extends BaseEnum
 {
     protected static function values(): array
     {

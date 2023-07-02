@@ -2,14 +2,12 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self SERVER_SCOPE()
  * @method static self SHARED_SCOPE()
  * @method static self CLIENT_SCOPE()
  */
-class EnumTelemetryScope extends Enum
+class EnumTelemetryScope extends BaseEnum
 {
     protected static function values(): array
     {

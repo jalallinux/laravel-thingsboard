@@ -15,7 +15,7 @@ class GetTenantAssetInfosTest extends TestCase
     public function testGetTenantAssetInfosSuccess()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $assetProfileId = thingsboard($tenantUser)->assetProfile()->getAssetProfiles(PaginationArguments::make(textSearch: 'default'))->data()->first()->id->id;
+        $assetProfileId = thingsboard($tenantUser)->assetProfile()->getAssetProfiles(PaginationArguments::make(textSearch: 'default'))->collect()->first()->id->id;
         $attributes = [
             'name' => $this->faker->sentence(3),
             'assetProfileId' => new Id($assetProfileId, EnumEntityType::ASSET_PROFILE()),
@@ -26,7 +26,7 @@ class GetTenantAssetInfosTest extends TestCase
             PaginationArguments::make(sortProperty: $sortProperty), assetProfileId: $assetProfileId
         );
 
-        $assets->data()->each(fn ($asset) => $this->assertInstanceOf(Asset::class, $asset));
+        $assets->collect()->each(fn ($asset) => $this->assertInstanceOf(Asset::class, $asset));
         $result = $newAsset->deleteAsset();
         $this->assertTrue($result);
 
@@ -40,9 +40,9 @@ class GetTenantAssetInfosTest extends TestCase
 
         $assets = thingsboard($tenantUser)->asset()->getTenantAssetInfos($pagination);
 
-        $this->assertEquals($pagination->page, $assets->paginator()->currentPage());
-        $this->assertEquals($pagination->pageSize, $assets->paginator()->perPage());
-        $this->assertEquals($pagination->sortOrder, $assets->paginator()->getOptions()['sortOrder']);
-        $this->assertEquals($pagination->sortProperty, $assets->paginator()->getOptions()['sortProperty']);
+        $this->assertEquals($pagination->page, $assets->currentPage());
+        $this->assertEquals($pagination->pageSize, $assets->perPage());
+        $this->assertEquals($pagination->sortOrder, $assets->getOptions()['sortOrder']);
+        $this->assertEquals($pagination->sortProperty, $assets->getOptions()['sortProperty']);
     }
 }

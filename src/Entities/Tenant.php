@@ -2,12 +2,12 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumTenantSortProperty;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
-use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
@@ -71,13 +71,13 @@ class Tenant extends Tntity
      * See the 'Model' tab of the Response Class for more details.
      *
      * @param  PaginationArguments  $paginationArguments
-     * @return PaginatedResponse
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group SYS_ADMIN
      */
-    public function getTenants(PaginationArguments $paginationArguments): PaginatedResponse
+    public function getTenants(PaginationArguments $paginationArguments): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumTenantSortProperty::class, [EnumTenantSortProperty::TENANT_PROFILE_NAME()]);
 
@@ -94,13 +94,13 @@ class Tenant extends Tntity
      * See the 'Model' tab of the Response Class for more details.
      *
      * @param  PaginationArguments  $paginationArguments
-     * @return PaginatedResponse
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group SYS_ADMIN
      */
-    public function getTenantInfos(PaginationArguments $paginationArguments): PaginatedResponse
+    public function getTenantInfos(PaginationArguments $paginationArguments): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumTenantSortProperty::class);
 
@@ -173,12 +173,12 @@ class Tenant extends Tntity
      *
      * @group SYS_ADMIN
      */
-    public function saveTenant(string $accessToken = null, string $tenantProfileId = null): static
+    public function saveTenant(string $title = null, string $tenantProfileId = null): static
     {
         $tenantProfileId = $tenantProfileId ?? $this->tenantProfileId->id ?? TenantProfile::instance()->withUser($this->_thingsboardUser)->getDefaultTenantProfileInfo()->id->id;
 
-        $payload = array_merge($this->attributes, [
-            'title' => $this->forceAttribute('title'),
+        $payload = array_merge($this->attributesToArray(), [
+            'title' => $title ?? $this->forceAttribute('title'),
             'tenantProfileId' => new Id($tenantProfileId, EnumEntityType::TENANT_PROFILE()),
         ]);
 

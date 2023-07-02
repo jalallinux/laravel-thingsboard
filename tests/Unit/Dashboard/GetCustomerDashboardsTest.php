@@ -13,8 +13,8 @@ class GetCustomerDashboardsTest extends TestCase
     public function testStructure()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->random()->id->id;
-        $dashboardId = thingsboard($tenantUser)->dashboard()->getDashboards(PaginationArguments::make())->data()->random()->id->id;
+        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->collect()->random()->id->id;
+        $dashboardId = thingsboard($tenantUser)->dashboard()->getDashboards(PaginationArguments::make())->collect()->random()->id->id;
 
         thingsboard($tenantUser)->dashboard()->assignDashboardToCustomer($customerId, $dashboardId);
 
@@ -22,7 +22,7 @@ class GetCustomerDashboardsTest extends TestCase
             $customerId, PaginationArguments::make()
         );
 
-        $dashboards->data()->each(function ($dashboard) {
+        $dashboards->collect()->each(function ($dashboard) {
             $this->assertInstanceOf(Dashboard::class, $dashboard);
         });
 
@@ -33,16 +33,16 @@ class GetCustomerDashboardsTest extends TestCase
     {
         $pagination = $this->randomPagination(EnumDashboardSortProperty::class);
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->random()->id->id;
-        $dashboardId = thingsboard($tenantUser)->dashboard()->getDashboards(PaginationArguments::make())->data()->random()->id->id;
+        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->collect()->random()->id->id;
+        $dashboardId = thingsboard($tenantUser)->dashboard()->getDashboards(PaginationArguments::make())->collect()->random()->id->id;
 
         thingsboard($tenantUser)->dashboard()->assignDashboardToCustomer($customerId, $dashboardId);
         $dashboards = thingsboard()->dashboard()->withUser($tenantUser)->getCustomerDashboards($customerId, $pagination);
 
-        $this->assertEquals($pagination->page, $dashboards->paginator()->currentPage());
-        $this->assertEquals($pagination->pageSize, $dashboards->paginator()->perPage());
-        $this->assertEquals($pagination->sortOrder, $dashboards->paginator()->getOptions()['sortOrder']);
-        $this->assertEquals($pagination->sortProperty, $dashboards->paginator()->getOptions()['sortProperty']);
+        $this->assertEquals($pagination->page, $dashboards->currentPage());
+        $this->assertEquals($pagination->pageSize, $dashboards->perPage());
+        $this->assertEquals($pagination->sortOrder, $dashboards->getOptions()['sortOrder']);
+        $this->assertEquals($pagination->sortProperty, $dashboards->getOptions()['sortProperty']);
 
         thingsboard($tenantUser)->dashboard()->unassignDashboardFromCustomer($customerId, $dashboardId);
     }

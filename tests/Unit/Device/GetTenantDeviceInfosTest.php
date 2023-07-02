@@ -18,8 +18,8 @@ class GetTenantDeviceInfosTest extends TestCase
             PaginationArguments::make(textSearch: 'Raspberry')
         );
 
-        $devices->data()->each(fn ($device) => $this->assertInstanceOf(Device::class, $device));
-        self::assertStringContainsString('Raspberry', $devices->data()->first()->name);
+        $devices->collect()->each(fn ($device) => $this->assertInstanceOf(Device::class, $device));
+        self::assertStringContainsString('Raspberry', $devices->collect()->first()->name);
     }
 
     public function testPaginationData()
@@ -29,9 +29,9 @@ class GetTenantDeviceInfosTest extends TestCase
 
         $devices = thingsboard()->device()->withUser($user)->getTenantDeviceInfos($pagination);
 
-        $this->assertEquals($pagination->page, $devices->paginator()->currentPage());
-        $this->assertEquals($pagination->pageSize, $devices->paginator()->perPage());
-        $this->assertEquals($pagination->sortOrder, $devices->paginator()->getOptions()['sortOrder']);
-        $this->assertEquals($pagination->sortProperty, $devices->paginator()->getOptions()['sortProperty']);
+        $this->assertEquals($pagination->page, $devices->currentPage());
+        $this->assertEquals($pagination->pageSize, $devices->perPage());
+        $this->assertEquals($pagination->sortOrder, $devices->getOptions()['sortOrder']);
+        $this->assertEquals($pagination->sortProperty, $devices->getOptions()['sortProperty']);
     }
 }

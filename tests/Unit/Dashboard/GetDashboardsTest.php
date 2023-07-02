@@ -18,8 +18,8 @@ class GetDashboardsTest extends TestCase
             PaginationArguments::make(textSearch: 'Thermostats')
         );
 
-        $dashboards->data()->each(fn ($dashboard) => $this->assertInstanceOf(Dashboard::class, $dashboard));
-        self::assertStringContainsString('Thermostats', $dashboards->data()->first()->name);
+        $dashboards->collect()->each(fn ($dashboard) => $this->assertInstanceOf(Dashboard::class, $dashboard));
+        self::assertStringContainsString('Thermostats', $dashboards->collect()->first()->name);
     }
 
     public function testPaginationData()
@@ -29,9 +29,9 @@ class GetDashboardsTest extends TestCase
 
         $dashboards = thingsboard()->dashboard()->withUser($user)->getDashboards($pagination);
 
-        $this->assertEquals($pagination->page, $dashboards->paginator()->currentPage());
-        $this->assertEquals($pagination->pageSize, $dashboards->paginator()->perPage());
-        $this->assertEquals($pagination->sortOrder, $dashboards->paginator()->getOptions()['sortOrder']);
-        $this->assertEquals($pagination->sortProperty, $dashboards->paginator()->getOptions()['sortProperty']);
+        $this->assertEquals($pagination->page, $dashboards->currentPage());
+        $this->assertEquals($pagination->pageSize, $dashboards->perPage());
+        $this->assertEquals($pagination->sortOrder, $dashboards->getOptions()['sortOrder']);
+        $this->assertEquals($pagination->sortProperty, $dashboards->getOptions()['sortProperty']);
     }
 }

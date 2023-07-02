@@ -2,8 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self CRITICAL()
  * @method static self INDETERMINATE()
@@ -11,7 +9,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self MINOR()
  * @method static self WARNING()
  */
-class EnumAlarmSeverityList extends Enum
+class EnumAlarmSeverityList extends BaseEnum
 {
     protected static function values(): array
     {

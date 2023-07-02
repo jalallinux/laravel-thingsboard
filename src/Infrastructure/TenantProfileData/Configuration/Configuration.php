@@ -102,11 +102,6 @@ class Configuration
         }
     }
 
-    public static function make(): static
-    {
-        return new self;
-    }
-
     public function toArray(): array
     {
         return [

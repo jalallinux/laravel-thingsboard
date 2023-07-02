@@ -16,7 +16,7 @@ class GetDeviceInfoByIdTest extends TestCase
         $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $deviceId = thingsboard($user)->device()->getTenantDeviceInfos(
             PaginationArguments::make()
-        )->data()->first()->id->id;
+        )->collect()->first()->id->id;
 
         $device = thingsboard($user)->device()->getDeviceInfoById($deviceId);
         $this->assertEquals($deviceId, $device->id->id);

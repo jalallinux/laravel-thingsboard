@@ -68,7 +68,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
             public function getThingsboardAuthorityAttribute(): EnumAuthority
             {
-                return $this->user['role'];
+                return EnumAuthority::from($this->user['role']);
             }
         };
     }

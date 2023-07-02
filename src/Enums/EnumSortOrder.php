@@ -2,13 +2,11 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self ASC()
  * @method static self DESC()
  */
-class EnumSortOrder extends Enum
+class EnumSortOrder extends BaseEnum
 {
     protected static function values(): array
     {

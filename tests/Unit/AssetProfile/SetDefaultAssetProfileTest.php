@@ -19,7 +19,7 @@ class SetDefaultAssetProfileTest extends TestCase
 
         $assetProfileId = thingsboard($user)->assetProfile()->getAssetProfiles(
             PaginationArguments::make(sortProperty: EnumAssetProfileSortProperty::IS_DEFAULT(), sortOrder: EnumSortOrder::ASC())
-        )->data()->first()->id->id;
+        )->collect()->first()->id->id;
 
         $assetProfile = thingsboard($user)->assetProfile()->setDefaultAssetProfile($assetProfileId);
         $assetProfile = thingsboard($user)->assetProfile()->getAssetProfileById($assetProfile->id->id);

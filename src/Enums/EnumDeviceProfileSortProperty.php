@@ -2,8 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self TRANSPORT_TYPE()
  * @method static self CREATED_TIME()
@@ -12,7 +10,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self NAME()
  * @method static self TYPE()
  */
-class EnumDeviceProfileSortProperty extends Enum
+class EnumDeviceProfileSortProperty extends BaseEnum
 {
     protected static function values(): array
     {

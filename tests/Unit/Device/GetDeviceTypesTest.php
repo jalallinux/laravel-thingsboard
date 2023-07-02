@@ -13,7 +13,7 @@ class GetDeviceTypesTest extends TestCase
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $types = thingsboard($tenantUser)->device()->getDeviceTypes();
-        $deviceTypes = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->pluck('type')->unique()->values();
+        $deviceTypes = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->collect()->pluck('type')->unique()->values();
 
         $this->assertIsArray($types);
 

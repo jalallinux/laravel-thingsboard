@@ -13,7 +13,7 @@ class GetRuleChainMetadataByIdTest extends TestCase
     public function testExistUuid()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $rootRuleChainId = thingsboard($tenantUser)->ruleChain()->getRuleChains(PaginationArguments::make(textSearch: 'Root Rule Chain'))->data()->first()->id->id;
+        $rootRuleChainId = thingsboard($tenantUser)->ruleChain()->getRuleChains(PaginationArguments::make(textSearch: 'Root Rule Chain'))->collect()->first()->id->id;
         $rootRuleChain = thingsboard($tenantUser)->ruleChain()->getRuleChainMetadataById($rootRuleChainId);
 
         $this->assertInstanceOf(RuleChain::class, $rootRuleChain);

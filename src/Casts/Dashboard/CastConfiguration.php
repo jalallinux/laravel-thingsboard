@@ -2,8 +2,8 @@
 
 namespace JalalLinuX\Thingsboard\Casts\Dashboard;
 
+use JalalLinuX\Thingsboard\Infrastructure\CustomCastBase;
 use JalalLinuX\Thingsboard\Infrastructure\Dashboard\Configuration;
-use Vkovic\LaravelCustomCasts\CustomCastBase;
 
 class CastConfiguration extends CustomCastBase
 {

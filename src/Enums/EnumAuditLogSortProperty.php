@@ -2,8 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self CREATED_TIME()
  * @method static self ACTION_STATUS()
@@ -12,7 +10,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self ENTITY_TYPE()
  * @method static self USER_NAME()
  */
-class EnumAuditLogSortProperty extends Enum
+class EnumAuditLogSortProperty extends BaseEnum
 {
     protected static function values(): array
     {

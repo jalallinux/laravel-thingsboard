@@ -2,11 +2,10 @@
 
 namespace JalalLinuX\Thingsboard;
 
-use DateTimeInterface;
 use JalalLinuX\Thingsboard\Entities\Auth;
 use JalalLinuX\Thingsboard\Entities\Mqtt;
 use JalalLinuX\Thingsboard\Exceptions\Exception;
-use JalalLinuX\Thingsboard\Infrastructure\CacheHandler;
+use JalalLinuX\Thingsboard\Infrastructure\Token;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use PhpMqtt\Client\ConnectionSettings;
 
@@ -36,6 +35,7 @@ use PhpMqtt\Client\ConnectionSettings;
  * @method Entities\EntityQuery entityQuery(array $attributes = [])
  * @method Entities\EntityRelation entityRelation(array $attributes = [])
  * @method Entities\Alarm alarm(array $attributes = [])
+ * @method Entities\ComponentDescriptor componentDescriptor(array $attributes = [])
  */
 class Thingsboard
 {
@@ -62,31 +62,19 @@ class Thingsboard
         return new Mqtt($accessToken);
     }
 
-    public static function cache(string $key, $value = null, DateTimeInterface $ttl = null)
-    {
-        $key = config('thingsboard.cache.prefix').$key;
-        $cache = cache()->driver(config('thingsboard.cache.driver'));
-
-        if (is_null($value)) {
-            return $cache->get($key);
-        }
-
-        return $cache->put($key, $value, $ttl);
-    }
-
-    public static function fetchUserToken(ThingsboardUser $user, bool $flush = false)
+    public static function fetchUserToken(ThingsboardUser $user, bool $flush = false): Token
     {
         $mail = $user->getThingsboardEmailAttribute();
 
         if ($flush) {
-            return Auth::instance()->login($mail, $user->getThingsboardPasswordAttribute())->token;
+            return Auth::instance()->login($mail, $user->getThingsboardPasswordAttribute());
         }
 
-        if ($token = CacheHandler::get(CacheHandler::tokenCacheKey($mail))) {
+        if (! is_null($token = Token::retrieve($mail))) {
             return $token;
         }
 
-        return Auth::instance()->login($mail, $user->getThingsboardPasswordAttribute())->token;
+        return Auth::instance()->login($mail, $user->getThingsboardPasswordAttribute());
     }
 
     public static function validation(bool $condition, string $messageKey, array $replaces = []): void

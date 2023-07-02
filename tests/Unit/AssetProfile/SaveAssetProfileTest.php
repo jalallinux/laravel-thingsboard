@@ -40,7 +40,7 @@ class SaveAssetProfileTest extends TestCase
     public function testExistsName()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $assetProfileName = thingsboard($tenantUser)->assetProfile()->getAssetProfileInfos(PaginationArguments::make())->data()->first()->name;
+        $assetProfileName = thingsboard($tenantUser)->assetProfile()->getAssetProfileInfos(PaginationArguments::make())->collect()->first()->name;
         $attributes = [
             'name' => $assetProfileName,
         ];

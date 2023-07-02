@@ -2,13 +2,11 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self JS()
  * @method static self TBEL()
  */
-class EnumRuleChainScriptLang extends Enum
+class EnumRuleChainScriptLang extends BaseEnum
 {
     protected static function values(): array
     {

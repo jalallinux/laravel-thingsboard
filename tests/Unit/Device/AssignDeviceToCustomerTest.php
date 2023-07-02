@@ -12,8 +12,8 @@ class AssignDeviceToCustomerTest extends TestCase
     public function testCorrectCustomerId()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->first()->id->id;
-        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->first()->id->id;
+        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->collect()->first()->id->id;
+        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->collect()->first()->id->id;
 
         $device = thingsboard($tenantUser)->device()->assignDeviceToCustomer($customerId, $deviceId);
         $this->assertInstanceOf(Device::class, $device);
@@ -26,7 +26,7 @@ class AssignDeviceToCustomerTest extends TestCase
     {
         $uuid = $this->faker->uuid;
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->first()->id->id;
+        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->collect()->first()->id->id;
 
         $this->expectExceptionCode(404);
         $this->expectExceptionMessageMatches("/{$uuid}/");

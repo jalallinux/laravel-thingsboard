@@ -12,7 +12,7 @@ class GetActivationLinkTest extends TestCase
     public function testCorrectUuid()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->first()->id;
+        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->collect()->first()->id;
         $attributes = [
             'customerId' => $customerId,
             'email' => $this->faker->unique()->safeEmail,
@@ -24,8 +24,9 @@ class GetActivationLinkTest extends TestCase
         ];
 
         $newUser = thingsboard($tenantUser)->user($attributes)->saveUser();
+        $this->assertInstanceOf(EnumAuthority::class, $newUser->authority);
         $activationLink = thingsboard($tenantUser)->user()->getActivationLink($newUser->id->id);
-        self::assertTrue(Http::get($activationLink)->successful());
+        $this->assertTrue(Http::get($activationLink)->successful());
         $newUser->deleteUser();
     }
 

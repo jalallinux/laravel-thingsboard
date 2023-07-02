@@ -2,8 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self DEBUG_RULE_CHAIN()
  * @method static self DEBUG_RULE_NODE()
@@ -11,7 +9,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self LC_EVENT()
  * @method static self STATS()
  */
-class EnumEventType extends Enum
+class EnumEventType extends BaseEnum
 {
     protected static function values(): array
     {

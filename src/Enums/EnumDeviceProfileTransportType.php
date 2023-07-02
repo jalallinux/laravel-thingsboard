@@ -2,8 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self COAP()
  * @method static self DEFAULT()
@@ -11,7 +9,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self MQTT()
  * @method static self SNMP()
  */
-class EnumDeviceProfileTransportType extends Enum
+class EnumDeviceProfileTransportType extends BaseEnum
 {
     protected static function values(): array
     {

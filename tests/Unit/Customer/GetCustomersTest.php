@@ -18,9 +18,9 @@ class GetCustomersTest extends TestCase
             PaginationArguments::make(textSearch: "Customer {$customerLetter}")
         );
 
-        $customers->data()->each(fn ($customer) => $this->assertInstanceOf(Customer::class, $customer));
-        $this->assertEquals("Customer {$customerLetter}", $customers->data()->first()->title);
-        $this->assertEquals("Customer {$customerLetter}", $customers->data()->first()->name);
+        $customers->collect()->each(fn ($customer) => $this->assertInstanceOf(Customer::class, $customer));
+        $this->assertEquals("Customer {$customerLetter}", $customers->collect()->first()->title);
+        $this->assertEquals("Customer {$customerLetter}", $customers->collect()->first()->name);
     }
 
     public function testPaginationData()
@@ -30,9 +30,9 @@ class GetCustomersTest extends TestCase
 
         $customers = thingsboard($user)->customer()->getCustomers($pagination);
 
-        $this->assertEquals($pagination->page, $customers->paginator()->currentPage());
-        $this->assertEquals($pagination->pageSize, $customers->paginator()->perPage());
-        $this->assertEquals($pagination->sortOrder, $customers->paginator()->getOptions()['sortOrder']);
-        $this->assertEquals($pagination->sortProperty, $customers->paginator()->getOptions()['sortProperty']);
+        $this->assertEquals($pagination->page, $customers->currentPage());
+        $this->assertEquals($pagination->pageSize, $customers->perPage());
+        $this->assertEquals($pagination->sortOrder, $customers->getOptions()['sortOrder']);
+        $this->assertEquals($pagination->sortProperty, $customers->getOptions()['sortProperty']);
     }
 }

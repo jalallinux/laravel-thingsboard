@@ -19,13 +19,13 @@ class GetCustomerUsersTest extends TestCase
 
         $customerId = thingsboard()->customer()->withUser($user)->getCustomers(
             PaginationArguments::make(textSearch: "Customer {$customerLetter}")
-        )->data()->first()->id->id;
+        )->collect()->first()->id->id;
         $customerUsers = thingsboard()->user()->withUser($user)->getCustomerUsers(
             PaginationArguments::make(textSearch: "customer{$customerLetter}"), $customerId
         );
 
-        $customerUsers->data()->each(fn ($device) => $this->assertInstanceOf(User::class, $device));
-        self::assertStringContainsString($customerLetter, $customerUsers->data()->first()->name);
+        $customerUsers->collect()->each(fn ($device) => $this->assertInstanceOf(User::class, $device));
+        self::assertStringContainsString($customerLetter, $customerUsers->collect()->first()->name);
     }
 
     public function testPaginationData()
@@ -34,13 +34,13 @@ class GetCustomerUsersTest extends TestCase
         $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $customerId = thingsboard()->customer()->withUser($user)->getCustomers(
             PaginationArguments::make()
-        )->data()->first()->id->id;
+        )->collect()->first()->id->id;
 
         $devices = thingsboard()->user(['customerId' => new Id($customerId, EnumEntityType::CUSTOMER())])->withUser($user)->getCustomerUsers($pagination);
 
-        $this->assertEquals($pagination->page, $devices->paginator()->currentPage());
-        $this->assertEquals($pagination->pageSize, $devices->paginator()->perPage());
-        $this->assertEquals($pagination->sortOrder, $devices->paginator()->getOptions()['sortOrder']);
-        $this->assertEquals($pagination->sortProperty, $devices->paginator()->getOptions()['sortProperty']);
+        $this->assertEquals($pagination->page, $devices->currentPage());
+        $this->assertEquals($pagination->pageSize, $devices->perPage());
+        $this->assertEquals($pagination->sortOrder, $devices->getOptions()['sortOrder']);
+        $this->assertEquals($pagination->sortProperty, $devices->getOptions()['sortProperty']);
     }
 }

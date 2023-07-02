@@ -2,8 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self CREATED_TIME()
  * @method static self CUSTOMER_TITLE()
@@ -11,7 +9,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self LABEL()
  * @method static self NAME()
  */
-class EnumDeviceSortProperty extends Enum
+class EnumDeviceSortProperty extends BaseEnum
 {
     protected static function values(): array
     {

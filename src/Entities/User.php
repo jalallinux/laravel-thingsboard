@@ -2,14 +2,15 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumUserSortProperty;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
-use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
@@ -20,7 +21,7 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property Id $customerId
  * @property string $email
  * @property string $name
- * @property string $authority
+ * @property EnumAuthority $authority
  * @property string $lastName
  * @property string $firstName
  * @property array $additionalInfo
@@ -64,13 +65,13 @@ class User extends Tntity
      * See the 'Model' tab of the Response Class for more details.
      *
      * @param  PaginationArguments  $paginationArguments
-     * @return PaginatedResponse
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getUsers(PaginationArguments $paginationArguments): PaginatedResponse
+    public function getUsers(PaginationArguments $paginationArguments): LengthAwarePaginator
     {
         $response = $this->api()->get('users', $paginationArguments->queryParams());
 
@@ -85,15 +86,13 @@ class User extends Tntity
      *
      * @param  PaginationArguments  $paginationArguments
      * @param  string|null  $customerId
-     * @return PaginatedResponse
-     *
-     * @throws \Throwable
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN
      */
-    public function getCustomerUsers(PaginationArguments $paginationArguments, string $customerId = null): PaginatedResponse
+    public function getCustomerUsers(PaginationArguments $paginationArguments, string $customerId = null): LengthAwarePaginator
     {
         $customerId = $customerId ?? $this->forceAttribute('customerId')->id;
 
@@ -114,15 +113,13 @@ class User extends Tntity
      *
      * @param  PaginationArguments  $paginationArguments
      * @param  string|null  $tenantId
-     * @return PaginatedResponse
-     *
-     * @throws \Throwable
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group SYS_ADMIN
      */
-    public function getTenantAdmins(PaginationArguments $paginationArguments, string $tenantId = null): PaginatedResponse
+    public function getTenantAdmins(PaginationArguments $paginationArguments, string $tenantId = null): LengthAwarePaginator
     {
         $tenantId = $tenantId ?? $this->forceAttribute('tenantId')->id;
 
@@ -153,7 +150,7 @@ class User extends Tntity
      */
     public function saveUser(bool $sendActivationMail = false): static
     {
-        $payload = array_merge($this->attributes, [
+        $payload = array_merge($this->attributesToArray(), [
             'email' => $this->forceAttribute('email'),
             'authority' => $this->forceAttribute('authority'),
         ]);
@@ -231,5 +228,45 @@ class User extends Tntity
         Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'userId']);
 
         return $this->api()->get("user/{$id}/activationLink")->body();
+    }
+
+    /**
+     * Fetch a default user with specific role
+     *
+     * @param  EnumAuthority  $role
+     * @return ThingsboardUser
+     *
+     * @author JalalLinuX
+     *
+     * @group *
+     */
+    public function defaultUser(EnumAuthority $role): ThingsboardUser
+    {
+        $user = last(array_filter(config('thingsboard.rest.users'), fn ($user) => $role->value == $user['role']));
+
+        return new class($user) implements ThingsboardUser
+        {
+            private array $user;
+
+            public function __construct($user)
+            {
+                $this->user = $user;
+            }
+
+            public function getThingsboardEmailAttribute(): string
+            {
+                return $this->user['mail'];
+            }
+
+            public function getThingsboardPasswordAttribute(): string
+            {
+                return $this->user['pass'];
+            }
+
+            public function getThingsboardAuthorityAttribute(): EnumAuthority
+            {
+                return EnumAuthority::from($this->user['role']);
+            }
+        };
     }
 }

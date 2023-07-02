@@ -17,25 +17,25 @@ class GetCustomerAssetInfosTest extends TestCase
         $pagination = $this->randomPagination(EnumAssetSortProperty::class, 1, 20);
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 
-        $assetProfileId = thingsboard($tenantUser)->assetProfile()->getAssetProfiles(PaginationArguments::make(textSearch: 'default'))->data()->first()->id->id;
+        $assetProfileId = thingsboard($tenantUser)->assetProfile()->getAssetProfiles(PaginationArguments::make(textSearch: 'default'))->collect()->first()->id->id;
         $attributes = [
             'name' => $this->faker->sentence(3),
             'assetProfileId' => new Id($assetProfileId, EnumEntityType::ASSET_PROFILE()),
         ];
         $newAsset = thingsboard($tenantUser)->asset($attributes)->saveAsset();
 
-        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->random()->id->id;
+        $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->collect()->random()->id->id;
         $asset = thingsboard($tenantUser)->asset()->assignAssetToCustomer($customerId, $newAsset->id->id);
 
         $assets = thingsboard($tenantUser)->asset()->getCustomerAssetInfos($pagination, $customerId);
 
-        $assets->data()->each(fn ($asset) => $this->assertInstanceOf(Asset::class, $asset));
+        $assets->collect()->each(fn ($asset) => $this->assertInstanceOf(Asset::class, $asset));
         $asset->unassignAssetFromCustomer();
 
-        $this->assertEquals($pagination->page, $assets->paginator()->currentPage());
-        $this->assertEquals($pagination->pageSize, $assets->paginator()->perPage());
-        $this->assertEquals($pagination->sortOrder, $assets->paginator()->getOptions()['sortOrder']);
-        $this->assertEquals($pagination->sortProperty, $assets->paginator()->getOptions()['sortProperty']);
+        $this->assertEquals($pagination->page, $assets->currentPage());
+        $this->assertEquals($pagination->pageSize, $assets->perPage());
+        $this->assertEquals($pagination->sortOrder, $assets->getOptions()['sortOrder']);
+        $this->assertEquals($pagination->sortProperty, $assets->getOptions()['sortProperty']);
 
         $result = $newAsset->deleteAsset();
         $this->assertTrue($result);

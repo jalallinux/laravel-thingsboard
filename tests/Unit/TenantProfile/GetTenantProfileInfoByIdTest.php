@@ -17,7 +17,7 @@ class GetTenantProfileInfoByIdTest extends TestCase
         $adminUser = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
         $tenantProfileId = thingsboard($adminUser)->tenantProfile()->getTenantProfileInfos(
             PaginationArguments::make()
-        )->data()->first()->id->id;
+        )->collect()->first()->id->id;
 
         $tenantProfile = thingsboard($adminUser)->tenantProfile()->getTenantProfileInfoById($tenantProfileId);
         $this->assertEquals($tenantProfileId, $tenantProfile->id->id);
@@ -28,13 +28,13 @@ class GetTenantProfileInfoByIdTest extends TestCase
         $this->assertInstanceOf(TenantProfile::class, $tenantProfile);
     }
 
-   public function testInvalidUuid()
-   {
-       $adminUser = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
-       $this->expectException(Exception::class);
-       $this->expectExceptionCode(500);
-       thingsboard($adminUser)->tenantProfile()->getTenantProfileInfoById(substr_replace($this->faker->uuid, 'z', -1));
-   }
+    public function testInvalidUuid()
+    {
+        $adminUser = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
+        $this->expectException(Exception::class);
+        $this->expectExceptionCode(500);
+        thingsboard($adminUser)->tenantProfile()->getTenantProfileInfoById(substr_replace($this->faker->uuid, 'z', -1));
+    }
 
     public function testNonExistUuid()
     {

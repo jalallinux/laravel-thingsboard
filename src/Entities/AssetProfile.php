@@ -2,12 +2,12 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumAssetProfileSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
-use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
@@ -65,13 +65,13 @@ class AssetProfile extends Tntity
      * Asset Profile Info is a lightweight object that includes main information about Asset Profile.
      *
      * @param  PaginationArguments  $paginationArguments
-     * @return PaginatedResponse
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getAssetProfileInfos(PaginationArguments $paginationArguments): PaginatedResponse
+    public function getAssetProfileInfos(PaginationArguments $paginationArguments): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumAssetProfileSortProperty::class);
 
@@ -119,7 +119,7 @@ class AssetProfile extends Tntity
      */
     public function saveAssetProfile(string $name = null): static
     {
-        $payload = array_merge($this->attributes, [
+        $payload = array_merge($this->attributesToArray(), [
             'name' => $name ?? $this->forceAttribute('name'),
         ]);
 
@@ -157,7 +157,7 @@ class AssetProfile extends Tntity
      *
      * @group TENANT_ADMIN
      */
-    public function getAssetProfiles(PaginationArguments $paginationArguments): PaginatedResponse
+    public function getAssetProfiles(PaginationArguments $paginationArguments): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumAssetProfileSortProperty::class);
 

@@ -2,10 +2,12 @@
 
 namespace JalalLinuX\Thingsboard\Infrastructure\TenantProfileData;
 
+use Illuminate\Contracts\Support\Arrayable;
 use JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\Configuration\Configuration;
 use JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\QueueConfiguration\QueueConfiguration;
+use JsonSerializable;
 
-class ProfileData
+class ProfileData implements Arrayable, JsonSerializable
 {
     private Configuration $configuration;
 
@@ -42,5 +44,10 @@ class ProfileData
             'configuration' => $this->getConfiguration()->toArray(),
             'queueConfiguration' => is_null($this->getQueueConfiguration()) ? null : $this->queueConfiguration->toArray(),
         ];
+    }
+
+    public function jsonSerialize()
+    {
+        return $this->toArray();
     }
 }

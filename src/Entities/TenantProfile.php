@@ -2,13 +2,13 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Casts\CastTenantProfileDataConfiguration;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumTenantProfileSortProperty;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
-use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Infrastructure\TenantProfileData\ProfileData;
 use JalalLinuX\Thingsboard\Thingsboard;
@@ -97,14 +97,15 @@ class TenantProfile extends Tntity
      * Remove 'id', from the request body example (below) to create new Tenant Profile entity.
      * Available for users with 'SYS_ADMIN' authority.
      *
+     * @param  string|null  $name
      * @return TenantProfile
      *
      * @author Sabiee
      */
-    public function saveTenantProfile(): TenantProfile
+    public function saveTenantProfile(string $name = null): TenantProfile
     {
-        $payload = array_merge($this->attributes, [
-            'name' => $this->forceAttribute('name'),
+        $payload = array_merge($this->attributesToArray(), [
+            'name' => $name ?? $this->forceAttribute('name'),
         ]);
 
         $tenantProfile = $this->api()->post('tenantProfile', $payload)->json();
@@ -214,13 +215,13 @@ class TenantProfile extends Tntity
      * See the 'Model' tab of the Response Class for more details.
      *
      * @param  PaginationArguments  $paginationArguments
-     * @return PaginatedResponse
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group SYS_ADMIN
      */
-    public function getTenantProfileInfos(PaginationArguments $paginationArguments): PaginatedResponse
+    public function getTenantProfileInfos(PaginationArguments $paginationArguments): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumTenantProfileSortProperty::class);
 
@@ -265,13 +266,13 @@ class TenantProfile extends Tntity
      * See the 'Model' tab of the Response Class for more details.
      *
      * @param  PaginationArguments  $paginationArguments
-     * @return PaginatedResponse
+     * @return LengthAwarePaginator
      *
      * @author Sabiee
      *
      * @group SYS_ADMIN
      */
-    public function getTenantProfiles(PaginationArguments $paginationArguments): PaginatedResponse
+    public function getTenantProfiles(PaginationArguments $paginationArguments): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumTenantProfileSortProperty::class);
 

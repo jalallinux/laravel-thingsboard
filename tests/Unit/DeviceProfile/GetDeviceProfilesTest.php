@@ -18,8 +18,8 @@ class GetDeviceProfilesTest extends TestCase
             PaginationArguments::make(textSearch: 'default')
         );
 
-        $deviceProfiles->data()->each(fn ($device) => $this->assertInstanceOf(DeviceProfile::class, $device));
-        self::assertStringContainsString('default', $deviceProfiles->data()->first()->name);
+        $deviceProfiles->collect()->each(fn ($device) => $this->assertInstanceOf(DeviceProfile::class, $device));
+        self::assertStringContainsString('default', $deviceProfiles->collect()->first()->name);
     }
 
     public function testPaginationData()
@@ -29,9 +29,9 @@ class GetDeviceProfilesTest extends TestCase
 
         $deviceProfiles = thingsboard()->deviceProfile()->withUser($user)->getDeviceProfiles($pagination);
 
-        $this->assertEquals($pagination->page, $deviceProfiles->paginator()->currentPage());
-        $this->assertEquals($pagination->pageSize, $deviceProfiles->paginator()->perPage());
-        $this->assertEquals($pagination->sortOrder, $deviceProfiles->paginator()->getOptions()['sortOrder']);
-        $this->assertEquals($pagination->sortProperty, $deviceProfiles->paginator()->getOptions()['sortProperty']);
+        $this->assertEquals($pagination->page, $deviceProfiles->currentPage());
+        $this->assertEquals($pagination->pageSize, $deviceProfiles->perPage());
+        $this->assertEquals($pagination->sortOrder, $deviceProfiles->getOptions()['sortOrder']);
+        $this->assertEquals($pagination->sortProperty, $deviceProfiles->getOptions()['sortProperty']);
     }
 }

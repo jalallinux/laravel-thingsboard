@@ -65,7 +65,7 @@ class SaveCustomerTest extends TestCase
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $attributes = [
-            'title' => thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->random()->title,
+            'title' => thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->collect()->random()->title,
             'country' => $this->faker->country,
             'state' => $this->faker->word,
             'city' => $this->faker->city,

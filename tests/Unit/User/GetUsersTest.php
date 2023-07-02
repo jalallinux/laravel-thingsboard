@@ -18,7 +18,7 @@ class GetUsersTest extends TestCase
             PaginationArguments::make()
         );
 
-        $users->data()->each(fn ($user) => $this->assertInstanceOf(User::class, $user));
+        $users->collect()->each(fn ($user) => $this->assertInstanceOf(User::class, $user));
     }
 
     public function testPaginationData()
@@ -28,9 +28,9 @@ class GetUsersTest extends TestCase
 
         $devices = thingsboard()->user()->withUser($user)->getUsers($pagination);
 
-        $this->assertEquals($pagination->page, $devices->paginator()->currentPage());
-        $this->assertEquals($pagination->pageSize, $devices->paginator()->perPage());
-        $this->assertEquals($pagination->sortOrder, $devices->paginator()->getOptions()['sortOrder']);
-        $this->assertEquals($pagination->sortProperty, $devices->paginator()->getOptions()['sortProperty']);
+        $this->assertEquals($pagination->page, $devices->currentPage());
+        $this->assertEquals($pagination->pageSize, $devices->perPage());
+        $this->assertEquals($pagination->sortOrder, $devices->getOptions()['sortOrder']);
+        $this->assertEquals($pagination->sortProperty, $devices->getOptions()['sortProperty']);
     }
 }

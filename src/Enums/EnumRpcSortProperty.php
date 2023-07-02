@@ -2,15 +2,13 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self CREATED_TIME()
  * @method static self EXPIRATION_TIME()
  * @method static self REQUEST()
  * @method static self RESPONSE()
  */
-class EnumRpcSortProperty extends Enum
+class EnumRpcSortProperty extends BaseEnum
 {
     protected static function values(): array
     {

@@ -2,8 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self API_USAGE_STATE()
  * @method static self ASSET_SEARCH_QUERY()
@@ -20,7 +18,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self RELATIONS_QUERY()
  * @method static self SINGLE_ENTITY()
  */
-class EnumQueryEntityFilterTypes extends Enum
+class EnumQueryEntityFilterTypes extends BaseEnum
 {
     protected static function values(): array
     {

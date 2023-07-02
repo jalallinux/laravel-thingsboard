@@ -13,8 +13,8 @@ class GetUserByIdTest extends TestCase
     {
         $adminUser = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
 
-        $tenantId = thingsboard()->tenant()->withUser($adminUser)->getTenants(PaginationArguments::make())->data()->first()->id->id;
-        $userId = thingsboard($adminUser)->user()->getTenantAdmins(PaginationArguments::make(), $tenantId)->data()->first()->id->id;
+        $tenantId = thingsboard()->tenant()->withUser($adminUser)->getTenants(PaginationArguments::make())->collect()->first()->id->id;
+        $userId = thingsboard($adminUser)->user()->getTenantAdmins(PaginationArguments::make(), $tenantId)->collect()->first()->id->id;
         $user = thingsboard($adminUser)->user()->getUserById($userId);
 
         $this->assertInstanceOf(User::class, $user);

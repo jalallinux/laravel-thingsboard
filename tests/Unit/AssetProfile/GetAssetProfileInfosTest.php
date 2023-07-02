@@ -18,7 +18,7 @@ class GetAssetProfileInfosTest extends TestCase
             PaginationArguments::make(sortProperty: $sortProperty)
         );
 
-        $assetProfiles->data()->each(fn ($assetProfile) => $this->assertInstanceOf(AssetProfile::class, $assetProfile));
+        $assetProfiles->collect()->each(fn ($assetProfile) => $this->assertInstanceOf(AssetProfile::class, $assetProfile));
     }
 
     public function testPaginationData()
@@ -29,9 +29,9 @@ class GetAssetProfileInfosTest extends TestCase
 
         $assetProfiles = thingsboard($tenantUser)->assetProfile()->getAssetProfileInfos($pagination);
 
-        $this->assertEquals($pagination->page, $assetProfiles->paginator()->currentPage());
-        $this->assertEquals($pagination->pageSize, $assetProfiles->paginator()->perPage());
-        $this->assertEquals($pagination->sortOrder, $assetProfiles->paginator()->getOptions()['sortOrder']);
-        $this->assertEquals($pagination->sortProperty, $assetProfiles->paginator()->getOptions()['sortProperty']);
+        $this->assertEquals($pagination->page, $assetProfiles->currentPage());
+        $this->assertEquals($pagination->pageSize, $assetProfiles->perPage());
+        $this->assertEquals($pagination->sortOrder, $assetProfiles->getOptions()['sortOrder']);
+        $this->assertEquals($pagination->sortProperty, $assetProfiles->getOptions()['sortProperty']);
     }
 }

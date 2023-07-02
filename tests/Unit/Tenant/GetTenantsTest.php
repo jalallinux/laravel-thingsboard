@@ -18,7 +18,7 @@ class GetTenantsTest extends TestCase
             PaginationArguments::make(sortProperty: $sortProperty)
         );
 
-        $tenants->data()->each(fn ($tenant) => $this->assertInstanceOf(Tenant::class, $tenant));
+        $tenants->collect()->each(fn ($tenant) => $this->assertInstanceOf(Tenant::class, $tenant));
     }
 
     public function testPaginationData()
@@ -29,9 +29,9 @@ class GetTenantsTest extends TestCase
 
         $tenants = thingsboard($adminUser)->tenant()->getTenants($pagination);
 
-        $this->assertEquals($pagination->page, $tenants->paginator()->currentPage());
-        $this->assertEquals($pagination->pageSize, $tenants->paginator()->perPage());
-        $this->assertEquals($pagination->sortOrder, $tenants->paginator()->getOptions()['sortOrder']);
-        $this->assertEquals($pagination->sortProperty, $tenants->paginator()->getOptions()['sortProperty']);
+        $this->assertEquals($pagination->page, $tenants->currentPage());
+        $this->assertEquals($pagination->pageSize, $tenants->perPage());
+        $this->assertEquals($pagination->sortOrder, $tenants->getOptions()['sortOrder']);
+        $this->assertEquals($pagination->sortProperty, $tenants->getOptions()['sortProperty']);
     }
 }
