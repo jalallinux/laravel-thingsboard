@@ -433,19 +433,17 @@ class Telemetry extends Tntity
      *
      * @throws \Throwable
      *
-     * @author Sabiee
+     * @author Sabiee, JalalLinuX
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getAttributesByScope(Id $id, EnumTelemetryScope $scope, array $keys): array
+    public function getAttributesByScope(Id $id, EnumTelemetryScope $scope, array $keys = []): array
     {
         Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
-        Thingsboard::validation(empty($keys), 'required', ['attribute' => 'keys']);
-
         $keys = implode(',', $keys);
 
-        return $this->api()->get("plugins/telemetry/{$id->entityType}/{$id->id}/values/attributes/{$scope}", ['keys' => $keys])->json();
+        return $this->api()->get("plugins/telemetry/{$id->entityType}/{$id->id}/values/attributes/{$scope}", array_filter(['keys' => $keys]))->json();
     }
 
     /**

@@ -22,7 +22,7 @@ class GetTenantDashboardsTest extends TestCase
         );
 
         $dashboards->collect()->each(fn ($dashboard) => $this->assertInstanceOf(Dashboard::class, $dashboard));
-        self::assertStringContainsString('Thermostats', $dashboards->collect()->first()->name);
+        $this->assertEquals('Thermostats', $dashboards->collect()->first()->name);
     }
 
     public function testPaginationData()
