@@ -55,3 +55,11 @@ if (! function_exists('decodeJWTToken')) {
         return data_get($obj, $key, $default);
     }
 }
+if (! function_exists('array_filter_null')) {
+    function array_filter_null(array $array)
+    {
+        return array_filter($array, function ($value){
+            return !is_null($value);
+        });
+    }
+}

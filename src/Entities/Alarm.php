@@ -125,7 +125,7 @@ class Alarm extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id');
 
-        $queryParams = array_merge($paginationArguments->queryParams(), array_filter([
+        $queryParams = array_merge($paginationArguments->queryParams(), array_filter_null([
             'assigneeId' => $assigneeId ?? $this->getAttribute('assigneeId'),
             'startTime' => ! is_null($startTime) ? $startTime->getTimestamp() * 1000 : (! is_null($this->startTs) ? $startTime = $this->getAttribute('startTime') * 1000 : null),
             'endTime' => (! is_null($startTime) && is_null($endTime)) ? $this->forceAttribute('endTime') * 1000 : (! is_null($endTime) ? $endTime->getTimestamp() * 1000 : null),

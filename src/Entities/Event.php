@@ -123,7 +123,7 @@ class Event extends Tntity
 
         Thingsboard::validation(! Str::isUuid($tenantId), 'uuid', ['attribute' => 'tenantId']);
 
-        $queryParams = array_filter([
+        $queryParams = array_filter_null([
             'tenantId' => $tenantId,
         ]);
 
@@ -159,7 +159,7 @@ class Event extends Tntity
 
         Thingsboard::validation(! Str::isUuid($tenantId), 'uuid', ['attribute' => 'tenantId']);
 
-        $queryParams = array_filter([
+        $queryParams = array_filter_null([
             'tenantId' => $tenantId,
         ]);
 

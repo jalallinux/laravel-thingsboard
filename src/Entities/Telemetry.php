@@ -443,7 +443,7 @@ class Telemetry extends Tntity
 
         $keys = implode(',', $keys);
 
-        return $this->api()->get("plugins/telemetry/{$id->entityType}/{$id->id}/values/attributes/{$scope}", array_filter(['keys' => $keys]))->json();
+        return $this->api()->get("plugins/telemetry/{$id->entityType}/{$id->id}/values/attributes/{$scope}", array_filter_null(['keys' => $keys]))->json();
     }
 
     /**
@@ -491,7 +491,7 @@ class Telemetry extends Tntity
 
         $keys = implode(',', $keys);
 
-        $queryParams = array_filter([
+        $queryParams = array_filter_null([
             'keys' => $keys,
             'startTs' => $startTs->getTimestamp() * 1000,
             'endTs' => $endTs->getTimestamp() * 1000,
@@ -543,11 +543,11 @@ class Telemetry extends Tntity
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getLatestTimeseries(Id $id, array $keys = null, bool $useStrictDataTypes): array
+    public function getLatestTimeseries(Id $id, array $keys = null, bool $useStrictDataTypes = null): array
     {
         Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
-        $queryParams = array_filter([
+        $queryParams = array_filter_null([
             'keys' => implode(',', $keys),
             'useStrictDataTypes' => $useStrictDataTypes,
         ]);

@@ -74,7 +74,7 @@ class ComponentDescriptor extends Tntity
                 'instance' => EnumComponentDescriptorType::class,
             ]);
         }
-        $queryParams = array_filter([
+        $queryParams = array_filter_null([
             'componentTypes' => implode(',', array_map(fn ($componentType) => $componentType->value, $componentTypes)),
             'ruleChainType' => @$ruleChainType->value,
         ]);

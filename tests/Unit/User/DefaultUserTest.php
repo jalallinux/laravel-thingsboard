@@ -12,7 +12,6 @@ class DefaultUserTest extends TestCase
     {
         $role = $this->faker->randomElement(EnumAuthority::cases());
         $user = thingsboard()->user()->defaultUser($role);
-
         $this->assertInstanceOf(ThingsboardUser::class, $user);
         $this->assertInstanceOf(EnumAuthority::class, $user->getThingsboardAuthorityAttribute());
         $this->assertEquals($role->value, $user->getThingsboardAuthorityAttribute()->value);
