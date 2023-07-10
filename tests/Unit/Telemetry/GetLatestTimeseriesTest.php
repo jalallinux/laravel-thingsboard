@@ -23,6 +23,7 @@ class GetLatestTimeseriesTest extends TestCase
         );
         self::assertIsArray($result);
     }
+
     /**
      * @throws \Throwable
      */

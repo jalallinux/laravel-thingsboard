@@ -58,8 +58,8 @@ if (! function_exists('decodeJWTToken')) {
 if (! function_exists('array_filter_null')) {
     function array_filter_null(array $array)
     {
-        return array_filter($array, function ($value){
-            return !is_null($value);
+        return array_filter($array, function ($value) {
+            return ! is_null($value);
         });
     }
 }
