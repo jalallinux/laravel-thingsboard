@@ -23,10 +23,10 @@ abstract class Tntity extends Model
 
     abstract public function entityType(): ?EnumEntityType;
 
-    protected function api(bool $auth = true, bool $handleException = true): PendingRequest
+    protected function api(bool $auth = true, bool $handleException = true, string $version = ''): PendingRequest
     {
         $baseUri = config('thingsboard.rest.schema').'://'.config('thingsboard.rest.host').':'.config('thingsboard.rest.port');
-        $request = Http::baseUrl("{$baseUri}/api");
+        $request = Http::baseUrl("{$baseUri}/api".(empty($version) ? $version : "/{$version}"));
 
         if ($auth) {
             Thingsboard::exception(! isset($this->_thingsboardUser), 'with_token', code: 401);
