@@ -180,7 +180,7 @@ class Alarm extends Tntity
             'typeList' => $typeList,
         ]));
 
-        return $this->api(true, true, 'v2')->get("alarm/{$id->entityType}/{$id->id}", $queryParams)->json();
+        return $this->api()->get("v2/alarm/{$id->entityType}/{$id->id}", $queryParams)->json();
     }
 
     /**
