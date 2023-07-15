@@ -83,7 +83,7 @@ class DeviceProfile extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     * @param  PaginationArguments  $paginationArguments
+     * @param PaginationArguments $paginationArguments
      * @return LengthAwarePaginator
      *
      * @author JalalLinuX
@@ -103,7 +103,7 @@ class DeviceProfile extends Tntity
      * Fetch the Device Profile object based on the provided Device Profile ID.
      * The server checks that the device profile is owned by the same tenant.
      *
-     * @param  string|null  $id
+     * @param string|null $id
      * @return DeviceProfile
      *
      * @throws \Throwable
@@ -116,7 +116,7 @@ class DeviceProfile extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'deviceProfileId']);
+        Thingsboard::validation(!Str::isUuid($id), 'uuid', ['attribute' => 'deviceProfileId']);
 
         $deviceProfile = $this->api()->get("deviceProfile/{$id}")->json();
 
@@ -127,7 +127,7 @@ class DeviceProfile extends Tntity
      * Fetch the Default Device Profile Info object.
      * Device Profile Info is a lightweight object that includes main information about Device Profile excluding the heavyweight configuration object.
      *
-     * @param  bool  $full
+     * @param bool $full
      * @return DeviceProfile
      *
      * @throws \Throwable
@@ -156,10 +156,10 @@ class DeviceProfile extends Tntity
      * Device profile name is unique in the scope of tenant.
      * Only one 'default' device profile may exist in scope of tenant.
      *
-     * @param  string|null  $name
-     * @param  string|null  $type
-     * @param  EnumDeviceProfileProvisionType|null  $provisionType
-     * @param  EnumDeviceProfileTransportType|null  $transportType
+     * @param string|null $name
+     * @param string|null $type
+     * @param EnumDeviceProfileProvisionType|null $provisionType
+     * @param EnumDeviceProfileTransportType|null $transportType
      * @return self
      *
      * @author Sabiee
@@ -197,7 +197,7 @@ class DeviceProfile extends Tntity
      * Referencing non-existing device profile Id will cause an error.
      * Can't delete the device profile if it is referenced by existing devices.
      *
-     * @param  string|null  $id
+     * @param string|null $id
      * @return bool
      *
      * @throws \Throwable
@@ -210,7 +210,7 @@ class DeviceProfile extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'deviceProfileId']);
+        Thingsboard::validation(!Str::isUuid($id), 'uuid', ['attribute' => 'deviceProfileId']);
 
         return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("deviceProfile/{$id}")->successful();
     }
@@ -218,7 +218,7 @@ class DeviceProfile extends Tntity
     /**
      * Marks device profile as default within a tenant scope.
      *
-     * @param  string|null  $id
+     * @param string|null $id
      * @return DeviceProfile
      *
      * @throws \Throwable
@@ -231,7 +231,7 @@ class DeviceProfile extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'deviceProfileId']);
+        Thingsboard::validation(!Str::isUuid($id), 'uuid', ['attribute' => 'deviceProfileId']);
 
         $deviceProfile = $this->api()->post("deviceProfile/{$id}/default", $this->attributes)->json();
 
@@ -244,7 +244,7 @@ class DeviceProfile extends Tntity
      * The call is used for auto-complete in the UI forms.
      * The implementation limits the number of devices that participate in search to 100 as a trade of between accurate results and time-consuming queries.
      *
-     * @param  string|null  $id
+     * @param string|null $id
      * @return array
      *
      * @author Sabiee
@@ -267,7 +267,7 @@ class DeviceProfile extends Tntity
      *
      * @group TENANT_ADMIN'
      *
-     * @param  string|null  $id
+     * @param string|null $id
      * @return array
      *
      * @author Sabiee
@@ -288,7 +288,7 @@ class DeviceProfile extends Tntity
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      *
-     * @param  string|null  $id
+     * @param string|null $id
      * @return self
      *
      * @throws \Throwable
@@ -301,7 +301,7 @@ class DeviceProfile extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'deviceProfileId']);
+        Thingsboard::validation(!Str::isUuid($id), 'uuid', ['attribute' => 'deviceProfileId']);
 
         $deviceProfile = $this->api()->get("deviceProfileInfo/{$id}")->json();
 
@@ -317,18 +317,22 @@ class DeviceProfile extends Tntity
      *  about Device Profile excluding the heavyweight configuration object.
      *
      *
-     * @param  PaginationArguments  $paginationArguments
+     * @param PaginationArguments $paginationArguments
+     * @param EnumDeviceProfileTransportType|null $transportType
      * @return LengthAwarePaginator
      *
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getDeviceProfileInfos(PaginationArguments $paginationArguments): LengthAwarePaginator
+    public function getDeviceProfileInfos(PaginationArguments $paginationArguments, EnumDeviceProfileTransportType $transportType = null): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumDeviceProfileSortProperty::class);
+        $payload = array_merge($paginationArguments->queryParams(), array_filter_null([
+            'transportType' => $transportType ?? $this->getAttribute('transportType'),
+        ]));
 
-        $response = $this->api()->get('deviceProfileInfos', $paginationArguments->queryParams());
+        $response = $this->api()->get('deviceProfileInfos', $payload);
 
         return $this->paginatedResponse($response, $paginationArguments);
     }
