@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumAlarmSearchStatus;
 use JalalLinuX\Thingsboard\Enums\EnumAlarmSeverityList;
+use JalalLinuX\Thingsboard\Enums\EnumAlarmSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumAlarmStatus;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
@@ -34,6 +35,8 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property bool $propagateToOwner
  * @property bool $propagateToTenant
  * @property array $propagateRelationTypes
+ * @property string $typeList
+ * @property EnumAlarmStatus $statusList
  */
 class Alarm extends Tntity
 {
@@ -64,6 +67,8 @@ class Alarm extends Tntity
         'startTime',
         'endTime',
         'fetchOriginator',
+        'typeList',
+        'statusList',
     ];
 
     protected $casts = [
@@ -90,6 +95,7 @@ class Alarm extends Tntity
         'startTime' => 'timestamp',
         'endTime' => 'timestamp',
         'fetchOriginator' => 'boolean',
+        'statusList' => EnumAlarmStatus::class,
     ];
 
     public function entityType(): ?EnumEntityType
@@ -123,9 +129,10 @@ class Alarm extends Tntity
         string $assigneeId = null, \DateTime $startTime = null, \DateTime $endTime = null,
         bool $fetchOriginator = null): array
     {
+        $paginationArguments->validateSortProperty(EnumAlarmSortProperty::class);
         $id = $id ?? $this->forceAttribute('id');
 
-        $queryParams = array_merge($paginationArguments->queryParams(), array_filter([
+        $queryParams = array_merge($paginationArguments->queryParams(), array_filter_null([
             'assigneeId' => $assigneeId ?? $this->getAttribute('assigneeId'),
             'startTime' => ! is_null($startTime) ? $startTime->getTimestamp() * 1000 : (! is_null($this->startTs) ? $startTime = $this->getAttribute('startTime') * 1000 : null),
             'endTime' => (! is_null($startTime) && is_null($endTime)) ? $this->forceAttribute('endTime') * 1000 : (! is_null($endTime) ? $endTime->getTimestamp() * 1000 : null),
@@ -135,6 +142,45 @@ class Alarm extends Tntity
         ]));
 
         return $this->api()->get("alarm/{$id->entityType}/{$id->id}", $queryParams)->json();
+    }
+
+    /**
+     * Returns a page of alarms for the selected entity.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details.
+     *
+     * @param  PaginationArguments  $paginationArguments
+     * @param  Id|null  $id
+     * @param  EnumAlarmStatus|null  $statusList
+     * @param  EnumAlarmSeverityList|null  $severityList
+     * @param  array  $typeList
+     * @param  string|null  $assigneeId
+     * @param  \DateTime|null  $startTime
+     * @param  \DateTime|null  $endTime
+     * @return array
+     *
+     * @author  Sabiee
+     *
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function getAlarmsV2(PaginationArguments $paginationArguments, Id $id = null, EnumAlarmStatus $statusList = null,
+        EnumAlarmSeverityList $severityList = null, array $typeList = [], string $assigneeId = null,
+        \DateTime $startTime = null, \DateTime $endTime = null): array
+    {
+        $paginationArguments->validateSortProperty(EnumAlarmSortProperty::class);
+        $id = $id ?? $this->forceAttribute('id');
+        $typeList = (empty($typeList) ? $this->getAttribute('typeList') : implode(',', $typeList));
+        $queryParams = array_merge($paginationArguments->queryParams(), array_filter_null([
+            'assigneeId' => $assigneeId ?? $this->getAttribute('assigneeId'),
+            'statusList' => $statusList ?? $this->getAttribute('statusList'),
+            'startTime' => ! is_null($startTime) ? $startTime->getTimestamp() * 1000 : (! is_null($this->startTs) ? $startTime = $this->getAttribute('startTime') * 1000 : null),
+            'endTime' => (! is_null($startTime) && is_null($endTime)) ? $this->forceAttribute('endTime') * 1000 : (! is_null($endTime) ? $endTime->getTimestamp() * 1000 : null),
+            'severityList' => $severityList ?? $this->getAttribute('severityList'),
+            'typeList' => $typeList,
+        ]));
+
+        return $this->api()->get("v2/alarm/{$id->entityType}/{$id->id}", $queryParams)->json();
     }
 
     /**
