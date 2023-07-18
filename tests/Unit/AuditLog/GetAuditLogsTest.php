@@ -21,7 +21,7 @@ class GetAuditLogsTest extends TestCase
         sleep(2);
         $loginLog = thingsboard($tenantUser)->auditLog()->getAuditLogs(
             PaginationArguments::make(0, 1, EnumAuditLogSortProperty::CREATED_TIME(), EnumSortOrder::DESC()), now()->subMinute()
-        )->data()->first();
+        )->collect()->first();
 
         $this->assertInstanceOf(AuditLog::class, $loginLog);
         $this->assertEquals(EnumAuditLogActionType::LOGIN(), $loginLog->actionType);
@@ -42,7 +42,7 @@ class GetAuditLogsTest extends TestCase
         sleep(1);
         $loginLog = thingsboard($tenantUser)->auditLog()->getAuditLogs(
             PaginationArguments::make(0, 1, EnumAuditLogSortProperty::CREATED_TIME(), EnumSortOrder::DESC()), now()->subMinute()
-        )->data()->first();
+        )->collect()->first();
 
         $this->assertInstanceOf(AuditLog::class, $loginLog);
         $this->assertEquals(EnumAuditLogActionType::LOGIN(), $loginLog->actionType);

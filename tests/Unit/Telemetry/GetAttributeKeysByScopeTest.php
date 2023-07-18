@@ -17,7 +17,7 @@ class GetAttributeKeysByScopeTest extends TestCase
     public function testGetAttributeKeysSuccess()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->first()->id->id;
+        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->collect()->first()->id->id;
         $scope = $this->faker->randomElement(EnumTelemetryScope::cases());
         $result = thingsboard($tenantUser)->telemetry()->getAttributeKeysByScope(new Id($deviceId, EnumEntityType::DEVICE()), $scope);
         self::assertIsArray($result);

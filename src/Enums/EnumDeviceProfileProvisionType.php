@@ -2,15 +2,13 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self ALLOW_CREATE_NEW_DEVICES()
  * @method static self CHECK_PRE_PROVISIONED_DEVICES()
  * @method static self DISABLED()
  * @method static self X509_CERTIFICATE_CHAIN()
  */
-class EnumDeviceProfileProvisionType extends Enum
+class EnumDeviceProfileProvisionType extends BaseEnum
 {
     protected static function values(): array
     {

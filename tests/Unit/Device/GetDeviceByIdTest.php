@@ -2,6 +2,7 @@
 
 namespace JalalLinuX\Thingsboard\Tests\Unit\Device;
 
+use JalalLinuX\Thingsboard\Entities\Device;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Exceptions\Exception;
@@ -16,13 +17,14 @@ class GetDeviceByIdTest extends TestCase
         $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $deviceId = thingsboard($user)->device()->getTenantDeviceInfos(
             PaginationArguments::make()
-        )->data()->first()->id->id;
+        )->collect()->first()->id->id;
 
         $device = thingsboard($user)->device()->getDeviceById($deviceId);
         $this->assertEquals($deviceId, $device->id->id);
 
         $device = thingsboard($user)->device(['id' => new Id($deviceId, EnumEntityType::DEVICE())])->getDeviceById();
         $this->assertEquals($deviceId, $device->id->id);
+        $this->assertInstanceOf(Device::class, $device);
     }
 
     public function testInvalidUuid()

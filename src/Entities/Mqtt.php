@@ -4,6 +4,8 @@ namespace JalalLinuX\Thingsboard\Entities;
 
 use JalalLinuX\Thingsboard\Thingsboard;
 use PhpMqtt\Client\Contracts\Repository;
+use PhpMqtt\Client\Exceptions\DataTransferException;
+use PhpMqtt\Client\Exceptions\RepositoryException;
 use PhpMqtt\Client\MqttClient;
 use Psr\Log\LoggerInterface;
 
@@ -18,9 +20,14 @@ class Mqtt
 
     private function mqtt(string $protocol = MqttClient::MQTT_3_1, Repository $repository = null, LoggerInterface $logger = null): MqttClient
     {
+        $defaultRepositoryClass = config('thingsboard.mqtt.repository');
+        $repository = $repository ?? new $defaultRepositoryClass;
         $mqtt = new MqttClient(
-            config('thingsboard.mqtt.host'), config('thingsboard.mqtt.port'), $this->accessToken,
-            $protocol ?? config('thingsboard.mqtt.protocol'), $repository ?? config('thingsboard.mqtt.repository'), $logger
+            config('thingsboard.mqtt.host'), config('thingsboard.mqtt.port'),
+            $this->accessToken,
+            $protocol ?? config('thingsboard.mqtt.protocol'),
+            $repository,
+            $logger
         );
 
         $mqtt->connect(Thingsboard::connectionSetting($this->accessToken));
@@ -28,7 +35,7 @@ class Mqtt
         return $mqtt;
     }
 
-    public function telemetry(array $payload, string $topic = null): void
+    public function publishTelemetry(array $payload, bool $throw = false): bool
     {
         Thingsboard::validation(empty($payload), 'array_of', ['attribute' => 'payload', 'struct' => '["ts" => in millisecond-timestamp, "values" => associative-array]']);
 
@@ -39,29 +46,31 @@ class Mqtt
             );
         }
 
-        $this->mqtt()->publish($topic ?? config('thingsboard.mqtt.topics.telemetry'), json_encode($payload));
+        try {
+            $this->mqtt()->publish($topic ?? config('thingsboard.mqtt.topics.telemetry'), json_encode($payload));
+
+            return true;
+        } catch (DataTransferException|RepositoryException $e) {
+            throw_if($throw, $e);
+            logger()->error($e->getMessage(), $e->getTrace());
+
+            return false;
+        }
     }
 
-    public function attribute(array $payload, string $topic = null): void
+    public function publishAttribute(array $payload, bool $throw = false): bool
     {
         Thingsboard::validation(! isArrayAssoc($payload), 'assoc_array', ['attribute' => 'payload']);
 
-        $this->mqtt()->publish($topic ?? config('thingsboard.mqtt.topics.attribute'), json_encode($payload));
-    }
+        try {
+            $this->mqtt()->publish($topic ?? config('thingsboard.mqtt.topics.attribute'), json_encode($payload));
 
-    public function subscribeRequest(string $requestId = null)
-    {
-        $topic = is_null($requestId) ? config('thingsboard.mqtt.topics.request') : rtrim(config('thingsboard.mqtt.topics.request'), '+').$requestId;
+            return true;
+        } catch (DataTransferException|RepositoryException $e) {
+            throw_if($throw, $e);
+            logger()->error($e->getMessage(), $e->getTrace());
 
-        dd($topic);
-
-    }
-
-    public function subscribeRpc(string $requestId = null)
-    {
-        $topic = is_null($requestId) ? config('thingsboard.mqtt.topics.request') : rtrim(config('thingsboard.mqtt.topics.request'), '+').$requestId;
-
-        dd($topic);
-
+            return false;
+        }
     }
 }

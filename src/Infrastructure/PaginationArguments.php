@@ -73,7 +73,7 @@ class PaginationArguments
 
     public function queryParams(array $extra = []): array
     {
-        return array_filter(array_merge([
+        return array_filter_null(array_merge([
             'page' => $this->page,
             'pageSize' => $this->pageSize,
             'sortProperty' => $this->sortProperty,

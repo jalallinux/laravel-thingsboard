@@ -16,7 +16,7 @@ class GetTenantInfoByIdTest extends TestCase
         $user = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
         $tenantId = thingsboard($user)->tenant()->getTenantInfos(
             PaginationArguments::make()
-        )->data()->first()->id->id;
+        )->collect()->first()->id->id;
 
         $tenant = thingsboard($user)->tenant()->getTenantInfoById($tenantId);
         $this->assertEquals($tenantId, $tenant->id->id);

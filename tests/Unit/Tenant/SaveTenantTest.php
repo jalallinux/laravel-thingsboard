@@ -19,7 +19,7 @@ class SaveTenantTest extends TestCase
             'title' => $this->faker->sentence(3),
             'email' => $this->faker->unique()->safeEmail,
         ];
-        $tenant = thingsboard($tenantUser)->tenant($attributes)->saveTenant('ACCESS_TOKEN_'.$this->faker->numerify);
+        $tenant = thingsboard($tenantUser)->tenant($attributes)->saveTenant();
         $tenant->deleteTenant();
 
         $this->assertInstanceOf(Tenant::class, $tenant);

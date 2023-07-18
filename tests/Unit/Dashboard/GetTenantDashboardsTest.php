@@ -15,27 +15,27 @@ class GetTenantDashboardsTest extends TestCase
     public function testStructure()
     {
         $user = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
-        $tenantId = thingsboard($user)->tenant()->getTenants(PaginationArguments::make())->data()->first()->id->id;
+        $tenantId = thingsboard($user)->tenant()->getTenants(PaginationArguments::make())->collect()->first()->id->id;
 
         $dashboards = thingsboard($user)->dashboard()->getTenantDashboards(
             PaginationArguments::make(textSearch: 'Thermostats'), $tenantId
         );
 
-        $dashboards->data()->each(fn ($dashboard) => $this->assertInstanceOf(Dashboard::class, $dashboard));
-        self::assertStringContainsString('Thermostats', $dashboards->data()->first()->name);
+        $dashboards->collect()->each(fn ($dashboard) => $this->assertInstanceOf(Dashboard::class, $dashboard));
+        $this->assertEquals('Thermostats', $dashboards->collect()->first()->name);
     }
 
     public function testPaginationData()
     {
         $pagination = $this->randomPagination(EnumDashboardSortProperty::class);
         $user = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
-        $tenantId = thingsboard($user)->tenant()->getTenants(PaginationArguments::make())->data()->first()->id->id;
+        $tenantId = thingsboard($user)->tenant()->getTenants(PaginationArguments::make())->collect()->first()->id->id;
 
         $dashboards = thingsboard()->dashboard(['tenantId' => new Id($tenantId, EnumEntityType::TENANT())])->withUser($user)->getTenantDashboards($pagination);
 
-        $this->assertEquals($pagination->page, $dashboards->paginator()->currentPage());
-        $this->assertEquals($pagination->pageSize, $dashboards->paginator()->perPage());
-        $this->assertEquals($pagination->sortOrder, $dashboards->paginator()->getOptions()['sortOrder']);
-        $this->assertEquals($pagination->sortProperty, $dashboards->paginator()->getOptions()['sortProperty']);
+        $this->assertEquals($pagination->page, $dashboards->currentPage());
+        $this->assertEquals($pagination->pageSize, $dashboards->perPage());
+        $this->assertEquals($pagination->sortOrder, $dashboards->getOptions()['sortOrder']);
+        $this->assertEquals($pagination->sortProperty, $dashboards->getOptions()['sortProperty']);
     }
 }

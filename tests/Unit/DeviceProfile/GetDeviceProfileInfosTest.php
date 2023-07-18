@@ -17,7 +17,7 @@ class GetDeviceProfileInfosTest extends TestCase
 
         $deviceProfiles = thingsboard($user)->deviceProfile()->getDeviceProfileInfos(PaginationArguments::make(sortProperty: EnumDeviceProfileSortProperty::TRANSPORT_TYPE(), sortOrder: EnumSortOrder::ASC()));
 
-        $deviceProfiles->data()->each(fn ($device) => $this->assertInstanceOf(DeviceProfile::class, $device));
+        $deviceProfiles->collect()->each(fn ($device) => $this->assertInstanceOf(DeviceProfile::class, $device));
     }
 
     public function testPaginationData()
@@ -27,9 +27,9 @@ class GetDeviceProfileInfosTest extends TestCase
 
         $deviceProfiles = thingsboard()->deviceProfile()->withUser($tenantUser)->getDeviceProfileInfos($pagination);
 
-        $this->assertEquals($pagination->page, $deviceProfiles->paginator()->currentPage());
-        $this->assertEquals($pagination->pageSize, $deviceProfiles->paginator()->perPage());
-        $this->assertEquals($pagination->sortOrder, $deviceProfiles->paginator()->getOptions()['sortOrder']);
-        $this->assertEquals($pagination->sortProperty, $deviceProfiles->paginator()->getOptions()['sortProperty']);
+        $this->assertEquals($pagination->page, $deviceProfiles->currentPage());
+        $this->assertEquals($pagination->pageSize, $deviceProfiles->perPage());
+        $this->assertEquals($pagination->sortOrder, $deviceProfiles->getOptions()['sortOrder']);
+        $this->assertEquals($pagination->sortProperty, $deviceProfiles->getOptions()['sortProperty']);
     }
 }

@@ -16,7 +16,7 @@ class SetDefaultTenantProfileTest extends TestCase
     public function testSetDefaultTenantProfileSuccess()
     {
         $adminUser = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
-        $tenantProfileId = thingsboard($adminUser)->tenantProfile()->getTenantProfiles(PaginationArguments::make())->data()->first()->id->id;
+        $tenantProfileId = thingsboard($adminUser)->tenantProfile()->getTenantProfiles(PaginationArguments::make())->collect()->first()->id->id;
         $defaultTenantProfileId = thingsboard($adminUser)->tenantProfile()->getDefaultTenantProfileInfo()->id->id;
 
         $tenantProfile = thingsboard($adminUser)->tenantProfile()->setDefaultTenantProfile($tenantProfileId, true);

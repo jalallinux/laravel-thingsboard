@@ -3,12 +3,13 @@
 namespace JalalLinuX\Thingsboard\Entities;
 
 use DateTime;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumRpcSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumRpcStatus;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
-use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
@@ -59,7 +60,10 @@ class Rpc extends Tntity
 
     public function __construct(array $attributes = [])
     {
-        parent::__construct(array_merge(self::defaultAttributes(), $attributes));
+        $defaultAttributes = self::defaultAttributes();
+        parent::__construct(array_merge($defaultAttributes, [
+            'expirationTime' => (new Carbon($defaultAttributes['expirationTime']))->getPreciseTimestamp(3),
+        ], $attributes));
     }
 
     public function entityType(): ?EnumEntityType
@@ -144,21 +148,17 @@ class Rpc extends Tntity
      * In case of persistent RPC, the result of this call is 'rpcId' UUID. In case of lightweight RPC, the result of this call is either 200 OK if the message was sent to device, or 504 Gateway Timeout if device is offline.
      * Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.
      *
+     * @param  string  $deviceId
      * @param  string  $method
      * @param  array  $params
-     * @param  string|null  $deviceId
      * @return bool
-     *
-     * @throws \Throwable
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function sendTwoWay(string $method, array $params, string $deviceId = null): bool
+    public function sendTwoWay(string $deviceId, string $method, array $params): bool
     {
-        $deviceId = $deviceId ?? $this->forceAttribute('deviceId');
-
         Thingsboard::validation(! Str::isUuid($deviceId), 'uuid', ['attribute' => 'deviceId']);
 
         $payload = $this->fill(['method' => $method, 'params' => $params])->toArray();
@@ -216,15 +216,13 @@ class Rpc extends Tntity
      * @param  PaginationArguments  $paginationArguments
      * @param  string|null  $deviceId
      * @param  EnumRpcStatus|null  $rpcStatus
-     * @return PaginatedResponse
-     *
-     * @throws \Throwable
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getPersistentRequests(PaginationArguments $paginationArguments, string $deviceId = null, EnumRpcStatus $rpcStatus = null): PaginatedResponse
+    public function getPersistentRequests(PaginationArguments $paginationArguments, string $deviceId = null, EnumRpcStatus $rpcStatus = null): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumRpcSortProperty::class);
 

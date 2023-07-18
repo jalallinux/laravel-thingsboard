@@ -2,14 +2,12 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self CREATED_TIME()
  * @method static self TENANT_ID()
  * @method static self TITLE()
  */
-class EnumWidgetBundleSortProperty extends Enum
+class EnumWidgetBundleSortProperty extends BaseEnum
 {
     protected static function values(): array
     {

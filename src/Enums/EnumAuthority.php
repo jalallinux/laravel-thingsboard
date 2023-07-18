@@ -2,14 +2,12 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self TENANT_ADMIN()
  * @method static self SYS_ADMIN()
  * @method static self CUSTOMER_USER()
  */
-class EnumAuthority extends Enum
+class EnumAuthority extends BaseEnum
 {
     protected static function values(): array
     {

@@ -20,12 +20,69 @@ This project is a Laravel Package that provides convenient client SDK for both D
 
 ## Installation
 
-You can install the package via composer:
+You can install the package via composer
 
 ```bash
 composer require jalallinux/laravel-thingsboard
 ```
 
+
+
+
+## Publish config file
+
+You can publish config file to change default configs
+
+```bash
+ php artisan vendor:publish --provider JalalLinuX\\Thingsboard\\LaravelThingsboardServiceProvider --tag config
+```
+
+
+
+
+## Publish language file
+
+You can publish config file to change default languages
+
+```bash
+ php artisan vendor:publish --provider JalalLinuX\\Thingsboard\\LaravelThingsboardServiceProvider --tag lang
+```
+
+
+
+
+## Preparing for usage
+`User` class must implement `JalalLinuX\Thingsboard\Interfaces\ThingsboardUser` like this:
+```php
+class User extends Authenticatable implements JalalLinuX\Thingsboard\Interfaces\ThingsboardUser
+{
+    public function getThingsboardEmailAttribute(): string
+    {
+        return $this->attributes['thingsboard_email'];
+    }
+
+    public function getThingsboardPasswordAttribute(): string
+    {
+        return $this->attributes['thingsboard_password'];
+    }
+
+    public function getThingsboardAuthorityAttribute(): EnumAuthority
+    {
+        return EnumAuthority::from($this->attributes['thingsboard_authority']);
+    }
+    
+    ...
+```
+
+Then can use trait `JalalLinuX\Thingsboard\Traits\ThingsboardUser` like this:
+```php
+class User extends Authenticatable implements JalalLinuX\Thingsboard\Interfaces\ThingsboardUser
+{
+    use \JalalLinuX\Thingsboard\Traits\ThingsboardUser
+    
+    ...
+}
+```
 
 
 

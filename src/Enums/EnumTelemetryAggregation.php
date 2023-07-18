@@ -2,8 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self AVG()
  * @method static self COUNT()
@@ -12,7 +10,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self NONE()
  * @method static self SUM()
  */
-class EnumTelemetryAggregation extends Enum
+class EnumTelemetryAggregation extends BaseEnum
 {
     protected static function values(): array
     {

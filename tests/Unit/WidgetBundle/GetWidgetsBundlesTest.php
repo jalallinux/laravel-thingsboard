@@ -13,7 +13,7 @@ class GetWidgetsBundlesTest extends TestCase
     public function testTextSearch()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $widgetBundles = thingsboard($tenantUser)->widgetBundle()->getWidgetsBundles(PaginationArguments::make(textSearch: 'gauges'))->data();
+        $widgetBundles = thingsboard($tenantUser)->widgetBundle()->getWidgetsBundles(PaginationArguments::make(textSearch: 'gauges'))->collect();
 
         $this->assertCount(2, $widgetBundles);
         $this->assertTrue($widgetBundles->first()->systematic);

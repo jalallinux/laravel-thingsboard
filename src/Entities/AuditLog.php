@@ -2,12 +2,12 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Enums\EnumAuditLogActionStatus;
 use JalalLinuX\Thingsboard\Enums\EnumAuditLogActionType;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
-use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
@@ -70,13 +70,13 @@ class AuditLog extends Tntity
      * @param  \DateTime|null  $startTime
      * @param  \DateTime|null  $endTime
      * @param  EnumAuditLogActionType|null  $actionType
-     * @return PaginatedResponse
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN
      */
-    public function getAuditLogs(PaginationArguments $paginationArguments, \DateTime $startTime = null, \DateTime $endTime = null, EnumAuditLogActionType $actionType = null): PaginatedResponse
+    public function getAuditLogs(PaginationArguments $paginationArguments, \DateTime $startTime = null, \DateTime $endTime = null, EnumAuditLogActionType $actionType = null): LengthAwarePaginator
     {
         $payload = $paginationArguments->queryParams([
             'actionType' => $actionType, 'startTime' => ! is_null($startTime) ? $startTime->getTimestamp() * 1000 : null, 'endTime' => ! is_null($endTime) ? $endTime->getTimestamp() * 1000 : null,
@@ -98,15 +98,13 @@ class AuditLog extends Tntity
      * @param  \DateTime|null  $startTime
      * @param  \DateTime|null  $endTime
      * @param  EnumAuditLogActionType|null  $actionType
-     * @return PaginatedResponse
-     *
-     * @throws \Throwable
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN
      */
-    public function getAuditLogsByCustomerId(string $customerId, PaginationArguments $paginationArguments, \DateTime $startTime = null, \DateTime $endTime = null, EnumAuditLogActionType $actionType = null): PaginatedResponse
+    public function getAuditLogsByCustomerId(string $customerId, PaginationArguments $paginationArguments, \DateTime $startTime = null, \DateTime $endTime = null, EnumAuditLogActionType $actionType = null): LengthAwarePaginator
     {
         Thingsboard::validation(! Str::isUuid($customerId), 'uuid', ['attribute' => 'customerId']);
 
@@ -131,13 +129,11 @@ class AuditLog extends Tntity
      * @param  \DateTime|null  $startTime
      * @param  \DateTime|null  $endTime
      * @param  EnumAuditLogActionType|null  $actionType
-     * @return PaginatedResponse
-     *
-     * @throws \Throwable
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      */
-    public function getAuditLogsByUserId(string $userId, PaginationArguments $paginationArguments, \DateTime $startTime = null, \DateTime $endTime = null, EnumAuditLogActionType $actionType = null): PaginatedResponse
+    public function getAuditLogsByUserId(string $userId, PaginationArguments $paginationArguments, \DateTime $startTime = null, \DateTime $endTime = null, EnumAuditLogActionType $actionType = null): LengthAwarePaginator
     {
         Thingsboard::validation(! Str::isUuid($userId), 'uuid', ['attribute' => 'userId']);
 
@@ -163,13 +159,13 @@ class AuditLog extends Tntity
      * @param  \DateTime|null  $startTime
      * @param  \DateTime|null  $endTime
      * @param  EnumAuditLogActionType|null  $actionType
-     * @return PaginatedResponse
+     * @return LengthAwarePaginator
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN
      */
-    public function getAuditLogsByEntityId(Id $entity, PaginationArguments $paginationArguments, \DateTime $startTime = null, \DateTime $endTime = null, EnumAuditLogActionType $actionType = null): PaginatedResponse
+    public function getAuditLogsByEntityId(Id $entity, PaginationArguments $paginationArguments, \DateTime $startTime = null, \DateTime $endTime = null, EnumAuditLogActionType $actionType = null): LengthAwarePaginator
     {
         $payload = $paginationArguments->queryParams([
             'actionType' => $actionType, 'startTime' => ! is_null($startTime) ? $startTime->getTimestamp() * 1000 : null, 'endTime' => ! is_null($endTime) ? $endTime->getTimestamp() * 1000 : null,

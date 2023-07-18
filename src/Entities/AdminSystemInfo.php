@@ -5,6 +5,10 @@ namespace JalalLinuX\Thingsboard\Entities;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Tntity;
 
+/**
+ * @property array $systemData
+ * @property bool $monolith
+ */
 class AdminSystemInfo extends Tntity
 {
     protected $fillable = [

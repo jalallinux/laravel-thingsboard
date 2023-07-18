@@ -19,7 +19,7 @@ class DeleteDeviceAttributesTest extends TestCase
         $value = $this->faker->word();
         $payload = [$key => $value];
         $scope = $this->faker->randomElement(array_diff(EnumTelemetryScope::cases(), [EnumTelemetryScope::CLIENT_SCOPE()]));
-        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->first()->id->id;
+        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->collect()->first()->id->id;
         thingsboard($tenantUser)->telemetry()->saveDeviceAttributes($payload, EnumTelemetryScope::SHARED_SCOPE(), $deviceId);
         $result = thingsboard($tenantUser)->telemetry()->deleteDeviceAttributes($scope, [$key], $deviceId);
         self::assertTrue($result);

@@ -23,37 +23,35 @@ return [
         'driver' => env('THINGSBOARD_CACHE_DRIVER', 'redis'),
     ],
 
-    'countries' => json_decode(file_get_contents(__DIR__.'/countries.json'), true),
-
-    'temp_path' => storage_path('app/public/'.uniqid()),
+    'temp_path' => storage_path('app/public/thingsboard'),
 
     'default_widget_type_descriptors' => [
         [
-            'enum' => EnumDefaultWidgetTypeDescriptor::TIME_SERIES(),
+            'enum' => EnumDefaultWidgetTypeDescriptor::TIME_SERIES()->value,
             'isSystem' => true,
             'bundleAlias' => 'charts',
             'alias' => 'basic_timeseries',
         ],
         [
-            'enum' => EnumDefaultWidgetTypeDescriptor::ATTRIBUTES_CARD(),
+            'enum' => EnumDefaultWidgetTypeDescriptor::ATTRIBUTES_CARD()->value,
             'isSystem' => true,
             'bundleAlias' => 'cards',
             'alias' => 'attributes_card',
         ],
         [
-            'enum' => EnumDefaultWidgetTypeDescriptor::GPIO_CONTROL(),
+            'enum' => EnumDefaultWidgetTypeDescriptor::GPIO_CONTROL()->value,
             'isSystem' => true,
             'bundleAlias' => 'gpio_widgets',
             'alias' => 'basic_gpio_control',
         ],
         [
-            'enum' => EnumDefaultWidgetTypeDescriptor::ALARMS_TABLE(),
+            'enum' => EnumDefaultWidgetTypeDescriptor::ALARMS_TABLE()->value,
             'isSystem' => true,
             'bundleAlias' => 'alarm_widgets',
             'alias' => 'alarms_table',
         ],
         [
-            'enum' => EnumDefaultWidgetTypeDescriptor::HTML_CARD(),
+            'enum' => EnumDefaultWidgetTypeDescriptor::HTML_CARD()->value,
             'isSystem' => true,
             'bundleAlias' => 'cards',
             'alias' => 'html_card',
@@ -72,17 +70,17 @@ return [
 
         'users' => [
             [
-                'role' => \JalalLinuX\Thingsboard\Enums\EnumAuthority::SYS_ADMIN(),
+                'role' => \JalalLinuX\Thingsboard\Enums\EnumAuthority::SYS_ADMIN()->value,
                 'mail' => env('THINGSBOARD_ADMIN_MAIL', 'sysadmin@thingsboard.org'),
                 'pass' => env('THINGSBOARD_ADMIN_PASS', 'sysadmin'),
             ],
             [
-                'role' => \JalalLinuX\Thingsboard\Enums\EnumAuthority::TENANT_ADMIN(),
+                'role' => \JalalLinuX\Thingsboard\Enums\EnumAuthority::TENANT_ADMIN()->value,
                 'mail' => env('THINGSBOARD_TENANT_MAIL', 'tenant@thingsboard.org'),
                 'pass' => env('THINGSBOARD_TENANT_PASS', 'tenant'),
             ],
             [
-                'role' => \JalalLinuX\Thingsboard\Enums\EnumAuthority::CUSTOMER_USER(),
+                'role' => \JalalLinuX\Thingsboard\Enums\EnumAuthority::CUSTOMER_USER()->value,
                 'mail' => env('THINGSBOARD_CUSTOMER_MAIL', 'customer@thingsboard.org'),
                 'pass' => env('THINGSBOARD_CUSTOMER_PASS', 'customer'),
             ],
@@ -108,7 +106,7 @@ return [
                  * expirationTime - optional, value of the epoch time (in milliseconds, UTC timezone).
                  * Overrides timeout if present.
                  */
-                'expirationTime' => now()->addMinute()->getPreciseTimestamp(3),
+                'expirationTime' => 'now + 1 minute',
 
                 /**
                  * persistent - optional, indicates persistent RPC. The default value is "false".
@@ -145,7 +143,7 @@ return [
 
         // Defines which repository implementation shall be used. Currently,
         // only a MemoryRepository is supported.
-        'repository' => new MemoryRepository,
+        'repository' => MemoryRepository::class,
 
         // Additional settings used for the connection to the broker.
         // All of these settings are entirely optional and have sane defaults.

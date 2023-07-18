@@ -12,7 +12,7 @@ class UpdateDeviceCredentialsTest extends TestCase
     public function testStructure()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $device = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->random();
+        $device = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->collect()->random();
         $deviceCredentials = thingsboard($tenantUser)->device()->getDeviceCredentialsByDeviceId($device->id->id);
 
         $originalId = $deviceCredentials->credentialsId();

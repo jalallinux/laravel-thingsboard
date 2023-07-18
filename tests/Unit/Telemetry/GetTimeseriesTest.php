@@ -16,7 +16,7 @@ class GetTimeseriesTest extends TestCase
     public function testGetTimeseriesSuccess()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->first()->id->id;
+        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->collect()->first()->id->id;
         $keys = ['key1', 'key2'];
         $result = thingsboard($tenantUser)->telemetry()->getTimeseries(new Id($deviceId, EnumEntityType::DEVICE()), $keys,
             now()->subDay()

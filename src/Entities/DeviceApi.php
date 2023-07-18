@@ -6,6 +6,9 @@ use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
+/**
+ * @property string $deviceToken
+ */
 class DeviceApi extends Tntity
 {
     protected $fillable = [

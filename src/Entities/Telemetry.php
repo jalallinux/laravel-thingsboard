@@ -11,6 +11,9 @@ use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
+/**
+ * @property EnumTelemetryScope $scope
+ */
 class Telemetry extends Tntity
 {
     public function entityType(): ?EnumEntityType
@@ -31,15 +34,14 @@ class Telemetry extends Tntity
      * The request payload is a JSON object with key-value format of attributes to create or update.
      * For example:
      * {
-     * "stringKey":"value1",
-     * "booleanKey":true,
-     * "doubleKey":42.0,
-     * "longKey":73,
-     * "jsonKey": {
-     * "someNumber": 42,
-     * "someArray": [1,2,3],
-     * "someNestedObject": {"key": "value"}
-     * }
+     *  "stringKey":"value1",
+     *  "booleanKey":true,
+     *  "doubleKey":42.0,
+     *  "longKey":73,
+     *  "jsonKey": {
+     *  "someNumber": 42,
+     *  "someArray": [1,2,3],
+     *  "someNestedObject": {"key": "value"}
      * }
      *
      * @param  array  $payload
@@ -169,15 +171,15 @@ class Telemetry extends Tntity
      * The request payload is a JSON object with key-value format of attributes to create or update. For example:
      *
      * {
-     * "stringKey":"value1",
-     * "booleanKey":true,
-     * "doubleKey":42.0,
-     * "longKey":73,
-     * "jsonKey": {
-     * "someNumber": 42,
-     * "someArray": [1,2,3],
-     * "someNestedObject": {"key": "value"}
-     * }
+     *  "stringKey":"value1",
+     *  "booleanKey":true,
+     *  "doubleKey":42.0,
+     *  "longKey":73,
+     *  "jsonKey": {
+     *      "someNumber": 42,
+     *      "someArray": [1,2,3],
+     *      "someNestedObject": {"key": "value"}
+     *  }
      * }
      *
      * @param  Id  $id
@@ -412,18 +414,15 @@ class Telemetry extends Tntity
      * Use optional 'keys' parameter to return specific attributes. Example of the result:
      *
      * [
-     * {"key": "stringAttributeKey", "value": "value", "lastUpdateTs": 1609459200000},
-     * {"key": "booleanAttributeKey", "value": false, "lastUpdateTs": 1609459200001},
-     * {"key": "doubleAttributeKey", "value": 42.2, "lastUpdateTs": 1609459200002},
-     * {"key": "longKeyExample", "value": 73, "lastUpdateTs": 1609459200003},
-     * {"key": "jsonKeyExample",
-     * "value": {
-     * "someNumber": 42,
-     * "someArray": [1,2,3],
-     * "someNestedObject": {"key": "value"}
-     * },
-     * "lastUpdateTs": 1609459200004
-     * }
+     *  {"key": "stringAttributeKey", "value": "value", "lastUpdateTs": 1609459200000},
+     *  {"key": "booleanAttributeKey", "value": false, "lastUpdateTs": 1609459200001},
+     *  {"key": "doubleAttributeKey", "value": 42.2, "lastUpdateTs": 1609459200002},
+     *  {"key": "longKeyExample", "value": 73, "lastUpdateTs": 1609459200003},
+     *  {"key": "jsonKeyExample", "value": {
+     *      "someNumber": 42,
+     *      "someArray": [1,2,3],
+     *      "someNestedObject": {"key": "value"}
+     *  }, "lastUpdateTs": 1609459200004 }
      * ]
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
@@ -434,35 +433,33 @@ class Telemetry extends Tntity
      *
      * @throws \Throwable
      *
-     * @author Sabiee
+     * @author Sabiee, JalalLinuX
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getAttributesByScope(Id $id, EnumTelemetryScope $scope, array $keys): array
+    public function getAttributesByScope(Id $id, EnumTelemetryScope $scope, array $keys = []): array
     {
         Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
-        Thingsboard::validation(empty($keys), 'required', ['attribute' => 'keys']);
-
         $keys = implode(',', $keys);
 
-        return $this->api()->get("plugins/telemetry/{$id->entityType}/{$id->id}/values/attributes/{$scope}", ['keys' => $keys])->json();
+        return $this->api()->get("plugins/telemetry/{$id->entityType}/{$id->id}/values/attributes/{$scope}", array_filter_null(['keys' => $keys]))->json();
     }
 
     /**
      * Returns a range of time-series values for specified entity. Returns not aggregated data by default. Use aggregation function ('agg') and aggregation interval ('interval') to enable aggregation of the results on the database / server side. The aggregation is generally more efficient then fetching all records.
      *
      * {
-     * "temperature": [
-     * {
-     * "value": 36.7,
-     * "ts": 1609459200000
-     * },
-     * {
-     * "value": 36.6,
-     * "ts": 1609459201000
-     * }
-     * ]
+     *  "temperature": [
+     *      {
+     *          "value": 36.7,
+     *          "ts": 1609459200000
+     *      },
+     *      {
+     *          "value": 36.6,
+     *          "ts": 1609459201000
+     *      }
+     *  ]
      * }
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *
@@ -494,7 +491,7 @@ class Telemetry extends Tntity
 
         $keys = implode(',', $keys);
 
-        $queryParams = array_filter([
+        $queryParams = array_filter_null([
             'keys' => $keys,
             'startTs' => $startTs->getTimestamp() * 1000,
             'endTs' => $endTs->getTimestamp() * 1000,
@@ -512,27 +509,27 @@ class Telemetry extends Tntity
      * Returns all time-series that belong to specified entity. Use optional 'keys' parameter to return specific time-series. The result is a JSON object. The format of the values depends on the 'useStrictDataTypes' parameter. By default, all time-series values are converted to strings:
      *
      * {
-     * "stringTsKey": [{ "value": "value", "ts": 1609459200000}],
-     * "booleanTsKey": [{ "value": "false", "ts": 1609459200000}],
-     * "doubleTsKey": [{ "value": "42.2", "ts": 1609459200000}],
-     * "longTsKey": [{ "value": "73", "ts": 1609459200000}],
-     * "jsonTsKey": [{ "value": "{\"someNumber\": 42,\"someArray\": [1,2,3],\"someNestedObject\": {\"key\": \"value\"}}", "ts": 1609459200000}]
+     *  "stringTsKey": [{ "value": "value", "ts": 1609459200000}],
+     *  "booleanTsKey": [{ "value": "false", "ts": 1609459200000}],
+     *  "doubleTsKey": [{ "value": "42.2", "ts": 1609459200000}],
+     *  "longTsKey": [{ "value": "73", "ts": 1609459200000}],
+     *  "jsonTsKey": [{ "value": "{\"someNumber\": 42,\"someArray\": [1,2,3],\"someNestedObject\": {\"key\": \"value\"}}", "ts": 1609459200000}]
      * }
      *
      * However, it is possible to request the values without conversion ('useStrictDataTypes'=true):
      *
      * {
-     * "stringTsKey": [{ "value": "value", "ts": 1609459200000}],
-     * "booleanTsKey": [{ "value": false, "ts": 1609459200000}],
-     * "doubleTsKey": [{ "value": 42.2, "ts": 1609459200000}],
-     * "longTsKey": [{ "value": 73, "ts": 1609459200000}],
-     * "jsonTsKey": [{
-     * "value": {
-     * "someNumber": 42,
-     * "someArray": [1,2,3],
-     * "someNestedObject": {"key": "value"}
+     *  "stringTsKey": [{ "value": "value", "ts": 1609459200000}],
+     *  "booleanTsKey": [{ "value": false, "ts": 1609459200000}],
+     *  "doubleTsKey": [{ "value": 42.2, "ts": 1609459200000}],
+     *  "longTsKey": [{ "value": 73, "ts": 1609459200000}],
+     *  "jsonTsKey": [{
+     *  "value": {
+     *  "someNumber": 42,
+     *  "someArray": [1,2,3],
+     *  "someNestedObject": {"key": "value"}
      * },
-     * "ts": 1609459200000}]
+     *  "ts": 1609459200000}]
      * }
      *
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
@@ -546,11 +543,11 @@ class Telemetry extends Tntity
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getLatestTimeseries(Id $id, array $keys = null, bool $useStrictDataTypes): array
+    public function getLatestTimeseries(Id $id, array $keys = null, bool $useStrictDataTypes = null): array
     {
         Thingsboard::validation(! Str::isUuid($id->id), 'uuid', ['attribute' => 'entityId']);
 
-        $queryParams = array_filter([
+        $queryParams = array_filter_null([
             'keys' => implode(',', $keys),
             'useStrictDataTypes' => $useStrictDataTypes,
         ]);
@@ -562,18 +559,15 @@ class Telemetry extends Tntity
      * Returns all attributes that belong to specified entity. Use optional 'keys' parameter to return specific attributes. Example of the result:
      *
      * [
-     * {"key": "stringAttributeKey", "value": "value", "lastUpdateTs": 1609459200000},
-     * {"key": "booleanAttributeKey", "value": false, "lastUpdateTs": 1609459200001},
-     * {"key": "doubleAttributeKey", "value": 42.2, "lastUpdateTs": 1609459200002},
-     * {"key": "longKeyExample", "value": 73, "lastUpdateTs": 1609459200003},
-     * {"key": "jsonKeyExample",
-     * "value": {
-     * "someNumber": 42,
-     * "someArray": [1,2,3],
-     * "someNestedObject": {"key": "value"}
-     * },
-     * "lastUpdateTs": 1609459200004
-     * }
+     *  {"key": "stringAttributeKey", "value": "value", "lastUpdateTs": 1609459200000},
+     *  {"key": "booleanAttributeKey", "value": false, "lastUpdateTs": 1609459200001},
+     *  {"key": "doubleAttributeKey", "value": 42.2, "lastUpdateTs": 1609459200002},
+     *  {"key": "longKeyExample", "value": 73, "lastUpdateTs": 1609459200003},
+     *  {"key": "jsonKeyExample", "value": {
+     *      "someNumber": 42,
+     *      "someArray": [1,2,3],
+     *      "someNestedObject": {"key": "value"}
+     *  }, "lastUpdateTs": 1609459200004 }
      * ]
      * Referencing a non-existing entity Id or invalid entity type will cause an error.
      *

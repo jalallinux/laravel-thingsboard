@@ -2,9 +2,10 @@
 
 namespace JalalLinuX\Thingsboard\Infrastructure;
 
+use Stringable;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
-class Base64Image
+class Base64Image implements Stringable
 {
     private string $base64string;
 
@@ -15,7 +16,7 @@ class Base64Image
 
     public function download(): BinaryFileResponse
     {
-        $path = config('thingsboard.temp_path').".{$this->extension()}";
+        $path = rtrim(config('thingsboard.temp_path'), '/').'/'.uniqid().".{$this->extension()}";
 
         file_put_contents($path, base64_decode($this->data()));
 

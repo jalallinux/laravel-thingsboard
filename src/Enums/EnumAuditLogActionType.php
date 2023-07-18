@@ -2,8 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self ACTIVATED()
  * @method static self ADDED()
@@ -41,7 +39,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self UPDATED()
  * @method static self UPDATED_COMMENT()
  */
-class EnumAuditLogActionType extends Enum
+class EnumAuditLogActionType extends BaseEnum
 {
     protected static function values(): array
     {

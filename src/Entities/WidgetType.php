@@ -4,8 +4,8 @@ namespace JalalLinuX\Thingsboard\Entities;
 
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastBase64Image;
-use JalalLinuX\Thingsboard\Casts\CastDescriptor;
 use JalalLinuX\Thingsboard\Casts\CastId;
+use JalalLinuX\Thingsboard\Casts\WidgetType\CastDescriptor;
 use JalalLinuX\Thingsboard\Enums\EnumDefaultWidgetTypeDescriptor;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Base64Image;
@@ -150,7 +150,7 @@ class WidgetType extends Tntity
      *
      * @param  string|null  $bundleAlias
      * @param  bool  $isSystem
-     * @return array
+     * @return self[]
      *
      * @author JalalLinuX
      *
@@ -172,7 +172,7 @@ class WidgetType extends Tntity
      *
      * @param  string|null  $bundleAlias
      * @param  bool  $isSystem
-     * @return array
+     * @return self[]
      *
      * @author JalalLinuX
      *
@@ -206,16 +206,17 @@ class WidgetType extends Tntity
      *
      * @group SYS_ADMIN | TENANT_ADMIN
      */
-//    public function saveWidgetType(string $name = null, string $bundleAlias = null, Descriptor $descriptor = null): static
-//    {
-//        $payload = array_merge($this->attributes, [
-//            'name' => $name ?? $this->forceAttribute('name'),
-//            'bundleAlias' => $bundleAlias ?? $this->forceAttribute('bundleAlias'),
-//            'descriptor' => ($descriptor ?? $this->forceAttribute('descriptor'))->toArray(),
-//        ]);
-//
-//        $widgetType = $this->api()->post('widgetType', $payload)->json();
-//
-//        return $this->fill($widgetType);
-//    }
+
+    //    public function saveWidgetType(string $name = null, string $bundleAlias = null, Descriptor $descriptor = null): static
+    //    {
+    //        $payload = array_merge($this->attributesToArray(), [
+    //            'name' => $name ?? $this->forceAttribute('name'),
+    //            'bundleAlias' => $bundleAlias ?? $this->forceAttribute('bundleAlias'),
+    //            'descriptor' => ($descriptor ?? $this->forceAttribute('descriptor'))->toArray(),
+    //        ]);
+    //
+    //        $widgetType = $this->api()->post('widgetType', $payload)->json();
+    //
+    //        return $this->fill($widgetType);
+    //    }
 }

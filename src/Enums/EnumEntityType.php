@@ -2,8 +2,6 @@
 
 namespace JalalLinuX\Thingsboard\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
 /**
  * @method static self ALARM()
  * @method static self ASSET()
@@ -25,7 +23,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self WIDGET_TYPE()
  * @method static self WIDGETS_BUNDLE()
  */
-class EnumEntityType extends Enum
+class EnumEntityType extends BaseEnum
 {
     protected static function values(): array
     {
@@ -67,7 +65,7 @@ class EnumEntityType extends Enum
             'OTA_PACKAGE' => 'OTA Pacakge',
             'RPC' => 'RPC',
             'RULE_CHAIN' => 'Rule Chain',
-            'RULE_NODE' => 'Rule Node',
+            'RULE_NODE' => 'Rule RuleNode',
             'TB_RESOURCE' => 'TB Resource',
             'TENANT' => 'Tenant',
             'TENANT_PROFILE' => 'Tenant Profile',

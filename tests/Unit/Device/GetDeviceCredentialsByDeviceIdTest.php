@@ -15,7 +15,7 @@ class GetDeviceCredentialsByDeviceIdTest extends TestCase
     public function testCorrectUuid()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->data()->random()->id->id;
+        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->collect()->random()->id->id;
         $deviceCredentials = thingsboard($tenantUser)->device()->getDeviceCredentialsByDeviceId($deviceId);
 
         $this->assertInstanceOf(DeviceCredentials::class, $deviceCredentials);

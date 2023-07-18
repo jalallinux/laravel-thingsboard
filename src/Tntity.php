@@ -6,14 +6,14 @@ use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Http;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Exceptions\ThingsboardExceptionHandler;
-use JalalLinuX\Thingsboard\Infrastructure\PaginatedResponse;
+use JalalLinuX\Thingsboard\Infrastructure\HasCustomCasts;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Interfaces\ThingsboardUser;
 use Jenssegers\Model\Model;
-use Vkovic\LaravelCustomCasts\HasCustomCasts;
 
 abstract class Tntity extends Model
 {
@@ -30,8 +30,9 @@ abstract class Tntity extends Model
 
         if ($auth) {
             Thingsboard::exception(! isset($this->_thingsboardUser), 'with_token', code: 401);
+
             $request = $request->withHeaders([
-                config('thingsboard.rest.authorization.header_key') => config('thingsboard.rest.authorization.token_type').' '.Thingsboard::fetchUserToken($this->_thingsboardUser),
+                config('thingsboard.rest.authorization.header_key') => config('thingsboard.rest.authorization.token_type').' '.Thingsboard::fetchUserToken($this->_thingsboardUser)->getAccessToken(),
             ]);
         }
 
@@ -59,11 +60,13 @@ abstract class Tntity extends Model
 
     public function getCastAttributes(): array
     {
-        foreach ($this->attributes as $k => $v) {
-            $this->attributes[$k] = $this->hasCast($k) ? $this->castAttribute($k, $v) : $v;
+        $attributes = $this->attributes;
+
+        foreach ($attributes as $k => $v) {
+            $attributes[$k] = $this->hasCast($k) ? $this->castAttribute($k, $v) : $v;
         }
 
-        return $this->attributes;
+        return $attributes;
     }
 
     public function toResource(string $class): JsonResource
@@ -85,8 +88,13 @@ abstract class Tntity extends Model
         return new static($attributes);
     }
 
-    public function paginatedResponse(Response $response, PaginationArguments $arguments, Tntity $tntity = null): PaginatedResponse
+    public function paginatedResponse(Response $response, PaginationArguments $arguments, Tntity $tntity = null): LengthAwarePaginator
     {
-        return new PaginatedResponse($tntity ?? $this, $response, $arguments);
+        return new LengthAwarePaginator(
+            array_map(fn ($row) => (clone ($tntity ?? $this))->fill($row), $response->json('data')),
+            $response->json('totalElements'), $arguments->pageSize, $arguments->page, [
+                'sortOrder' => $arguments->sortOrder, 'sortProperty' => $arguments->sortProperty,
+            ]
+        );
     }
 }
