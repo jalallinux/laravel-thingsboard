@@ -27,7 +27,7 @@ class GetCustomerAssetsTest extends TestCase
         $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->data()->random()->id->id;
         $asset = thingsboard($tenantUser)->asset()->assignAssetToCustomer($customerId, $newAsset->id->id);
 
-        $assets = thingsboard($tenantUser)->asset()->getCustomerAssetInfos($pagination, $customerId);
+        $assets = thingsboard($tenantUser)->asset()->getCustomerAssets($pagination, $customerId);
 
         $assets->data()->each(fn ($asset) => $this->assertInstanceOf(Asset::class, $asset));
         $asset->unassignAssetFromCustomer();
