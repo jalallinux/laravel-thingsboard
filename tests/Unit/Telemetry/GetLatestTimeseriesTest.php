@@ -24,6 +24,18 @@ class GetLatestTimeseriesTest extends TestCase
         self::assertIsArray($result);
     }
 
+    /**
+     * @throws \Throwable
+     */
+    public function testGetLatestTimeSeriesWithoutUseStrictDataTypesSuccess()
+    {
+        $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
+        $deviceId = thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->collect()->first()->id->id;
+        $keys = thingsboard($tenantUser)->telemetry()->getTimeseriesKeys(new Id($deviceId, EnumEntityType::DEVICE()));
+        $result = thingsboard($tenantUser)->telemetry()->getLatestTimeseries(new Id($deviceId, EnumEntityType::DEVICE()), $keys);
+        self::assertIsArray($result);
+    }
+
     public function testNonExistUuid()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());

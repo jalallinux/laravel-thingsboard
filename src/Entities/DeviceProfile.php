@@ -5,7 +5,9 @@ namespace JalalLinuX\Thingsboard\Entities;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
+use JalalLinuX\Thingsboard\Enums\EnumDeviceProfileProvisionType;
 use JalalLinuX\Thingsboard\Enums\EnumDeviceProfileSortProperty;
+use JalalLinuX\Thingsboard\Enums\EnumDeviceProfileTransportType;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
@@ -66,6 +68,8 @@ class DeviceProfile extends Tntity
         'firmwareId' => CastId::class,
         'softwareId' => CastId::class,
         'externalId' => CastId::class,
+        'provisionType' => EnumDeviceProfileProvisionType::class,
+        'transportType' => EnumDeviceProfileTransportType::class,
     ];
 
     public function entityType(): ?EnumEntityType
@@ -153,14 +157,16 @@ class DeviceProfile extends Tntity
      * Only one 'default' device profile may exist in scope of tenant.
      *
      * @param  string|null  $name
-     * @param  string  $type
+     * @param  string|null  $type
+     * @param  EnumDeviceProfileProvisionType|null  $provisionType
+     * @param  EnumDeviceProfileTransportType|null  $transportType
      * @return self
      *
      * @author Sabiee
      *
      * @group TENANT_ADMIN
      */
-    public function saveDeviceProfile(string $name = null, string $type = null, string $provisionType = null, string $transportType = null): static
+    public function saveDeviceProfile(string $name = null, string $type = null, EnumDeviceProfileProvisionType $provisionType = null, EnumDeviceProfileTransportType $transportType = null): static
     {
         $payload = array_merge($this->attributesToArray(), [
             'name' => $name ?? $this->forceAttribute('name'),
@@ -312,17 +318,21 @@ class DeviceProfile extends Tntity
      *
      *
      * @param  PaginationArguments  $paginationArguments
+     * @param  EnumDeviceProfileTransportType|null  $transportType
      * @return LengthAwarePaginator
      *
      * @author Sabiee
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getDeviceProfileInfos(PaginationArguments $paginationArguments): LengthAwarePaginator
+    public function getDeviceProfileInfos(PaginationArguments $paginationArguments, EnumDeviceProfileTransportType $transportType = null): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumDeviceProfileSortProperty::class);
+        $payload = array_merge($paginationArguments->queryParams(), array_filter_null([
+            'transportType' => $transportType ?? $this->getAttribute('transportType'),
+        ]));
 
-        $response = $this->api()->get('deviceProfileInfos', $paginationArguments->queryParams());
+        $response = $this->api()->get('deviceProfileInfos', $payload);
 
         return $this->paginatedResponse($response, $paginationArguments);
     }

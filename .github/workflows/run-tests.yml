@@ -11,7 +11,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    name: P${{ matrix.php }} L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
+    name: P${{ matrix.php }} L${{ matrix.laravel }} - ${{ matrix.dependency-version }} on ${{ matrix.os }}
 
     strategy:
       fail-fast: false
