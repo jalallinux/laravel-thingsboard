@@ -365,6 +365,6 @@ class Device extends Tntity
     {
         $types = $this->api()->get('device/types')->json();
 
-        return empty($types) ? [] : array_map(fn ($type) => Type::make($type), $types);
+        return array_map(fn ($type) => Type::make($type), $types);
     }
 }
