@@ -14,7 +14,7 @@ class GetCustomerAssetsTest extends TestCase
 {
     public function testPaginationData()
     {
-        $pagination = $this->randomPagination(EnumAssetSortProperty::class, 1, 20);
+        $pagination = $this->randomPagination([EnumAssetSortProperty::CREATED_TIME(), EnumAssetSortProperty::LABEL(), EnumAssetSortProperty::NAME(), EnumAssetSortProperty::TYPE()], 1, 20);
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
 
         $assetProfileId = thingsboard($tenantUser)->assetProfile()->getAssetProfiles(PaginationArguments::make(textSearch: 'default'))->collect()->first()->id->id;
