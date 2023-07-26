@@ -95,6 +95,7 @@ class Queue
     {
         return $this->id;
     }
+
     public function setId(string $id): static
     {
         return tap($this, fn () => $this->id = $id);
