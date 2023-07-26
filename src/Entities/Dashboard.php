@@ -366,4 +366,31 @@ class Dashboard extends Tntity
 
         return $this->fill($dashboard);
     }
+
+    /**
+     * Removes the list of Customers from the existing list of assignments for the Dashboard.
+     * Keeps other assignments to customers that are not in the provided list.
+     * Returns the Dashboard object.
+     *
+     * @param  string|null  $id
+     * @return $this
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function removeDashboardCustomers(array $customerIds, string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'dashboardId']);
+
+        foreach ($customerIds as $customerId) {
+            Thingsboard::validation(! Str::isUuid($customerId), 'uuid', ['attribute' => 'customerId']);
+        }
+
+        $dashboard = $this->api()->post("dashboard/{$id}/customers/remove", $customerIds)->json();
+
+        return $this->fill($dashboard);
+    }
 }

@@ -290,7 +290,7 @@ class Asset extends Tntity
      */
     public function getCustomerAssets(PaginationArguments $paginationArguments, string $customerId = null, string $type = null): LengthAwarePaginator
     {
-        $paginationArguments->validateSortProperty(EnumAssetSortProperty::class);
+        $paginationArguments->validateSortProperty(EnumAssetSortProperty::class, [EnumAssetSortProperty::CUSTOMER_TITLE()]);
 
         $response = $this->api()->get("customer/{$customerId}/assets", $paginationArguments->queryParams([
             'type' => $type ?? @$this->type,

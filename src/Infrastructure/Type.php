@@ -17,7 +17,7 @@ class Type
     public function __construct(Id $id, EnumEntityType $entityType, string $type)
     {
         $this->id = $id;
-        $this->entityType = EnumEntityType::from($entityType);
+        $this->entityType = $entityType;
         $this->type = $type;
     }
 
