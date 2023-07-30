@@ -20,7 +20,7 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property bool $default
  * @property Id $defaultDashboardId
  * @property Id $defaultRuleChainId
- * @property string $defaultQueueName
+ * @property EnumAssetProfileQueue $defaultQueueName
  * @property string $description
  * @property string $image
  * @property Id $defaultEdgeRuleChainId
