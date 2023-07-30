@@ -5,6 +5,7 @@ namespace JalalLinuX\Thingsboard\Entities;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
+use JalalLinuX\Thingsboard\Enums\EnumAssetProfileQueue;
 use JalalLinuX\Thingsboard\Enums\EnumAssetProfileSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
@@ -48,6 +49,7 @@ class AssetProfile extends Tntity
         'tenantId' => CastId::class,
         'customerId' => CastId::class,
         'assetProfileId' => CastId::class,
+        'defaultQueueName' => EnumAssetProfileQueue::class,
         'additionalInfo' => 'array',
         'createdTime' => 'timestamp',
     ];
