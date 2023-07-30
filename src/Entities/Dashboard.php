@@ -372,10 +372,11 @@ class Dashboard extends Tntity
      * Keeps other assignments to customers that are not in the provided list.
      * Returns the Dashboard object.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return $this
      *
      * @author JalalLinuX
+     *
      * @group TENANT_ADMIN
      */
     public function removeDashboardCustomers(array $customerIds, string $id = null): static

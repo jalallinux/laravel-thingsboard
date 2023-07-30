@@ -12,6 +12,8 @@ class Queue
 
     private string $name;
 
+    private ?string $id = null;
+
     private int $packProcessingTimeout = 2000;
 
     private int $partitions = 10;
@@ -45,17 +47,18 @@ class Queue
 
     public function toArray(): array
     {
-        return [
+        return array_filter_null([
             'additionalInfo' => $this->getAdditionalInfo(),
             'consumerPerPartition' => $this->getConsumerPerPartition(),
             'name' => $this->getName(),
+            'id' => $this->getId(),
             'packProcessingTimeout' => $this->getPackProcessingTimeout(),
             'partitions' => $this->getPartitions(),
             'pollInterval' => $this->getPollInterval(),
             'processingStrategy' => $this->getProcessingStrategy()->toArray(),
             'submitStrategy' => $this->getSubmitStrategy()->toArray(),
             'topic' => $this->getTopic(),
-        ];
+        ]);
     }
 
     public function getAdditionalInfo(): ?array
@@ -86,6 +89,16 @@ class Queue
     public function setName(string $name): static
     {
         return tap($this, fn () => $this->name = $name);
+    }
+
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    public function setId(string $id): static
+    {
+        return tap($this, fn () => $this->id = $id);
     }
 
     public function getPackProcessingTimeout(): int
