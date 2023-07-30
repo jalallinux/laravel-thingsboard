@@ -194,7 +194,7 @@ class AssetProfile extends Tntity
      * Fetch the Default Asset Profile Info object.
      * Asset Profile Info is a lightweight object that includes main information about Asset Profile.
      *
-     * @param bool $full
+     * @param  bool  $full
      * @return self
      *
      * @author JalalLinuX
