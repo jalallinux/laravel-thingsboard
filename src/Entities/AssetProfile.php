@@ -194,15 +194,20 @@ class AssetProfile extends Tntity
      * Fetch the Default Asset Profile Info object.
      * Asset Profile Info is a lightweight object that includes main information about Asset Profile.
      *
+     * @param bool $full
      * @return self
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getDefaultAssetProfileInfo(): static
+    public function getDefaultAssetProfileInfo(bool $full = false): static
     {
         $assetProfile = $this->api()->get('assetProfileInfo/default')->json();
+
+        if ($full) {
+            return $this->getAssetProfileById($assetProfile['id']['id']);
+        }
 
         return $this->fill($assetProfile);
     }
