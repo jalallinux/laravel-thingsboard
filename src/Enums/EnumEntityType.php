@@ -22,6 +22,7 @@ namespace JalalLinuX\Thingsboard\Enums;
  * @method static self USER()
  * @method static self WIDGET_TYPE()
  * @method static self WIDGETS_BUNDLE()
+ * @method static self QUEUE()
  */
 class EnumEntityType extends BaseEnum
 {
@@ -47,6 +48,7 @@ class EnumEntityType extends BaseEnum
             'USER' => 'USER',
             'WIDGET_TYPE' => 'WIDGET_TYPE',
             'WIDGETS_BUNDLE' => 'WIDGETS_BUNDLE',
+            'QUEUE' => 'QUEUE',
         ];
     }
 
@@ -72,6 +74,7 @@ class EnumEntityType extends BaseEnum
             'USER' => 'User',
             'WIDGET_TYPE' => 'Widget Type',
             'WIDGETS_BUNDLE' => 'Widgets Bundle',
+            'QUEUE' => 'Queue',
         ];
     }
 }

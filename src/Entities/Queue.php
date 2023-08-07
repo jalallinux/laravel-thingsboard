@@ -59,7 +59,7 @@ class Queue extends Tntity
 
     public function entityType(): ?EnumEntityType
     {
-        return null;
+        return EnumEntityType::QUEUE();
     }
 
     /**
