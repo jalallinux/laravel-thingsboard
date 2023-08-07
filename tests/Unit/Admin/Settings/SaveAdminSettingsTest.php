@@ -11,7 +11,7 @@ class SaveAdminSettingsTest extends TestCase
     public function testSaveAdminSettingsSuccess()
     {
         $adminUser = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
-        $name = $this->faker->unique()->slug;
+        $name = $this->faker->unique()->slug(20);
         $settings = thingsboard($adminUser)->adminSettings()->saveAdminSettings($name, [
             'TEST_STRING' => $this->faker->sentence,
             'TEST_NUMERIC' => $this->faker->numerify,

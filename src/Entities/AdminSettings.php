@@ -64,8 +64,8 @@ class AdminSettings extends Tntity
      * Specify the Administration Settings Id when you would like to update the Administration Settings.
      * Referencing non-existing Administration Settings Id will cause an error.
      *
-     * @param  string  $key
-     * @param  array  $values
+     * @param  string|null  $key
+     * @param  array|null  $jsonValue
      * @param  string|null  $id
      * @return $this
      *
@@ -73,15 +73,15 @@ class AdminSettings extends Tntity
      *
      * @group SYS_ADMIN
      */
-    public function saveAdminSettings(string $key, array $values, string $id = null): static
+    public function saveAdminSettings(string $key = null, array $jsonValue = null, string $id = null): static
     {
         $id = $id ?? $this->id['id'] ?? Str::uuid()->toString();
 
         Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'settingId']);
 
         $payload = array_merge($this->attributesToArray(), [
-            'key' => $key,
-            'jsonValue' => $values,
+            'key' => $key ?? $this->forceAttribute('key'),
+            'jsonValue' => $jsonValue ?? $this->forceAttribute('jsonValue'),
         ]);
 
         $adminSettings = $this->api()->post('admin/settings', $payload)->json();
@@ -94,17 +94,17 @@ class AdminSettings extends Tntity
      * You may change the 'To' email in the user profile of the System Administrator.
      *
      *
-     * @param  array  $values
+     * @param  array  $jsonValue
      * @return bool
      *
      * @author JalalLinuX
      *
      * @group SYS_ADMIN
      */
-    public function sendTestMail(array $values): bool
+    public function sendTestMail(array $jsonValue): bool
     {
         $mailSetting = $this->getAdminSettings('mail');
-        $mailSetting->jsonValue = array_merge($mailSetting->jsonValue, $values);
+        $mailSetting->jsonValue = array_merge($mailSetting->jsonValue, $jsonValue);
 
         return $this->api()->post('admin/settings/testMail', $mailSetting->attributesToArray())->successful();
     }
