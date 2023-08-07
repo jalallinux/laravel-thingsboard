@@ -87,7 +87,7 @@ class AdminSettings extends Tntity
      * You may change the 'To' email in the user profile of the System Administrator.
      *
      *
-     * @param array $values
+     * @param  array  $values
      * @return bool
      *
      * @author JalalLinuX
@@ -99,6 +99,6 @@ class AdminSettings extends Tntity
         $mailSetting = $this->getAdminSettings('mail');
         $mailSetting->jsonValue = array_merge($mailSetting->jsonValue, $values);
 
-        return $this->api()->post("admin/settings/testMail", $mailSetting->attributesToArray())->successful();
+        return $this->api()->post('admin/settings/testMail', $mailSetting->attributesToArray())->successful();
     }
 }
