@@ -81,4 +81,24 @@ class AdminSettings extends Tntity
 
         return $this->fill($adminSettings);
     }
+
+    /**
+     * Attempts to send test email to the System Administrator User using Mail Settings provided as a parameter.
+     * You may change the 'To' email in the user profile of the System Administrator.
+     *
+     *
+     * @param array $values
+     * @return bool
+     *
+     * @author JalalLinuX
+     *
+     * @group SYS_ADMIN
+     */
+    public function sendTestMail(array $values): bool
+    {
+        $mailSetting = $this->getAdminSettings('mail');
+        $mailSetting->jsonValue = array_merge($mailSetting->jsonValue, $values);
+
+        return $this->api()->post("admin/settings/testMail", $mailSetting->attributesToArray())->successful();
+    }
 }
