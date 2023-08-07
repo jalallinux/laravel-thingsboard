@@ -2,9 +2,12 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumQueueProcessingStrategyType;
+use JalalLinuX\Thingsboard\Enums\EnumQueueServiceType;
+use JalalLinuX\Thingsboard\Enums\EnumQueueSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumQueueSubmitStrategy;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
@@ -17,7 +20,7 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property array $additionalInfo
  * @property bool $consumerPerPartition
  * @property \DateTime $createdTime
- * @property double $packProcessingTimeout
+ * @property float $packProcessingTimeout
  * @property int $partitions
  * @property int $pollInterval
  * @property EnumQueueProcessingStrategyType $processingStrategy
@@ -57,5 +60,31 @@ class Queue extends Tntity
     public function entityType(): ?EnumEntityType
     {
         return null;
+    }
+
+    /**
+     * Returns a page of queues registered in the platform.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details.
+     *
+     *
+     * @param  PaginationArguments  $paginationArguments
+     * @param  EnumQueueServiceType  $serviceType
+     * @return LengthAwarePaginator
+     *
+     * @author JalalLinuX
+     *
+     * @group SYS_ADMIN | TENANT_ADMIN
+     */
+    public function getTenantQueuesByServiceType(PaginationArguments $paginationArguments, EnumQueueServiceType $serviceType): LengthAwarePaginator
+    {
+        $paginationArguments->validateSortProperty(EnumQueueSortProperty::class);
+
+        $response = $this->api()->get('queues', $paginationArguments->queryParams([
+            'serviceType' => $serviceType->value,
+        ]));
+
+        return $this->paginatedResponse($response, $paginationArguments);
     }
 }
