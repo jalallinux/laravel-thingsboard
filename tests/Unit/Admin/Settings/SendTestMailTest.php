@@ -10,7 +10,7 @@ class SendTestMailTest extends TestCase
     public function testGetAdminSettingsSuccess()
     {
         $adminUser = $this->thingsboardUser(EnumAuthority::SYS_ADMIN());
-        sleep($this->faker->numberBetween(2,8));
+        sleep($this->faker->numberBetween(2, 8));
         $result = thingsboard($adminUser)->adminSettings()->sendTestMail([
             'mailFrom' => $this->faker->safeEmail,
             'smtpProtocol' => 'smtp',

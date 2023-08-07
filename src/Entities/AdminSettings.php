@@ -2,14 +2,16 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
+use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
  * @property string $key
- * @property Id $id
+ * @property array $id
  * @property Id $tenantId
  * @property array $jsonValue
  */
@@ -64,14 +66,19 @@ class AdminSettings extends Tntity
      *
      * @param  string  $key
      * @param  array  $values
+     * @param  string|null  $id
      * @return $this
      *
      * @author JalalLinuX
      *
      * @group SYS_ADMIN
      */
-    public function saveAdminSettings(string $key, array $values): static
+    public function saveAdminSettings(string $key, array $values, string $id = null): static
     {
+        $id = $id ?? $this->id['id'] ?? Str::uuid()->toString();
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'settingId']);
+
         $payload = array_merge($this->attributesToArray(), [
             'key' => $key,
             'jsonValue' => $values,
