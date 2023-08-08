@@ -26,7 +26,7 @@ class GetEventsByTypeTest extends TestCase
         ])->getEventsByType(PaginationArguments::make(sortProperty: $sortProperty), $device->id, EnumEventType::ERROR(), $device->tenantId->id);
 
         $this->assertInstanceOf(LengthAwarePaginator::class, $events);
-        $events->collect()->each(function ($event){
+        $events->collect()->each(function ($event) {
             $this->assertInstanceOf($event->tenantId, Id::class);
             $this->assertGreaterThan($event->type, EnumEventType::class);
             $this->assertInstanceOf($event->entityId, Id::class);

@@ -3,7 +3,6 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\Event;
 
 use Illuminate\Pagination\LengthAwarePaginator;
-use JalalLinuX\Thingsboard\Entities\AuditLog;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Enums\EnumEventSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumEventType;
@@ -26,7 +25,7 @@ class GetEventsTest extends TestCase
             ],
         ])->getEventsByEventFilter(PaginationArguments::make(sortProperty: $sortProperty), $device->id, $device->tenantId->id);
         $this->assertInstanceOf(LengthAwarePaginator::class, $events);
-        $events->collect()->each(function ($event){
+        $events->collect()->each(function ($event) {
             $this->assertInstanceOf($event->tenantId, Id::class);
             $this->assertGreaterThan($event->type, EnumEventType::class);
             $this->assertInstanceOf($event->entityId, Id::class);

@@ -31,7 +31,7 @@ class Event extends Tntity
         'uid',
         'entityId',
         'body',
-        'createdTime'
+        'createdTime',
     ];
 
     protected $casts = [
@@ -122,11 +122,11 @@ class Event extends Tntity
      * 'msgType' - string value representing the message type;
      * 'isError' - boolean value to filter the errors.
      *
-     * @param PaginationArguments $paginationArguments
-     * @param Id $id
-     * @param string $tenantId
-     * @param \DateTime|null $startTime
-     * @param \DateTime|null $endTime
+     * @param  PaginationArguments  $paginationArguments
+     * @param  Id  $id
+     * @param  string  $tenantId
+     * @param  \DateTime|null  $startTime
+     * @param  \DateTime|null  $endTime
      * @return LengthAwarePaginator
      *
      * @author  Sabiee
@@ -159,6 +159,7 @@ class Event extends Tntity
         $queryParams = http_build_query($queryParams);
 
         $response = $this->api()->post("events/{$id->entityType}/{$id->id}?{$queryParams}", $this->getAttribute('body'));
+
         return $this->paginatedResponse($response, $paginationArguments);
     }
 
