@@ -338,8 +338,8 @@ class Device extends Tntity
      * It is not possible to create multiple device credentials for the same device.
      * The structure of device credentials id and value is simple for the 'ACCESS_TOKEN' but is much more complex for the 'MQTT_BASIC' or 'LWM2M_CREDENTIALS'.
      *
-     * @param DeviceCredentials $credentials
-     * @param string|null $id
+     * @param  DeviceCredentials  $credentials
+     * @param  string|null  $id
      * @return DeviceCredentials
      *
      * @author JalalLinuX
