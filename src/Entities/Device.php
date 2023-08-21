@@ -339,19 +339,14 @@ class Device extends Tntity
      * The structure of device credentials id and value is simple for the 'ACCESS_TOKEN' but is much more complex for the 'MQTT_BASIC' or 'LWM2M_CREDENTIALS'.
      *
      * @param  DeviceCredentials  $credentials
-     * @param  string|null  $id
      * @return DeviceCredentials
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN
      */
-    public function updateDeviceCredentials(DeviceCredentials $credentials, string $id = null): DeviceCredentials
+    public function updateDeviceCredentials(DeviceCredentials $credentials): DeviceCredentials
     {
-        $id = $id ?? $this->forceAttribute('id')->id;
-
-        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'deviceId']);
-
         $newCredentials = $this->api()->post('device/credentials', $credentials->toArray())->json();
 
         return new DeviceCredentials($newCredentials);
