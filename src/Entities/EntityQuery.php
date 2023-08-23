@@ -500,12 +500,12 @@ class EntityQuery extends Tntity
      * Note that you may use 'CURRENT_USER', 'CURRENT_CUSTOMER' and 'CURRENT_TENANT' as a 'sourceType'. The 'defaultValue'
      * is used when the attribute with such a name is not defined for the chosen source.
      *
-     * @param  PaginationArguments  $paginationArguments
-     * @param  array  $entityFields
-     * @param  array  $entityFilter
-     * @param  array  $keyFilters
-     * @param  EnumQueryEntitySortKeyFilterTypes|null  $sortOrderKeyType
-     * @param  bool  $dynamic
+     * @param PaginationArguments $paginationArguments
+     * @param array $entityFields
+     * @param array $entityFilter
+     * @param array $keyFilters
+     * @param EnumQueryEntitySortKeyFilterTypes|null $sortOrderKeyType
+     * @param bool $dynamic
      * @return array
      *
      * @author Sabiee
@@ -514,25 +514,25 @@ class EntityQuery extends Tntity
      */
     public function findEntityDataByQuery(PaginationArguments $paginationArguments, array $entityFields, array $entityFilter, array $keyFilters, EnumQueryEntitySortKeyFilterTypes $sortOrderKeyType = null, bool $dynamic = true): array
     {
-        $payload = [];
         Thingsboard::validation(empty($entityFields), 'required', ['attribute' => 'entityFields']);
         Thingsboard::validation(empty($entityFilter), 'required', ['attribute' => 'entityFilter']);
         Thingsboard::validation(empty($keyFilters), 'required', ['attribute' => 'keyFilters']);
-        Thingsboard::validation(! is_null(@$paginationArguments->sortProperty) && is_null($sortOrderKeyType), 'required', ['attribute' => 'sortOrderKeyType']);
+        Thingsboard::validation(!is_null(@$paginationArguments->sortProperty) && is_null($sortOrderKeyType), 'required', ['attribute' => 'sortOrderKeyType']);
 
-        $payload['entityFields'] = $entityFields;
-        $payload['entityFilter'] = $entityFilter;
-        $payload['keyFilters'] = $keyFilters;
-
-        $payload['pageLink'] = array_merge($paginationArguments->queryParams(), [
-            'sortOrder' => [
-                'direction' => @$paginationArguments->sortOrder,
-                'key' => [
-                    'key' => $paginationArguments->sortProperty,
-                    'type' => $sortOrderKeyType->value,
+        $payload = [
+            'entityFields' => $entityFields,
+            'entityFilter' => $entityFilter,
+            'keyFilters' => $keyFilters,
+            'pageLink' => array_merge($paginationArguments->queryParams(), [
+                'sortOrder' => [
+                    'direction' => @$paginationArguments->sortOrder,
+                    'key' => [
+                        'key' => $paginationArguments->sortProperty,
+                        'type' => $sortOrderKeyType->value,
+                    ],
                 ],
-            ],
-        ]);
+            ]),
+        ];
 
         return $this->api()->post('entitiesQuery/find', $payload)->json();
     }
