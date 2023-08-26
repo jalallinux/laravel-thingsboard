@@ -3,9 +3,9 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\EntityQuery;
 
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
+use JalalLinuX\Thingsboard\Enums\EnumDeviceSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumQueryEntitySortKeyFilterTypes;
-use JalalLinuX\Thingsboard\Enums\EnumTenantProfileSortProperty;
-use JalalLinuX\Thingsboard\Enums\EnumTenantSortProperty;
+use JalalLinuX\Thingsboard\Enums\EnumSortOrder;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
@@ -14,8 +14,7 @@ class FindEntityDataByQueryTest extends TestCase
     public function testFetchSuccess()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $randEnum = $this->faker->randomElement([EnumTenantProfileSortProperty::class, EnumTenantSortProperty::class]);
-        $sortProperty = $this->faker->randomElement($randEnum::cases());
+        $sortProperty = $this->faker->randomElement(EnumDeviceSortProperty::cases());
         $entityFields = [
             [
                 'type' => 'ENTITY_FIELD',
@@ -24,6 +23,10 @@ class FindEntityDataByQueryTest extends TestCase
         ];
         $entityFilter = [
             'type' => 'apiUsageState',
+            "DeviceId" => [
+                "id" => thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->first()->id->id,
+                "entityType" => "DEVICE"
+            ]
         ];
         $keyFilters = [
             [
@@ -42,7 +45,7 @@ class FindEntityDataByQueryTest extends TestCase
                 'valueType' => 'NUMERIC',
             ],
         ];
-        $findEntities = thingsboard($tenantUser)->entityQuery()->findEntityDataByQuery(PaginationArguments::make(sortProperty: $sortProperty), $entityFields, $entityFilter, $keyFilters, EnumQueryEntitySortKeyFilterTypes::ENTITY_FIELD());
+        $findEntities = thingsboard($tenantUser)->entityQuery()->findEntityDataByQuery(PaginationArguments::make(0, 1, $sortProperty, EnumSortOrder::DESC()), $entityFilter, $entityFields, $keyFilters, EnumQueryEntitySortKeyFilterTypes::ENTITY_FIELD());
 
         $this->assertIsArray($findEntities);
         $this->assertArrayHasKey('data', $findEntities);
@@ -51,8 +54,7 @@ class FindEntityDataByQueryTest extends TestCase
     public function testWhenSortKeyFilterTypesIsNull()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $randEnum = $this->faker->randomElement([EnumTenantProfileSortProperty::class, EnumTenantSortProperty::class]);
-        $sortProperty = $this->faker->randomElement($randEnum::cases());
+        $sortProperty = $this->faker->randomElement(EnumQueryEntitySortKeyFilterTypes::cases());
         $entityFields = [
             [
                 'type' => 'ENTITY_FIELD',
@@ -81,6 +83,6 @@ class FindEntityDataByQueryTest extends TestCase
         ];
         $this->expectExceptionCode(500);
         $this->expectExceptionMessageMatches('/sortOrderKeyType/');
-        thingsboard($tenantUser)->entityQuery()->findEntityDataByQuery(PaginationArguments::make(sortProperty: $sortProperty), $entityFields, $entityFilter, $keyFilters);
+        thingsboard($tenantUser)->entityQuery()->findEntityDataByQuery(PaginationArguments::make(), $entityFilter, $entityFields, $keyFilters);
     }
 }
