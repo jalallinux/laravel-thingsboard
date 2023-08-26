@@ -23,10 +23,10 @@ class FindEntityDataByQueryTest extends TestCase
         ];
         $entityFilter = [
             'type' => 'apiUsageState',
-            "DeviceId" => [
-                "id" => thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->first()->id->id,
-                "entityType" => "DEVICE"
-            ]
+            'DeviceId' => [
+                'id' => thingsboard($tenantUser)->device()->getTenantDeviceInfos(PaginationArguments::make())->first()->id->id,
+                'entityType' => 'DEVICE',
+            ],
         ];
         $keyFilters = [
             [

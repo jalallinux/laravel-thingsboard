@@ -17,7 +17,7 @@ class GetAuditLogsTest extends TestCase
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         thingsboard()->auth()->login($tenantUser->getThingsboardEmailAttribute(), $tenantUser->getThingsboardPasswordAttribute());
-        
+
         sleep(2);
         $loginLog = thingsboard($tenantUser)->auditLog()->getAuditLogs(
             PaginationArguments::make(0, 1, EnumAuditLogSortProperty::CREATED_TIME(), EnumSortOrder::DESC()), now()->subMinute()
