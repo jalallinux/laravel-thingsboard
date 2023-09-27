@@ -501,9 +501,9 @@ class EntityQuery extends Tntity
      * is used when the attribute with such a name is not defined for the chosen source.
      *
      * @param  PaginationArguments  $paginationArguments
-     * @param  array  $entityFields
      * @param  array  $entityFilter
-     * @param  array  $keyFilters
+     * @param  array|null  $entityFields
+     * @param  array|null  $keyFilters
      * @param  EnumQueryEntitySortKeyFilterTypes|null  $sortOrderKeyType
      * @param  bool  $dynamic
      * @return array
@@ -512,18 +512,19 @@ class EntityQuery extends Tntity
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function findEntityDataByQuery(PaginationArguments $paginationArguments, array $entityFields, array $entityFilter, array $keyFilters, EnumQueryEntitySortKeyFilterTypes $sortOrderKeyType = null, bool $dynamic = true): array
+    public function findEntityDataByQuery(PaginationArguments $paginationArguments, array $entityFilter, array $entityFields = null, array $keyFilters = null, EnumQueryEntitySortKeyFilterTypes $sortOrderKeyType = null, bool $dynamic = true): array
     {
-        Thingsboard::validation(empty($entityFields), 'required', ['attribute' => 'entityFields']);
+
         Thingsboard::validation(empty($entityFilter), 'required', ['attribute' => 'entityFilter']);
-        Thingsboard::validation(empty($keyFilters), 'required', ['attribute' => 'keyFilters']);
         Thingsboard::validation(! is_null(@$paginationArguments->sortProperty) && is_null($sortOrderKeyType), 'required', ['attribute' => 'sortOrderKeyType']);
 
         $payload = [
             'entityFields' => $entityFields,
             'entityFilter' => $entityFilter,
             'keyFilters' => $keyFilters,
-            'pageLink' => array_merge($paginationArguments->queryParams(), [
+            'pageLink' => [
+                'page' => $paginationArguments->page,
+                'pageSize' => $paginationArguments->pageSize,
                 'sortOrder' => [
                     'direction' => @$paginationArguments->sortOrder,
                     'key' => [
@@ -531,9 +532,9 @@ class EntityQuery extends Tntity
                         'type' => $sortOrderKeyType->value,
                     ],
                 ],
-            ]),
+            ],
         ];
 
-        return $this->api()->post('entitiesQuery/find', $payload)->json();
+        return $this->api()->post('entitiesQuery/find', array_filter_null($payload))->json();
     }
 }
