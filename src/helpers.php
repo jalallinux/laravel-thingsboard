@@ -13,7 +13,7 @@ if (! function_exists('isJsonString')) {
 if (! function_exists('isArrayAssoc')) {
     function isArrayAssoc(array $arr): bool
     {
-        if ([] === $arr) {
+        if ($arr === []) {
             return false;
         }
 
