@@ -57,8 +57,6 @@ class Edge extends Tntity
         return EnumEntityType::EDGE();
     }
 
-
-
 //    /**
 //     * Creates assignment of the edge to customer.
 //     * Customer will be able to query edge afterward.
@@ -92,6 +90,28 @@ class Edge extends Tntity
      * Edge Info is an extension of the default Edge object that contains information about the assigned customer name.
      *
      * @param PaginationArguments $paginationArguments
+     * @return LengthAwarePaginator
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function getTenantEdgeInfos(PaginationArguments $paginationArguments): LengthAwarePaginator
+    {
+        $paginationArguments->validateSortProperty(EnumEdgeSortProperty::class);
+
+        $response = $this->api()->get("tenant/edgeInfos", $paginationArguments->queryParams());
+
+        return $this->paginatedResponse($response, $paginationArguments);
+    }
+
+    /**
+     * Returns a page of edges owned by tenant.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details.
+     *
+     * @param PaginationArguments $paginationArguments
      * @param string|null $type
      * @return LengthAwarePaginator
      *
@@ -99,12 +119,13 @@ class Edge extends Tntity
      *
      * @group TENANT_ADMIN
      */
-    public function getTenantEdgeInfos(PaginationArguments $paginationArguments, string $type = null): LengthAwarePaginator
+    public function getTenantEdges(PaginationArguments $paginationArguments, string $type = null): LengthAwarePaginator
     {
         $type = $type ?? $this->getAttribute('type');
+
         $paginationArguments->validateSortProperty(EnumEdgeSortProperty::class);
 
-        $response = $this->api()->get("tenant/edgeInfos", $paginationArguments->queryParams());
+        $response = $this->api()->get("tenant/edgeInfos", $paginationArguments->queryParams(['type' => $type]));
 
         return $this->paginatedResponse($response, $paginationArguments);
     }

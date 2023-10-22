@@ -79,6 +79,6 @@ class PaginationArguments
             'sortProperty' => $this->sortProperty,
             'sortOrder' => $this->sortOrder,
             'textSearch' => $this->textSearch,
-        ], $extra), fn ($v) => $v !== null);
+        ], $extra));
     }
 }
