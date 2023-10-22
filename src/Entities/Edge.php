@@ -62,8 +62,8 @@ class Edge extends Tntity
      * Creates assignment of the edge to customer.
      * Customer will be able to query edge afterward.
      *
-     * @param string|null $customerId
-     * @param string|null $id
+     * @param  string|null  $customerId
+     * @param  string|null  $id
      * @return Edge
      *
      * @author JalalLinuX
@@ -90,7 +90,7 @@ class Edge extends Tntity
      * See the 'Model' tab of the Response Class for more details.
      * Edge Info is an extension of the default Edge object that contains information about the assigned customer name.
      *
-     * @param PaginationArguments $paginationArguments
+     * @param  PaginationArguments  $paginationArguments
      * @return LengthAwarePaginator
      *
      * @author JalalLinuX
@@ -101,7 +101,7 @@ class Edge extends Tntity
     {
         $paginationArguments->validateSortProperty(EnumEdgeSortProperty::class);
 
-        $response = $this->api()->get("tenant/edgeInfos", $paginationArguments->queryParams());
+        $response = $this->api()->get('tenant/edgeInfos', $paginationArguments->queryParams());
 
         return $this->paginatedResponse($response, $paginationArguments);
     }
@@ -112,8 +112,8 @@ class Edge extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     * @param PaginationArguments $paginationArguments
-     * @param string|null $type
+     * @param  PaginationArguments  $paginationArguments
+     * @param  string|null  $type
      * @return LengthAwarePaginator
      *
      * @author JalalLinuX
@@ -126,7 +126,7 @@ class Edge extends Tntity
 
         $paginationArguments->validateSortProperty(EnumEdgeSortProperty::class);
 
-        $response = $this->api()->get("tenant/edgeInfos", $paginationArguments->queryParams(['type' => $type]));
+        $response = $this->api()->get('tenant/edgeInfos', $paginationArguments->queryParams(['type' => $type]));
 
         return $this->paginatedResponse($response, $paginationArguments);
     }
@@ -136,7 +136,7 @@ class Edge extends Tntity
      * If the user has the authority of 'Tenant Administrator', the server checks that the edge is owned by the same tenant.
      * If the user has the authority of 'Customer User', the server checks that the edge is assigned to the same customer.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return self
      *
      * @author JalalLinuX
@@ -147,7 +147,7 @@ class Edge extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        Thingsboard::validation(!Str::isUuid($id), 'uuid', ['attribute' => 'edgeId']);
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'edgeId']);
 
         $dashboard = $this->api()->get("edge/{$id}")->json();
 
@@ -158,7 +158,7 @@ class Edge extends Tntity
      * Deletes the edge.
      * Referencing non-existing edge Id will cause an error.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return bool
      *
      * @author JalalLinuX
@@ -169,7 +169,7 @@ class Edge extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        Thingsboard::validation(!Str::isUuid($id), 'uuid', ['attribute' => 'edgeId']);
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'edgeId']);
 
         return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("edge/{$id}")->successful();
     }
@@ -185,10 +185,10 @@ class Edge extends Tntity
      * Use unique identifiers like MAC or IMEI for the edge names and non-unique 'label' field for user-friendly visualization purposes.
      * Remove 'id', 'tenantId' and optionally 'customerId' from the request body example (below) to create new Edge entity.
      *
-     * @param string|null $name
-     * @param string|null $type
-     * @param string|null $secret
-     * @param string|null $routingKey
+     * @param  string|null  $name
+     * @param  string|null  $type
+     * @param  string|null  $secret
+     * @param  string|null  $routingKey
      * @return Edge
      *
      * @author JalalLinuX
@@ -213,7 +213,7 @@ class Edge extends Tntity
      * Clears assignment of the edge to customer.
      * Customer will not be able to query edge afterward.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return $this
      *
      * @author JalalLinuX
