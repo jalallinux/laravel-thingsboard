@@ -37,6 +37,7 @@ use PhpMqtt\Client\ConnectionSettings;
  * @method Entities\Alarm alarm(array $attributes = [])
  * @method Entities\ComponentDescriptor componentDescriptor(array $attributes = [])
  * @method Entities\Queue queue(array $attributes = [])
+ * @method Entities\Edge edge(array $attributes = [])
  */
 class Thingsboard
 {
