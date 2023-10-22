@@ -52,35 +52,36 @@ class Edge extends Tntity
         'createdTime' => 'timestamp',
         'customerIsPublic' => 'boolean',
     ];
+
     public function entityType(): ?EnumEntityType
     {
         return EnumEntityType::EDGE();
     }
 
-//    /**
-//     * Creates assignment of the edge to customer.
-//     * Customer will be able to query edge afterward.
-//     *
-//     * @param string|null $id
-//     * @param string|null $customerId
-//     * @return Edge
-//     *
-//     * @author JalalLinuX
-//     *
-//     * @group TENANT_ADMIN
-//     */
-//    public function assignEdgeToCustomer(string $id = null, string $customerId = null): static
-//    {
-//        $id = $id ?? $this->forceAttribute('edgeId')->id;
-//        $customerId = $customerId ?? $this->forceAttribute('customerId')->id;
-//
-//        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'edgeId']);
-//        Thingsboard::validation(! Str::isUuid($customerId), 'uuid', ['attribute' => 'customerId']);
-//
-//        $edge = $this->api()->post("customer/{$customerId}/edge/{$id}")->json();
-//
-//        return $this->fill($edge);
-//    }
+    /**
+     * Creates assignment of the edge to customer.
+     * Customer will be able to query edge afterward.
+     *
+     * @param string|null $customerId
+     * @param string|null $id
+     * @return Edge
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function assignEdgeToCustomer(string $customerId = null, string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('edgeId')->id;
+        $customerId = $customerId ?? $this->forceAttribute('customerId')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'edgeId']);
+        Thingsboard::validation(! Str::isUuid($customerId), 'uuid', ['attribute' => 'customerId']);
+
+        $edge = $this->api()->post("customer/{$customerId}/edge/{$id}")->json();
+
+        return $this->fill($edge);
+    }
 
     /**
      * Returns a page of edges info objects owned by tenant.
@@ -146,10 +147,87 @@ class Edge extends Tntity
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
-        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'edgeId']);
+        Thingsboard::validation(!Str::isUuid($id), 'uuid', ['attribute' => 'edgeId']);
 
         $dashboard = $this->api()->get("edge/{$id}")->json();
 
         return $this->fill($dashboard);
+    }
+
+    /**
+     * Deletes the edge.
+     * Referencing non-existing edge Id will cause an error.
+     *
+     * @param string|null $id
+     * @return bool
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function deleteEdge(string $id = null): bool
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(!Str::isUuid($id), 'uuid', ['attribute' => 'edgeId']);
+
+        return $this->api(handleException: config('thingsboard.rest.exception.throw_bool_methods'))->delete("edge/{$id}")->successful();
+    }
+
+    /**
+     * Create or update the Edge.
+     * When creating edge, platform generates Edge Id as time-based UUID.
+     * The newly created edge id will be present in the response.
+     * Specify existing Edge id to update the edge.
+     * Referencing non-existing Edge Id will cause 'Not Found' error.
+     *
+     * Edge name is unique in the scope of tenant.
+     * Use unique identifiers like MAC or IMEI for the edge names and non-unique 'label' field for user-friendly visualization purposes.
+     * Remove 'id', 'tenantId' and optionally 'customerId' from the request body example (below) to create new Edge entity.
+     *
+     * @param string|null $name
+     * @param string|null $type
+     * @param string|null $secret
+     * @param string|null $routingKey
+     * @return Edge
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function saveEdge(string $name = null, string $type = null, string $secret = null, string $routingKey = null): static
+    {
+        $payload = array_merge($this->attributesToArray(), [
+            'name' => $name,
+            'type' => $type ?? $this->getAttribute('type') ?? 'default',
+            'secret' => $secret ?? $this->getAttribute('secret') ?? uniqid(),
+            'routingKey' => $routingKey ?? $this->getAttribute('routingKey') ?? Str::uuid()->toString(),
+        ]);
+
+        $edge = $this->api()->post('edge', $payload)->json();
+
+        return $this->fill($edge);
+    }
+
+    /**
+     * Clears assignment of the edge to customer.
+     * Customer will not be able to query edge afterward.
+     *
+     * @param string|null $id
+     * @return $this
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function unassignEdgeFromCustomer(string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'edgeId']);
+
+        $edge = $this->api()->delete("customer/edge/{$id}")->json();
+
+        return $this->fill($edge);
     }
 }

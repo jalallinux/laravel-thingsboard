@@ -14,13 +14,14 @@ class GetEdgeByIdTest extends TestCase
     public function testExistUuid()
     {
         $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $edgeId = thingsboard($user)->edge()->getTenantEdges(PaginationArguments::make())->collect()->first()->id->id;
+        $edgeId = thingsboard($user)->edge()->saveEdge("- {$this->faker->sentence(3)}")->id->id;
 
         $edge = thingsboard($user)->edge()->getEdgeById($edgeId);
         $this->assertEquals($edgeId, $edge->id->id);
 
         $edge = thingsboard($user)->edge(['id' => new Id($edgeId, EnumEntityType::DEVICE())])->getEdgeById();
         $this->assertEquals($edgeId, $edge->id->id);
+        thingsboard($user)->edge()->deleteEdge($edgeId);
     }
 
     public function testInvalidUuid()
