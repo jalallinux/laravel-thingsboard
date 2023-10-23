@@ -260,9 +260,9 @@ class Edge extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     * @param string $id
-     * @param PaginationArguments $paginationArguments
-     * @param string|null $type
+     * @param  string  $customerId
+     * @param  PaginationArguments  $paginationArguments
+     * @param  string|null  $type
      * @return LengthAwarePaginator
      *
      * @author JalalLinuX
