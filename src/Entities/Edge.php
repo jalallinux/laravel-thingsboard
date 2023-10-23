@@ -59,31 +59,6 @@ class Edge extends Tntity
     }
 
     /**
-     * Creates assignment of the edge to customer.
-     * Customer will be able to query edge afterward.
-     *
-     * @param string|null $customerId
-     * @param string|null $id
-     * @return Edge
-     *
-     * @author JalalLinuX
-     *
-     * @group TENANT_ADMIN
-     */
-    public function assignEdgeToCustomer(string $customerId = null, string $id = null): static
-    {
-        $id = $id ?? $this->forceAttribute('edgeId')->id;
-        $customerId = $customerId ?? $this->forceAttribute('customerId')->id;
-
-        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'edgeId']);
-        Thingsboard::validation(! Str::isUuid($customerId), 'uuid', ['attribute' => 'customerId']);
-
-        $edge = $this->api()->post("customer/{$customerId}/edge/{$id}")->json();
-
-        return $this->fill($edge);
-    }
-
-    /**
      * Returns a page of edges info objects owned by tenant.
      * You can specify parameters to filter the results.
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
@@ -210,6 +185,31 @@ class Edge extends Tntity
     }
 
     /**
+     * Creates assignment of the edge to customer.
+     * Customer will be able to query edge afterward.
+     *
+     * @param string|null $customerId
+     * @param string|null $id
+     * @return Edge
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function assignEdgeToCustomer(string $customerId = null, string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('edgeId')->id;
+        $customerId = $customerId ?? $this->forceAttribute('customerId')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'edgeId']);
+        Thingsboard::validation(! Str::isUuid($customerId), 'uuid', ['attribute' => 'customerId']);
+
+        $edge = $this->api()->post("customer/{$customerId}/edge/{$id}")->json();
+
+        return $this->fill($edge);
+    }
+
+    /**
      * Clears assignment of the edge to customer.
      * Customer will not be able to query edge afterward.
      *
@@ -230,4 +230,27 @@ class Edge extends Tntity
 
         return $this->fill($edge);
     }
+
+    /**
+     * Edge will be available for non-authorized (not logged-in) users.
+     * This is useful to create dashboards that you plan to share/embed on a publicly available website.
+     * However, users that are logged-in and belong to different tenant will not be able to access the edge.
+     *
+     * @param string|null $id
+     * @return Edge
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function assignEdgeToPublicCustomer(string $id = null)
+    {
+        $id = $id ?? $this->forceAttribute('edgeId')->id;
+
+        $edge = $this->api()->post("customer/public/edge/{$id}")->json();
+
+        return $this->fill($edge);
+    }
+
+
 }
