@@ -247,8 +247,38 @@ class Edge extends Tntity
     {
         $id = $id ?? $this->forceAttribute('edgeId')->id;
 
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'edgeId']);
+
         $edge = $this->api()->post("customer/public/edge/{$id}")->json();
 
         return $this->fill($edge);
+    }
+
+    /**
+     * Returns a page of edges objects assigned to customer.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details.
+     *
+     * @param string $id
+     * @param PaginationArguments $paginationArguments
+     * @param string|null $type
+     * @return LengthAwarePaginator
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function getCustomerEdges(string $customerId, PaginationArguments $paginationArguments, string $type = null): LengthAwarePaginator
+    {
+        Thingsboard::validation(! Str::isUuid($customerId), 'uuid', ['attribute' => 'customerId']);
+
+        $paginationArguments->validateSortProperty(EnumEdgeSortProperty::class);
+
+        $response = $this->api()->get("customer/{$customerId}/edges", $paginationArguments->queryParams([
+            'type' => $type,
+        ]));
+
+        return $this->paginatedResponse($response, $paginationArguments);
     }
 }
