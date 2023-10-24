@@ -471,4 +471,25 @@ class Edge extends Tntity
 
         return $this->paginatedResponse($response, $paginationArguments);
     }
+
+    /**
+     * Requested edge must be owned by tenant or customer that the user belongs to.
+     * Edge name is an unique property of edge.
+     * So it can be used to identify the edge.
+     *
+     * @param  string|null  $name
+     * @return $this
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function getTenantEdge(string $name = null): static
+    {
+        $name = $name ?? $this->forceAttribute('name');
+
+        $edge = $this->api()->get('tenant/edges', ['edgeName' => $name])->json();
+
+        return $this->fill($edge);
+    }
 }
