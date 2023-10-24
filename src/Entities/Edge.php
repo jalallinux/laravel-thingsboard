@@ -305,4 +305,27 @@ class Edge extends Tntity
 
         return $this->fill($edge);
     }
+
+    /**
+     * Get the Edge Info object based on the provided Edge Id.
+     * If the user has the authority of 'Tenant Administrator', the server checks that the edge is owned by the same tenant.
+     * If the user has the authority of 'Customer User', the server checks that the edge is assigned to the same customer.
+     *
+     * @param string|null $id
+     * @return $this
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function getEdgeInfoById(string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'edgeId']);
+
+        $dashboard = $this->api()->get("edge/info/{$id}")->json();
+
+        return $this->fill($dashboard);
+    }
 }
