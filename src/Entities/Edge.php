@@ -442,4 +442,33 @@ class Edge extends Tntity
     {
         return $this->api()->get('edges/enabled')->body() == 'true';
     }
+
+    /**
+     * Returns a page of edges info objects assigned to customer.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details.
+     * Edge Info is an extension of the default Edge object that contains information about the assigned customer name.
+     *
+     * @param  string  $customerId
+     * @param  PaginationArguments  $paginationArguments
+     * @param  string|null  $type
+     * @return LengthAwarePaginator
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function getCustomerEdgeInfos(string $customerId, PaginationArguments $paginationArguments, string $type = null): LengthAwarePaginator
+    {
+        Thingsboard::validation(! Str::isUuid($customerId), 'uuid', ['attribute' => 'customerId']);
+
+        $paginationArguments->validateSortProperty(EnumEdgeSortProperty::class, [EnumEdgeSortProperty::CUSTOMER_TITLE()]);
+
+        $response = $this->api()->get("customer/{$customerId}/edgeInfos", $paginationArguments->queryParams([
+            'type' => $type,
+        ]));
+
+        return $this->paginatedResponse($response, $paginationArguments);
+    }
 }
