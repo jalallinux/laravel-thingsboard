@@ -275,7 +275,7 @@ class Edge extends Tntity
     {
         Thingsboard::validation(! Str::isUuid($customerId), 'uuid', ['attribute' => 'customerId']);
 
-        $paginationArguments->validateSortProperty(EnumEdgeSortProperty::class);
+        $paginationArguments->validateSortProperty(EnumEdgeSortProperty::class, [EnumEdgeSortProperty::CUSTOMER_TITLE()]);
 
         $response = $this->api()->get("customer/{$customerId}/edges", $paginationArguments->queryParams([
             'type' => $type,
@@ -405,5 +405,27 @@ class Edge extends Tntity
         $edges = $this->api()->get('edges', ['edgeIds' => implode(',', $ids)])->json();
 
         return array_map(fn ($edge) => new Edge($edge), $edges);
+    }
+
+    /**
+     * Returns a page of edges owned by tenant.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details.
+     *
+     * @param PaginationArguments $paginationArguments
+     * @return LengthAwarePaginator
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function getEdges(PaginationArguments $paginationArguments): LengthAwarePaginator
+    {
+        $paginationArguments->validateSortProperty(EnumEdgeSortProperty::class, [EnumEdgeSortProperty::CUSTOMER_TITLE()]);
+
+        $response = $this->api()->get('edges', $paginationArguments->queryParams());
+
+        return $this->paginatedResponse($response, $paginationArguments);
     }
 }
