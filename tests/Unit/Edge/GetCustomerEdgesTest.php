@@ -31,7 +31,8 @@ class GetCustomerEdgesTest extends TestCase
 
     public function testPaginationData()
     {
-        $pagination = $this->randomPagination(EnumEdgeSortProperty::class);
+        $sortProperty = $this->faker->randomElement(array_diff(EnumEdgeSortProperty::cases(), [EnumEdgeSortProperty::CUSTOMER_TITLE()]));
+        $pagination = $this->randomPagination([$sortProperty]);
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->collect()->random()->id->id;
         $edgeId = thingsboard($tenantUser)->edge()->saveEdge("- {$this->faker->sentence(3)}")->id->id;
