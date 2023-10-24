@@ -428,4 +428,18 @@ class Edge extends Tntity
 
         return $this->paginatedResponse($response, $paginationArguments);
     }
+
+    /**
+     * Returns 'true' if edges support enabled on server, 'false' - otherwise.
+     *
+     * @return bool
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function isEdgesSupportEnabled(): bool
+    {
+        return $this->api()->get('edges/enabled')->body() == 'true';
+    }
 }
