@@ -13,10 +13,13 @@ class SyncEdgeTest extends TestCase
         $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $edgeId = thingsboard($user)->edge()->saveEdge("- {$this->faker->sentence(3)}")->id->id;
 
-        $this->expectExceptionCode(500);
-        $this->expectException(Exception::class);
-        $result = thingsboard($user)->edge()->syncEdge($edgeId);
-        thingsboard($user)->edge()->deleteEdge($edgeId);
-        self::assertIsArray($result);
+        try {
+            $this->expectExceptionCode(500);
+            $this->expectException(Exception::class);
+            $result = thingsboard($user)->edge()->syncEdge($edgeId);
+            self::assertIsArray($result);
+        } finally {
+            thingsboard($user)->edge()->deleteEdge($edgeId);
+        }
     }
 }

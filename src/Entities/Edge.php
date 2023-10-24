@@ -10,6 +10,7 @@ use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\Markdown;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Infrastructure\Type;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
@@ -355,7 +356,7 @@ class Edge extends Tntity
      * Starts synchronization process between edge and cloud.
      * All entities that are assigned to particular edge are going to be send to remote edge service.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return array
      *
      * @author JalalLinuX
@@ -369,5 +370,19 @@ class Edge extends Tntity
         Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'edgeId']);
 
         return $this->api()->post("edge/sync/{$id}")->json();
+    }
+
+    /**
+     * Returns a set of unique edge types based on edges that are either owned by the tenant or assigned to the customer which user is performing the request.
+     *
+     * @return array
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function getEdgeTypes(): array
+    {
+        return $this->api()->get('edge/types')->collect()->map(fn ($type) => Type::make($type))->toArray();
     }
 }
