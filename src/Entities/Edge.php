@@ -385,4 +385,25 @@ class Edge extends Tntity
     {
         return $this->api()->get('edge/types')->collect()->map(fn ($type) => Type::make($type))->toArray();
     }
+
+    /**
+     * Requested edges must be owned by tenant or assigned to customer which user is performing the request.
+     *
+     * @param  array  $ids
+     * @return array
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function getEdgesByIds(array $ids): array
+    {
+        foreach ($ids as $id) {
+            Thingsboard::validation(! Str::isUuid($id), 'array_of', ['attribute' => 'ids', 'struct' => 'uuid']);
+        }
+
+        $edges = $this->api()->get('edges', ['edgeIds' => implode(',', $ids)])->json();
+
+        return array_map(fn ($edge) => new Edge($edge), $edges);
+    }
 }
