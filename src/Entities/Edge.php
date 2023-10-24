@@ -243,7 +243,7 @@ class Edge extends Tntity
      *
      * @group TENANT_ADMIN
      */
-    public function assignEdgeToPublicCustomer(string $id = null)
+    public function assignEdgeToPublicCustomer(string $id = null): static
     {
         $id = $id ?? $this->forceAttribute('edgeId')->id;
 
@@ -280,5 +280,29 @@ class Edge extends Tntity
         ]));
 
         return $this->paginatedResponse($response, $paginationArguments);
+    }
+
+    /**
+     * Change root rule chain of the edge to the new provided rule chain.
+     * This operation will send a notification to update root rule chain on remote edge service.
+     *
+     * @param  string  $ruleChainId
+     * @param  string|null  $id
+     * @return Edge
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function setEdgeRootRuleChain(string $ruleChainId, string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id');
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'edgeId']);
+        Thingsboard::validation(! Str::isUuid($ruleChainId), 'uuid', ['attribute' => 'ruleChainId']);
+
+        $edge = $this->api()->post("edge/{$id}/{$ruleChainId}/root")->json();
+
+        return $this->fill($edge);
     }
 }

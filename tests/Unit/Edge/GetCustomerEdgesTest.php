@@ -14,7 +14,7 @@ class GetCustomerEdgesTest extends TestCase
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->collect()->random()->id->id;
-        $edgeId = thingsboard($tenantUser)->edge()->getTenantEdges(PaginationArguments::make())->collect()->random()->id->id;
+        $edgeId = thingsboard($tenantUser)->edge()->saveEdge("- {$this->faker->sentence(3)}")->id->id;
 
         thingsboard($tenantUser)->edge()->assignEdgeToCustomer($customerId, $edgeId);
 
@@ -26,7 +26,7 @@ class GetCustomerEdgesTest extends TestCase
             $this->assertInstanceOf(Edge::class, $edge);
         });
 
-        thingsboard($tenantUser)->edge()->unassignEdgeFromCustomer($edgeId);
+        thingsboard($tenantUser)->edge()->deleteEdge($edgeId);
     }
 
     public function testPaginationData()
@@ -34,7 +34,7 @@ class GetCustomerEdgesTest extends TestCase
         $pagination = $this->randomPagination(EnumEdgeSortProperty::class);
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
         $customerId = thingsboard($tenantUser)->customer()->getCustomers(PaginationArguments::make())->collect()->random()->id->id;
-        $edgeId = thingsboard($tenantUser)->edge()->getTenantEdgeInfos(PaginationArguments::make())->collect()->random()->id->id;
+        $edgeId = thingsboard($tenantUser)->edge()->saveEdge("- {$this->faker->sentence(3)}")->id->id;
 
         thingsboard($tenantUser)->edge()->assignEdgeToCustomer($customerId, $edgeId);
         $edges = thingsboard()->edge()->withUser($tenantUser)->getCustomerEdges($customerId, $pagination);
@@ -44,6 +44,6 @@ class GetCustomerEdgesTest extends TestCase
         $this->assertEquals($pagination->sortOrder, $edges->getOptions()['sortOrder']);
         $this->assertEquals($pagination->sortProperty, $edges->getOptions()['sortProperty']);
 
-        thingsboard($tenantUser)->edge()->unassignEdgeFromCustomer($edgeId);
+        thingsboard($tenantUser)->edge()->deleteEdge($edgeId);
     }
 }
