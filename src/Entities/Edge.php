@@ -350,4 +350,24 @@ class Edge extends Tntity
 
         return new Markdown($instructions);
     }
+
+    /**
+     * Starts synchronization process between edge and cloud.
+     * All entities that are assigned to particular edge are going to be send to remote edge service.
+     *
+     * @param string|null $id
+     * @return array
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function syncEdge(string $id = null): array
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'edgeId']);
+
+        return $this->api()->post("edge/sync/{$id}")->json();
+    }
 }
