@@ -6,7 +6,7 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Str;
 use Stringable;
 
-class Markdown implements Stringable, Htmlable
+class Markdown implements Htmlable, Stringable
 {
     private string $text;
 
