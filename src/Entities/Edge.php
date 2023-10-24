@@ -8,6 +8,7 @@ use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumEdgeSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
+use JalalLinuX\Thingsboard\Infrastructure\Markdown;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
@@ -124,9 +125,9 @@ class Edge extends Tntity
 
         Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'edgeId']);
 
-        $dashboard = $this->api()->get("edge/{$id}")->json();
+        $edge = $this->api()->get("edge/{$id}")->json();
 
-        return $this->fill($dashboard);
+        return $this->fill($edge);
     }
 
     /**
@@ -233,7 +234,7 @@ class Edge extends Tntity
 
     /**
      * Edge will be available for non-authorized (not logged-in) users.
-     * This is useful to create dashboards that you plan to share/embed on a publicly available website.
+     * This is useful to create edges that you plan to share/embed on a publicly available website.
      * However, users that are logged-in and belong to different tenant will not be able to access the edge.
      *
      * @param  string|null  $id
@@ -324,8 +325,29 @@ class Edge extends Tntity
 
         Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'edgeId']);
 
-        $dashboard = $this->api()->get("edge/info/{$id}")->json();
+        $edge = $this->api()->get("edge/info/{$id}")->json();
 
-        return $this->fill($dashboard);
+        return $this->fill($edge);
+    }
+
+    /**
+     * Get a docker install instructions for provided edge id.
+     *
+     * @param string|null $id
+     * @return Markdown
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function getEdgeDockerInstallInstructions(string $id = null): Markdown
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'edgeId']);
+
+        $instructions = $this->api()->get("edge/instructions/{$id}")->json('dockerInstallInstructions');
+
+        return new Markdown($instructions);
     }
 }
