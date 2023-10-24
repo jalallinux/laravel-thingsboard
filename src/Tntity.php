@@ -88,12 +88,12 @@ abstract class Tntity extends Model
         return new static($attributes);
     }
 
-    public function paginatedResponse(Response $response, PaginationArguments $arguments, Tntity $tntity = null): LengthAwarePaginator
+    public function paginatedResponse(Response $response, PaginationArguments $pagination, Tntity $tntity = null): LengthAwarePaginator
     {
         return new LengthAwarePaginator(
             array_map(fn ($row) => (clone ($tntity ?? $this))->fill($row), $response->json('data')),
-            $response->json('totalElements'), $arguments->pageSize, $arguments->page, [
-                'sortOrder' => $arguments->sortOrder, 'sortProperty' => $arguments->sortProperty,
+            $response->json('totalElements'), $pagination->pageSize, $pagination->page, [
+                'sortOrder' => $pagination->sortOrder, 'sortProperty' => $pagination->sortProperty,
             ]
         );
     }

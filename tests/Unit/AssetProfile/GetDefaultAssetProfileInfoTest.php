@@ -12,7 +12,7 @@ class GetDefaultAssetProfileInfoTest extends TestCase
     public function testExistUuid()
     {
         $user = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $assetProfile = thingsboard($user)->assetProfile()->getDefaultAssetProfileInfo();
+        $assetProfile = thingsboard($user)->assetProfile()->getDefaultAssetProfileInfo($this->faker->boolean);
         $assetProfile = thingsboard($user)->assetProfile()->getAssetProfileById($assetProfile->id->id);
 
         $this->assertInstanceOf(AssetProfile::class, $assetProfile);

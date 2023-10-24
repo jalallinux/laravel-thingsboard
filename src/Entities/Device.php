@@ -367,4 +367,27 @@ class Device extends Tntity
 
         return array_map(fn ($type) => Type::make($type), $types);
     }
+
+    /**
+     * Device will be available for non-authorized (not logged-in) users.
+     * This is useful to create dashboards that you plan to share/embed on a publicly available website.
+     * However, users that are logged-in and belong to different tenant will not be able to access the device.
+     *
+     * @param  string|null  $id
+     * @return Device
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function assignDeviceToPublicCustomer(string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'deviceId']);
+
+        $device = $this->api()->post("customer/public/device/{$id}")->json();
+
+        return $this->fill($device);
+    }
 }

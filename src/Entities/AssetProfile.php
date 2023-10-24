@@ -5,6 +5,7 @@ namespace JalalLinuX\Thingsboard\Entities;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Casts\CastId;
+use JalalLinuX\Thingsboard\Enums\EnumAssetProfileQueue;
 use JalalLinuX\Thingsboard\Enums\EnumAssetProfileSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
@@ -19,7 +20,7 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property bool $default
  * @property Id $defaultDashboardId
  * @property Id $defaultRuleChainId
- * @property string $defaultQueueName
+ * @property EnumAssetProfileQueue $defaultQueueName
  * @property string $description
  * @property string $image
  * @property Id $defaultEdgeRuleChainId
@@ -48,6 +49,7 @@ class AssetProfile extends Tntity
         'tenantId' => CastId::class,
         'customerId' => CastId::class,
         'assetProfileId' => CastId::class,
+        'defaultQueueName' => EnumAssetProfileQueue::class,
         'additionalInfo' => 'array',
         'createdTime' => 'timestamp',
     ];
@@ -192,15 +194,20 @@ class AssetProfile extends Tntity
      * Fetch the Default Asset Profile Info object.
      * Asset Profile Info is a lightweight object that includes main information about Asset Profile.
      *
+     * @param  bool  $full
      * @return self
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function getDefaultAssetProfileInfo(): static
+    public function getDefaultAssetProfileInfo(bool $full = false): static
     {
         $assetProfile = $this->api()->get('assetProfileInfo/default')->json();
+
+        if ($full) {
+            return $this->getAssetProfileById($assetProfile['id']['id']);
+        }
 
         return $this->fill($assetProfile);
     }

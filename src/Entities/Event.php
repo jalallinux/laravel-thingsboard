@@ -2,7 +2,9 @@
 
 namespace JalalLinuX\Thingsboard\Entities;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
+use JalalLinuX\Thingsboard\Casts\CastId;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Enums\EnumEventSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumEventType;
@@ -12,19 +14,33 @@ use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
 /**
- * @property array $data
+ * @property array $id
+ * @property Id $tenantId
+ * @property EnumEventType $type
+ * @property string $uid
+ * @property Id $entityId
  * @property array $body
+ * @property \DateTime $createdTime
  */
 class Event extends Tntity
 {
     protected $fillable = [
-        'data',
+        'id',
+        'tenantId',
+        'type',
+        'uid',
+        'entityId',
         'body',
+        'createdTime',
     ];
 
     protected $casts = [
-        'data' => 'array',
+        'id' => 'array',
+        'tenantId' => CastId::class,
+        'type' => EnumEventType::class,
+        'entityId' => CastId::class,
         'body' => 'array',
+        'createdTime' => 'timestamp',
     ];
 
     public function entityType(): ?EnumEntityType
@@ -111,13 +127,13 @@ class Event extends Tntity
      * @param  string  $tenantId
      * @param  \DateTime|null  $startTime
      * @param  \DateTime|null  $endTime
-     * @return array
+     * @return LengthAwarePaginator
      *
      * @author  Sabiee
      *
      * @group
      */
-    public function getEventsByEventFilter(PaginationArguments $paginationArguments, Id $id, string $tenantId, \DateTime $startTime = null, \DateTime $endTime = null): array
+    public function getEventsByEventFilter(PaginationArguments $paginationArguments, Id $id, string $tenantId, \DateTime $startTime = null, \DateTime $endTime = null): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumEventSortProperty::class);
 
@@ -142,7 +158,9 @@ class Event extends Tntity
 
         $queryParams = http_build_query($queryParams);
 
-        return $this->api()->post("events/{$id->entityType}/{$id->id}?{$queryParams}", $this->getAttribute('body'))->json();
+        $response = $this->api()->post("events/{$id->entityType}/{$id->id}?{$queryParams}", $this->getAttribute('body'));
+
+        return $this->paginatedResponse($response, $paginationArguments);
     }
 
     /**
@@ -153,7 +171,7 @@ class Event extends Tntity
      *
      * @author  Sabiee
      */
-    public function getEventsByType(PaginationArguments $paginationArguments, Id $id, EnumEventType $eventType, string $tenantId, \DateTime $startTime = null, \DateTime $endTime = null): array
+    public function getEventsByType(PaginationArguments $paginationArguments, Id $id, EnumEventType $eventType, string $tenantId, \DateTime $startTime = null, \DateTime $endTime = null): LengthAwarePaginator
     {
         $paginationArguments->validateSortProperty(EnumEventSortProperty::class);
 
@@ -178,7 +196,9 @@ class Event extends Tntity
 
         $queryParams = http_build_query($queryParams);
 
-        return $this->api()->get("events/{$id->entityType}/{$id->id}/{$eventType}?{$queryParams}")->json();
+        $response = $this->api()->get("events/{$id->entityType}/{$id->id}/{$eventType}?{$queryParams}");
+
+        return $this->paginatedResponse($response, $paginationArguments);
     }
 
     /**

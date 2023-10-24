@@ -33,7 +33,7 @@ jobs:
 
     services:
       thingsboard:
-        image: thingsboard/tb-postgres:3.5.0
+        image: thingsboard/tb-postgres:3.5.1
         ports:
           - 9090:9090
           - 1883:1883

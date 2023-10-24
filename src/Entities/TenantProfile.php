@@ -30,6 +30,7 @@ class TenantProfile extends Tntity
         'name',
         'description',
         'isolatedTbRuleEngine',
+        'createdTime',
         'profileData',
     ];
 
@@ -37,6 +38,7 @@ class TenantProfile extends Tntity
         'default' => 'bool',
         'id' => CastId::class,
         'isolatedTbRuleEngine' => 'bool',
+        'createdTime' => 'timestamp',
         'profileData' => CastTenantProfileDataConfiguration::class,
     ];
 
