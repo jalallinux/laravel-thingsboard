@@ -312,7 +312,7 @@ class Edge extends Tntity
      * If the user has the authority of 'Tenant Administrator', the server checks that the edge is owned by the same tenant.
      * If the user has the authority of 'Customer User', the server checks that the edge is assigned to the same customer.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return $this
      *
      * @author JalalLinuX
@@ -333,7 +333,7 @@ class Edge extends Tntity
     /**
      * Get a docker install instructions for provided edge id.
      *
-     * @param string|null $id
+     * @param  string|null  $id
      * @return Markdown
      *
      * @author JalalLinuX

@@ -3,9 +3,7 @@
 namespace JalalLinuX\Thingsboard\Tests\Unit\Edge;
 
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
-use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Exceptions\Exception;
-use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\Markdown;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
