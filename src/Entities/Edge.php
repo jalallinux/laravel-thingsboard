@@ -298,7 +298,7 @@ class Edge extends Tntity
      */
     public function setEdgeRootRuleChain(string $ruleChainId, string $id = null): static
     {
-        $id = $id ?? $this->forceAttribute('id');
+        $id = $id ?? $this->forceAttribute('id')->id;
 
         Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'edgeId']);
         Thingsboard::validation(! Str::isUuid($ruleChainId), 'uuid', ['attribute' => 'ruleChainId']);
