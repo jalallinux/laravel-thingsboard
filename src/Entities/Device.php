@@ -389,7 +389,7 @@ class Device extends Tntity
         $device = $this->api()->post("customer/public/device/{$id}")->json();
 
         return $this->fill($device);
-   }
+    }
 
     /**
      * Creates assignment of an existing device to an instance of The Edge.
@@ -416,7 +416,7 @@ class Device extends Tntity
         $device = $this->api()->post("edge/{$edgeId}/device/{$id}")->json();
 
         return $this->fill($device);
-   }
+    }
 
     /**
      * Clears assignment of the device to the edge.

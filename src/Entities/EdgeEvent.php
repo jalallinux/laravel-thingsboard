@@ -26,7 +26,6 @@ use JalalLinuX\Thingsboard\Tntity;
  */
 class EdgeEvent extends Tntity
 {
-
     protected $fillable = [
         'id',
         'createdTime',
@@ -60,8 +59,8 @@ class EdgeEvent extends Tntity
      * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
      * See the 'Model' tab of the Response Class for more details.
      *
-     * @param PaginationArguments $paginationArguments
-     * @param string $edgeId
+     * @param  PaginationArguments  $paginationArguments
+     * @param  string  $edgeId
      * @return LengthAwarePaginator
      *
      * @author JalalLinuX
@@ -70,7 +69,7 @@ class EdgeEvent extends Tntity
      */
     public function getEdgeEvents(PaginationArguments $paginationArguments, string $edgeId): LengthAwarePaginator
     {
-        Thingsboard::validation(!Str::isUuid($edgeId), 'uuid', ['attribute' => 'edgeId']);
+        Thingsboard::validation(! Str::isUuid($edgeId), 'uuid', ['attribute' => 'edgeId']);
 
         $response = $this->api()->get("edge/{$edgeId}/events", $paginationArguments->queryParams());
 
