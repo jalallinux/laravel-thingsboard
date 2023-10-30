@@ -175,7 +175,7 @@ class Edge extends Tntity
     public function saveEdge(string $name = null, string $type = null, string $secret = null, string $routingKey = null): static
     {
         $payload = array_merge($this->attributesToArray(), [
-            'name' => $name,
+            'name' => $name ?? $this->forceAttribute('name'),
             'type' => $type ?? $this->getAttribute('type') ?? 'default',
             'secret' => $secret ?? $this->getAttribute('secret') ?? uniqid(),
             'routingKey' => $routingKey ?? $this->getAttribute('routingKey') ?? Str::uuid()->toString(),
