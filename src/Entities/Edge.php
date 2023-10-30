@@ -19,6 +19,7 @@ use JalalLinuX\Thingsboard\Tntity;
  * @property Id $tenantId
  * @property Id $customerId
  * @property Id $rootRuleChainId
+ * @property array $additionalInfo
  * @property \DateTime $createdTime
  * @property string $name
  * @property string $type
@@ -32,6 +33,7 @@ class Edge extends Tntity
 {
     protected $fillable = [
         'id',
+        'additionalInfo',
         'createdTime',
         'tenantId',
         'customerId',
