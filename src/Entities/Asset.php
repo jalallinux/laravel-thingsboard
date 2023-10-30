@@ -9,6 +9,7 @@ use JalalLinuX\Thingsboard\Enums\EnumAssetSortProperty;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
 use JalalLinuX\Thingsboard\Infrastructure\Id;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
+use JalalLinuX\Thingsboard\Infrastructure\Type;
 use JalalLinuX\Thingsboard\Thingsboard;
 use JalalLinuX\Thingsboard\Tntity;
 
@@ -182,7 +183,9 @@ class Asset extends Tntity
      */
     public function getAssetTypes(): array
     {
-        return $this->api()->get('asset/types')->json();
+        $types = $this->api()->get('asset/types')->json();
+
+        return array_map(fn ($type) => Type::make($type), $types);
     }
 
     /**

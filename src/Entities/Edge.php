@@ -357,19 +357,19 @@ class Edge extends Tntity
      * All entities that are assigned to particular edge are going to be send to remote edge service.
      *
      * @param  string|null  $id
-     * @return array
+     * @return bool
      *
      * @author JalalLinuX
      *
      * @group TENANT_ADMIN
      */
-    public function syncEdge(string $id = null): array
+    public function syncEdge(string $id = null): bool
     {
         $id = $id ?? $this->forceAttribute('id')->id;
 
         Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'edgeId']);
 
-        return $this->api()->post("edge/sync/{$id}")->json();
+        return $this->api()->post("edge/sync/{$id}")->successful();
     }
 
     /**
@@ -383,7 +383,9 @@ class Edge extends Tntity
      */
     public function getEdgeTypes(): array
     {
-        return $this->api()->get('edge/types')->collect()->map(fn ($type) => Type::make($type))->toArray();
+        $types = $this->api()->get('edge/types')->json();
+
+        return array_map(fn ($type) => Type::make($type), $types);
     }
 
     /**
