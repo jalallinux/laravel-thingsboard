@@ -4,7 +4,6 @@ namespace JalalLinuX\Thingsboard\Tests\Unit\Asset;
 
 use JalalLinuX\Thingsboard\Entities\Asset;
 use JalalLinuX\Thingsboard\Enums\EnumAuthority;
-use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
 class AssignAssetToEdgeTest extends TestCase
@@ -12,23 +11,30 @@ class AssignAssetToEdgeTest extends TestCase
     public function testCorrectEdgeId()
     {
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $assetId = thingsboard($tenantUser)->asset()->getTenantAssetInfos(PaginationArguments::make())->collect()->first()->id->id;
+        $assetProfileId = thingsboard($tenantUser)->assetProfile()->getDefaultAssetProfileInfo()->id->id;
+        $newAsset = thingsboard($tenantUser)->asset()->saveAsset("- {$this->faker->sentence(3)}", $assetProfileId);
         $edge = thingsboard($tenantUser)->edge()->saveEdge("- {$this->faker->sentence(3)}");
 
-        $asset = thingsboard($tenantUser)->asset()->assignAssetToEdge($edge->id->id, $assetId);
+        $asset = thingsboard($tenantUser)->asset()->assignAssetToEdge($edge->id->id, $newAsset->id->id);
         $this->assertInstanceOf(Asset::class, $asset);
 
         $edge->deleteEdge();
+        $newAsset->deleteAsset();
     }
 
     public function testInvalidEdgeUuid()
     {
         $uuid = $this->faker->uuid;
         $tenantUser = $this->thingsboardUser(EnumAuthority::TENANT_ADMIN());
-        $assetId = thingsboard($tenantUser)->asset()->getTenantAssetInfos(PaginationArguments::make())->collect()->first()->id->id;
+        $assetProfileId = thingsboard($tenantUser)->assetProfile()->getDefaultAssetProfileInfo()->id->id;
+        $newAsset = thingsboard($tenantUser)->asset()->saveAsset("- {$this->faker->sentence(3)}", $assetProfileId);
 
-        $this->expectExceptionCode(404);
-        $this->expectExceptionMessageMatches("/{$uuid}/");
-        thingsboard($tenantUser)->asset()->assignAssetToEdge($uuid, $assetId);
+        try {
+            $this->expectExceptionCode(404);
+            $this->expectExceptionMessageMatches("/{$uuid}/");
+            thingsboard($tenantUser)->asset()->assignAssetToEdge($uuid, $newAsset->id->id);
+        } finally {
+            $newAsset->deleteAsset();
+        }
     }
 }
