@@ -68,6 +68,7 @@ class Asset extends Tntity
      * 'customerId' from the request body example (below) to create new Asset entity.
      *
      *
+     * @param  string|null  $name
      * @param  string|null  $assetProfileId
      * @return self
      *
@@ -75,13 +76,15 @@ class Asset extends Tntity
      *
      * @group TENANT_ADMIN | CUSTOMER_USER
      */
-    public function saveAsset(string $assetProfileId = null): static
+    public function saveAsset(string $name = null, string $assetProfileId = null): static
     {
         $assetProfileId = $assetProfileId ?? $this->forceAttribute('assetProfileId')->id;
+        $name = $name ?? $this->forceAttribute('name');
+
+        Thingsboard::validation(! Str::isUuid($assetProfileId), 'uuid', ['attribute' => 'assetProfileId']);
 
         $payload = array_merge($this->attributesToArray(), [
-            'name' => $this->forceAttribute('name'),
-            'assetProfileId' => new Id($assetProfileId, EnumEntityType::ASSET_PROFILE()),
+            'name' => $name, 'assetProfileId' => new Id($assetProfileId, EnumEntityType::ASSET_PROFILE()),
         ]);
 
         return tap($this, fn () => $this->fill($this->api()->post('asset', $payload)->json()));
