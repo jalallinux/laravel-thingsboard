@@ -2,11 +2,13 @@
 
 namespace JalalLinuX\Thingsboard\Infrastructure;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use JalalLinuX\Thingsboard\Enums\EnumEntityType;
+use JsonSerializable;
 
-class Type
+class Type implements Arrayable, JsonSerializable
 {
     private Id $id;
 
@@ -70,5 +72,10 @@ class Type
             $this->idKey() => $this->id()->toArray(),
             'type' => $this->type,
         ];
+    }
+
+    public function jsonSerialize()
+    {
+        return $this->toArray();
     }
 }
