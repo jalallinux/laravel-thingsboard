@@ -20,5 +20,7 @@ class UnAssignDashboardFromEdgeTest extends TestCase
 
         $dashboard = thingsboard($tenantUser)->dashboard()->unassignDashboardFromEdge($edge->id->id, $dashboardId);
         $this->assertInstanceOf(Dashboard::class, $dashboard);
+
+        $edge->deleteEdge();
     }
 }

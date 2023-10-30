@@ -7,7 +7,7 @@ use JalalLinuX\Thingsboard\Enums\EnumAuthority;
 use JalalLinuX\Thingsboard\Infrastructure\PaginationArguments;
 use JalalLinuX\Thingsboard\Tests\TestCase;
 
-class GetEdgeDDashboardTest extends TestCase
+class GetEdgeDashboardTest extends TestCase
 {
     public function testStructure()
     {
@@ -18,6 +18,7 @@ class GetEdgeDDashboardTest extends TestCase
         thingsboard($tenantUser)->dashboard()->assignDashboardToEdge($edge->id->id, $dashboardId);
 
         $dashboards = thingsboard($tenantUser)->dashboard()->getEdgeDashboards(PaginationArguments::make(), $edge->id->id);
+        $edge->deleteEdge();
 
         $dashboards->each(function ($dashboard) use ($dashboardId) {
             $this->assertInstanceOf(Dashboard::class, $dashboard);
