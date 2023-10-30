@@ -393,4 +393,83 @@ class Dashboard extends Tntity
 
         return $this->fill($dashboard);
     }
+
+    /**
+     * Creates assignment of an existing dashboard to an instance of The Edge.
+     * Assignment works in async way - first, notification event pushed to edge service queue on platform.
+     * Second, remote edge service will receive a copy of assignment dashboard
+     * (Edge will receive this instantly, if it's currently connected, or once it's going to be connected to platform).
+     * Third, once dashboard will be delivered to edge service, it's going to be available for usage on remote edge instance.
+     *
+     * @param  string  $edgeId
+     * @param  string|null  $id
+     * @return $this
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function assignDashboardToEdge(string $edgeId, string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'dashboardId']);
+        Thingsboard::validation(! Str::isUuid($edgeId), 'uuid', ['attribute' => 'edgeId']);
+
+        $dashboard = $this->api()->post("edge/{$edgeId}/dashboard/{$id}")->json();
+
+        return $this->fill($dashboard);
+    }
+
+    /**
+     * Clears assignment of the dashboard to the edge.
+     * Unassignment works in async way - first, 'unassign' notification event pushed to edge queue on platform.
+     * Second, remote edge service will receive an 'unassign' command to remove dashboard
+     * (Edge will receive this instantly, if it's currently connected, or once it's going to be connected to platform).
+     * Third, once 'unassign' command will be delivered to edge service, it's going to remove dashboard locally.
+     *
+     * @param  string  $edgeId
+     * @param  string|null  $id
+     * @return $this
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function unassignDashboardFromEdge(string $edgeId, string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'dashboardId']);
+        Thingsboard::validation(! Str::isUuid($edgeId), 'uuid', ['attribute' => 'edgeId']);
+
+        $dashboard = $this->api()->delete("edge/{$edgeId}/dashboard/{$id}")->json();
+
+        return $this->fill($dashboard);
+    }
+
+    /**
+     * Returns a page of dashboard info objects assigned to the specified edge.
+     * The Dashboard Info object contains lightweight information about the dashboard (e.g. title, image, assigned customers) but does not contain the heavyweight configuration JSON.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details.
+     *
+     * @param  PaginationArguments  $paginationArguments
+     * @param  string|null  $edgeId
+     * @return LengthAwarePaginator
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function getEdgeDashboards(PaginationArguments $paginationArguments, string $edgeId = null): LengthAwarePaginator
+    {
+        $edgeId = $edgeId ?? $this->forceAttribute('id')->id;
+        $paginationArguments->validateSortProperty(EnumDashboardSortProperty::class);
+
+        $response = $this->api()->get("edge/{$edgeId}/dashboards", $paginationArguments->queryParams());
+
+        return $this->paginatedResponse($response, $paginationArguments);
+    }
 }

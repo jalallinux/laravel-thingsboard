@@ -390,4 +390,88 @@ class Device extends Tntity
 
         return $this->fill($device);
     }
+
+    /**
+     * Creates assignment of an existing device to an instance of The Edge.
+     * Assignment works in async way - first, notification event pushed to edge service queue on platform.
+     * Second, remote edge service will receive a copy of assignment device.
+     * (Edge will receive this instantly, if it's currently connected, or once it's going to be connected to platform).
+     * Third, once device will be delivered to edge service, it's going to be available for usage on remote edge instance.
+     *
+     * @param  string  $edgeId
+     * @param  string|null  $id
+     * @return $this
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function assignDeviceToEdge(string $edgeId, string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'deviceId']);
+        Thingsboard::validation(! Str::isUuid($edgeId), 'uuid', ['attribute' => 'edgeId']);
+
+        $device = $this->api()->post("edge/{$edgeId}/device/{$id}")->json();
+
+        return $this->fill($device);
+    }
+
+    /**
+     * Clears assignment of the device to the edge.
+     * Unassignment works in async way - first, 'unassign' notification event pushed to edge queue on platform.
+     * Second, remote edge service will receive an 'unassign' command to remove device
+     * (Edge will receive this instantly, if it's currently connected, or once it's going to be connected to platform).
+     * Third, once 'unassign' command will be delivered to edge service, it's going to remove device locally.
+     *
+     * @param  string  $edgeId
+     * @param  string|null  $id
+     * @return $this
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function unassignDeviceFromEdge(string $edgeId, string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'deviceId']);
+        Thingsboard::validation(! Str::isUuid($edgeId), 'uuid', ['attribute' => 'edgeId']);
+
+        $device = $this->api()->delete("edge/{$edgeId}/device/{$id}")->json();
+
+        return $this->fill($device);
+    }
+
+    /**
+     * Returns a page of devices assigned to edge.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details.
+     *
+     * @param  PaginationArguments  $paginationArguments
+     * @param  string|null  $edgeId
+     * @param  string|null  $deviceProfileId
+     * @param  bool|null  $active
+     * @param  string|null  $type
+     * @return LengthAwarePaginator
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function getEdgeDevices(PaginationArguments $paginationArguments, string $edgeId = null, string $deviceProfileId = null, bool $active = null, string $type = null): LengthAwarePaginator
+    {
+        $edgeId = $edgeId ?? $this->forceAttribute('id')->id;
+        $paginationArguments->validateSortProperty(EnumDeviceSortProperty::class);
+
+        $response = $this->api()->get("edge/{$edgeId}/devices", $paginationArguments->queryParams([
+            'active' => $active ?? @$this->active, 'type' => $type ?? @$this->type,
+            'deviceProfileId' => $deviceProfileId ?? @$this->deviceProfileId->id,
+        ]));
+
+        return $this->paginatedResponse($response, $paginationArguments);
+    }
 }

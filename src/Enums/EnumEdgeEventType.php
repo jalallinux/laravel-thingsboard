@@ -3,6 +3,7 @@
 namespace JalalLinuX\Thingsboard\Enums;
 
 /**
+ * @method static self ADMIN_SETTINGS()
  * @method static self ALARM()
  * @method static self ASSET()
  * @method static self ASSET_PROFILE()
@@ -11,25 +12,23 @@ namespace JalalLinuX\Thingsboard\Enums;
  * @method static self DEVICE()
  * @method static self DEVICE_PROFILE()
  * @method static self EDGE()
- * @method static self EDGE_EVENT()
  * @method static self ENTITY_VIEW()
  * @method static self OTA_PACKAGE()
- * @method static self RPC()
- * @method static self RULE_CHAIN()
- * @method static self RULE_NODE()
- * @method static self TB_RESOURCE()
- * @method static self TENANT()
- * @method static self TENANT_PROFILE()
- * @method static self USER()
- * @method static self WIDGET_TYPE()
- * @method static self WIDGETS_BUNDLE()
  * @method static self QUEUE()
+ * @method static self RELATION()
+ * @method static self RULE_CHAIN()
+ * @method static self RULE_CHAIN_METADATA()
+ * @method static self TENANT()
+ * @method static self USER()
+ * @method static self WIDGETS_BUNDLE()
+ * @method static self WIDGET_TYPE()
  */
-class EnumEntityType extends BaseEnum
+class EnumEdgeEventType extends BaseEnum
 {
     protected static function values(): array
     {
         return [
+            'ADMIN_SETTINGS' => 'ADMIN_SETTINGS',
             'ALARM' => 'ALARM',
             'ASSET' => 'ASSET',
             'ASSET_PROFILE' => 'ASSET_PROFILE',
@@ -38,25 +37,23 @@ class EnumEntityType extends BaseEnum
             'DEVICE' => 'DEVICE',
             'DEVICE_PROFILE' => 'DEVICE_PROFILE',
             'EDGE' => 'EDGE',
-            'EDGE_EVENT' => 'EDGE_EVENT',
             'ENTITY_VIEW' => 'ENTITY_VIEW',
             'OTA_PACKAGE' => 'OTA_PACKAGE',
-            'RPC' => 'RPC',
-            'RULE_CHAIN' => 'RULE_CHAIN',
-            'RULE_NODE' => 'RULE_NODE',
-            'TB_RESOURCE' => 'TB_RESOURCE',
-            'TENANT' => 'TENANT',
-            'TENANT_PROFILE' => 'TENANT_PROFILE',
-            'USER' => 'USER',
-            'WIDGET_TYPE' => 'WIDGET_TYPE',
-            'WIDGETS_BUNDLE' => 'WIDGETS_BUNDLE',
             'QUEUE' => 'QUEUE',
+            'RELATION' => 'RELATION',
+            'RULE_CHAIN' => 'RULE_CHAIN',
+            'RULE_CHAIN_METADATA' => 'RULE_CHAIN_METADATA',
+            'TENANT' => 'TENANT',
+            'USER' => 'USER',
+            'WIDGETS_BUNDLE' => 'WIDGETS_BUNDLE',
+            'WIDGET_TYPE' => 'WIDGET_TYPE',
         ];
     }
 
     protected static function labels(): array
     {
         return [
+            'ADMIN_SETTINGS' => 'Admin Settings',
             'ALARM' => 'Alarm',
             'ASSET' => 'Asset',
             'ASSET_PROFILE' => 'Asset Profile',
@@ -65,19 +62,16 @@ class EnumEntityType extends BaseEnum
             'DEVICE' => 'Device',
             'DEVICE_PROFILE' => 'Device Profile',
             'EDGE' => 'Edge',
-            'EDGE_EVENT' => 'Edge Event',
             'ENTITY_VIEW' => 'Entity View',
-            'OTA_PACKAGE' => 'OTA Pacakge',
-            'RPC' => 'RPC',
-            'RULE_CHAIN' => 'Rule Chain',
-            'RULE_NODE' => 'Rule RuleNode',
-            'TB_RESOURCE' => 'TB Resource',
-            'TENANT' => 'Tenant',
-            'TENANT_PROFILE' => 'Tenant Profile',
-            'USER' => 'User',
-            'WIDGET_TYPE' => 'Widget Type',
-            'WIDGETS_BUNDLE' => 'Widgets Bundle',
+            'OTA_PACKAGE' => 'OTA Package',
             'QUEUE' => 'Queue',
+            'RELATION' => 'Relation',
+            'RULE_CHAIN' => 'RuleChain',
+            'RULE_CHAIN_METADATA' => 'RuleChain Metadata',
+            'TENANT' => 'tenant',
+            'USER' => 'User',
+            'WIDGETS_BUNDLE' => 'Widget Bundle',
+            'WIDGET_TYPE' => 'Widget Type',
         ];
     }
 }

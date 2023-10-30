@@ -333,4 +333,85 @@ class RuleChain extends Tntity
 
         return $this->api()->get("ruleNode/{$id}/debugIn")->json();
     }
+
+    /**
+     * Creates assignment of an existing rule chain to an instance of The Edge.
+     * Assignment works in async way - first, notification event pushed to edge service queue on platform.
+     * Second, remote edge service will receive a copy of assignment rule chain
+     * (Edge will receive this instantly, if it's currently connected, or once it's going to be connected to platform).
+     * Third, once rule chain will be delivered to edge service, it's going to start processing messages locally.
+     * Only rule chain with type 'EDGE' can be assigned to edge.
+     *
+     * @param  string  $edgeId
+     * @param  string|null  $id
+     * @return $this
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function assignRuleChainToEdge(string $edgeId, string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'ruleChainId']);
+        Thingsboard::validation(! Str::isUuid($edgeId), 'uuid', ['attribute' => 'edgeId']);
+
+        $ruleChain = $this->api()->post("edge/{$edgeId}/ruleChain/{$id}")->json();
+
+        return $this->fill($ruleChain);
+    }
+
+    /**
+     * Clears assignment of the rule chain to the edge.
+     * Unassignment works in async way - first, 'unassign' notification event pushed to edge queue on platform.
+     * Second, remote edge service will receive an 'unassign' command to remove rule chain
+     * (Edge will receive this instantly, if it's currently connected, or once it's going to be connected to platform).
+     * Third, once 'unassign' command will be delivered to edge service, it's going to remove rule chain locally.
+     *
+     * @param  string  $edgeId
+     * @param  string|null  $id
+     * @return $this
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function unassignRuleChainFromEdge(string $edgeId, string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'ruleChainId']);
+        Thingsboard::validation(! Str::isUuid($edgeId), 'uuid', ['attribute' => 'edgeId']);
+
+        $ruleChain = $this->api()->delete("edge/{$edgeId}/ruleChain/{$id}")->json();
+
+        return $this->fill($ruleChain);
+    }
+
+    /**
+     * Returns a page of Rule Chains assigned to the specified edge.
+     * The rule chain object is lightweight and contains general information about the rule chain.
+     * List of rule nodes and their connection is stored in a separate 'metadata' object.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details.
+     *
+     * @param  PaginationArguments  $paginationArguments
+     * @param  string|null  $edgeId
+     * @return LengthAwarePaginator
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function getEdgeRuleChains(PaginationArguments $paginationArguments, string $edgeId = null): LengthAwarePaginator
+    {
+        $edgeId = $edgeId ?? $this->forceAttribute('id')->id;
+        $paginationArguments->validateSortProperty(EnumRuleChainSortProperty::class);
+
+        $response = $this->api()->get("edge/{$edgeId}/ruleChains", $paginationArguments->queryParams());
+
+        return $this->paginatedResponse($response, $paginationArguments);
+    }
 }

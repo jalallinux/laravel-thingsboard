@@ -370,4 +370,85 @@ class Asset extends Tntity
 
         return $this->fill($asset);
     }
+
+    /**
+     * Creates assignment of an existing asset to an instance of The Edge.
+     * Assignment works in async way - first, notification event pushed to edge service queue on platform.
+     * Second, remote edge service will receive a copy of assignment asset
+     * (Edge will receive this instantly, if it's currently connected, or once it's going to be connected to platform).
+     * Third, once asset will be delivered to edge service, it's going to be available for usage on remote edge instance.
+     *
+     * @param  string  $edgeId
+     * @param  string|null  $id
+     * @return $this
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function assignAssetToEdge(string $edgeId, string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'assetId']);
+        Thingsboard::validation(! Str::isUuid($edgeId), 'uuid', ['attribute' => 'edgeId']);
+
+        $asset = $this->api()->post("edge/{$edgeId}/asset/{$id}")->json();
+
+        return $this->fill($asset);
+    }
+
+    /**
+     * Clears assignment of the asset to the edge.
+     * Unassignment works in async way - first, 'unassign' notification event pushed to edge queue on platform.
+     * Second, remote edge service will receive an 'unassign' command to remove asset
+     * (Edge will receive this instantly, if it's currently connected, or once it's going to be connected to platform).
+     * Third, once 'unassign' command will be delivered to edge service, it's going to remove asset locally.
+     *
+     * @param  string  $edgeId
+     * @param  string|null  $id
+     * @return $this
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN
+     */
+    public function unassignAssetFromEdge(string $edgeId, string $id = null): static
+    {
+        $id = $id ?? $this->forceAttribute('id')->id;
+
+        Thingsboard::validation(! Str::isUuid($id), 'uuid', ['attribute' => 'assetId']);
+        Thingsboard::validation(! Str::isUuid($edgeId), 'uuid', ['attribute' => 'edgeId']);
+
+        $asset = $this->api()->delete("edge/{$edgeId}/asset/{$id}")->json();
+
+        return $this->fill($asset);
+    }
+
+    /**
+     * Returns a page of assets assigned to edge.
+     * You can specify parameters to filter the results.
+     * The result is wrapped with PageData object that allows you to iterate over result set using pagination.
+     * See the 'Model' tab of the Response Class for more details.
+     *
+     * @param  PaginationArguments  $paginationArguments
+     * @param  string|null  $edgeId
+     * @param  string|null  $type
+     * @return LengthAwarePaginator
+     *
+     * @author JalalLinuX
+     *
+     * @group TENANT_ADMIN | CUSTOMER_USER
+     */
+    public function getEdgeAssets(PaginationArguments $paginationArguments, string $edgeId = null, string $type = null): LengthAwarePaginator
+    {
+        $edgeId = $edgeId ?? $this->forceAttribute('id')->id;
+        $paginationArguments->validateSortProperty(EnumAssetSortProperty::class);
+
+        $response = $this->api()->get("edge/{$edgeId}/assets", $paginationArguments->queryParams([
+            'type' => $type ?? @$this->type,
+        ]));
+
+        return $this->paginatedResponse($response, $paginationArguments);
+    }
 }
