@@ -179,7 +179,7 @@ class Edge extends Tntity
         $payload = array_merge($this->attributesToArray(), [
             'name' => $name ?? $this->forceAttribute('name'),
             'type' => $type ?? $this->getAttribute('type') ?? 'default',
-            'secret' => $secret ?? $this->getAttribute('secret') ?? uniqid(),
+            'secret' => $secret ?? $this->getAttribute('secret') ?? uniqid(Str::random(7)),
             'routingKey' => $routingKey ?? $this->getAttribute('routingKey') ?? Str::uuid()->toString(),
         ]);
 
